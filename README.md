@@ -1,27 +1,43 @@
 # ProjectAcademics
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.3.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Architecture
+### NgModules
+- [ ] HomeModule
+  - [ ] CourseGridComponent
+    - inputs = Course[], Title, enable_pac_download
+    - routes to corresponding course page on click
+    - pac_download button calls downloadPAC 
+  - [ ] HomePageComponent
+  - [ ] BatchGridsComponent
+    - List of CourseGridComponent with enable_pac_download flag set
+    - inputs = dictionary of { Title : Course[] } 
+- [ ] CourseModule
+  - [ ] CollapsingCoursePanelComponent
+    - Wraps TopBarComponent
+- [ ] AuthModule
+- [ ] ResultModule
+- [ ] ArchiveModule
+- [ ] TablePagesModule
+- [ ] GradeCriteriaModule
+- [ ] SharedModule
+  - [ ] TabBarComponent
+  - [ ] TopBarComponent
+    - changes with url
+  - [ ] DataCardComponent
+    - inputs = Title, dictionary of { heading : value }, ngContent
+    - place ngContent at last 
+### Local Libraries
+- [ ] sheets
+- [ ] models
+  - [ ] Course
+- [ ] functions
+  - [ ] downloadPAC (courses : Course[])
+- [ ] utils
+  - [ ] getStringSimilarities (ids : string[], minLength : number) : string[]
+    - groups ids that start with same substring with @param minLength and returns the substring of each group
+    - used to optimize firestore query (reduces number of queries needed)
+    - ex = ['CS19B1042','CS19B1009','ME17B1052'] returns ['CS19B10','ME17B1052]
+### Core Services
+- [ ] UserService
+- [ ] CourseService
