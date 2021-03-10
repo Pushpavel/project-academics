@@ -1,0 +1,32 @@
+@import '~@angular/material/theming';
+@import "color";
+
+@include mat-core();
+
+// Main Colors
+$project-academics-primary: mat-palette($primary-palette);
+$project-academics-accent: mat-palette($mat-amber, A200, A100, A400);
+$project-academics-warn: mat-palette($mat-red);
+
+
+// Main Theme
+$theme: mat-light-theme((
+  color: (
+    primary: $project-academics-primary,
+    accent: $project-academics-accent,
+    warn: $project-academics-warn,
+  )
+));
+
+//Get ThemeConfig
+$color: map-get($theme, color);
+$background: map-get($theme, background);
+
+// Overrides
+$background: map_merge($background, (background: $color-background));
+
+//Update ThemeConfig
+$color: map_merge($color, (background: $background));
+$theme: map_merge($theme, (color: $color));
+
+@include angular-material-theme($theme);
