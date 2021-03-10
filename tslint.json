@@ -1,9 +1,13 @@
 {
   "extends": "tslint:recommended",
+  "defaultSeverity": "warn",
   "rulesDirectory": [
     "codelyzer"
   ],
   "rules": {
+    "no-trailing-whitespace": {
+      "severity": "warn"
+    },
     "align": {
       "options": [
         "parameters",
@@ -12,7 +16,6 @@
     },
     "array-type": false,
     "arrow-return-shorthand": true,
-    "curly": true,
     "deprecation": {
       "severity": "warning"
     },
@@ -86,24 +89,7 @@
       true,
       "call-signature"
     ],
-    "typedef-whitespace": {
-      "options": [
-        {
-          "call-signature": "nospace",
-          "index-signature": "nospace",
-          "parameter": "nospace",
-          "property-declaration": "nospace",
-          "variable-declaration": "nospace"
-        },
-        {
-          "call-signature": "onespace",
-          "index-signature": "onespace",
-          "parameter": "onespace",
-          "property-declaration": "onespace",
-          "variable-declaration": "onespace"
-        }
-      ]
-    },
+    "typedef-whitespace": true,
     "variable-name": {
       "options": [
         "ban-keywords",
@@ -145,7 +131,6 @@
     "component-selector": [
       true,
       "element",
-      "app",
       "kebab-case"
     ]
   }
