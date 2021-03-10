@@ -5,6 +5,8 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {_DevModule} from './_dev/_dev.module';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,7 @@ import {_DevModule} from './_dev/_dev.module';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     _DevModule
   ],
   providers: [],

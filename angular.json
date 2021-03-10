@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/project-academics",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -47,6 +47,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "outputPath": "firebase/dist",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -127,6 +128,10 @@
               "devServerTarget": "project-academics:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     }
