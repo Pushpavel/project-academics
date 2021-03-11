@@ -3,6 +3,9 @@
 # local dev
 /src/app/_dev/
 
+# Config files
+/src/firebase.config.ts
+
 # compiled output
 /dist
 /tmp
