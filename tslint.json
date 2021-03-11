@@ -5,9 +5,11 @@
     "codelyzer"
   ],
   "rules": {
-    "no-trailing-whitespace": {
-      "severity": "warn"
-    },
+    "no-trailing-whitespace": false,
+    "no-empty-interface": false,
+    "triple-equals": false,
+    "no-shadowed-variable": false,
+    "radix": false,
     "align": {
       "options": [
         "parameters",
@@ -19,7 +21,6 @@
     "deprecation": {
       "severity": "warning"
     },
-    "eofline": true,
     "import-blacklist": [
       true,
       "rxjs/Rx"
@@ -71,11 +72,7 @@
       true,
       "single"
     ],
-    "semicolon": {
-      "options": [
-        "always"
-      ]
-    },
+    "semicolon": false,
     "space-before-function-paren": {
       "options": {
         "anonymous": "never",
@@ -85,10 +82,6 @@
         "named": "never"
       }
     },
-    "typedef": [
-      true,
-      "call-signature"
-    ],
     "typedef-whitespace": true,
     "variable-name": {
       "options": [
@@ -97,16 +90,7 @@
         "allow-pascal-case"
       ]
     },
-    "whitespace": {
-      "options": [
-        "check-branch",
-        "check-decl",
-        "check-operator",
-        "check-separator",
-        "check-type",
-        "check-typecast"
-      ]
-    },
+    "whitespace": false,
     "component-class-suffix": true,
     "contextual-lifecycle": true,
     "directive-class-suffix": true,

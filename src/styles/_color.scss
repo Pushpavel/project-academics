@@ -1,6 +1,8 @@
-$color-background: #F9FEFF;
+@use "~@angular/material/theming" as *;
 
-$primary-palette: (
+$background: #F9FEFF;
+
+$primary: (
   50 : #e0e7f8,
   100 : #b3c3ef,
   200 : #809ce4,

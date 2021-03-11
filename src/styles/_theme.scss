@@ -1,0 +1,43 @@
+@forward '~@angular/material/theming';
+@forward "media";
+
+@use "~@angular/material/theming" as *;
+@use "color";
+
+
+// Build Color Palettes
+$primary: mat-palette(color.$primary);
+$accent: mat-palette($mat-amber, A200, A100, A400);
+$warn: mat-palette($mat-red);
+
+
+// Build Theme
+$-theme: mat-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+  )
+));
+
+
+//Get Theme Configs
+$-color-config: map-get($-theme, color);
+$-background-config: map-get($-color-config, background);
+
+// Overrides
+$-background-config: map_merge($-background-config, (
+  background: color.$background
+));
+
+//Set Theme Configs
+$-color-config: map_merge($-color-config, (background: $-background-config));
+
+
+//Apply Theme Configs
+$-theme: map_merge($-theme, (color: $-color-config));
+
+@mixin core-theme() {
+  @include mat-core();
+  @include angular-material-theme($-theme);
+}
