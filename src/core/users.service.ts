@@ -8,12 +8,39 @@ import { switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService {
+export class UsersService extends Observable<User>{
   // userId: any = JSON.parse(localStorage.getItem('user') || '{}');
   // return this.userId !== null && this.userId.emailVerified;
 
   constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth) {
+    super();
   }
+
+  getUserDetails(): Observable<any> {
+    return this.afAuth.authState.pipe(
+      switchMap(user => {
+        if (user && user.uid) {
+          const idTokenResult = user.uid.getIdTokenResult();
+          const accountRef = this.afs
+            .collection('accounts', ref => ref.where('email', '==', user.uid));
+
+          const userDetails: User = {
+            name: accountRef.doc['name'],
+            rollNumber: idTokenResult.claims.student ? accountRef.id : undefined,
+            email: accountRef.doc['email'],
+            roles: {
+              faculty: !!idTokenResult.claims.faculty,
+              hod: !!idTokenResult.claims.hod,
+              examCell: !!idTokenResult.claims.examcell,
+              student: !!idTokenResult.claims.student,
+            } as Roles,
+          } as User;
+
+          return of(userDetails);
+        }
+      })
+    );
+  };
 
   // isLoggedIn(): Observable<User> {
   //   return this.afAuth.authState.switchMap(user => {
