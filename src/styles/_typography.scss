@@ -25,44 +25,46 @@ $-figma-angular-typography-map: (
 // custom classes and native elements in figma typography convention
 @mixin figma-base-typography($theme-or-config) {
   $config: mat-get-typography-config($theme-or-config);
-  .figma-base-typography {
 
+  body {
     @include mat-typography-level-to-styles($config, body2);
+  }
 
-    // headlines
-    @for $i from 1 to 6 {
-      h#{$i}, .h#{$i} {
-        @include mat-typography-level-to-styles($config, h#{$i});
-      }
-    }
-
-    @for $i from 1 to 2 {
-      sub#{$i}, .sub#{$i} {
-        @include mat-typography-level-to-styles($config, sub#{$i});
-      }
-      body#{$i}, .body#{$i} {
-        @include mat-typography-level-to-styles($config, body#{$i});
-      }
-    }
-
-    button .button {
-      @include mat-typography-level-to-styles($config, button);
-    }
-
-    .caption {
-      @include mat-typography-level-to-styles($config, caption);
-    }
-
-    .overline {
-      @include mat-typography-level-to-styles($config, overline);
-    }
-
-    // in order to be consistent we style the input tag as well
-    input {
-      font-family: mat-font-family($config);
-      line-height: 1.125em;
-      font-weight: 400;
+  // headlines
+  @for $i from 1 to 6 {
+    h#{$i}, .h#{$i} {
+      @include mat-typography-level-to-styles($config, h#{$i});
+      margin: 4px 0;
     }
   }
 
+  @for $i from 1 to 2 {
+    sub#{$i}, .sub#{$i} {
+      @include mat-typography-level-to-styles($config, sub#{$i});
+    }
+    body#{$i}, .body#{$i} {
+      @include mat-typography-level-to-styles($config, body#{$i});
+    }
+  }
+
+  button, .button {
+    @include mat-typography-level-to-styles($config, button);
+  }
+
+  .caption {
+    @include mat-typography-level-to-styles($config, caption);
+  }
+
+  .overline {
+    @include mat-typography-level-to-styles($config, overline);
+  }
+
+  // in order to be consistent we style the input tag as well
+  input {
+    font-family: mat-font-family($config);
+    line-height: 1.125em;
+    font-weight: 400;
+  }
 }
+
+

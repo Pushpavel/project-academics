@@ -19,7 +19,8 @@ export class UserService extends BehaviorSubject<AcademicUser | null> {
       uid: 'mbalaMoses1978482@nitpy.ac.in',
       email: 'mbalaMoses1978482@nitpy.ac.in',
       isFaculty: true,
-      displayName: 'Bala Moses'
+      displayName: 'Bala Moses',
+      role: 'faculty'
     };
 
     // Simulating login api call

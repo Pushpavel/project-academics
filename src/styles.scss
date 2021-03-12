@@ -2,5 +2,6 @@
 
 @include core-theme();
 
-@include mat-slider-theme($theme)
-
+@include mat-slider-theme($theme);
+@include mat-icon-theme($theme);
+@include mat-button-theme($theme);

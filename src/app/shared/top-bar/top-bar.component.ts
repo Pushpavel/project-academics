@@ -1,13 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {UserService} from '@service/user.service';
+import {AcademicUser} from '@lib/models/user.model';
 
 @Component({
   selector: 'top-bar',
   templateUrl: './top-bar.component.html',
-  styleUrls: ['./top-bar.component.scss']
+  styleUrls: ['./top-bar.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TopBarComponent implements OnInit {
 
-  constructor() { }
+  userIcon: Record<AcademicUser['role'], string> = {
+    'exam-cell': 'account_balance', hod: 'account_circle', student: 'tag_faces', faculty: 'class'
+  };
+
+  constructor(public user: UserService) {
+  }
 
   ngOnInit(): void {
   }

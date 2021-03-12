@@ -9,19 +9,19 @@
 @use "typography";
 
 $-color_config: map.get($theme, color);
-
+$-background_config: map.get($-color_config, background);
 // Color Palettes
 $primary: map.get($-color_config, primary);
 
 //Colors
 $color-primary: mat-color($primary);
-
+$color-surface: map.get($-background_config, card);
 
 // ** Important ** include core-theme only once
 @mixin core-theme() {
+  @include typography.figma-base-typography($theme);
   @include mat-core($theme);
   @include mat-core-theme($theme);
-  @include typography.figma-base-typography($theme);
 
   html, body {
     height: 100%;
