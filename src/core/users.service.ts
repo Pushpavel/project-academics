@@ -3,12 +3,12 @@ import {User, Roles} from '@lib/models/user.model';
 import {AngularFirestore} from "@angular/fire/firestore";
 import {AngularFireAuth} from "@angular/fire/auth";
 import {Observable, of} from "rxjs";
-import { switchMap } from 'rxjs/operators';
+import {switchMap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService extends Observable<User>{
+export class UsersService extends Observable<User> {
   // userId: any = JSON.parse(localStorage.getItem('user') || '{}');
   // return this.userId !== null && this.userId.emailVerified;
 
