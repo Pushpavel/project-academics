@@ -1,13 +1,9 @@
-export interface Roles {
-  faculty?: boolean;
-  hod?: boolean;
-  examCell?: boolean;
-  student?: boolean;
-}
-
-export interface User {
-  name: string;
-  rollNumber?: string | undefined;
+export interface AcademicUser {
+  uid: string, // can be roll_no or email id depending on user
+  displayName: string;
   email: string;
-  roles: Roles;
+  isStudent?: boolean,
+  isFaculty?: boolean,
+  isExamCell?: boolean,
+  isHod?: boolean
 }
