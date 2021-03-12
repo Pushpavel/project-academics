@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {User, Roles} from 'utils/models';
+import {User, Roles} from '@lib/models/user.model';
 import {AngularFirestore} from "@angular/fire/firestore";
 import {AngularFireAuth} from "@angular/fire/auth";
 import {Observable, of} from "rxjs";
