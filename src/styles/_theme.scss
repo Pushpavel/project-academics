@@ -1,43 +1,31 @@
-@forward '~@angular/material/theming';
+//This File exposes global theme and style utilities to be accessed in any component's stylesheet
+@forward "~@angular/material/theming";
+@forward "theme.base";
 @forward "media";
 
+@use "sass:map";
 @use "~@angular/material/theming" as *;
-@use "color";
+@use 'theme.base' as *;
+@use "typography";
+
+$-color_config: map.get($theme, color);
+
+// Color Palettes
+$primary: map.get($-color_config, primary);
+
+//Colors
+$color-primary: mat-color($primary);
 
 
-// Build Color Palettes
-$primary: mat-palette(color.$primary);
-$accent: mat-palette($mat-amber, A200, A100, A400);
-$warn: mat-palette($mat-red);
-
-
-// Build Theme
-$-theme: mat-light-theme((
-  color: (
-    primary: $primary,
-    accent: $accent,
-    warn: $warn,
-  )
-));
-
-
-//Get Theme Configs
-$-color-config: map-get($-theme, color);
-$-background-config: map-get($-color-config, background);
-
-// Overrides
-$-background-config: map_merge($-background-config, (
-  background: color.$background
-));
-
-//Set Theme Configs
-$-color-config: map_merge($-color-config, (background: $-background-config));
-
-
-//Apply Theme Configs
-$-theme: map_merge($-theme, (color: $-color-config));
-
+// ** Important ** include core-theme only once
 @mixin core-theme() {
-  @include mat-core();
-  @include angular-material-theme($-theme);
+  @include mat-core($theme);
+  @include mat-core-theme($theme);
+  @include typography.figma-base-typography($theme);
+
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
 }

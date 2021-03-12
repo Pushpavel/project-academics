@@ -1,8 +1,6 @@
-@use "~@angular/material/theming" as *;
+$blue-white: #F9FEFF;
 
-$background: #F9FEFF;
-
-$primary: (
+$blue-palette: (
   50 : #e0e7f8,
   100 : #b3c3ef,
   200 : #809ce4,
