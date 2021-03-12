@@ -17,7 +17,7 @@ import {REGION} from '@angular/fire/functions';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireModule.initializeApp(environment.FIREBASE_CONFIG),
     _DevModule
   ],
   providers: [{provide: REGION, useValue: 'asia-south1'}],
