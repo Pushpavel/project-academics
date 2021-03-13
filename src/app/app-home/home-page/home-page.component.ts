@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Course, CourseCollection } from '../../../lib/models/course.model';
+import { CourseService } from '@service/course.service';
+import {  CourseCollection } from '../../../lib/models/course.model';
 
 @Component({
   selector: 'app-home-page',
@@ -8,30 +9,21 @@ import { Course, CourseCollection } from '../../../lib/models/course.model';
 })
 export class HomePageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private courseService :  CourseService) {
 
- 
-
-  //dummy data
-  title : String = "Courses that You manage"
-  coursesList : Course[] = [ 
-    {CourseName : "Computer Networks", courseId : "CS201"},
-    {CourseName : "Computer Networks", courseId : "CS201"},
-    {CourseName : "Computer Networks", courseId : "CS201"},
-    {CourseName : "Computer Networks", courseId : "CS201"},
-    
-  ]
-
-  batchList : CourseCollection[] = [
-    { title : this.title, courses : this.coursesList },
-    { title : this.title, courses : this.coursesList },
-    { title : this.title, courses : this.coursesList },
-  ] 
-
-  ngOnInit(): void {
   }
 
-  handleArchive(){
+  courseCollections : CourseCollection[] = []
+
+  getCourseCollections(){
+    this.courseCollections =  this.courseService.getCoursesCollections()
+  }
+    
+  ngOnInit(): void {
+    this.getCourseCollections()
+  }
+
+  handleArchive() {
     console.log("archive"); 
   }
 
