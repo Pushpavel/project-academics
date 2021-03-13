@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CourseService } from '@service/course.service';
-import {  CourseCollection } from '../../../lib/models/course.model';
+import { CourseCollection } from '../../../lib/models/course.model';
 
 @Component({
   selector: 'app-home-page',
@@ -9,22 +9,22 @@ import {  CourseCollection } from '../../../lib/models/course.model';
 })
 export class HomePageComponent implements OnInit {
 
-  constructor(private courseService :  CourseService) {
+  constructor(private courseService: CourseService) {
 
   }
 
-  courseCollections : CourseCollection[] = []
+  courseCollections: CourseCollection[] = []
 
-  getCourseCollections(){
-    this.courseCollections =  this.courseService.getCoursesCollections()
+  getCourseCollections() {
+    this.courseService.getCoursesCollections().subscribe((result) => this.courseCollections = result)
   }
-    
+
   ngOnInit(): void {
     this.getCourseCollections()
   }
 
   handleArchive() {
-    console.log("archive"); 
+    console.log("archive");
   }
 
 

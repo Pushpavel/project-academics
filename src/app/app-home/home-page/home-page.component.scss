@@ -2,9 +2,25 @@
     margin-left: 92px;
     margin-top: 64px;
     margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.home-spinner-container{
+    height: 100vh;
+    justify-content: center;
+    display: flex;
+}
+.home-spinner{
+    align-self: center;
+    stroke: rgb(00, 00, 255);    
 }
 
 .home-archive{
+    position: relative;
+    bottom: 0;
+    width: 150px;
     margin-top: 24px;
     margin-left: 32px;
     padding-left: 24px;

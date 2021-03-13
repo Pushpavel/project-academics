@@ -5,9 +5,12 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { CourseCardComponent } from './course-card/course-card.component';
 import  {MatCardModule, } from '@angular/material/card';
 import  { MatRippleModule, } from '@angular/material/core';
-import  { MatButtonModule, } from '@angular/material/button';
 import  { MatIconModule, } from '@angular/material/icon';
+import  { MatButtonModule, } from '@angular/material/button';
 import { BatchGridComponent } from './batch-grid/batch-grid.component'
+import  { MatProgressSpinnerModule, } from '@angular/material/progress-spinner';
+import  { BrowserAnimationsModule, } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +23,9 @@ import { BatchGridComponent } from './batch-grid/batch-grid.component'
     MatCardModule,
     MatRippleModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule,
+    BrowserAnimationsModule
   ]
   
 })

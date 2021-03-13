@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Course, CourseCollection } from '@lib/models/course.model';
+import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +29,9 @@ export class CourseService {
   ] 
 
 
-  getCoursesCollections() : any {
-    return this.batchList
+  //todo make it more feasible and reactive :}
+  getCoursesCollections() : Observable<CourseCollection[]> {
+    //dummy simulation
+    return of(this.batchList).pipe(delay(5000))
   }
 }

@@ -1,5 +1,16 @@
 <div class="home-root">
-    <app-batch-grid class="home-batch-grid" [courseCollections]="courseCollections">
-    </app-batch-grid>   
-    <button (click)="handleArchive()" class="home-archive" color='primary' mat-stroked-button> <mat-icon>archive</mat-icon> archive</button>
+    <div *ngIf="courseCollections.length !== 0; else loader">
+        <app-batch-grid class="home-batch-grid" [courseCollections]="courseCollections">
+        </app-batch-grid>
+    </div>
+
+    <ng-template #loader>
+        <div class="home-spinner-container">
+            <mat-spinner class="home-spinner"></mat-spinner>
+        </div>
+    </ng-template>
+
+    <button (click)="handleArchive()" class="home-archive" color='primary' mat-stroked-button>
+        <mat-icon>archive</mat-icon> archive
+    </button>
 </div>
