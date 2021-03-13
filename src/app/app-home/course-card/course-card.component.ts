@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Course } from '@lib/models/course.model';
 
 @Component({
   selector: 'app-course-card',
@@ -7,12 +8,18 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class CourseCardComponent implements OnInit {
 
-  @Input() courseTitle : String = "Computer Networks"
-  @Input() content : String = "CS201"
   
+  @Input() course : Course = {"CourseName" : "Computer Networks", "courseId" : "CS202"}
+
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  handleCourseChoosen(){
+    console.log(this.course.courseId);
+    
   }
 
 }

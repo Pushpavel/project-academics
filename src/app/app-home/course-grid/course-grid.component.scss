@@ -1,7 +1,15 @@
 .course-grid{
-    margin-top: 32px;
+    margin-top: 8px;
     display: flex;
     flex-wrap: wrap;
+}
+
+.course-grid-header{
+    margin-top: 32px;
+    font-size: 16px;
+    line-height: 24px;
+}
+.course-grid-root{
     margin-left: 32px;
 }
 
