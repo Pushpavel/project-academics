@@ -1,0 +1,47 @@
+@use "theme" as *;
+
+:host {
+  width: 100%;
+  min-width: 720px;
+  height: fit-content;
+
+  mat-table {
+    display: flex;
+    flex-direction: column;
+    margin: 16px;
+    border-top: solid 1px $color-outline;
+    border-right: solid 1px $color-outline;
+    border-left: solid 1px $color-outline;
+
+    mat-header-cell {
+      color: $color-high-emphasis-on-surface;
+      @include sub2-typography;
+
+      &:not(:first-child) {
+        padding-left: 8px;
+      }
+    }
+
+    mat-cell input {
+      width: 48px;
+      margin: 8px 0;
+      padding: 8px;
+      text-align: center;
+      border-radius: 4px;
+      border-color: $color-outline;
+      outline-color: $color-primary;
+      transition: color 600ms cubic-bezier(0.25, 0.8, 0.25, 1);
+
+      &:hover {
+        outline-color: $color-high-emphasis-on-surface;
+      }
+
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+    }
+  }
+}

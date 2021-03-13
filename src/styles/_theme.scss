@@ -10,12 +10,24 @@
 
 $-color_config: map.get($theme, color);
 $-background_config: map.get($-color_config, background);
+$-foreground_config: map.get($-color_config, foreground);
+
+$-typography-config: map.get($theme, typography);
+
 // Color Palettes
 $primary: map.get($-color_config, primary);
 
 //Colors
 $color-primary: mat-color($primary);
 $color-surface: map.get($-background_config, card);
+$color-outline: map.get($-foreground_config, divider);
+$color-high-emphasis-on-surface: map.get($-foreground_config, text);
+$color-medium-emphasis-on-surface: map.get($-foreground_config, secondary-text);
+
+// Typography
+@mixin sub2-typography {
+  @include mat-typography-level-to-styles($-typography-config, sub2);
+}
 
 // ** Important ** include core-theme only once
 @mixin core-theme() {

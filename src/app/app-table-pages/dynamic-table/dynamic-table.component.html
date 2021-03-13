@@ -1,0 +1,28 @@
+<mat-table [dataSource]="_dataSource" class="mat-elevation-z2">
+  <ng-container *ngFor="let column of columnSettings" [matColumnDef]="column.key">
+
+    <mat-header-cell class="header-cell" [style.flex]="column.flex || 1"
+                     *matHeaderCellDef> {{column.label}}</mat-header-cell>
+
+    <mat-cell *matCellDef="let cell;index as i" [style.flex]="column.flex || 1">
+
+      <ng-container *ngIf="!column.editable else inputCellTemplate">
+        {{cell[column.key]}}
+      </ng-container>
+
+      <ng-template #inputCellTemplate>
+          <input
+                 type="number"
+                 [value]="cell[column.key]"
+                 (input)="rowDataChange?.next({index:i,key:column.key,changed_row:cell})"
+          >
+      </ng-template>
+
+    </mat-cell>
+
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="_columnLabels"></mat-header-row>
+  <mat-row *matRowDef="let myRowData; columns: _columnLabels"></mat-row>
+
+</mat-table>
