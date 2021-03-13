@@ -1,43 +1,15 @@
-//This File exposes global theme and style utilities to be accessed in any component's stylesheet
-@forward "~@angular/material/theming";
-@forward "theme.base";
-@forward "media";
+//Base Theme Settings of the App
+@use "@material/theme" with (
+  $primary: #0038C8,
+  $secondary: #FFD740,
+  $background: #F9FEFF,
+);
 
-@use "sass:map";
-@use "~@angular/material/theming" as *;
-@use 'theme.base' as *;
-@use "typography";
-
-$-color_config: map.get($theme, color);
-$-background_config: map.get($-color_config, background);
-$-foreground_config: map.get($-color_config, foreground);
-
-$-typography-config: map.get($theme, typography);
-
-// Color Palettes
-$primary: map.get($-color_config, primary);
-
-//Colors
-$color-primary: mat-color($primary);
-$color-surface: map.get($-background_config, card);
-$color-outline: map.get($-foreground_config, divider);
-$color-high-emphasis-on-surface: map.get($-foreground_config, text);
-$color-medium-emphasis-on-surface: map.get($-foreground_config, secondary-text);
-
-// Typography
+// TODO: REMOVE AFTER MIGRATION
+$color-outline: #000000;
+$color-primary: #0038C8;
+$color-high-emphasis-on-surface: black;
+$color-surface: white;
 @mixin sub2-typography {
-  @include mat-typography-level-to-styles($-typography-config, sub2);
-}
-
-// ** Important ** include core-theme only once
-@mixin core-theme() {
-  @include typography.figma-base-typography($theme);
-  @include mat-core($theme);
-  @include mat-core-theme($theme);
-
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
-
+  // TODO: REMOVE AFTER MIGRATION
 }

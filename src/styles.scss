@@ -1,6 +1,9 @@
 @use "theme" as *;
+// TODO: REMOVE AFTER MIGRATION
+@import "@angular/material/theming";
+//@include core-theme();
 
-@include core-theme();
+$theme: mat-light-theme((color:(primary:mat-palette($mat-amber),accent:mat-palette($mat-amber))));
 
 @include mat-slider-theme($theme);
 @include mat-icon-theme($theme);
@@ -8,3 +11,4 @@
 @include mat-table-theme($theme);
 @include mat-form-field-theme($theme);
 @include mat-input-theme($theme);
+// TODO: REMOVE AFTER MIGRATION

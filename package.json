@@ -25,7 +25,8 @@
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3",
-    "firebase": "^7.0 || ^8.0"
+    "firebase": "^7.0 || ^8.0",
+    "material-components-web": "^10.0.0"
   },
   "devDependencies": {
     "@angular-devkit/architect": ">= 0.900 < 0.1200",
