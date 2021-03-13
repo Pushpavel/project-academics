@@ -2,5 +2,9 @@
 
 @include core-theme();
 
-@include mat-slider-theme($theme)
-
+@include mat-slider-theme($theme);
+@include mat-icon-theme($theme);
+@include mat-button-theme($theme);
+@include mat-table-theme($theme);
+@include mat-form-field-theme($theme);
+@include mat-input-theme($theme);

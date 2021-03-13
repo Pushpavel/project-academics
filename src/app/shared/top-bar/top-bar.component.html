@@ -1,0 +1,13 @@
+<ng-container *ngIf="user|async as user">
+  <button class="logo-btn" mat-icon-button color="accent">
+    <mat-icon>font_download</mat-icon>
+  </button>
+  <div>
+    <ng-content></ng-content>
+  </div>
+  <button class="user-account-btn body1" mat-stroked-button>
+    <mat-icon color="primary">{{userIcon[user.role]}}</mat-icon>
+    {{user.displayName}}
+    <mat-icon>arrow_drop_down</mat-icon>
+  </button>
+</ng-container>
