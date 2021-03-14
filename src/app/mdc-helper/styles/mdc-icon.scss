@@ -1,0 +1,10 @@
+@use "@material/icon-button";
+
+
+@mixin styles {
+  @include icon-button.core-styles;
+
+  button[mdc-icon] {
+    @extend .mdc-icon-button;
+  }
+}

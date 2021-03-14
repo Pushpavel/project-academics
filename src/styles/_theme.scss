@@ -5,6 +5,11 @@
   $background: #F9FEFF,
 );
 
+@use "material-components-web";
+
+@use "color";
+@use "typography";
+
 // TODO: REMOVE AFTER MIGRATION
 $color-outline: #000000;
 $color-primary: #0038C8;

@@ -1,0 +1,16 @@
+@use "@material/ripple";
+@use "@material/circular-progress";
+
+@use "mdc-button";
+@use "mdc-icon";
+
+
+@mixin all-styles {
+  //@material styles
+  @include ripple.core-styles();
+  @include circular-progress.core-styles();
+
+  //custom files
+  @include mdc-button.styles;
+  @include mdc-icon.styles;
+}

@@ -19,14 +19,15 @@
     "@angular/fire": "^6.1.4",
     "@angular/forms": "~11.2.4",
     "@angular/material": "^11.2.3",
+    "@angular/material-experimental": "^11.2.4",
     "@angular/platform-browser": "~11.2.4",
     "@angular/platform-browser-dynamic": "~11.2.4",
     "@angular/router": "~11.2.4",
+    "firebase": "^7.0 || ^8.0",
+    "material-components-web": "^10.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
-    "zone.js": "~0.11.3",
-    "firebase": "^7.0 || ^8.0",
-    "material-components-web": "^10.0.0"
+    "zone.js": "~0.11.3"
   },
   "devDependencies": {
     "@angular-devkit/architect": ">= 0.900 < 0.1200",

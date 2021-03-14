@@ -1,35 +1,20 @@
-.home-root{
-    margin-left: 92px;
-    margin-top: 64px;
-    margin-bottom: 32px;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-}
+:host {
+  display: block;
+  box-sizing: border-box;
+  padding: 256px 0 32px 125px;
+  max-width: 1080px;
 
-.home-spinner-container{
-    height: 100vh;
-    justify-content: center;
-    display: flex;
-}
-.home-spinner{
-    align-self: center;
-    stroke: rgb(00, 00, 255);    
-}
+  > button {
+    margin-top: 100px;
+    padding: 16px 24px;
+  }
 
-.home-archive{
-    position: relative;
+  > mdc-spinner {
+    position: absolute;
+    left: 0;
+    right: 0;
     bottom: 0;
-    width: 150px;
-    margin-top: 24px;
-    margin-left: 32px;
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    top: 0;
+    margin: auto;
+  }
 }
-
-
-.home-batch-grid{
-}
-

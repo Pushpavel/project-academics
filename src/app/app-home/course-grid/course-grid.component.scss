@@ -1,18 +1,15 @@
-.course-grid{
-    margin-top: 8px;
+:host {
+  > header {
     display: flex;
-    flex-wrap: wrap;
-}
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+  }
 
-.course-grid-header{
-    margin-top: 32px;
-    font-size: 16px;
-    line-height: 24px;
-}
-.course-grid-root{
-    margin-left: 32px;
-}
-
-.course-item{
-    margin: 8px;
+  > div {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(0px, 156px)); // TODO: RESPONSIVE ITEM?
+    gap: 16px;
+    grid-column: 1/-1;
+  }
 }
