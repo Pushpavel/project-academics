@@ -1,0 +1,40 @@
+// simplifying mdc-typography--<STYLE> classes
+
+@use "@material/typography" as mdc;
+
+.mdc-typography {
+
+  @for $i from 1 through 6 {
+    h#{$i}, .h#{$i} {
+      @include mdc.typography(headline#{$i});
+    }
+  }
+
+  .sub1 {
+    @include mdc.typography(subtitle1);
+  }
+
+  .sub2 {
+    @include mdc.typography(subtitle2);
+  }
+
+  .body1 {
+    @include mdc.typography(body1);
+  }
+
+  body, .body2 {
+    @include mdc.typography(body2);
+  }
+
+  .caption {
+    @include mdc.typography(caption);
+  }
+
+  .button {
+    @include mdc.typography(button);
+  }
+
+  .overline {
+    @include mdc.typography(overline);
+  }
+}

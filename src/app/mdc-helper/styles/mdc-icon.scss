@@ -2,9 +2,5 @@
 
 
 @mixin styles {
-  @include icon-button.core-styles;
-
-  button[mdc-icon] {
-    @extend .mdc-icon-button;
-  }
+    @include icon-button.core-styles;
 }

@@ -2,9 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TopBarComponent} from './top-bar/top-bar.component';
 import {DataCardComponent} from './data-card/data-card.component';
-import {MatCardModule} from '@angular/material/card';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
+import {MdcHelperModule} from '../mdc-helper/mdc-helper.module';
 
 @NgModule({
   declarations: [TopBarComponent, DataCardComponent],
@@ -14,9 +12,7 @@ import {MatIconModule} from '@angular/material/icon';
   ],
   imports: [
     CommonModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
+    MdcHelperModule
   ]
 })
 export class SharedModule {

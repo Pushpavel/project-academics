@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostBinding, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostBinding, Input, OnInit} from '@angular/core';
 import {MDCRipple} from '@material/ripple';
 
 @Component({
@@ -7,7 +7,7 @@ import {MDCRipple} from '@material/ripple';
     <ng-content></ng-content>
   `,
   host: {
-    class: 'material-icons'
+    '[class]': `'material-icons ' + ((isButton) ? 'mdc-icon-button' : '')`
   }
 })
 export class MdcIconComponent implements OnInit {

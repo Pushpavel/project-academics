@@ -1,0 +1,16 @@
+$dimensions: (2, 4, 8, 12, 16, 24, 32);
+
+@each $selector, $property in ((p, padding), (m, margin)) {
+
+  @each $i in $dimensions {
+    .p#{$i}, .hp#{$i} {
+      padding-left: #{$i}px !important;
+      padding-right: #{$i}px !important;
+    }
+
+    .p#{$i}, .vp#{$i} {
+      padding-top: #{$i}px !important;
+      padding-bottom: #{$i}px !important;
+    }
+  }
+}

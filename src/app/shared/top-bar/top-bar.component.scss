@@ -1,44 +1,19 @@
-// ** THIS STYLESHEET IS NOT SCOPED **
 @use "theme" as *;
 
-top-bar {
+:host {
   display: flex;
-  height: fit-content;
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  background-color: $color-primary;
   padding: 16px;
+  background: $primary;
 
-  div {
+  > div {
     flex: 1;
-    margin: 0 16px;
-    color: $color-surface;
+    justify-content: flex-start;
   }
 
-  > .logo-btn {
-    line-height: 48px;
-    width: 48px;
-    height: 48px;
-
-    > .mat-button-wrapper > mat-icon {
-      color: $color-surface;
-      line-height: 28px;
-      font-size: 32px;
-      width: 28px;
-      height: 28px;
-    }
-  }
-
-  > button.user-account-btn {
-    background-color: $color-surface;
-    padding: 0 8px;
+  > [mdc-button] {
     border-radius: 50px;
-
-    > .mat-button-wrapper {
-      display: flex;
-      align-items: center;
-      //TODO: Handle Text Overflow
-    }
   }
 }

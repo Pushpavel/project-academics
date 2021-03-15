@@ -1,14 +1,20 @@
 //Base Theme Settings of the App
+
 @use "@material/theme" with (
   $primary: #0038C8,
   $secondary: #FFD740,
   $background: #F9FEFF,
 );
 
-@use "material-components-web";
+@forward "@material/theme";
 
-@use "color";
-@use "typography";
+@use "utils/color";
+@use "utils/typography";
+@use "utils/spacing";
+
+//
+//@include short-class.typography();
+
 
 // TODO: REMOVE AFTER MIGRATION
 $color-outline: #000000;
@@ -18,3 +24,6 @@ $color-surface: white;
 @mixin sub2-typography {
   // TODO: REMOVE AFTER MIGRATION
 }
+
+
+
