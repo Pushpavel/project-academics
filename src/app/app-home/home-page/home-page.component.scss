@@ -8,10 +8,12 @@
 }
 
 .home-spinner-container{
-    height: 100vh;
+    height: 80vh;
+    margin-left: -92px;
     justify-content: center;
     display: flex;
 }
+
 .home-spinner{
     align-self: center;
     stroke: rgb(00, 00, 255);    
