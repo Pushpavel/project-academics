@@ -1,0 +1,11 @@
+[mdc-text-field] {
+  width: 48px;
+  height: 36px;
+  padding: 0 4px;
+  margin: 8px 0;
+  text-align: center;
+
+  > input {
+    text-align: center;
+  }
+}

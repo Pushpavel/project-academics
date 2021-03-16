@@ -1,0 +1,11 @@
+@use "@material/textfield";
+@use "@material/line-ripple";
+@use "@material/notched-outline";
+@use "@material/floating-label";
+
+@mixin styles {
+  @include line-ripple.core-styles();
+  @include notched-outline.core-styles();
+  @include textfield.core-styles();
+  @include floating-label.core-styles();
+}

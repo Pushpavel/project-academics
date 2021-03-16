@@ -1,0 +1,75 @@
+// simplifying mdc-theme--<STYLE> classes
+
+@use "@material/theme";
+
+body.mdc-theme-colors { //to increase specificity
+  .primary {
+    @include theme.property(color, primary);
+  }
+
+  .secondary {
+    @include theme.property(color, secondary);
+  }
+
+  body, .background {
+    @include theme.property(background-color, background);
+  }
+
+  .surface {
+    @include theme.property(background-color, surface);
+  }
+
+  .on-primary {
+    @include theme.property(color, on-primary);
+  }
+
+
+  .on-secondary {
+    @include theme.property(color, on-secondary);
+  }
+
+  .on-surface {
+    @include theme.property(color, on-surface);
+  }
+
+  .primary-bg {
+    @include theme.property(background-color, primary);
+  }
+
+  .secondary-bg {
+    @include theme.property(background-color, secondary);
+  }
+
+
+  .dark-text-primary {
+    @include theme.property(color, text-primary-on-light);
+  }
+
+  .dark-text-secondary {
+    @include theme.property(color, text-secondary-on-light);
+  }
+
+  .dark-text-hint {
+    @include theme.property(color, text-hint-on-light);
+  }
+
+  .dark-icon {
+    @include theme.property(color, text-icon-on-light);
+  }
+
+  .light-text-primary {
+    @include theme.property(color, text-primary-on-dark);
+  }
+
+  .light-text-secondary {
+    @include theme.property(color, text-secondary-on-dark);
+  }
+
+  .light-text-hint {
+    @include theme.property(color, text-hint-on-dark);
+  }
+
+  .light-icon {
+    @include theme.property(color, text-icon-on-dark);
+  }
+}

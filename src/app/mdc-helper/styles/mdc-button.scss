@@ -1,0 +1,21 @@
+@use "@material/button/button";
+
+@mixin styles {
+  @include button.styles();
+
+  .mdc-button-display--flex {
+    display: flex;
+    height: auto;
+  }
+
+  .mdc-button {
+    > .material-icons {
+      @extend .mdc-button__icon;
+    }
+
+    > label {
+      @extend .mdc-button__label;
+    }
+  }
+
+}

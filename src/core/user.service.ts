@@ -9,8 +9,9 @@ import {AcademicUser} from '@lib/models/user.model';
   providedIn: 'root'
 })
 export class UserService extends BehaviorSubject<AcademicUser | null> {
-  // userId: any = JSON.parse(localStorage.getItem('user') || '{}');
-  // return this.userId !== null && this.userId.emailVerified;
+
+  user: Observable<any> | undefined;
+  actionCodeSettings: any = {};
 
   constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth) {
     super(null);
@@ -25,9 +26,35 @@ export class UserService extends BehaviorSubject<AcademicUser | null> {
 
     // Simulating login api call
     of(dummyAcademicUser).pipe(delay(1500)).subscribe(this);
+
+    this.user = this.afAuth.authState.pipe(
+      switchMap(user => {
+        if (user) {
+          return this.afs.doc(`accounts/${user.uid}`).valueChanges();
+        } else {
+          return of(null);
+        }
+      })
+    );
   }
 
-  //
+  signInWithPassword(email: string, password: string): Promise<any> {
+    return this.afAuth.signInWithEmailAndPassword(email, password);
+  }
+
+  signInWithLink(email: string): Promise<any> {
+    return this.afAuth.sendSignInLinkToEmail(email, this.actionCodeSettings);
+  }
+
+  signOut(): Promise<any> {
+    return this.afAuth.signOut();
+  }
+
+
+
+  // userId: any = JSON.parse(localStorage.getItem('user') || '{}');
+  // return this.userId !== null && this.userId.emailVerified;
+
   // getUserDetails(): Observable<any> {
   //   return this.afAuth.authState.pipe(
   //     switchMap(user => {

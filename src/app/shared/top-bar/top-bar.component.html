@@ -1,13 +1,11 @@
 <ng-container *ngIf="user|async as user">
-  <button class="logo-btn" mat-icon-button color="accent">
-    <mat-icon>font_download</mat-icon>
-  </button>
-  <div>
+  <button mdc-icon class="on-primary">font_download</button>
+  <div class="on-primary hp16">
     <ng-content></ng-content>
   </div>
-  <button class="user-account-btn body1" mat-stroked-button>
-    <mat-icon color="primary">{{userIcon[user.role]}}</mat-icon>
-    {{user.displayName}}
-    <mat-icon>arrow_drop_down</mat-icon>
+  <button mdc-button class="surface dark-text-primary body1 vp16">
+    <mdc-icon [size]="24">{{userIcon[user.role]}}</mdc-icon>
+    <label>{{user.displayName}}</label>
+    <mdc-icon>arrow_drop_down</mdc-icon>
   </button>
 </ng-container>

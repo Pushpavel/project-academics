@@ -1,0 +1,33 @@
+<table cdk-table [dataSource]="_dataSource" class="mdc-data-table__table">
+  <!--Column Cell Declarations-->
+  <ng-container *ngFor="let column of columnSettings" [cdkColumnDef]="column.key">
+    <!--Header Cell-->
+    <th cdk-header-cell
+        class="mdc-data-table__header-cell"
+        [class.mdc-data-table__header-cell--with-sort]="column.sortable"
+        *cdkHeaderCellDef
+        [attr.data-column-id]="column.key">
+      <div class="mdc-data-table__header-cell-wrapper">
+        <div class="mdc-data-table__header-cell-label">{{column.label}}</div>
+        <button mdc-icon *ngIf="column.sortable" class="mdc-data-table__sort-icon-button dark-icon">arrow_upward
+        </button>
+      </div>
+    </th>
+
+    <!--Normal Cell-->
+    <td cdk-cell class="mdc-data-table__cell" *cdkCellDef="let row">
+      <label mdc-text-field *ngIf="column.editable else nonEditableTemplate">
+        <input mdc-input [value]="row[column.key]">
+      </label>
+      <ng-template #nonEditableTemplate>
+        {{row[column.key]}}
+      </ng-template>
+    </td>
+  </ng-container>
+
+  <!-- Header and Row Declarations -->
+  <tr cdk-header-row class="mdc-data-table__header-row" *cdkHeaderRowDef="_columnLabels"></tr>
+  <tr cdk-row class="mdc-data-table__row" *cdkRowDef="let row; columns: _columnLabels"></tr>
+
+</table>
+

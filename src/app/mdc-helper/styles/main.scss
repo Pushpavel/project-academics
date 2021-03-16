@@ -1,0 +1,23 @@
+@use "@material/ripple";
+@use "@material/circular-progress";
+@use "@material/elevation";
+
+@use "mdc-button";
+@use "mdc-icon";
+@use "mdc-table";
+@use "mdc-text-field";
+
+
+@mixin all-styles {
+  //@material styles
+  @include ripple.core-styles();
+  @include circular-progress.core-styles();
+  @include elevation.core-styles();
+
+
+  //custom files
+  @include mdc-button.styles;
+  @include mdc-icon.styles;
+  @include mdc-table.styles;
+  @include mdc-text-field.styles;
+}

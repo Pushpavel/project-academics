@@ -1,0 +1,26 @@
+<ng-container *ngIf="filled == null else filledTemplate">
+ <span class="mdc-notched-outline">
+    <span class="mdc-notched-outline__leading"></span>
+    <span class="mdc-notched-outline__notch">
+      <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+    </span>
+    <span class="mdc-notched-outline__trailing"></span>
+  </span>
+  <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+</ng-container>
+
+
+<ng-template #filledTemplate>
+  <span class="mdc-text-field__ripple"></span>
+  <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+  <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+  <span class="mdc-line-ripple"></span>
+</ng-template>
+
+<ng-template #labelTemplate>
+  <span *ngIf="label" class="mdc-floating-label">{{label}}</span>
+</ng-template>
+
+<ng-template #contentTemplate>
+  <ng-content></ng-content>
+</ng-template>
