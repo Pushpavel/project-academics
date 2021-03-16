@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input} from '@angular/core';
 import {MDCRipple} from '@material/ripple';
 
 type ButtonVariant = '' | 'outlined' | 'raised';
@@ -10,7 +10,7 @@ type ButtonVariant = '' | 'outlined' | 'raised';
  */
 
 @Component({
-  selector: '[mdc-button]',
+  selector: 'button[mdc-button]',
   template: `
     <span class="mdc-button__ripple"></span>
     <ng-content></ng-content>
