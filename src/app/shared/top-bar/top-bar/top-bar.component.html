@@ -1,0 +1,9 @@
+<button mdc-icon class="on-primary">font_download</button>
+<div class="on-primary hp16">
+  <ng-content></ng-content>
+</div>
+<button *ngIf="user|async as user" mdc-button class="surface dark-text-primary body1 vp16">
+  <mdc-icon [size]="24">{{userIcon[user.role]}}</mdc-icon>
+  <label>{{user.displayName}}</label>
+  <mdc-icon>arrow_drop_down</mdc-icon>
+</button>

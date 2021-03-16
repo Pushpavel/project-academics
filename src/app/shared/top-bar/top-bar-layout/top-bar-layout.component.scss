@@ -1,0 +1,11 @@
+@use "utils/layout";
+
+:host {
+  @include layout.fillParent;
+  display: flex;
+  flex-direction: column;
+
+  > div {
+    flex: 1;
+  }
+}
