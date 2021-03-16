@@ -9,7 +9,7 @@ import {Course} from '@lib/models/course.model';
 export class CourseButtonComponent implements OnInit {
 
 
-  @Input() course: Course = {'CourseName': 'Computer Networks', 'courseId': 'CS202'};
+  @Input() course!: Course
 
 
   constructor() {

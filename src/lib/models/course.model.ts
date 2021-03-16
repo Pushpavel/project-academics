@@ -3,6 +3,7 @@ export interface Course{
     CourseName : String 
 }
 
+//Yet Extra data can be added
 export interface CourseCollection{
     id?:String
     title : String
