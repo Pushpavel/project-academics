@@ -1,31 +1,39 @@
 /**
- * Helper Class for Managing Page Components
- * Usage: export class HomePageComponent extends PageLayout {}
+ * This class contains boilerplate code that updates PageService
+ *
+ * ** must be implemented by every component routable in top level router-outlet ( Page Components )
+ * Usage: export class HomePageComponent extends PageLayout {
+ *
+ * }
  */
 import {PAGE_TEMPLATE, PageService} from '@service/page.service';
-import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {PageTemplateDirective} from './page-template.directive';
 
 @Component({
   template: ''
 })
 // tslint:disable-next-line:component-class-suffix
-export abstract class PageLayout implements OnInit {
+export abstract class PageLayout implements AfterViewInit {
 
-  t = PAGE_TEMPLATE;
+  // needed to autocomplete values for *pageTemplate
+  readonly t = PAGE_TEMPLATE;
 
-  pageTitle?: string;
+  // override these values and it their equivalent values will be set in PageService after view init
+  readonly pageTitle?: string;
+  readonly disableTopBar?: boolean;
 
-
-  @ViewChildren(PageTemplateDirective) pageTemplates?: QueryList<PageTemplateDirective>;
+  // We get the reference to all *pageTemplate directive from the parent Component here
+  @ViewChildren(PageTemplateDirective) private pageTemplates?: QueryList<PageTemplateDirective>;
 
   protected constructor(public page: PageService) {
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.page.next({
       title: this.pageTitle,
-      templates: new Map(this.pageTemplates?.map(template => [template.pageTemplate, template]))
+      disableTopBar: this.disableTopBar,
+      templates: new Map(this.pageTemplates?.map(template => [template.pageTemplate, template])),
     });
   }
 }
