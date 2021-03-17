@@ -29,7 +29,7 @@ const routes: Routes = [
 ];
 
 
-if (!environment.production) routes.push({path: 'dev', component: DevPageComponent});
+if (!environment.production) routes.unshift({path: 'dev', component: DevPageComponent});
 
 
 @NgModule({
