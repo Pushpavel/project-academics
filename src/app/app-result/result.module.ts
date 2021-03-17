@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ResultPageComponent } from './result-page/result-page.component';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [ResultPageComponent],
   imports: [
     CommonModule
   ]
