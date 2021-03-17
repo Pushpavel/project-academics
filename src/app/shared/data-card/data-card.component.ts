@@ -12,14 +12,18 @@ interface cardRow {
 })
 export class DataCardComponent implements OnInit {
 
-  @Input() cardTitle: string | undefined;
+  // @Input() cardTitle: string | undefined;
+  //
+  // @Input() cardRow: cardRow | undefined;
 
-  @Input() cardRow: cardRow | undefined;
+  cardTitle = 'Testing';
 
   constructor() {
   }
 
-  cardTable: Array<cardRow> | undefined;
+  // cardTable: Array<cardRow> | undefined;
+
+  cardTable = [{title:'chips', content:'Good'}, {title:'chips', content:'Good'}, {title:'chips', content:'Good'}];
 
   ngOnInit(): void {
   }
