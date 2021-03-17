@@ -1,4 +1,4 @@
-@use "theme" as *;
+@use "src/styles/theme" as *;
 
 :host {
   display: flex;
@@ -6,11 +6,10 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px;
-  background: $primary;
+  box-sizing: border-box;
 
   > div {
     flex: 1;
-    justify-content: flex-start;
   }
 
   > [mdc-button] {
