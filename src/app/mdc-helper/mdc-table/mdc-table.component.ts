@@ -15,13 +15,13 @@ import {MDCDataTable} from '@material/data-table';
     class: 'mdc-data-table'
   }
 })
-export class MdcTableComponent<M, T extends Readonly<M>> implements AfterViewInit {
+export class MdcTableComponent<T> implements AfterViewInit {
 
-  @Input() inputSource: Observable<readonly T[]> = of([]);
+  @Input() inputSource: Observable<readonly Readonly<T>[]> = of([]);
 
-  @Input('columns') columnSettings: ColumnSetting[] = [];
-  @Input() calculateRow?: (v: T) => T;
-  @Output() rowDataChange?: EventEmitter<{ index: number, key: string, changed_row: T }>;
+  @Input('columns') columnSettings: ColumnSetting<T>[] = [];
+  @Input() calculateRow?: (v: Readonly<T>) => Readonly<T>;
+  @Output() rowDataChange?: EventEmitter<{ index: number, key: string, changed_row: Readonly<T> }>;
 
   get _dataSource() {
     return this.inputSource?.pipe(
@@ -49,8 +49,8 @@ export class MdcTableComponent<M, T extends Readonly<M>> implements AfterViewIni
 
 }
 
-export type ColumnSetting = {
-  key: string,
+export type ColumnSetting<T extends Record<string, any> = any> = {
+  key: Extract<keyof T, string>,
   label: string,
   editable?: boolean,
   sortable?: boolean// NOT YET IMPLEMENTED
