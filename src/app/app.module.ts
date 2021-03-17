@@ -4,9 +4,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {_DevModule} from './_dev/_dev.module';
-import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
-import {REGION} from '@angular/fire/functions';
 import {ArchiveModule} from './app-archive/archive.module';
 import {AuthModule} from './app-auth/auth.module';
 import {CourseModule} from './app-course/course.module';
@@ -20,7 +18,6 @@ const CORE_MODULES = [
   BrowserModule,
   AppRoutingModule,
   BrowserAnimationsModule,
-  AngularFireModule.initializeApp(environment.FIREBASE_CONFIG),
 ];
 
 const FEATURE_MODULES = [
@@ -40,7 +37,6 @@ if (!environment.production) CORE_MODULES.push(_DevModule);
     AppComponent
   ],
   imports: [...CORE_MODULES, ...FEATURE_MODULES, SharedModule],
-  providers: [{provide: REGION, useValue: 'asia-south1'}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

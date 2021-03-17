@@ -1,19 +1,22 @@
 import {Injectable} from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {AngularFireAuth} from '@angular/fire/auth';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {delay, switchMap} from 'rxjs/operators';
 import {AcademicUser} from '@lib/models/user.model';
+import {authState} from 'rxfire/auth';
+import {auth, firestore} from '../firebase.app';
+// todo: Remove as valueChanges | This was kept for understanding purpose
+import {doc as valueChanges} from 'rxfire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService extends BehaviorSubject<AcademicUser | null> {
 
+
   user: Observable<any> | undefined;
   actionCodeSettings: any = {};
 
-  constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth) {
+  constructor() {
     super(null);
 
     const dummyAcademicUser: AcademicUser = {
@@ -27,10 +30,10 @@ export class UserService extends BehaviorSubject<AcademicUser | null> {
     // Simulating login api call
     of(dummyAcademicUser).pipe(delay(1500)).subscribe(this);
 
-    this.user = this.afAuth.authState.pipe(
+    this.user = authState(auth).pipe(
       switchMap(user => {
         if (user) {
-          return this.afs.doc(`accounts/${user.uid}`).valueChanges();
+          return valueChanges(firestore.doc(`accounts/${user.uid}`));
         } else {
           return of(null);
         }
@@ -39,17 +42,16 @@ export class UserService extends BehaviorSubject<AcademicUser | null> {
   }
 
   signInWithPassword(email: string, password: string): Promise<any> {
-    return this.afAuth.signInWithEmailAndPassword(email, password);
+    return auth.signInWithEmailAndPassword(email, password);
   }
 
   signInWithLink(email: string): Promise<any> {
-    return this.afAuth.sendSignInLinkToEmail(email, this.actionCodeSettings);
+    return auth.sendSignInLinkToEmail(email, this.actionCodeSettings);
   }
 
   signOut(): Promise<any> {
-    return this.afAuth.signOut();
+    return auth.signOut();
   }
-
 
 
   // userId: any = JSON.parse(localStorage.getItem('user') || '{}');
