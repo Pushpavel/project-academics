@@ -1,0 +1,37 @@
+<div>
+  <label>
+    S :
+    <input type="text" [(ngModel)]="gradeCriteria.s" required name="s">
+    - {{maxMark}}
+  </label>
+
+  <label>
+    A :
+    <input type="text" [(ngModel)]="gradeCriteria.a" required name="a">
+    - {{gradeCriteria.s - 1}}
+  </label>
+
+  <label>
+    B :
+    <input type="text" [(ngModel)]="gradeCriteria.b" required name="b">
+    - {{gradeCriteria.a - 1}}
+  </label>
+
+  <label>
+    C :
+    <input type="text" [(ngModel)]="gradeCriteria.c" required name="c">
+    - {{gradeCriteria.b - 1}}
+  </label>
+
+  <label>
+    D :
+    <input type="text" [(ngModel)]="gradeCriteria.d" required name="d">
+    - {{gradeCriteria.c - 1}}
+  </label>
+
+  <label>
+    E :
+    {{minMark}}
+    - {{gradeCriteria.d - 1}}
+  </label>
+</div>
