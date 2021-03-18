@@ -1,45 +1,54 @@
 import { Injectable } from '@angular/core';
-import { Course, CourseCollection } from '@lib/models/course.model';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { Course } from '@lib/models/course.model';
+import { firestore } from 'firebase.app';
+import { collectionData, docData } from 'rxfire/firestore';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
 })
 
-//todo : implement observer pattern
-
 export class CourseService {
 
 
-  constructor() {}
+  constructor() { }
 
-  private courseCollectionListener = new BehaviorSubject<CourseCollection[]>([])
-  //Todo : check whether individual subscription for  courses data
+  private courseCollectionListener = new BehaviorSubject<any>(null)
 
-  get courseCollection () {
+  private courseListener = new BehaviorSubject<Course | null>(null)
+
+  get courseCollection() {
     return this.courseCollectionListener.asObservable()
   }
 
-  //dummy data
-  private title : String = "Courses that You manage"
-  private coursesList : Course[] = [
-    {CourseName : "Computer Networks", courseId : "CS201"},
-    {CourseName : "Computer Networks", courseId : "CS201"},
-    {CourseName : "data Networks", courseId : "CS201"},
-    {CourseName : "Computer Networks", courseId : "CS201"},
-  ]
-
-  private batchList : CourseCollection[] = [
-    { title : this.title, courses : this.coursesList },
-    { title : this.title, courses : this.coursesList },
-    { title : this.title, courses : this.coursesList },
-  ]
-
-
-  //need to include firebase logics
-
-  fetch() : void {
-    this.courseCollectionListener.next(this.batchList)
+  get course() {
+    return this.courseListener.asObservable()
   }
+
+  fetchCourseCollection(faculty_id: string): void {
+    const courseRef = firestore.collection(`/semesters/2020_EVEN/courses`).where("faculty_id", "==", faculty_id)
+
+    collectionData(courseRef, 'id').pipe(
+      map(e => {
+        return e.reduce((collections: any, course: any) => {
+          collections[course.batch] = [{ CourseName: course.name, courseId: course.id } as Course]
+          return collections
+        },{})
+      })
+    )
+      .subscribe((coursesCollection => {
+        this.courseCollectionListener.next(coursesCollection)
+      }))
+
+  }
+
+  fetchCourse(courseId: string): void {
+    const courseRef = firestore.doc(`/semesters/2020_EVEN/courses/${courseId}`)
+    docData(courseRef).subscribe(courseData => {
+      console.log(courseData);
+    })
+  }
+
 }

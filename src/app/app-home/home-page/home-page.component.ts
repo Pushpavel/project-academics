@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CourseService } from '@service/course.service';
-import { CourseCollection } from '@lib/models/course.model';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -12,16 +11,16 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   constructor(private courseService: CourseService) {  }
 
-  courseCollections: CourseCollection[] = []
+  courseCollections ?: any = null
 
-  private courseSubscription!: Subscription  ;
+  private courseSubscription!: Subscription  
 
   getCourseCollections() {
   }
 
   ngOnInit(): void {
-     this.courseSubscription = this.courseService.courseCollection.subscribe((result) => this.courseCollections = result)
-     this.courseService.fetch()
+     this.courseSubscription = this.courseService.courseCollection.subscribe((result) => this.courseCollections = result )
+     this.courseService.fetchCourseCollection("Carmela.Konopelski67@nitpy.ac.in")
   }
 
   ngOnDestroy() : void {

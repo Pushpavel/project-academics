@@ -1,2 +1,2 @@
-<course-grid *ngFor="let batch of courseCollections" [title]="batch.title" [courses]="batch.courses">
+<course-grid *ngFor="let collection of courseCollections | keyvalue" [title]="collection.key" [courses]="collection.value">
 </course-grid>

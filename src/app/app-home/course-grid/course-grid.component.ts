@@ -8,12 +8,13 @@ import { Course } from '@lib/models/course.model';
 })
 export class CourseGridComponent implements OnInit {
 
-  @Input() title : String = "Courses that you manage"
-  @Input() courses : Course[] = [{'CourseName': 'Computer Networks', 'courseId': 'CS202'},{'CourseName': 'Computer Networks', 'courseId': 'CS202'},{'CourseName': 'Computer Networks', 'courseId': 'CS202'},{'CourseName': 'Computer Networks', 'courseId': 'CS202'}]
+  @Input() title !: String 
+  @Input() courses !: Course[] 
 
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.title,this.courses); 
   }
 
 }
