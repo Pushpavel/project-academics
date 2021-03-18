@@ -4,17 +4,9 @@ import {PageService} from '@service/page.service';
 @Component({
   selector: 'app-root',
   template: `
-    <ng-container *ngIf="page|async as page">
-
-      <top-bar-layout *ngIf="!page.disableTopBar else normalLayout">
-        <ng-container *ngTemplateOutlet="normalLayout"></ng-container>
-      </top-bar-layout>
-
-    </ng-container>
-
-    <ng-template #normalLayout>
+    <top-bar-layout>
       <router-outlet></router-outlet>
-    </ng-template>
+    </top-bar-layout>
   `,
 })
 export class AppComponent {
