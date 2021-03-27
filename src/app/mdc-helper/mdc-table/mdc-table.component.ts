@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {map} from 'rxjs/operators';
 
 /**
  * this implementation does not sync rowDataChange with inputSource
@@ -19,19 +18,11 @@ export class MdcTableComponent<T extends Record<string, any>> {
   @Input() inputSource: Observable<readonly Readonly<T>[]> = of([]);
 
   @Input('columns') columnSettings: ColumnSetting<T>[] = [];
-  @Input() calculateRow?: (v: Readonly<T>) => Readonly<T>;
   @Output() cellDataChange = new EventEmitter<CellDataChangeEvent<T>>();
-
-  get _dataSource() {
-    return this.inputSource?.pipe(
-      map(rows => this.calculateRow ? rows?.map(this.calculateRow) : rows)
-    );
-  }
 
   get _columnLabels() {
     return this.columnSettings.map(s => s.key);
   };
-
 
 }
 
@@ -39,7 +30,7 @@ export type ColumnSetting<T extends Record<string, any> = any> = {
   key: keyof T,
   label: string,
   editable?: boolean,
-  sortable?: boolean// NOT YET IMPLEMENTED
+  sortable?: boolean // TODO: Implement this
   flex?: number,
 }
 

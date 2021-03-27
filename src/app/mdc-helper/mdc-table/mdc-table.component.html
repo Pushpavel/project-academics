@@ -1,4 +1,4 @@
-<table cdk-table [dataSource]="_dataSource" class="mdc-data-table__table">
+<table cdk-table [dataSource]="inputSource" class="mdc-data-table__table">
   <!--Column Cell Declarations-->
   <ng-container *ngFor="let column of columnSettings" [cdkColumnDef]="$any(column.key)">
     <!--Header Cell-->
