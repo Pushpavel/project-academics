@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {PageLayout} from '../../shared/helpers/PageLayout';
 import {PageService} from '@service/page.service';
 import {ActivatedRoute} from '@angular/router';
-import {map, switchMap} from 'rxjs/operators';
+import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {CourseService} from '@service/course.service';
 import {DOCUMENT_GROUPS} from '@lib/constants/document.constants';
 import {CourseDocumentStat} from '@lib/models/course.model';
@@ -17,6 +17,7 @@ export class CoursePageComponent extends PageLayout {
 
   courseCode = this.route.paramMap.pipe(
     map(params => params.get('course_code') ?? 'Error'),    // Todo: Handle if course_code is null
+    shareReplay(1),
   );
   course = this.courseCode.pipe(
     switchMap(courseCode => this.courseService.getCourse(courseCode)),

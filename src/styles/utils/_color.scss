@@ -3,6 +3,8 @@
 @use "@material/theme";
 
 body.mdc-theme-colors { //to increase specificity
+  @include theme.property(background-color, background);
+
   .primary {
     @include theme.property(color, primary);
   }
@@ -11,7 +13,7 @@ body.mdc-theme-colors { //to increase specificity
     @include theme.property(color, secondary);
   }
 
-  body, .background {
+  .background {
     @include theme.property(background-color, background);
   }
 

@@ -4,8 +4,8 @@ const DOCUMENT_NAMES: Record<string, string> = {
   CT2: 'CT 2',
   ASSIGNMENT: 'ASSIGNMENT',
   END_SEM: 'END SEMESTER',
-  GRADES: 'GRADES',
   GRADING_CRITERIA: 'GRADING CRITERIA',
+  GRADES: 'GRADES',
 };
 
 export const DOCUMENT_GROUPS = [{

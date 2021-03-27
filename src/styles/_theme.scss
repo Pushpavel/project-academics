@@ -12,18 +12,5 @@
 @use "utils/typography";
 @use "utils/spacing";
 
-//
-//@include short-class.typography();
-
-
-// TODO: REMOVE AFTER MIGRATION
-$color-outline: #000000;
-$color-primary: #0038C8;
-$color-high-emphasis-on-surface: black;
-$color-surface: white;
-@mixin sub2-typography {
-  // TODO: REMOVE AFTER MIGRATION
-}
-
 
 

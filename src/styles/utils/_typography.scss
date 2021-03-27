@@ -4,9 +4,12 @@
 
 .mdc-typography {
 
+  $h-margins: (16, 12, 12, 8, 4, 2);
+
   @for $i from 1 through 6 {
     h#{$i}, .h#{$i} {
       @include mdc.typography(headline#{$i});
+      margin: #{nth($h-margins, $i)}px;
     }
   }
 
