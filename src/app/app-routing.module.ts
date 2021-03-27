@@ -14,9 +14,9 @@ import {GradeCriteriaPageComponent} from './app-grade-criteria/grade-criteria-pa
 import {PageNotFoundComponent} from './app-404/page-not-found/page-not-found.component';
 
 const routes: Routes = [
-  {path: 'course/:course_code/attendance', component: AttendancePageComponent},
-  {path: 'course/:course_code/grade-criteria', component: GradeCriteriaPageComponent},
-  {path: 'course/:course_code/grades', component: GradesPageComponent},
+  {path: 'course/:course_code/ATTENDANCE', component: AttendancePageComponent},
+  {path: 'course/:course_code/GRADING_CRITERIA', component: GradeCriteriaPageComponent},
+  {path: 'course/:course_code/GRADES', component: GradesPageComponent},
   {path: 'course/:course_code/:exam_name', component: MarklistPageComponent},
   {path: 'course/:course_code', component: CoursePageComponent},
 
@@ -24,7 +24,7 @@ const routes: Routes = [
   {path: 'login', component: LoginPageComponent},
   {path: 'archive', component: ArchivePageComponent},
   {path: 'result', component: ResultPageComponent},
-  { path: '',   redirectTo: '/home', pathMatch: 'full' },
+  {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent},
 ];
 

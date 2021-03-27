@@ -10,5 +10,6 @@ export interface CourseDocumentStat {
   id: string,
   name: string,
   status: DocStatus,
-  timestamp: number
+  timestamp: number,
+  privateTimestamp?: number
 }

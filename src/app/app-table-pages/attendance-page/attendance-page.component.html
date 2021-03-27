@@ -1,1 +1,7 @@
-<p>attendance-page works!</p>
+<header-tile *ngIf="documentStat|async as doc" title="Attendance">
+  <!--  TODO: CourseDocumentStat is available here, use it  -->
+  Private Timestamp : {{doc.privateTimestamp}}
+  <button mdc-button>Download</button>
+  <button mdc-button>Publish</button>
+</header-tile>
+<mdc-table [inputSource]="attendanceEntries" [columns]="columns"></mdc-table>
