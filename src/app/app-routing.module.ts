@@ -17,7 +17,7 @@ const routes: Routes = [
   {path: 'course/:course_code/ATTENDANCE', component: AttendancePageComponent},
   {path: 'course/:course_code/GRADING_CRITERIA', component: GradeCriteriaPageComponent},
   {path: 'course/:course_code/GRADES', component: GradesPageComponent},
-  {path: 'course/:course_code/:exam_name', component: MarklistPageComponent},
+  {path: 'course/:course_code/:document_id', component: MarklistPageComponent},
   {path: 'course/:course_code', component: CoursePageComponent},
 
   {path: 'home', component: HomePageComponent},
