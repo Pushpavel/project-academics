@@ -1,0 +1,1 @@
+export enum DocStatus {PUBLIC, SUBMITTED, PRIVATE, REMARKED}

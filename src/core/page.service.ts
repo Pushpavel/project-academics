@@ -11,7 +11,10 @@ import {BehaviorSubject} from 'rxjs';
  * Use RouterParams and other services for this use case
  */
 
-
+// Todo: Find Different Mechanism for getting page settings as currently
+//  the settings are only available after the page is initialized
+//  in router-outlet, Before the page is initialized default values for title
+//  and disableTopBar are used.
 export interface PageSettings {
   title?: string,
   disableTopBar?: boolean,
