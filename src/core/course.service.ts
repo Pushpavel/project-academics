@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Course, CourseDocumentStat} from '@lib/models/course.model';
+import {Course} from '@lib/models/course.model';
 import {firestore} from 'firebase.app';
 import {collectionData, docData} from 'rxfire/firestore';
 import {BehaviorSubject, of} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {DocStatus} from '@lib/models/other.model';
-import DOCUMENT_NAMES from '@lib/constants/document.constants';
 
 
 @Injectable({
@@ -58,14 +56,4 @@ export class CourseService {
     } as Course);
   }
 
-  getCourseDocumentStats(courseCode: string) {
-    // TODO: Implement this
-    return of(Object.keys(DOCUMENT_NAMES).map(id => ({
-        courseCode, id,
-        name: DOCUMENT_NAMES[id],
-        status: DocStatus.PRIVATE,
-        timestamp: 881818181,
-      } as CourseDocumentStat)
-    ));
-  }
 }

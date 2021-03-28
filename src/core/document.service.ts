@@ -13,15 +13,25 @@ import {DocStatus} from '@lib/models/other.model';
 })
 export class DocumentService {
 
-  getStat(courseCode: string, documentId: string): Observable<CourseDocumentStat> {
+  getStats(query: DocumentStatQuery): Observable<CourseDocumentStat[]> {
     // TODO: Implement this
-    return of({
-      courseCode,
-      id: documentId,
-      name: DOCUMENT_NAMES[documentId],
-      status: DocStatus.PRIVATE,
-      timestamp: 881818181,
-    } as CourseDocumentStat);
+    if (query.courseCode && query.documentId)
+      return of([{
+        id: query.documentId,
+        courseCode: query.courseCode,
+        name: DOCUMENT_NAMES[query.documentId],
+        status: DocStatus.PRIVATE,
+        timestamp: 881818181,
+      }]);
+
+    return of(Object.keys(DOCUMENT_NAMES).map(id => ({
+        id,
+        courseCode: query.courseCode,
+        name: DOCUMENT_NAMES[id],
+        status: DocStatus.PRIVATE,
+        timestamp: 881818181,
+      } as CourseDocumentStat)
+    ));
   }
 
   getMeta<T extends DocumentMeta>(courseCode: string, documentId: string, isPrivate = false): Observable<T> {
@@ -50,3 +60,10 @@ export class DocumentService {
 type Entry = MarklistEntry | AttendanceEntry | GradeEntry
 
 type DocumentMeta = MarklistDocMeta | AttendanceDocMeta | GradesDocMeta
+
+interface DocumentStatQuery {
+  courseCode?: string,
+  documentId?: string,
+  deptId?: string,
+  batchId?: string
+}

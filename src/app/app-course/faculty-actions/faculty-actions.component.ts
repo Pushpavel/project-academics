@@ -1,9 +1,9 @@
 import {Component, Input} from '@angular/core';
 import {CourseDocumentStat} from '@lib/models/course.model';
 import {FACULTY_DOCUMENT_GROUPS} from '@lib/constants/document.constants';
-import {CourseService} from '@service/course.service';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
+import {DocumentService} from '@service/document.service';
 
 @Component({
   selector: 'faculty-actions',
@@ -17,7 +17,7 @@ export class FacultyActionsComponent {
   @Input() set courseCode(courseCode: string | null) {
     if (!courseCode) return;
 
-    this.documentGroups = this.courseService.getCourseDocumentStats(courseCode)
+    this.documentGroups = this.documentService.getStats({courseCode})
       .pipe(
         map(docs => FACULTY_DOCUMENT_GROUPS.map(group => {
           // maps ids of documents in each document group to CourseDocumentStat
@@ -35,7 +35,7 @@ export class FacultyActionsComponent {
     // TODO: navigate to a table page
   }
 
-  constructor(private courseService: CourseService) {
+  constructor(private documentService: DocumentService) {
   }
 
 }

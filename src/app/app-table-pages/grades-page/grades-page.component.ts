@@ -18,7 +18,8 @@ export class GradesPageComponent {
   );
 
   documentStat = this.courseCode.pipe(
-    switchMap(courseCode => this.documentService.getStat(courseCode, 'GRADES')),
+    switchMap(courseCode => this.documentService.getStats({courseCode, documentId: 'GRADES'})),
+    map(stats => stats[0]),
     shareReplay(1),
   );
 

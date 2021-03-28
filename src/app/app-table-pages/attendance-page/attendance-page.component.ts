@@ -18,7 +18,8 @@ export class AttendancePageComponent {
   );
 
   documentStat = this.courseCode.pipe(
-    switchMap(courseCode => this.documentService.getStat(courseCode, 'ATTENDANCE')),
+    switchMap(courseCode => this.documentService.getStats({courseCode, documentId: 'ATTENDANCE'})),
+    map(stats => stats[0]),
     shareReplay(1),
   );
 
@@ -26,7 +27,7 @@ export class AttendancePageComponent {
     // Todo: query with UserService about the access level and compare them with doc.status
     switchMap(doc =>
       this.documentService.getMeta<AttendanceDocMeta>(doc.courseCode, doc.id, false).pipe(
-        map(meta => ({stat:doc, meta}))
+        map(meta => ({stat: doc, meta}))
       )
     ),
   );

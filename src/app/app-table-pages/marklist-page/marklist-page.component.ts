@@ -18,7 +18,8 @@ export class MarklistPageComponent {
   );
 
   documentStat = this.params.pipe(
-    switchMap(([courseCode, docId]) => this.documentService.getStat(courseCode, docId)),
+    switchMap(([courseCode, documentId]) => this.documentService.getStats({courseCode, documentId})),
+    map(stats => stats[0]),
     shareReplay(1),
   );
 
@@ -26,7 +27,7 @@ export class MarklistPageComponent {
     // Todo: query with UserService about the access level and compare them with doc.status
     switchMap(doc =>
       this.documentService.getMeta<MarklistDocMeta>(doc.courseCode, doc.id, false).pipe(
-        map(meta => ({stat:doc, meta}))
+        map(meta => ({stat: doc, meta}))
       )
     ),
   );
