@@ -1,20 +1,5 @@
-<ng-template #actionButton let-doc>
-  <!--  TODO: CourseDocumentStat is available here, use it  -->
-  <button mdc-button class="surface" (click)="openDocument(doc.id)">
-    <span class="sub2">{{doc.name}} </span>
-    --{{doc.timestamp}}
-  </button>
-</ng-template>
-
-<div *ngFor="let group of docStats|async">
-  <h6>{{group.title}}</h6>
-  <div>
-    <ng-container *ngFor="let doc of group.actions">
-      <ng-container *ngTemplateOutlet="actionButton;context:{$implicit:doc}"></ng-container>
-    </ng-container>
-  </div>
-</div>
-
+<faculty-actions *ngIf="true" [documentStats]="docStats|async"></faculty-actions>
+<student-course-overview *ngIf="false"></student-course-overview>
 <ng-container *pageTemplate="t.SECONDARY_HEADER">
   <div *ngIf="course|async as course">
     <!--  TODO: Course model is available here, use it  -->

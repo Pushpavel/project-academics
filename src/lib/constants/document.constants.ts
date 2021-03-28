@@ -8,7 +8,7 @@ const DOCUMENT_NAMES: Record<string, string> = {
   GRADES: 'GRADES',
 };
 
-export const DOCUMENT_GROUPS = [{
+export const FACULTY_DOCUMENT_GROUPS = [{
   title: 'Attendance',
   actions: ['ATTENDANCE']
 }, {
