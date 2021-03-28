@@ -6,7 +6,7 @@
   </button>
 </ng-template>
 
-<div *ngFor="let group of documentGroups">
+<div *ngFor="let group of documentGroups|async">
   <h6>{{group.title}}</h6>
   <div>
     <ng-container *ngFor="let doc of group.actions">

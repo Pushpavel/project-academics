@@ -21,11 +21,11 @@ export class CoursePageComponent extends PageLayout {
     switchMap(courseCode => this.courseService.getCourse(courseCode)),
   );
 
-  docStats = this.courseCode.pipe(
-    switchMap(courseCode => this.courseService.getCourseDocumentStats(courseCode)),
-  );
-
-  constructor(page: PageService, private route: ActivatedRoute, private courseService: CourseService) {
+  constructor(
+    private route: ActivatedRoute,
+    private courseService: CourseService,
+    page: PageService,
+  ) {
     super(page);
   }
 

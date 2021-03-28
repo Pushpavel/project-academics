@@ -1,5 +1,7 @@
-<faculty-actions *ngIf="true" [documentStats]="docStats|async"></faculty-actions>
-<student-course-overview *ngIf="false"></student-course-overview>
+
+<faculty-actions *ngIf="false" [courseCode]="courseCode|async"></faculty-actions>
+<student-course-overview *ngIf="true" [courseCode]="courseCode|async"></student-course-overview>
+
 <ng-container *pageTemplate="t.SECONDARY_HEADER">
   <div *ngIf="course|async as course">
     <!--  TODO: Course model is available here, use it  -->
