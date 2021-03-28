@@ -1,1 +1,23 @@
-<p>batch-result-page works!</p>
+<div *ngIf="submissionOverview|async as data">
+  <h6>SUBMISSIONS</h6>
+  <!--  TODO: Map<dept,percent> is available here, use it  -->
+  <ng-container *ngFor="let entry of data|keyvalue">
+    [{{entry.key}}:{{entry.value}}]
+  </ng-container>
+  <button mdc-button>
+    PUBLISH
+  </button>
+</div>
+
+<!--TODO: TabBar -->
+
+<div>
+  <div *ngFor="let courseStat of courseStats|async">
+    <h6>{{courseStat.courseName}}</h6>
+  <!--  TODO: Map<docName,status> is available here, use it  -->
+    <ng-container *ngFor="let entry of courseStat.statsAndCourseCode|keyvalue">
+      [{{entry.key}}:{{entry.value}}]
+    </ng-container>
+  </div>
+</div>
+

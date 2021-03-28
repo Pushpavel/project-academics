@@ -50,8 +50,8 @@ export class DocumentService {
 
   getDeptwiseDocSubmissionOverview(batchId: string) {
     // TODO: Implement this
-    return of(Object.keys(DEPT_ABBR)
-      .map(id => [DEPT_ABBR[id], randFromRange(0, 100)]));
+    const entries = Object.keys(DEPT_ABBR).map(id => [DEPT_ABBR[id], randFromRange(0, 100)] as const);
+    return of(new Map(entries));
   }
 
   getMeta<T extends DocumentMeta>(courseCode: string, documentId: string, isPrivate = false): Observable<T> {

@@ -1,3 +1,5 @@
+import {DocStatus} from '@lib/models/document.model';
+
 const DOCUMENT_NAMES: Record<string, string> = {
   ATTENDANCE: 'ATTENDANCE',
   CT1: 'CT 1',
@@ -19,5 +21,12 @@ export const FACULTY_DOCUMENT_GROUPS = [{
   actions: ['GRADES', 'GRADING_CRITERIA']
 }
 ];
+
+export const DOCUMENT_STATUS_NAMES: Record<number, string> = {
+  [DocStatus.PRIVATE]: '-',
+  [DocStatus.SUBMITTED]: 'submitted',
+  [DocStatus.PUBLIC]: 'published',
+  [DocStatus.REMARKED]: 'under review',
+};
 
 export default DOCUMENT_NAMES;
