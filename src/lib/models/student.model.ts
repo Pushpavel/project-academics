@@ -12,3 +12,17 @@ export interface StudentAttendanceEntry {
   totalClasses: number,
   timestamp: number
 }
+
+export interface StudentSemResult {
+  grade: string,
+  credits: number,
+  gpa: number
+}
+
+
+export interface StudentCourseResult {
+  courseName: string,
+  courseCode: string,
+  grade: string,
+  credits: number,
+}

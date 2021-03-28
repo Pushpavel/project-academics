@@ -1,0 +1,11 @@
+<div *ngIf="result|async as result">
+  <h6>RESULT</h6>
+  <!--  TODO: StudentSemResult is available here, use it  -->
+  {{result|json}}
+</div>
+
+<div *ngFor="let data of courseResults|async">
+  <h6>{{data.courseName}}</h6>
+  <!--  TODO: StudentCourseResult is available here, use it  -->
+  {{data|json}}
+</div>

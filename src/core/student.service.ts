@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {CourseOverviewUI} from '../app/app-course/student-course-overview/student-course-overview.component';
 import {STUDENT_MARK_NAMES} from '@lib/constants/student.constants';
+import {StudentCourseResult, StudentSemResult} from '@lib/models/student.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,24 @@ export class StudentService {
         timestamp: 844848888,
       }))
     });
+  }
+
+  getResult(rollNo: string): Observable<StudentSemResult> {
+    // TODO: Implement this
+    return of({
+      gpa: 9.8,
+      credits: 23,
+      grade: 'S'
+    });
+  }
+
+  getCourseResults(rollNo: string): Observable<StudentCourseResult[]> {
+    // TODO: Implement this
+    return of(new Array(8).fill({
+      courseName: 'Computer Networks',
+      courseCode: 'CS208',
+      grade: 'S',
+      credits: 3,
+    }));
   }
 }

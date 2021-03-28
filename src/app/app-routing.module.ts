@@ -6,12 +6,13 @@ import {HomePageComponent} from './app-home/home-page/home-page.component';
 import {LoginPageComponent} from './app-auth/login-page/login-page.component';
 import {ArchivePageComponent} from './app-archive/archive-page/archive-page.component';
 import {CoursePageComponent} from './app-course/course-page/course-page.component';
-import {ResultPageComponent} from './app-result/result-page/result-page.component';
 import {AttendancePageComponent} from './app-table-pages/attendance-page/attendance-page.component';
 import {MarklistPageComponent} from './app-table-pages/marklist-page/marklist-page.component';
 import {GradesPageComponent} from './app-table-pages/grades-page/grades-page.component';
 import {GradeCriteriaPageComponent} from './app-grade-criteria/grade-criteria-page/grade-criteria-page.component';
 import {PageNotFoundComponent} from './app-404/page-not-found/page-not-found.component';
+import {BatchResultPageComponent} from './app-result/batch-result-page/batch-result-page.component';
+import {StudentResultPageComponent} from './app-result/student-result-page/student-result-page.component';
 
 const routes: Routes = [
   {path: 'course/:course_code/ATTENDANCE', component: AttendancePageComponent},
@@ -19,11 +20,11 @@ const routes: Routes = [
   {path: 'course/:course_code/GRADES', component: GradesPageComponent},
   {path: 'course/:course_code/:document_id', component: MarklistPageComponent},
   {path: 'course/:course_code', component: CoursePageComponent},
-
   {path: 'home', component: HomePageComponent},
   {path: 'login', component: LoginPageComponent},
   {path: 'archive', component: ArchivePageComponent},
-  {path: 'result', component: ResultPageComponent},
+  {path: 'result/:batch_id', component: BatchResultPageComponent},
+  {path: 'result', component: StudentResultPageComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent},
 ];
