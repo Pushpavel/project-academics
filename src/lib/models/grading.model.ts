@@ -1,3 +1,5 @@
+import {DocMeta} from '@lib/models/other.model';
+
 export interface GradeEntry {
   rollNo: string,
   name: string,
@@ -7,4 +9,14 @@ export interface GradeEntry {
   END_SEM: number,
   TOTAL: number,
   GRADE: string,
+}
+
+export interface GradesDocMeta extends DocMeta {
+  gradingCriteria?: GradingCriteria
+}
+
+interface GradingCriteria {
+  S: number,
+  A: number,
+  // TODO: Implement this
 }

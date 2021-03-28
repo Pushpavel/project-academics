@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AttendanceEntry} from '@lib/models/attendance.model';
+import {AttendanceDocMeta, AttendanceEntry} from '@lib/models/attendance.model';
 import {DocumentService} from '@service/document.service';
 import {ActivatedRoute} from '@angular/router';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
@@ -18,9 +18,17 @@ export class AttendancePageComponent {
   );
 
   documentStat = this.courseCode.pipe(
-    // Todo: query with UserService about the access level or type of user
-    switchMap(courseCode => this.documentService.getStat(courseCode, 'ATTENDANCE', false)),
+    switchMap(courseCode => this.documentService.getStat(courseCode, 'ATTENDANCE')),
     shareReplay(1),
+  );
+
+  documentData = this.documentStat.pipe(
+    // Todo: query with UserService about the access level and compare them with doc.status
+    switchMap(doc =>
+      this.documentService.getMeta<AttendanceDocMeta>(doc.courseCode, doc.id, false).pipe(
+        map(meta => ({stat:doc, meta}))
+      )
+    ),
   );
 
   attendanceEntries = this.courseCode.pipe(

@@ -11,5 +11,4 @@ export interface CourseDocumentStat {
   name: string,
   status: DocStatus,
   timestamp: number,
-  privateTimestamp?: number
 }

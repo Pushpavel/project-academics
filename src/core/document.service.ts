@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {MarklistEntry} from '@lib/models/marklist.model';
-import {AttendanceEntry} from '@lib/models/attendance.model';
+import {MarklistDocMeta, MarklistEntry} from '@lib/models/marklist.model';
+import {AttendanceDocMeta, AttendanceEntry} from '@lib/models/attendance.model';
 import {Observable, of} from 'rxjs';
-import {GradeEntry} from '@lib/models/grading.model';
+import {GradeEntry, GradesDocMeta} from '@lib/models/grading.model';
 import {randFromRange} from '@lib/utils/number.util';
 import {CourseDocumentStat} from '@lib/models/course.model';
 import DOCUMENT_NAMES from '@lib/constants/document.constants';
@@ -13,7 +13,7 @@ import {DocStatus} from '@lib/models/other.model';
 })
 export class DocumentService {
 
-  getStat(courseCode: string, documentId: string, isPrivate = false): Observable<CourseDocumentStat> {
+  getStat(courseCode: string, documentId: string): Observable<CourseDocumentStat> {
     // TODO: Implement this
     return of({
       courseCode,
@@ -21,8 +21,16 @@ export class DocumentService {
       name: DOCUMENT_NAMES[documentId],
       status: DocStatus.PRIVATE,
       timestamp: 881818181,
-      privateTimestamp: 34523134234,
     } as CourseDocumentStat);
+  }
+
+  getMeta<T extends DocumentMeta>(courseCode: string, documentId: string, isPrivate = false): Observable<T> {
+    // TODO: Implement this
+    return of({
+      status: DocStatus.PRIVATE,
+      timestamp: 8181888811,
+      totalClasses: 150,
+    } as AttendanceDocMeta as T);
   }
 
   getEntries<T extends Entry>(courseCode: string, documentId: string, isPrivate = false): Observable<T[]> {
@@ -40,3 +48,5 @@ export class DocumentService {
 }
 
 type Entry = MarklistEntry | AttendanceEntry | GradeEntry
+
+type DocumentMeta = MarklistDocMeta | AttendanceDocMeta | GradesDocMeta

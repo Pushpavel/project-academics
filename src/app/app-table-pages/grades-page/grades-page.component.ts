@@ -3,7 +3,7 @@ import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {GRADES_COLUMN_SETTINGS} from '@lib/constants/column-settings.constants';
 import {DocumentService} from '@service/document.service';
 import {ActivatedRoute} from '@angular/router';
-import {GradeEntry} from '@lib/models/grading.model';
+import {GradeEntry, GradesDocMeta} from '@lib/models/grading.model';
 
 @Component({
   selector: 'app-grades-page',
@@ -18,9 +18,17 @@ export class GradesPageComponent {
   );
 
   documentStat = this.courseCode.pipe(
-    // Todo: query with UserService about the access level or type of user
-    switchMap(courseCode => this.documentService.getStat(courseCode, 'GRADES', false)),
+    switchMap(courseCode => this.documentService.getStat(courseCode, 'GRADES')),
     shareReplay(1),
+  );
+
+  documentData = this.documentStat.pipe(
+    // Todo: query with UserService about the access level and compare them with doc.status
+    switchMap(doc =>
+      this.documentService.getMeta<GradesDocMeta>(doc.courseCode, doc.id, false).pipe(
+        map(meta => ({stat: doc, meta}))
+      )
+    ),
   );
 
   gradeEntries = this.documentStat.pipe(

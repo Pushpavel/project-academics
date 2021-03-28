@@ -3,7 +3,7 @@ import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {MARKLIST_COLUMN_SETTINGS} from '@lib/constants/column-settings.constants';
 import {DocumentService} from '@service/document.service';
 import {ActivatedRoute} from '@angular/router';
-import {MarklistEntry} from '@lib/models/marklist.model';
+import {MarklistDocMeta, MarklistEntry} from '@lib/models/marklist.model';
 
 @Component({
   selector: 'app-marklist-page',
@@ -18,12 +18,21 @@ export class MarklistPageComponent {
   );
 
   documentStat = this.params.pipe(
-    // Todo: query with UserService about the access level or type of user
-    switchMap(([courseCode, docId]) => this.documentService.getStat(courseCode, docId, false)),
+    switchMap(([courseCode, docId]) => this.documentService.getStat(courseCode, docId)),
     shareReplay(1),
   );
 
+  documentData = this.documentStat.pipe(
+    // Todo: query with UserService about the access level and compare them with doc.status
+    switchMap(doc =>
+      this.documentService.getMeta<MarklistDocMeta>(doc.courseCode, doc.id, false).pipe(
+        map(meta => ({stat:doc, meta}))
+      )
+    ),
+  );
+
   marklistEntries = this.documentStat.pipe(
+    // Todo: query with UserService about the access level and compare them with doc.status
     switchMap(doc =>
       this.documentService.getEntries<MarklistEntry>(doc.courseCode, doc.id, false)
     ),

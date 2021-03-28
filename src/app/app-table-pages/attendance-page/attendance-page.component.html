@@ -1,6 +1,6 @@
-<header-tile *ngIf="documentStat|async as doc" title="Attendance">
-  <!--  TODO: CourseDocumentStat is available here, use it  -->
-  Private Timestamp : {{doc.privateTimestamp}}
+<header-tile *ngIf="documentData|async as doc" title="Attendance">
+  <!--  TODO: CourseDocumentStat & AttendanceDocMeta is available here, use it  -->
+  {{doc|json}}
   <button mdc-button>Download</button>
   <button mdc-button>Publish</button>
 </header-tile>
