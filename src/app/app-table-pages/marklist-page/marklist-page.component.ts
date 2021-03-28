@@ -18,8 +18,7 @@ export class MarklistPageComponent {
   );
 
   documentStat = this.params.pipe(
-    switchMap(([courseCode, documentId]) => this.documentService.getStats({courseCode, documentId})),
-    map(stats => stats[0]),
+    switchMap(([courseCode, documentId]) => this.documentService.getStat(courseCode, documentId)),
     shareReplay(1),
   );
 

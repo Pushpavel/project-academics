@@ -1,4 +1,4 @@
-import {DocMeta} from '@lib/models/other.model';
+import {DocMeta} from '@lib/models/document.model';
 
 export interface AttendanceEntry {
   rollNo: string,

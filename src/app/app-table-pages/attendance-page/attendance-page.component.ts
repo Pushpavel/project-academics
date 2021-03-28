@@ -18,8 +18,7 @@ export class AttendancePageComponent {
   );
 
   documentStat = this.courseCode.pipe(
-    switchMap(courseCode => this.documentService.getStats({courseCode, documentId: 'ATTENDANCE'})),
-    map(stats => stats[0]),
+    switchMap(courseCode => this.documentService.getStat(courseCode, 'ATTENDANCE')),
     shareReplay(1),
   );
 

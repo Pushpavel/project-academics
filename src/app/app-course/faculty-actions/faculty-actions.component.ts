@@ -1,9 +1,9 @@
 import {Component, Input} from '@angular/core';
-import {CourseDocumentStat} from '@lib/models/course.model';
 import {FACULTY_DOCUMENT_GROUPS} from '@lib/constants/document.constants';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {DocumentService} from '@service/document.service';
+import {DocumentStat} from '@lib/models/document.model';
 
 @Component({
   selector: 'faculty-actions',
@@ -17,12 +17,13 @@ export class FacultyActionsComponent {
   @Input() set courseCode(courseCode: string | null) {
     if (!courseCode) return;
 
-    this.documentGroups = this.documentService.getStats({courseCode})
+    this.documentGroups = this.documentService.getCourseDocStats({courseCode})
       .pipe(
+        map(courseDocStats => courseDocStats[0].stats),
         map(docs => FACULTY_DOCUMENT_GROUPS.map(group => {
           // maps ids of documents in each document group to CourseDocumentStat
           const actions = group.actions
-            .map(id => docs.find(doc => doc.id == id))
+            .map(id => docs.get(id))
             .filter(val => val != undefined);
 
           return {...group, actions} as DocumentGroupUI;
@@ -43,6 +44,6 @@ export class FacultyActionsComponent {
 
 export interface DocumentGroupUI {
   title: string,
-  actions: CourseDocumentStat[]
+  actions: DocumentStat[]
 }
 
