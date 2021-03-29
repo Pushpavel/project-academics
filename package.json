@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "start-dev": "cd ./firebase && firebase emulators:exec \"ng serve\" --ui --export-on-exit=./emulator-data --import=./emulator-data --only functions,firestore,auth"
+    "start-dev": "cd ./firebase && firebase emulators:exec \"cd ../ && ng serve\" --ui --only firestore --import=./emulator-data  --export-on-exit=./emulator-data"
   },
   "private": true,
   "dependencies": {

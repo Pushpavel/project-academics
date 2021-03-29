@@ -8,9 +8,10 @@ const app = firebase.initializeApp(environment.FIREBASE_CONFIG);
 
 export const auth = app.auth();
 export const firestore = app.firestore();
-// export const cloudFunction = app.functions('asia-south1');
+export const cloudFunction = app.functions('asia-south1');
 
 if (!environment.production) {
   auth.useEmulator('http://localhost:9099');
   firestore.useEmulator('localhost', 8080);
+  cloudFunction.useEmulator('localhost', 5001);
 }

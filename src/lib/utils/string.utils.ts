@@ -1,3 +1,5 @@
+import {range} from '@lib/utils/number.util';
+
 export function getStringSimilarities(ids: string[], minLength: number) {
   const groups: Record<string, string[]> = {};
   // Group Strings that starts with substring of length minLength
@@ -22,3 +24,12 @@ export function getStringSimilarities(ids: string[], minLength: number) {
   );
 }
 
+export function divideString(str: string, segmentLength: number) {
+  const noOfSegments = Math.ceil(str.length / segmentLength);
+  return range(noOfSegments).map(i => str.slice(i * segmentLength, (i + 1) * segmentLength));
+}
+
+
+export function pascalCase(s: string) {
+  return s.replace(/\w+/g, w => w[0].toUpperCase() + w.slice(1).toLowerCase());
+}
