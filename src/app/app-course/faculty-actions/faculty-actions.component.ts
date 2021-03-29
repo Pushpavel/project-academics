@@ -1,9 +1,10 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {FACULTY_DOCUMENT_GROUPS} from '@lib/constants/document.constants';
-import {map} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 import {DocumentService} from '@service/document.service';
 import {DocumentStat} from '@lib/models/document.model';
+import {getParams} from '../../routes/routing.helper';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'faculty-actions',
@@ -12,31 +13,32 @@ import {DocumentStat} from '@lib/models/document.model';
 })
 export class FacultyActionsComponent {
 
-  documentGroups?: Observable<DocumentGroupUI[]>;
+  params = getParams(['semId', 'courseCode'], this.route);
 
-  @Input() set courseCode(courseCode: string | null) {
-    if (!courseCode) return;
+  documentGroups = this.params.pipe(
+    switchMap(params => this.documentService.getCourseDocStats({...params})),
+    map(courseDocStats => {
+      const docs = courseDocStats[0].stats;
 
-    this.documentGroups = this.documentService.getCourseDocStats({courseCode})
-      .pipe(
-        map(courseDocStats => courseDocStats[0].stats),
-        map(docs => FACULTY_DOCUMENT_GROUPS.map(group => {
-          // maps ids of documents in each document group to CourseDocumentStat
-          const actions = group.actions
-            .map(id => docs.get(id))
-            .filter(val => val != undefined);
+      // maps ids of documents in each document group to CourseDocumentStat
+      return FACULTY_DOCUMENT_GROUPS.map(group => {
+        const actions = group.actions
+          .map(id => docs.get(id))
+          .filter(val => val != undefined);
 
-          return {...group, actions} as DocumentGroupUI;
-        }))
-      );
-  }
-
+        return {...group, actions} as DocumentGroupUI;
+      });
+    }),
+  );
 
   openDocument(docId: string) {
     // TODO: navigate to a table page
   }
 
-  constructor(private documentService: DocumentService) {
+  constructor(
+    private documentService: DocumentService,
+    private route: ActivatedRoute
+  ) {
   }
 
 }

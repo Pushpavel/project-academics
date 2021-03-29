@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {map, shareReplay, switchMap} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {DocumentService} from '@service/document.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {mapMapEntries} from '@lib/utils/other.util';
 import {DOCUMENT_STATUS_NAMES} from '@lib/constants/document.constants';
 import {DEPT_ABBR} from '@lib/constants/dept.constants';
+import {getParams} from '../../routes/routing.helper';
 
 @Component({
   selector: 'app-batch-result-page',
@@ -14,13 +15,10 @@ import {DEPT_ABBR} from '@lib/constants/dept.constants';
 })
 export class BatchResultPageComponent {
 
-  batchId = this.route.paramMap.pipe(
-    map(params => params.get('batch_id') ?? 'Error'),    // Todo: Handle if batch_id is null
-    shareReplay(1)
-  );
+  params = getParams(['semId', 'batchId'], this.route);
 
-  submissionOverview = this.batchId.pipe(
-    switchMap(batchId => this.documentService.getDeptwiseDocSubmissionOverview(batchId)),
+  submissionOverview = this.params.pipe(
+    switchMap(params => this.documentService.getDeptwiseDocSubmissionOverview(params.semId, params.batchId)),
     // Append % to percentage values
     map(deptStats => mapMapEntries(deptStats, (key, val) => [key, val + '%']))
   );
@@ -28,10 +26,10 @@ export class BatchResultPageComponent {
 
   selectedDeptId = new BehaviorSubject<string>(Object.keys(DEPT_ABBR)[0]);
 
-  courseStats: Observable<CourseStatUI[]> = this.batchId.pipe(
-    switchMap(batchId =>
+  courseStats: Observable<CourseStatUI[]> = this.params.pipe(
+    switchMap(params =>
       this.selectedDeptId.pipe(
-        switchMap(deptId => this.documentService.getCourseDocStats({batchId, deptId}))
+        switchMap(deptId => this.documentService.getCourseDocStats({...params, deptId}))
       )
     ),
     map(courseStats => courseStats.map(courseStat => {

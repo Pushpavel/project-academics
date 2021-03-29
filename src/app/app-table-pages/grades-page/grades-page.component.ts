@@ -4,6 +4,7 @@ import {GRADES_COLUMN_SETTINGS} from '@lib/constants/column-settings.constants';
 import {DocumentService} from '@service/document.service';
 import {ActivatedRoute} from '@angular/router';
 import {GradeEntry, GradesDocMeta} from '@lib/models/grading.model';
+import {getParams} from '../../routes/routing.helper';
 
 @Component({
   selector: 'app-grades-page',
@@ -12,20 +13,17 @@ import {GradeEntry, GradesDocMeta} from '@lib/models/grading.model';
 })
 export class GradesPageComponent {
 
-  courseCode = this.route.paramMap.pipe(
-    map(params => params.get('course_code') ?? 'Error'),    // Todo: Handle if course_code is null
-    shareReplay(1),
-  );
+  params = getParams(['semId', 'courseCode'], this.route);
 
-  documentStat = this.courseCode.pipe(
-    switchMap(courseCode => this.documentService.getStat(courseCode, 'GRADES')),
+  documentStat = this.params.pipe(
+    switchMap(params => this.documentService.getStat(params.semId, params.courseCode, 'GRADES')),
     shareReplay(1),
   );
 
   documentData = this.documentStat.pipe(
     // Todo: query with UserService about the access level and compare them with doc.status
     switchMap(doc =>
-      this.documentService.getMeta<GradesDocMeta>(doc.courseCode, doc.id, false).pipe(
+      this.documentService.getMeta<GradesDocMeta>(doc.semId, doc.courseCode, doc.id, false).pipe(
         map(meta => ({stat: doc, meta}))
       )
     ),
@@ -33,7 +31,7 @@ export class GradesPageComponent {
 
   gradeEntries = this.documentStat.pipe(
     switchMap(doc =>
-      this.documentService.getEntries<GradeEntry>(doc.courseCode, 'GRADES', false)
+      this.documentService.getEntries<GradeEntry>(doc.semId, doc.courseCode, 'GRADES', false)
     ),
   );
 

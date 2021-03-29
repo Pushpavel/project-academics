@@ -12,18 +12,19 @@ import {GradeCriteriaPageComponent} from '../app-grade-criteria/grade-criteria-p
 import {PageNotFoundComponent} from '../app-404/page-not-found/page-not-found.component';
 import {BatchResultPageComponent} from '../app-result/batch-result-page/batch-result-page.component';
 import {StudentResultPageComponent} from '../app-result/student-result-page/student-result-page.component';
+import {ROUTING_PARAMS as p} from '@lib/constants/routing.constants';
 
 const routes: Routes = [
   {path: 'login', component: LoginPageComponent},
   // {path: 'archive', component: ArchivePageComponent}, TODO: Implement Archive Feature Later
-  {path: ':sem_id/course/:course_code/ATTENDANCE', component: AttendancePageComponent},
-  {path: ':sem_id/course/:course_code/GRADING_CRITERIA', component: GradeCriteriaPageComponent},
-  {path: ':sem_id/course/:course_code/GRADES', component: GradesPageComponent},
-  {path: ':sem_id/course/:course_code/:document_id', component: MarklistPageComponent},
-  {path: ':sem_id/course/:course_code', component: CoursePageComponent},
-  {path: ':sem_id/result/:batch_id', component: BatchResultPageComponent},
-  {path: ':sem_id/result', component: StudentResultPageComponent},
-  {path: ':sem_id/home', component: HomePageComponent},
+  {path: `${p.semId}/course/${p.courseCode}/ATTENDANCE`, component: AttendancePageComponent},
+  {path: `${p.semId}/course/${p.courseCode}/GRADING_CRITERIA`, component: GradeCriteriaPageComponent},
+  {path: `${p.semId}/course/${p.courseCode}/GRADES`, component: GradesPageComponent},
+  {path: `${p.semId}/course/${p.courseCode}/${p.documentId}`, component: MarklistPageComponent},
+  {path: `${p.semId}/course/${p.courseCode}`, component: CoursePageComponent},
+  {path: `${p.semId}/result/${p.batchId}`, component: BatchResultPageComponent},
+  {path: `${p.semId}/result`, component: StudentResultPageComponent},
+  {path: `${p.semId}/home`, component: HomePageComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},// TODO: Redirect to current Sem home
   {path: '**', component: PageNotFoundComponent},
 ];

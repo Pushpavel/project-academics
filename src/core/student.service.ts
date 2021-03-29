@@ -9,7 +9,7 @@ import {StudentCourseResult, StudentSemResult} from '@lib/models/student.model';
 })
 export class StudentService {
 
-  getCourseOverview(rollNo: string, courseCode: string): Observable<CourseOverviewUI> {
+  getCourseOverview(semId: string, rollNo: string, courseCode: string): Observable<CourseOverviewUI> {
     // TODO: implement this
     return of({
       attendanceEntry: {

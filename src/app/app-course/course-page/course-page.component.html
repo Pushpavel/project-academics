@@ -1,6 +1,6 @@
 
-<faculty-actions *ngIf="false" [courseCode]="courseCode|async"></faculty-actions>
-<student-course-overview *ngIf="true" [courseCode]="courseCode|async"></student-course-overview>
+<faculty-actions *ngIf="false"></faculty-actions>
+<student-course-overview *ngIf="true"></student-course-overview>
 
 <ng-container *pageTemplate="t.SECONDARY_HEADER">
   <div *ngIf="course|async as course">

@@ -14,7 +14,7 @@ import {CourseDocumentStats} from '@lib/models/course.model';
 })
 export class DocumentService {
 
-  getCourseDocStats(query: { courseCode?: string, batchId?: string, deptId?: string }): Observable<CourseDocumentStats[]> {
+  getCourseDocStats(query: { semId: string, courseCode?: string, batchId?: string, deptId?: string }): Observable<CourseDocumentStats[]> {
     // TODO: Implement this
     const courseDocStat = {
       courseCode: query.courseCode,
@@ -37,10 +37,11 @@ export class DocumentService {
     return of(new Array(8).fill(courseDocStat));
   }
 
-  getStat(courseCode: string, documentId: string): Observable<DocumentStat> {
+  getStat(semId: string, courseCode: string, documentId: string): Observable<DocumentStat> {
     // TODO: Implement this
     return of({
       courseCode,
+      semId,
       id: documentId,
       name: DOCUMENT_NAMES[documentId],
       status: DocStatus.PRIVATE,
@@ -48,13 +49,13 @@ export class DocumentService {
     });
   }
 
-  getDeptwiseDocSubmissionOverview(batchId: string) {
+  getDeptwiseDocSubmissionOverview(semId: string, batchId: string) {
     // TODO: Implement this
     const entries = Object.keys(DEPT_ABBR).map(id => [DEPT_ABBR[id], randFromRange(0, 100)] as const);
     return of(new Map(entries));
   }
 
-  getMeta<T extends DocumentMeta>(courseCode: string, documentId: string, isPrivate = false): Observable<T> {
+  getMeta<T extends DocumentMeta>(semId: string, courseCode: string, documentId: string, isPrivate = false): Observable<T> {
     // TODO: Implement this
     return of({
       status: DocStatus.PRIVATE,
@@ -63,7 +64,7 @@ export class DocumentService {
     } as AttendanceDocMeta as T);
   }
 
-  getEntries<T extends Entry>(courseCode: string, documentId: string, isPrivate = false): Observable<T[]> {
+  getEntries<T extends Entry>(semId: string, courseCode: string, documentId: string, isPrivate = false): Observable<T[]> {
     // TODO: Implement this
     return of(new Array(40).fill(1).map((_, index) => (
         {

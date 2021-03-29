@@ -48,7 +48,7 @@ export class CourseService {
     });
   }
 
-  getCourse(courseCode: string) {
+  getCourse(semId: string, courseCode: string) {
     // TODO: Implement this
     return of({
       courseId: courseCode,

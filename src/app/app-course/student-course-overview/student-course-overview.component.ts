@@ -1,7 +1,9 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {StudentAttendanceEntry, StudentMarkEntry} from '@lib/models/student.model';
-import {Observable} from 'rxjs';
 import {StudentService} from '@service/student.service';
+import {ActivatedRoute} from '@angular/router';
+import {getParams} from '../../routes/routing.helper';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'student-course-overview',
@@ -10,16 +12,19 @@ import {StudentService} from '@service/student.service';
 })
 export class StudentCourseOverviewComponent {
 
-  courseOverview?: Observable<CourseOverviewUI>;
+  params = getParams(['semId', 'courseCode'], this.route);
 
-  @Input() set courseCode(courseCode: string | null) {
-    if (!courseCode) return;
+  courseOverview = this.params.pipe(
+    switchMap(params =>
+      // TODO: Get roll no from user service
+      this.studentService.getCourseOverview(params.semId, 'CS19B1042', params.courseCode)
+    )
+  );
 
-    // TODO: Get roll no from user service
-    this.courseOverview = this.studentService.getCourseOverview('CS19B1042', courseCode);
-  }
-
-  constructor(private studentService: StudentService) {
+  constructor(
+    private studentService: StudentService,
+    private route: ActivatedRoute,
+  ) {
   }
 
 }

@@ -4,6 +4,7 @@ import {MARKLIST_COLUMN_SETTINGS} from '@lib/constants/column-settings.constants
 import {DocumentService} from '@service/document.service';
 import {ActivatedRoute} from '@angular/router';
 import {MarklistDocMeta, MarklistEntry} from '@lib/models/marklist.model';
+import {getParams} from '../../routes/routing.helper';
 
 @Component({
   selector: 'app-marklist-page',
@@ -11,21 +12,17 @@ import {MarklistDocMeta, MarklistEntry} from '@lib/models/marklist.model';
   styleUrls: ['./marklist-page.component.scss']
 })
 export class MarklistPageComponent {
-  params = this.route.paramMap.pipe(
-    // Todo: Handle if course_code or document_id is null or invalid
-    map(params => [params.get('course_code') ?? 'Error', params.get('document_id') ?? 'Error'] as const),
-    shareReplay(1),
-  );
+  params = getParams(['semId', 'courseCode', 'documentId'], this.route);
 
   documentStat = this.params.pipe(
-    switchMap(([courseCode, documentId]) => this.documentService.getStat(courseCode, documentId)),
+    switchMap((params) => this.documentService.getStat(params.semId, params.courseCode, params.courseCode)),
     shareReplay(1),
   );
 
   documentData = this.documentStat.pipe(
     // Todo: query with UserService about the access level and compare them with doc.status
     switchMap(doc =>
-      this.documentService.getMeta<MarklistDocMeta>(doc.courseCode, doc.id, false).pipe(
+      this.documentService.getMeta<MarklistDocMeta>(doc.semId, doc.courseCode, doc.id, false).pipe(
         map(meta => ({stat: doc, meta}))
       )
     ),
@@ -34,7 +31,7 @@ export class MarklistPageComponent {
   marklistEntries = this.documentStat.pipe(
     // Todo: query with UserService about the access level and compare them with doc.status
     switchMap(doc =>
-      this.documentService.getEntries<MarklistEntry>(doc.courseCode, doc.id, false)
+      this.documentService.getEntries<MarklistEntry>(doc.semId, doc.courseCode, doc.id, false)
     ),
   );
 

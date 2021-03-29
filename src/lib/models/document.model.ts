@@ -6,6 +6,7 @@ export interface DocMeta {
 }
 
 export interface DocumentStat {
+  semId: string,
   courseCode: string,
   id: string,
   name: string,
