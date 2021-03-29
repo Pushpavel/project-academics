@@ -17,14 +17,14 @@ import {ROUTING_PARAMS as p} from '@lib/constants/routing.constants';
 const routes: Routes = [
   {path: 'login', component: LoginPageComponent},
   // {path: 'archive', component: ArchivePageComponent}, TODO: Implement Archive Feature Later
-  {path: `${p.semId}/course/${p.courseCode}/ATTENDANCE`, component: AttendancePageComponent},
-  {path: `${p.semId}/course/${p.courseCode}/GRADING_CRITERIA`, component: GradeCriteriaPageComponent},
-  {path: `${p.semId}/course/${p.courseCode}/GRADES`, component: GradesPageComponent},
-  {path: `${p.semId}/course/${p.courseCode}/${p.documentId}`, component: MarklistPageComponent},
-  {path: `${p.semId}/course/${p.courseCode}`, component: CoursePageComponent},
-  {path: `${p.semId}/result/${p.batchId}`, component: BatchResultPageComponent},
-  {path: `${p.semId}/result`, component: StudentResultPageComponent},
-  {path: `${p.semId}/home`, component: HomePageComponent},
+  {path: `:${p.semId}/course/:${p.courseCode}/ATTENDANCE`, component: AttendancePageComponent},
+  {path: `:${p.semId}/course/:${p.courseCode}/GRADING_CRITERIA`, component: GradeCriteriaPageComponent},
+  {path: `:${p.semId}/course/:${p.courseCode}/GRADES`, component: GradesPageComponent},
+  {path: `:${p.semId}/course/:${p.courseCode}/:${p.documentId}`, component: MarklistPageComponent},
+  {path: `:${p.semId}/course/:${p.courseCode}`, component: CoursePageComponent},
+  {path: `:${p.semId}/result/:${p.batchId}`, component: BatchResultPageComponent},
+  {path: `:${p.semId}/result`, component: StudentResultPageComponent},
+  {path: `:${p.semId}/home`, component: HomePageComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},// TODO: Redirect to current Sem home
   {path: '**', component: PageNotFoundComponent},
 ];
