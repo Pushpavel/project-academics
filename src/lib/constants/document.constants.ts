@@ -29,7 +29,7 @@ export const DOC_STATUS_CODES: Record<string, DocStatus> = {
   remarked: DocStatus.REMARKED,
 };
 
-export const DOC_STATUS_UINAMES: Record<number, string> = {
+export const DOC_STATUS_UI_NAMES: Record<number, string> = {
   [DocStatus.PRIVATE]: '-',
   [DocStatus.SUBMITTED]: 'submitted',
   [DocStatus.PUBLIC]: 'published',

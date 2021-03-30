@@ -1,4 +1,3 @@
-import {DocMeta} from '@lib/models/document.model';
 
 export interface AttendanceEntry {
   rollNo: string,
@@ -10,8 +9,4 @@ export interface AttendanceEntry {
 export interface AttendanceEntryRaw {
   roll_no: string,
   attendance: number,
-}
-
-export interface AttendanceDocMeta extends DocMeta {
-  totalClasses: number,
 }

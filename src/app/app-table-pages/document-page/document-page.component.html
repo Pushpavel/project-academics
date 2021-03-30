@@ -1,0 +1,5 @@
+<header-tile *ngIf="stat" [title]="stat.documentName">
+  <div class="caption" *ngIf="stat.timestamp">PUBLISHED : {{stat.timestamp}}</div>
+  <!--  TODO: ngSwitch to different headers according to documentId  -->
+</header-tile>
+<mdc-table [columns]="columns" [inputSource]="entries.asObservable()"></mdc-table>

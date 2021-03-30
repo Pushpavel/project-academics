@@ -3,16 +3,18 @@ import DOCUMENT_NAMES from '@lib/constants/document.constants';
 
 export enum DocStatus {PUBLIC, SUBMITTED, PRIVATE, REMARKED}
 
-export interface DocMeta {
-  status: DocStatus,
-  timestamp: number
+export type DocumentId = keyof typeof DOCUMENT_NAMES;
+export type DocumentName = (typeof DOCUMENT_NAMES)[DocumentId];
+
+export interface DocumentMeta {
+  total?: number,
 }
 
 export interface DocumentStat {
   semId: string,
   courseCode: string,
-  id: string,
-  documentName: string,
+  id: DocumentId,
+  documentName: DocumentName,
   status: DocStatus,
   timestamp?: number,
 }
@@ -25,7 +27,7 @@ export interface StatsDocumentRaw extends Partial<DeptFieldsRaw & StatFieldsRaw>
 }
 
 export type StatFieldsRaw = {
-  [docId in keyof typeof DOCUMENT_NAMES]: {
+  [docId in DocumentId]: {
     status: string,
     timestamp?: number,
   }

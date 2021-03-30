@@ -16,9 +16,9 @@ export class FacultyActionsComponent {
   params = getParams(['semId', 'courseCode'], this.route);
 
   documentGroups = this.params.pipe(
-    switchMap(params => this.documentService.getCourseDocStat(params.semId, params.courseCode)),
-    map(courseDocStat => {
-      const docs = courseDocStat.stats;
+    switchMap(params => this.documentService.getCourseDocStats({...params})),
+    map(courseDocStats => {
+      const docs = courseDocStats[0].stats;
 
       // maps ids of documents in each document group to CourseDocumentStat
       return FACULTY_DOCUMENT_GROUPS.map(group => {

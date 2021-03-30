@@ -1,7 +1,0 @@
-<header-tile *ngIf="documentData|async as doc" [title]="doc.stat.documentName">
-  <!--  TODO: MarklistDocMeta & CourseDocumentStat is available here, use it  -->
-  {{doc|json}}
-  <button mdc-button>Download</button>
-  <button mdc-button>Publish</button>
-</header-tile>
-<mdc-table [inputSource]="marklistEntries" [columns]="columns"></mdc-table>

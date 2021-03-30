@@ -1,5 +1,3 @@
-import {DocMeta} from '@lib/models/document.model';
-
 export interface GradeEntry {
   rollNo: string,
   name: string,
@@ -11,12 +9,9 @@ export interface GradeEntry {
   GRADE: string,
 }
 
-export interface GradesDocMeta extends DocMeta {
-  gradingCriteria?: GradingCriteria
-}
 
-interface GradingCriteria {
-  S: number,
-  A: number,
-  // TODO: Implement this
+export interface GradeCriteriaEntry {
+  grade: string,
+  minMark: number,
+  maxMark: number
 }
