@@ -19,19 +19,19 @@ export interface DocumentStat {
   timestamp?: number,
 }
 
-export interface StatsDocumentRaw extends Partial<DeptFieldsRaw & StatFieldsRaw> {
+export interface StatsDocumentRaw extends Partial<DeptFieldsRaw> {
   sem: string,
   batch: string,
   courseName: string,
   status: string,
-}
-
-export type StatFieldsRaw = {
-  [docId in DocumentId]: {
-    status: string,
-    timestamp?: number,
+  entries: {
+    [docId in DocumentId]: {
+      status: string,
+      timestamp?: number,
+    }
   }
 }
+
 
 export type DeptFieldsRaw = {
   [dept in keyof typeof DEPT_ABBR]: 'core' | 'elective1' | 'elective2';

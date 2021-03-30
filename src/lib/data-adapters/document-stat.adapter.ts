@@ -1,6 +1,6 @@
 import {firestore} from '../../firebase.app';
 import {collection, doc} from 'rxfire/firestore';
-import {DocStatus, DocumentStat, StatFieldsRaw, StatsDocumentRaw} from '@lib/models/document.model';
+import {DocStatus, DocumentStat, StatsDocumentRaw} from '@lib/models/document.model';
 import {map} from 'rxjs/operators';
 import DOCUMENT_LABELS, {DOC_STATUS_CODES} from '@lib/constants/document.constants';
 import {mapObjectEntries} from '@lib/utils/other.util';
@@ -39,7 +39,7 @@ function courseDocStatsModel(data: StatsDocumentRaw, courseCode: string): Course
       semId: data.sem,
       status: DocStatus.PRIVATE,
     };
-    const statData = data[id] as StatFieldsRaw[keyof StatFieldsRaw];
+    const statData = data.entries[id];
     if (statData) {
       stat.status = DOC_STATUS_CODES[statData.status];
       stat.timestamp = statData.timestamp;

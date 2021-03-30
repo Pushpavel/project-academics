@@ -1,6 +1,5 @@
 import {DocumentStat} from '@lib/models/document.model';
 
-export type CourseDetailRaw = CourseDetail
 
 export interface CourseDetail {
   courseCode: string
