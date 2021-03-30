@@ -25,7 +25,7 @@ export class CourseService {
 
   private courseListener = new BehaviorSubject<CourseDetail | null>(null);
 
-  getCourse = courseDetail;
+  getCourseDetail = courseDetail;
 
   fetchCourseCollection(faculty_id: string): void {
     const courseRef = firestore.collection(`/semesters/2020_EVEN/courses`).where('faculty_id', '==', faculty_id);

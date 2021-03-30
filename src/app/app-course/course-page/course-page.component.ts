@@ -16,7 +16,7 @@ export class CoursePageComponent extends PageLayout {
   params = getParams(['semId', 'courseCode'], this.route);
 
   course = this.params.pipe(
-    switchMap(params => this.courseService.getCourse(params.semId, params.courseCode)),
+    switchMap(params => this.courseService.getCourseDetail(params.semId, params.courseCode)),
   );
 
   constructor(

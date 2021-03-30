@@ -4,11 +4,9 @@ import {map} from 'rxjs/operators';
 import {CourseDetail} from '@lib/models/course.model';
 
 export function courseDetail(semId: string, courseCode: string) {
-  const ref = firestore.doc(`semesters/${semId}/courses/${courseCode}`);
+  const ref = firestore.doc(`semesters/${semId}/courses/${courseCode}/public_course_documents/COURSE_DETAIL`);
   return fromPromise(ref.get()).pipe(
-    map(doc => {
-      return {...doc.data(), courseCode} as CourseDetail;
-    })
+    map(doc => ({...doc.data(), courseCode} as CourseDetail))
   );
 
 }
