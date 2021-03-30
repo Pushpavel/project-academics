@@ -1,5 +1,10 @@
 import {DocumentStat} from '@lib/models/document.model';
 
+export interface Course {
+  courseCode: string,
+  name: string,
+  facultyId: string,
+}
 
 export interface CourseDetail {
   courseCode: string

@@ -4,7 +4,7 @@ import {firestore} from 'firebase.app';
 import {collectionData} from 'rxfire/firestore';
 import {BehaviorSubject} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {courseDetail} from '@lib/data-adapters/courses.adapter';
+import {course, courseDetail} from '@lib/data-adapters/courses.adapter';
 
 
 @Injectable({
@@ -26,6 +26,8 @@ export class CourseService {
   private courseListener = new BehaviorSubject<CourseDetail | null>(null);
 
   getCourseDetail = courseDetail;
+
+  getCourse = course;
 
   fetchCourseCollection(faculty_id: string): void {
     const courseRef = firestore.collection(`/semesters/2020_EVEN/courses`).where('faculty_id', '==', faculty_id);

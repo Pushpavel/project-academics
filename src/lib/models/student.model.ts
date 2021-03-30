@@ -26,3 +26,7 @@ export interface StudentCourseResult {
   grade: string,
   credits: number,
 }
+
+export interface StudentsDocumentRaw {
+  entries: Record<string, string>
+}

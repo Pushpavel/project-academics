@@ -1,10 +1,13 @@
 import {DEPT_ABBR} from '@lib/constants/dept.constants';
 import DOCUMENT_NAMES from '@lib/constants/document.constants';
+import {AttendanceEntry} from '@lib/models/attendance.model';
+import {MarklistEntry} from '@lib/models/marklist.model';
 
 export enum DocStatus {PUBLIC, SUBMITTED, PRIVATE, REMARKED}
 
 export type DocumentId = keyof typeof DOCUMENT_NAMES;
 export type DocumentName = (typeof DOCUMENT_NAMES)[DocumentId];
+export type DocumentEntry = AttendanceEntry | MarklistEntry// TODO: include other entries
 
 export interface DocumentMeta {
   total?: number,

@@ -13,3 +13,7 @@ export function divideArray<T>(array: T[], segmentLength: number) {
 export function mapObjectEntries<T, V>(obj: T, predicate: <K extends keyof T>(key: K, val: T[K]) => V) {
   return Object.keys(obj).map(key => predicate(key as keyof T, obj[key as keyof T]));
 }
+
+export function objectToMap<K extends keyof any, V>(obj: Record<K, V>): Map<K, V> {
+  return new Map(mapObjectEntries(obj, (key, val) => [key, val] as [K, V]));
+}

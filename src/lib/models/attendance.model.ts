@@ -1,12 +1,9 @@
-
 export interface AttendanceEntry {
   rollNo: string,
-  name: string,
-  noOfAttendedClasses: number,
-  percentage: number,
+  attended: number,
 }
 
-export interface AttendanceEntryRaw {
-  roll_no: string,
-  attendance: number,
+export interface AttendanceEntryUI extends AttendanceEntry {
+  name: string,
+  percentage: string
 }

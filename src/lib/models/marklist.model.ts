@@ -1,5 +1,8 @@
 export interface MarklistEntry {
   rollNo: string,
-  name: string,
   mark: number,
+}
+
+export interface MarklistEntryUI extends MarklistEntry {
+  name: string,
 }

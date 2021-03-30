@@ -1,48 +1,61 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {DocumentService, DocumentEntry} from '@service/document.service';
+import {DocumentService, DocumentEntryUI} from '@service/document.service';
 import {getParams} from '../../routes/routing.helper';
-import {switchMap, tap} from 'rxjs/operators';
-import {DocumentMeta, DocumentId, DocumentStat} from '@lib/models/document.model';
-import {of, Subject} from 'rxjs';
-import {ColumnSetting} from '../../mdc-helper/mdc-table/mdc-table.component';
+import {filter, map, shareReplay, switchMap} from 'rxjs/operators';
+import {DocStatus, DocumentId} from '@lib/models/document.model';
+import {combineLatest, Observable} from 'rxjs';
 import {DOCUMENT_COLUMN_SETTINGS} from '@lib/constants/column-settings.constants';
+import {ColumnSetting} from '../../mdc-helper/mdc-table/mdc-table.component';
+import {UserService} from '@service/user.service';
+import {CourseService} from '@service/course.service';
 
 @Component({
   selector: 'app-document-page',
   templateUrl: './document-page.component.html',
   styleUrls: ['./document-page.component.scss']
 })
-export class DocumentPageComponent implements OnDestroy {
+export class DocumentPageComponent {
 
-  columns: ColumnSetting<DocumentEntry>[] = [];
-  stat?: DocumentStat;
-  meta?: DocumentMeta;
-  entries = new Subject<DocumentEntry[]>();
+  params = getParams(['semId', 'courseCode', 'documentId'], this.route);
 
-  subscription = getParams(['semId', 'courseCode', 'documentId'], this.route)
-    .pipe(
-      tap(params => this.columns = DOCUMENT_COLUMN_SETTINGS[params.documentId as DocumentId]),
-      switchMap(params => this.documentService.getStat(params.semId, params.courseCode, params.documentId)),
-      tap(stat => this.stat = stat),
-      // Todo: query with UserService about the access level and compare them with stat.status
-      switchMap(stat => this.documentService.getMeta(stat.semId, stat.courseCode, stat.id, false)),
-      tap(meta => this.meta = meta),
-      switchMap(_ => {
-        if (!this.stat) return of(null);
-        return this.documentService.getEntries(this.stat.semId, this.stat.courseCode, this.stat.id, false);
-      }),
-      tap(entries => this.entries.next(entries ?? [])),
-    ).subscribe();
+  columns: Observable<ColumnSetting<DocumentEntryUI>[]> = this.params.pipe(
+    map(params => DOCUMENT_COLUMN_SETTINGS[params.documentId as DocumentId])
+  );
 
+  stat = this.params.pipe(
+    switchMap(params => this.documentService.getStat(params.semId, params.courseCode, params.documentId)),
+    shareReplay(1)
+  );
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+  course = this.params.pipe(
+    switchMap(params => this.courseService.getCourse(params.semId, params.courseCode)),
+    shareReplay(1)
+  );
+
+  doc = combineLatest([this.stat, this.user, this.course]).pipe(
+    filter(data => data[1] != null),
+    switchMap(([stat, user, course]) => {
+      // TODO: Handle Unauthorized access
+      const isPrivate = user?.uid == course.facultyId && (stat.status == DocStatus.PRIVATE || stat.status == DocStatus.REMARKED);
+      return this.documentService.getDocument({
+        semId: stat.semId,
+        courseCode: stat.courseCode,
+        documentId: stat.id
+      }, isPrivate);
+    }),
+    shareReplay(1)
+  );
+
+  meta = this.doc.pipe(map(doc => doc[0]));
+  entries = this.doc.pipe(map(doc => doc[1]));
+
 
   constructor(
     private documentService: DocumentService,
     private route: ActivatedRoute,
+    private user: UserService,
+    private courseService: CourseService,
   ) {
   }
 
