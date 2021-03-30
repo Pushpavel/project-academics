@@ -7,46 +7,22 @@ import {randFromRange} from '@lib/utils/number.util';
 import DOCUMENT_NAMES from '@lib/constants/document.constants';
 import {DocStatus, DocumentStat} from '@lib/models/document.model';
 import {DEPT_ABBR} from '@lib/constants/dept.constants';
-import {CourseDocumentStats} from '@lib/models/course.model';
+import {courseDocumentStat, courseDocumentStats} from '@lib/data-adapters/document.adapter';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
 
-  getCourseDocStats(query: { semId: string, courseCode?: string, batchId?: string, deptId?: string }): Observable<CourseDocumentStats[]> {
-    // TODO: Implement this
-    const courseDocStat = {
-      courseCode: query.courseCode,
-      courseName: 'Computer Networks',
-      stats: new Map(
-        Object.keys(DOCUMENT_NAMES).map(id => ([id, {
-            id,
-            courseCode: query.courseCode,
-            name: DOCUMENT_NAMES[id],
-            status: DocStatus.PRIVATE,
-            timestamp: 881818181,
-          } as DocumentStat])
-        )
-      )
-    } as CourseDocumentStats;
+  getCourseDocStats = courseDocumentStats;
+  getCourseDocStat = courseDocumentStat;
 
-    if (query.courseCode)
-      return of([courseDocStat]);
-
-    return of(new Array(8).fill(courseDocStat));
-  }
-
-  getStat(semId: string, courseCode: string, documentId: string): Observable<DocumentStat> {
-    // TODO: Implement this
-    return of({
-      courseCode,
-      semId,
-      id: documentId,
-      name: DOCUMENT_NAMES[documentId],
-      status: DocStatus.PRIVATE,
-      timestamp: 8818181881,
-    });
+  getStat(semId: string, courseCode: string, documentId: keyof typeof DOCUMENT_NAMES): Observable<DocumentStat> {
+    return this.getCourseDocStat(semId, courseCode).pipe(
+      // tslint:disable-next-line:no-non-null-assertion TODO: HANDLE THIS
+      map(stats => stats.stats.get(documentId)!)
+    );
   }
 
   getDeptwiseDocSubmissionOverview(semId: string, batchId: string) {

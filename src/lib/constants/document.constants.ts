@@ -1,6 +1,6 @@
 import {DocStatus} from '@lib/models/document.model';
 
-const DOCUMENT_NAMES: Record<string, string> = {
+const DOCUMENT_NAMES = {
   ATTENDANCE: 'ATTENDANCE',
   CT1: 'CT 1',
   CT2: 'CT 2',
@@ -22,7 +22,14 @@ export const FACULTY_DOCUMENT_GROUPS = [{
 }
 ];
 
-export const DOCUMENT_STATUS_NAMES: Record<number, string> = {
+export const DOC_STATUS_CODES: Record<string, DocStatus> = {
+  private: DocStatus.PRIVATE,
+  submitted: DocStatus.SUBMITTED,
+  public: DocStatus.PUBLIC,
+  remarked: DocStatus.REMARKED,
+};
+
+export const DOC_STATUS_UINAMES: Record<number, string> = {
   [DocStatus.PRIVATE]: '-',
   [DocStatus.SUBMITTED]: 'submitted',
   [DocStatus.PUBLIC]: 'published',

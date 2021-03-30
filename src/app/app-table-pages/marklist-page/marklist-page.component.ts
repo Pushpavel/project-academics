@@ -15,7 +15,7 @@ export class MarklistPageComponent {
   params = getParams(['semId', 'courseCode', 'documentId'], this.route);
 
   documentStat = this.params.pipe(
-    switchMap((params) => this.documentService.getStat(params.semId, params.courseCode, params.courseCode)),
+    switchMap((params) => this.documentService.getStat(params.semId, params.courseCode, params.documentId as any)),
     shareReplay(1),
   );
 
