@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Course} from '@lib/models/course.model';
+import {CourseDetail} from '@lib/models/course.model';
 
 @Component({
   selector: 'course-button',
@@ -9,7 +9,7 @@ import {Course} from '@lib/models/course.model';
 export class CourseButtonComponent implements OnInit {
 
 
-  @Input() course!: Course
+  @Input() course!: CourseDetail
 
 
   constructor() {
@@ -19,7 +19,7 @@ export class CourseButtonComponent implements OnInit {
   }
 
   handleCourseChoosen() {
-    console.log(this.course.courseId);
+    console.log(this.course.courseCode);
 
   }
 

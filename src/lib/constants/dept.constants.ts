@@ -1,4 +1,4 @@
-export const DEPT_ABBR: Record<string, string> = {
+export const DEPT_ABBR = {
   CS: 'CSE',
   EC: 'ECE',
   EE: 'EEE',

@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Course} from '@lib/models/course.model';
+import {CourseDetail} from '@lib/models/course.model';
 
 @Component({
   selector: 'batch-grid',
@@ -7,6 +7,6 @@ import {Course} from '@lib/models/course.model';
 })
 export class BatchGridComponent {
 
-  @Input() courseCollections !: Map<string, Course[]>
+  @Input() courseCollections !: Map<string, CourseDetail[]>
 
 }

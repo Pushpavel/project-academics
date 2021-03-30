@@ -1,12 +1,12 @@
 
-<faculty-actions *ngIf="false"></faculty-actions>
-<student-course-overview *ngIf="true"></student-course-overview>
+<faculty-actions *ngIf="true"></faculty-actions>
+<student-course-overview *ngIf="false"></student-course-overview>
 
 <ng-container *pageTemplate="t.SECONDARY_HEADER">
   <div *ngIf="course|async as course">
     <!--  TODO: Course model is available here, use it  -->
-    CourseID:{{course.courseId}}
+    CourseID:{{course.courseCode}}
     <br>
-    CourseName:{{course.CourseName}}
+    CourseName:{{course.name}}
   </div>
 </ng-container>

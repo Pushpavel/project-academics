@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Course} from '@lib/models/course.model';
+import {CourseDetail} from '@lib/models/course.model';
 import {firestore} from 'firebase.app';
-import {collectionData, docData} from 'rxfire/firestore';
-import {BehaviorSubject, of} from 'rxjs';
+import {collectionData} from 'rxfire/firestore';
+import {BehaviorSubject} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {courseDetail} from '@lib/data-adapters/courses.adapter';
 
 
 @Injectable({
@@ -11,10 +12,6 @@ import {map} from 'rxjs/operators';
 })
 
 export class CourseService {
-
-  private courseCollectionListener = new BehaviorSubject<any>(null);
-
-  private courseListener = new BehaviorSubject<Course | null>(null);
 
   get courseCollection() {
     return this.courseCollectionListener.asObservable();
@@ -24,13 +21,19 @@ export class CourseService {
     return this.courseListener.asObservable();
   }
 
+  private courseCollectionListener = new BehaviorSubject<any>(null);
+
+  private courseListener = new BehaviorSubject<CourseDetail | null>(null);
+
+  getCourse = courseDetail;
+
   fetchCourseCollection(faculty_id: string): void {
     const courseRef = firestore.collection(`/semesters/2020_EVEN/courses`).where('faculty_id', '==', faculty_id);
 
     collectionData(courseRef, 'id').pipe(
       map(e => {
         return e.reduce((collections: any, course: any) => {
-          collections[course.batch] = [{CourseName: course.name, courseId: course.id} as Course];
+          collections[course.batch] = [{name: course.name, courseCode: course.id} as CourseDetail];
           return collections;
         }, {});
       })
@@ -39,21 +42,6 @@ export class CourseService {
         this.courseCollectionListener.next(coursesCollection);
       }));
 
-  }
-
-  fetchCourse(courseId: string): void {
-    const courseRef = firestore.doc(`/semesters/2020_EVEN/courses/${courseId}`);
-    docData(courseRef).subscribe(courseData => {
-      console.log(courseData);
-    });
-  }
-
-  getCourse(semId: string, courseCode: string) {
-    // TODO: Implement this
-    return of({
-      courseId: courseCode,
-      CourseName: 'Super Course Name',
-    } as Course);
   }
 
 }

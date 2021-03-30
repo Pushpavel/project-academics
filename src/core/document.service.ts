@@ -51,7 +51,7 @@ export class DocumentService {
 
   getDeptwiseDocSubmissionOverview(semId: string, batchId: string) {
     // TODO: Implement this
-    const entries = Object.keys(DEPT_ABBR).map(id => [DEPT_ABBR[id], randFromRange(0, 100)] as const);
+    const entries = Object.keys(DEPT_ABBR).map(id => [DEPT_ABBR[id as keyof typeof DEPT_ABBR], randFromRange(0, 100)] as const);
     return of(new Map(entries));
   }
 
