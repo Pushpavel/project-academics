@@ -1,19 +1,17 @@
-import {firestore} from '../../firebase.app';
-import {fromPromise} from 'rxjs/internal-compatibility';
-import {map} from 'rxjs/operators';
 import {CourseRaw, CourseDetailRaw} from '@lib/models/course.model';
+import {fetchObj} from '@lib/data-adapters/base/firestore.adapter';
+import {courseDetailConvert} from '@lib/data-adapters/convert/courseDetail.convert';
 
 export function courseDetail(semId: string, courseCode: string) {
-  const ref = firestore.doc(`semesters/${semId}/courses/${courseCode}/public_course_documents/COURSE_DETAIL`);
-  return fromPromise(ref.get()).pipe(
-    map(doc => ({...doc.data(), courseCode} as CourseDetailRaw))
-  );
+  return fetchObj<CourseDetailRaw>({
+    path: `semesters/${semId}/courses/${courseCode}/public_course_documents/COURSE_DETAIL`,
+    convert: courseDetailConvert
+  });
 }
 
-
 export function course(semId: string, courseCode: string) {
-  const ref = firestore.doc(`semesters/${semId}/courses/${courseCode}`);
-  return fromPromise(ref.get()).pipe(
-    map(doc => ({...doc.data(), courseCode} as CourseRaw))
-  );
+  return fetchObj<CourseRaw>({
+    path: `semesters/${semId}/courses/${courseCode}`,
+    idField: 'courseCode',
+  });
 }
