@@ -4,6 +4,7 @@
     <!--Header Cell-->
     <th cdk-header-cell
         class="mdc-data-table__header-cell"
+        [class.mdc-data-table__header-cell--numeric]="column.numeric"
         [class.mdc-data-table__header-cell--with-sort]="column.sortable"
         *cdkHeaderCellDef
         [attr.data-column-id]="column.key">
@@ -15,9 +16,13 @@
     </th>
 
     <!--Normal Cell-->
-    <td cdk-cell class="mdc-data-table__cell" *cdkCellDef="let row">
+    <td cdk-cell
+        class="mdc-data-table__cell"
+        [class.mdc-data-table__cell--numeric]="column.numeric"
+        *cdkCellDef="let row">
       <label mdc-text-field *ngIf="column.editable else nonEditableTemplate">
-        <input mdc-input [value]="row[column.key]">
+        <input mdc-input [value]="row[column.key]"
+               (change)="onCellChange($event,column.key,row,column)">
       </label>
       <ng-template #nonEditableTemplate>
         {{row[column.key]}}
@@ -26,8 +31,8 @@
   </ng-container>
 
   <!-- Header and Row Declarations -->
-  <tr cdk-header-row class="mdc-data-table__header-row" *cdkHeaderRowDef="_columnLabels"></tr>
-  <tr cdk-row class="mdc-data-table__row" *cdkRowDef="let row; columns: _columnLabels"></tr>
+  <tr cdk-header-row class="mdc-data-table__header-row" *cdkHeaderRowDef="_columnKeys"></tr>
+  <tr cdk-row class="mdc-data-table__row" *cdkRowDef="let row; columns: _columnKeys"></tr>
 
 </table>
 
