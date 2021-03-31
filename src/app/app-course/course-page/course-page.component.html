@@ -1,12 +1,22 @@
-
 <faculty-actions *ngIf="true"></faculty-actions>
 <student-course-overview *ngIf="false"></student-course-overview>
 
 <ng-container *pageTemplate="t.SECONDARY_HEADER">
+  <!--  TODO: Course model is available here, use it  -->
   <div *ngIf="course|async as course">
-    <!--  TODO: Course model is available here, use it  -->
-    CourseID:{{course.courseCode}}
-    <br>
-    CourseName:{{course.name}}
+    <div class="course-name">
+      {{course.name}}
+      <!--      Computer Networks-->
+    </div>
+    <div class="course-details">
+      <p class="details-title"> CODE </p>
+      <p class="details-title"> ENROLLED </p>
+      <p class="details-title"> FACULTY </p>
+      <p class="details-title"> SEMESTER </p>
+      <p> {{course.courseCode}} </p>
+      <p> {{course.studentCount}} </p>
+      <p> {{course.facultyName}} </p>
+      <p> EVEN 2020 </p>
+    </div>
   </div>
 </ng-container>

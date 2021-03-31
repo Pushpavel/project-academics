@@ -1,0 +1,24 @@
+@use "src/styles/theme" as *;
+
+div {
+  background-color: $primary;
+  color: white;
+  font-family: Roboto;
+  padding: 16px;
+
+  .course-name {
+    font-size: xxx-large;
+    font-weight: lighter;
+  }
+
+  .course-details {
+    .details-title {
+      font-size: small;
+      font-weight: lighter;
+    }
+
+    display: grid;
+    grid-template-columns: repeat(4, 180px);
+    grid-template-rows: repeat(2, 30px);
+  }
+}
