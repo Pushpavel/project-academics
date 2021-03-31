@@ -3,7 +3,7 @@ import {firestore} from '../../../firebase.app';
 import firebase from 'firebase/app';
 import FirestoreDataConverter = firebase.firestore.FirestoreDataConverter;
 import DocumentData = firebase.firestore.DocumentData;
-import {snapToData} from 'rxfire/firestore';
+import {collectionData, docData, snapToData} from 'rxfire/firestore';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 
@@ -11,18 +11,27 @@ export function fetchObj<T extends DocumentData>(p: Params<T>) {
   let ref = firestore.doc(p.path);
   if (p.convert) ref = ref.withConverter(p.convert);
 
-  let observable: Observable<any> = fromPromise(ref.get());
+  if (!p.once)
+    return docData(ref, p.idField as string) as Observable<T>;
 
-  if (p.idField)
-    observable = observable.pipe(map(snap => snapToData(snap, p.idField as string) as DocumentData));
+  return fromPromise(ref.get()).pipe(map(snap => snapToData(snap, p.idField as string) as T));
+}
 
-  return observable;
+export function fetchList<T extends DocumentData>(p: Params<T>) {
+  let ref = firestore.collection(p.path);
+  if (p.convert) ref = ref.withConverter(p.convert);
+
+  if (!p.once)
+    return collectionData(ref, p.idField as string);
+
+  return fromPromise(ref.get()).pipe(map(listSnap => listSnap.docs.map(snap => snapToData(snap, p.idField as string) as T)));
 }
 
 interface Params<T extends DocumentData> {
   path: string,
   convert?: FirestoreDataConverter<T>,
   idField?: keyof T,
+  once?: boolean
 }
 
 
