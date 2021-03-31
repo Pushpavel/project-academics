@@ -7,6 +7,7 @@ import {MdcTableComponent} from './mdc-table/mdc-table.component';
 import {CdkTableModule} from '@angular/cdk/table';
 import {MdcTextFieldComponent} from './mdc-text-field/mdc-text-field.component';
 import {MdcInputDirective} from './mdc-input/mdc-input.directive';
+import { MdcTabsBarComponent } from './mdc-tabs-bar/mdc-tabs-bar.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import {MdcInputDirective} from './mdc-input/mdc-input.directive';
     MdcTableComponent,
     MdcTextFieldComponent,
     MdcInputDirective,
+    MdcTabsBarComponent,
   ],
   exports: [
     MdcButtonComponent,
@@ -25,6 +27,7 @@ import {MdcInputDirective} from './mdc-input/mdc-input.directive';
     MdcTableComponent,
     MdcTextFieldComponent,
     MdcInputDirective,
+    MdcTabsBarComponent
   ],
   imports: [
     CommonModule,
