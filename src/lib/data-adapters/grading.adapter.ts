@@ -1,12 +1,12 @@
-import {DocumentId, DocumentMeta} from '@lib/models/document.model';
-import {GradeEntryUI, GradingCriteriaEntry} from '@lib/models/grading.model';
-import {MarklistEntry} from '@lib/models/marklist.model';
+import {DocumentId, DocumentMetaRaw} from '@lib/models/document.model';
+import {GradeEntryUI, GradingCriteriaEntryUI} from '@lib/models/grading.model';
+import {MarklistEntryRaw} from '@lib/models/marklist.model';
 import {mapMapEntries} from '@lib/utils/other.util';
 
 export function computeGradeEntryUIModels(
-  criteriaMeta: DocumentMeta,
-  criteriaEntries: GradingCriteriaEntry[],
-  markEntries: Map<DocumentId, MarklistEntry[]>,
+  criteriaMeta: DocumentMetaRaw,
+  criteriaEntries: GradingCriteriaEntryUI[],
+  markEntries: Map<DocumentId, MarklistEntryRaw[]>,
   studentNames: Map<string, string>
 ) {
 

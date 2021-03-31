@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CourseDetail } from '@lib/models/course.model';
+import { CourseDetailRaw } from '@lib/models/course.model';
 
 @Component({
   selector: 'course-grid',
@@ -9,7 +9,7 @@ import { CourseDetail } from '@lib/models/course.model';
 export class CourseGridComponent implements OnInit {
 
   @Input() title !: String
-  @Input() courses !: CourseDetail[]
+  @Input() courses !: CourseDetailRaw[]
 
   constructor() { }
 

@@ -1,8 +1,8 @@
-export interface MarklistEntry {
+export interface MarklistEntryRaw {
   rollNo: string,
   mark: number,
 }
 
-export interface MarklistEntryUI extends MarklistEntry {
+export interface MarklistEntryUI extends MarklistEntryRaw {
   name: string,
 }

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CourseDetail} from '@lib/models/course.model';
+import {CourseDetailRaw} from '@lib/models/course.model';
 import {firestore} from 'firebase.app';
 import {collectionData} from 'rxfire/firestore';
 import {BehaviorSubject} from 'rxjs';
@@ -23,7 +23,7 @@ export class CourseService {
 
   private courseCollectionListener = new BehaviorSubject<any>(null);
 
-  private courseListener = new BehaviorSubject<CourseDetail | null>(null);
+  private courseListener = new BehaviorSubject<CourseDetailRaw | null>(null);
 
   getCourseDetail = courseDetail;
 
@@ -35,7 +35,7 @@ export class CourseService {
     collectionData(courseRef, 'id').pipe(
       map(e => {
         return e.reduce((collections: any, course: any) => {
-          collections[course.batch] = [{name: course.name, courseCode: course.id} as CourseDetail];
+          collections[course.batch] = [{name: course.name, courseCode: course.id} as CourseDetailRaw];
           return collections;
         }, {});
       })

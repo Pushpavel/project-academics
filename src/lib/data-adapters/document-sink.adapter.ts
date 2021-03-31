@@ -1,18 +1,18 @@
 import {DocumentPath} from '@lib/models/path.model';
 import {Observable} from 'rxjs';
-import {DocumentMeta} from '@lib/models/document.model';
+import {DocumentMetaRaw} from '@lib/models/document.model';
 import {firestore} from '../../firebase.app';
-import {MarklistEntry} from '@lib/models/marklist.model';
-import {GradingCriteriaEntry, GradingCriteriaMetaRaw} from '@lib/models/grading.model';
-import {AttendanceEntry} from '@lib/models/attendance.model';
+import {MarklistEntryRaw} from '@lib/models/marklist.model';
+import {GradingCriteriaEntryUI, GradingCriteriaMetaRaw} from '@lib/models/grading.model';
+import {AttendanceEntryRaw} from '@lib/models/attendance.model';
 
-export function privateDocumentMetaSink<T extends DocumentMeta | GradingCriteriaMetaRaw>(p: DocumentPath, sink: Observable<Partial<T>>) {
+export function privateDocumentMetaSink<T extends DocumentMetaRaw | GradingCriteriaMetaRaw>(p: DocumentPath, sink: Observable<Partial<T>>) {
   const ref = firestore.doc(`semesters/${p.semId}/courses/${p.courseCode}/private_course_documents/${p.documentId}`);
   return sink.subscribe(metaUpdate => ref.update(metaUpdate));
 }
 
 export function privateMarkDocumentEntriesSink(
-  p: DocumentPath, sink: Observable<Partial<MarklistEntry> & { rollNo: string }>
+  p: DocumentPath, sink: Observable<Partial<MarklistEntryRaw> & { rollNo: string }>
 ) {
   const col = firestore.collection(`semesters/${p.semId}/courses/${p.courseCode}/private_course_documents/${p.documentId}/entries`);
   return sink.subscribe(markEntryUpdate =>
@@ -21,7 +21,7 @@ export function privateMarkDocumentEntriesSink(
 }
 
 export function privateAttendanceDocumentEntriesSink(
-  p: DocumentPath, sink: Observable<Partial<AttendanceEntry> & { rollNo: string }>
+  p: DocumentPath, sink: Observable<Partial<AttendanceEntryRaw> & { rollNo: string }>
 ) {
   const col = firestore.collection(`semesters/${p.semId}/courses/${p.courseCode}/private_course_documents/${p.documentId}/entries`);
   return sink.subscribe(attendanceEntryUpdate =>
@@ -30,7 +30,7 @@ export function privateAttendanceDocumentEntriesSink(
 }
 
 export function privateGradingCriteriaEntriesSink(
-  p: DocumentPath, sink: Observable<Partial<GradingCriteriaEntry> & { grade: string }>
+  p: DocumentPath, sink: Observable<Partial<GradingCriteriaEntryUI> & { grade: string }>
 ) {
   const ref = firestore.doc(`semesters/${p.semId}/courses/${p.courseCode}/private_course_documents/${p.documentId}`);
   return sink.subscribe(updates => ref.update(`entries.${updates.grade}`, updates.minMark));

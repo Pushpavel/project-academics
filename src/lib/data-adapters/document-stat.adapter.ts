@@ -1,8 +1,8 @@
 import {firestore} from '../../firebase.app';
 import {collection, doc} from 'rxfire/firestore';
-import {DocStatus, DocumentStat, StatsDocumentRaw} from '@lib/models/document.model';
+import {DocumentStat, StatsDocumentRaw} from '@lib/models/document.model';
 import {map} from 'rxjs/operators';
-import DOCUMENT_LABELS, {DOC_STATUS_CODES} from '@lib/constants/document.constants';
+import {DOCUMENT_NAMES} from '@lib/constants/document.constants';
 import {mapObjectEntries} from '@lib/utils/other.util';
 import {CourseDocumentStats} from '@lib/models/course.model';
 
@@ -31,17 +31,17 @@ export function courseDocumentStats(query: { semId: string, batchId?: string, de
 
 function courseDocStatsModel(data: StatsDocumentRaw, courseCode: string): CourseDocumentStats {
 
-  const stats = mapObjectEntries(DOCUMENT_LABELS, (id, documentName) => {
+  const stats = mapObjectEntries(DOCUMENT_NAMES, (id, documentName) => {
     const stat: DocumentStat = {
       id,
       courseCode,
       documentName,
       semId: data.sem,
-      status: DocStatus.PRIVATE,
+      status: 'private',
     };
     const statData = data.entries[id];
     if (statData) {
-      stat.status = DOC_STATUS_CODES[statData.status];
+      stat.status = statData.status as any; //  TODO: use Type guard
       stat.timestamp = statData.timestamp;
     }
     return stat;

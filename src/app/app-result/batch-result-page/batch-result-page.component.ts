@@ -4,7 +4,6 @@ import {map, switchMap} from 'rxjs/operators';
 import {DocumentService} from '@service/document.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {mapMapEntries} from '@lib/utils/other.util';
-import {DOC_STATUS_UI_NAMES} from '@lib/constants/document.constants';
 import {DEPT_ABBR} from '@lib/constants/dept.constants';
 import {getParams} from '../../routes/routing.helper';
 
@@ -33,7 +32,7 @@ export class BatchResultPageComponent {
       )
     ),
     map(courseStats => courseStats.map(courseStat => {
-      const stats = mapMapEntries(courseStat.stats, (_, stat) => [stat.documentName, DOC_STATUS_UI_NAMES[stat.status]]);
+      const stats = mapMapEntries(courseStat.stats, (_, stat) => [stat.documentName, stat.status]);
       const statsAndCourseCode = new Map([['CODE', courseStat.courseCode], ...stats.entries()]);
 
       return {

@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {MarklistEntry, MarklistEntryUI} from '@lib/models/marklist.model';
-import {AttendanceEntry, AttendanceEntryUI} from '@lib/models/attendance.model';
+import {MarklistEntryRaw, MarklistEntryUI} from '@lib/models/marklist.model';
+import {AttendanceEntryRaw, AttendanceEntryUI} from '@lib/models/attendance.model';
 import {combineLatest, Observable, of} from 'rxjs';
-import {GradingCriteriaEntry, GradeEntryUI} from '@lib/models/grading.model';
+import {GradingCriteriaEntryUI, GradeEntryUI} from '@lib/models/grading.model';
 import {randFromRange} from '@lib/utils/number.util';
-import {DocumentEntry, DocumentMeta, DocumentStat} from '@lib/models/document.model';
+import {DocumentEntry, DocumentMetaRaw, DocumentStat} from '@lib/models/document.model';
 import {DEPT_ABBR} from '@lib/constants/dept.constants';
 import {courseDocumentStat, courseDocumentStats} from '@lib/data-adapters/document-stat.adapter';
 import {filter, map, shareReplay, switchMap} from 'rxjs/operators';
@@ -16,7 +16,7 @@ import {
 } from '@lib/data-adapters/document.adapter';
 import {DocumentPath} from '@lib/models/path.model';
 import {studentNames} from '@lib/data-adapters/students.adapter';
-import {MARK_DOCUMENTS} from '@lib/constants/document.constants';
+import {MARK_DOCUMENT_IDS} from '@lib/constants/document.constants';
 import {computeGradeEntryUIModels} from '@lib/data-adapters/grading.adapter';
 import {
   privateAttendanceDocumentEntriesSink,
@@ -47,8 +47,8 @@ export class DocumentService {
     return of(new Map(entries));
   }
 
-  getDocument(path: DocumentPath, isPrivate = false): Observable<[DocumentMeta, DocumentEntryUI[]]> {
-    let meta: Observable<DocumentMeta>, entries: Observable<DocumentEntryUI[]>;
+  getDocument(path: DocumentPath, isPrivate = false): Observable<[DocumentMetaRaw, DocumentEntryUI[]]> {
+    let meta: Observable<DocumentMetaRaw>, entries: Observable<DocumentEntryUI[]>;
     if (path.documentId == 'GRADING_CRITERIA')
       return gradingCriteriaDocument(path, isPrivate);
     const studentNamesDoc = studentNames(path).pipe(shareReplay(1));
@@ -57,19 +57,19 @@ export class DocumentService {
       case 'ATTENDANCE':
         meta = privateDocumentMeta(path).pipe(shareReplay(1));
         entries = combineLatest([meta, studentNamesDoc]).pipe(
-          switchMap(([meta, studentNames]) => privateRollNoEntries<AttendanceEntry>(path).pipe(
+          switchMap(([meta, studentNames]) => privateRollNoEntries<AttendanceEntryRaw>(path).pipe(
             map(entries => attendanceEntryUIModels(entries, meta, studentNames))
           )),
         );
         break;
       case 'GRADES':
-        const markEntriesArray = combineLatest(MARK_DOCUMENTS.map(documentId => privateRollNoEntries<MarklistEntry>({
+        const markEntriesArray = combineLatest(MARK_DOCUMENT_IDS.map(documentId => privateRollNoEntries<MarklistEntryRaw>({
           ...path,
           documentId
         }).pipe(
           map(entries => [documentId, entries] as const)
         )));
-        meta = of({} as DocumentMeta);
+        meta = of({} as DocumentMetaRaw);
         entries = combineLatest([gradingCriteriaDocument(path, true), markEntriesArray, studentNamesDoc])
           .pipe(map(([[meta, criteriaEntries], markEntries, studentNames]) =>
             computeGradeEntryUIModels(meta, criteriaEntries, new Map(markEntries), studentNames)
@@ -77,7 +77,7 @@ export class DocumentService {
         break;
       default:
         meta = privateDocumentMeta(path).pipe(shareReplay(1));
-        entries = combineLatest([privateRollNoEntries<MarklistEntry>(path), studentNamesDoc]).pipe(
+        entries = combineLatest([privateRollNoEntries<MarklistEntryRaw>(path), studentNamesDoc]).pipe(
           map(([entries, studentNames]) => marklistEntryUIModels(entries, studentNames))
         );
     }
@@ -86,18 +86,18 @@ export class DocumentService {
     return combineLatest([meta, entries]);
   }
 
-  connectPrivateDocumentEntriesSink(p: DocumentPath, sink: Observable<Partial<DocumentEntry> | Partial<GradingCriteriaEntry>>) {
-    if (p.documentId in MARK_DOCUMENTS) {
-      privateMarkDocumentEntriesSink(p, (sink as Observable<Partial<MarklistEntry>>)
+  connectPrivateDocumentEntriesSink(p: DocumentPath, sink: Observable<Partial<DocumentEntry> | Partial<GradingCriteriaEntryUI>>) {
+    if (p.documentId in MARK_DOCUMENT_IDS) {
+      privateMarkDocumentEntriesSink(p, (sink as Observable<Partial<MarklistEntryRaw>>)
         .pipe(filter(updates => !!updates.rollNo)) as any);
     } else if (p.documentId == 'GRADING_CRITERIA')
       privateGradingCriteriaEntriesSink(p, sink as any);
     else if (p.documentId == 'ATTENDANCE')
-      privateAttendanceDocumentEntriesSink(p, (sink as Observable<Partial<AttendanceEntry>>)
+      privateAttendanceDocumentEntriesSink(p, (sink as Observable<Partial<AttendanceEntryRaw>>)
         .pipe(filter(updates => !!updates.rollNo),) as any);
 
   }
 }
 
-export type DocumentEntryUI = MarklistEntryUI | AttendanceEntryUI | GradeEntryUI | GradingCriteriaEntry
+export type DocumentEntryUI = MarklistEntryUI | AttendanceEntryUI | GradeEntryUI | GradingCriteriaEntryUI
 

@@ -2,12 +2,12 @@
 
 Contain Interfaces for data entities of the app
 
-### Guidelines & Conventions
+### Guidelines
 - fileName: ```foo.model.ts```
 - interface: ```FooUI``` 
   - consumed by UI
 - interface: ```FooRaw```
   - as present in Database
 - interface: ```Foo```
-  - consumed by Services
+  - not directly used by UI or Database
   

@@ -1,23 +1,18 @@
-
-export interface GradeEntryUI {
-  rollNo: string,
-  name: string,
-  CT1: number,
-  CT2: number,
-  ASSIGNMENT: number,
-  END_SEM: number,
-  total: number,
-  grade: string,
-}
-
 export interface GradeEntryRaw {
   rollNo: string,
   total: number,
   grade: string,
 }
 
+export interface GradeEntryUI extends GradeEntryRaw {
+  name: string,
+  CT1: number,
+  CT2: number,
+  ASSIGNMENT: number,
+  END_SEM: number,
+}
 
-export interface GradingCriteriaEntry {
+export interface GradingCriteriaEntryUI {
   grade: string,
   minMark: number,
   maxMark: number
@@ -26,10 +21,10 @@ export interface GradingCriteriaEntry {
 
 export interface GradingCriteriaMetaRaw {
   total: number,
-  entries: GradingCriteriaEntries
+  entries: GradingCriteriaEntriesRaw
 }
 
-export interface GradingCriteriaEntries {
+export interface GradingCriteriaEntriesRaw {
   S: number,
   A: number,
   B: number,

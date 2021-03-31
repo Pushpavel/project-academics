@@ -3,13 +3,13 @@ import {ActivatedRoute} from '@angular/router';
 import {DocumentService, DocumentEntryUI} from '@service/document.service';
 import {getParams} from '../../routes/routing.helper';
 import {filter, map, shareReplay, switchMap} from 'rxjs/operators';
-import {DocStatus, DocumentEntry, DocumentId} from '@lib/models/document.model';
+import {DocumentEntry, DocumentId} from '@lib/models/document.model';
 import {combineLatest, Observable, Subject} from 'rxjs';
 import {DOCUMENT_COLUMN_SETTINGS} from '@lib/constants/column-settings.constants';
 import {EditEvent, ColumnSetting} from '../../mdc-helper/mdc-table/mdc-table.component';
 import {UserService} from '@service/user.service';
 import {CourseService} from '@service/course.service';
-import {GradingCriteriaEntry} from '@lib/models/grading.model';
+import {GradingCriteriaEntryUI} from '@lib/models/grading.model';
 
 @Component({
   selector: 'app-document-page',
@@ -34,7 +34,7 @@ export class DocumentPageComponent {
     filter(data => data[1] != null),
     switchMap(([stat, user, course]) => {
       // TODO: Handle Unauthorized access
-      const isPrivate = (stat.status == DocStatus.PRIVATE || stat.status == DocStatus.REMARKED);
+      const isPrivate = (stat.status == 'private' || stat.status == 'remarked');
       return this.documentService.getDocument({
         semId: stat.semId,
         courseCode: stat.courseCode,
@@ -56,7 +56,7 @@ export class DocumentPageComponent {
       if (!isPrivate) {
         for (const col of cols) if (col.editable) col.editable = undefined;
       } else if (cols.some(col => col.editable)) {
-        const entriesSink = new Subject<Partial<DocumentEntry> | Partial<GradingCriteriaEntry>>();
+        const entriesSink = new Subject<Partial<DocumentEntry> | Partial<GradingCriteriaEntryUI>>();
 
         this.documentService.connectPrivateDocumentEntriesSink({
           semId: params.semId,

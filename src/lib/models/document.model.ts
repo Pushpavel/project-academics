@@ -1,14 +1,14 @@
 import {DEPT_ABBR} from '@lib/constants/dept.constants';
-import DOCUMENT_NAMES from '@lib/constants/document.constants';
-import {AttendanceEntry} from '@lib/models/attendance.model';
-import {MarklistEntry} from '@lib/models/marklist.model';
+import {DOCUMENT_IDS} from '@lib/constants/document.constants';
+import {AttendanceEntryRaw} from '@lib/models/attendance.model';
+import {MarklistEntryRaw} from '@lib/models/marklist.model';
 
-export enum DocStatus {PUBLIC, SUBMITTED, PRIVATE, REMARKED}
+export type DocumentId = typeof DOCUMENT_IDS[number];
 
-export type DocumentId = keyof typeof DOCUMENT_NAMES;
-export type DocumentName = (typeof DOCUMENT_NAMES)[DocumentId];
-export type DocumentEntry = AttendanceEntry | MarklistEntry// TODO: include other entries
-export interface DocumentMeta {
+export type DocumentStatus = 'public' | 'submitted' | 'private' | 'remarked'
+
+export type DocumentEntry = AttendanceEntryRaw | MarklistEntryRaw// TODO: include other entries
+export interface DocumentMetaRaw {
   total?: number,
 }
 
@@ -16,8 +16,8 @@ export interface DocumentStat {
   semId: string,
   courseCode: string,
   id: DocumentId,
-  documentName: DocumentName,
-  status: DocStatus,
+  documentName: string,
+  status: DocumentStatus,
   timestamp?: number,
 }
 

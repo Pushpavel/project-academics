@@ -1,8 +1,8 @@
 import {ColumnSetting} from '../../app/mdc-helper/mdc-table/mdc-table.component';
 import {AttendanceEntryUI} from '@lib/models/attendance.model';
 import {MarklistEntryUI} from '@lib/models/marklist.model';
-import {GradingCriteriaEntry, GradeEntryUI} from '@lib/models/grading.model';
-import DOCUMENT_NAMES from '@lib/constants/document.constants';
+import {GradingCriteriaEntryUI, GradeEntryUI} from '@lib/models/grading.model';
+import {DOCUMENT_NAMES} from '@lib/constants/document.constants';
 
 export const ATTENDANCE_COLUMN_SETTINGS: ColumnSetting<AttendanceEntryUI>[] = [
   {key: 'rollNo', label: 'Roll No'},
@@ -28,7 +28,7 @@ export const GRADES_COLUMN_SETTINGS: ColumnSetting<GradeEntryUI>[] = [
   {key: 'grade', label: 'GRADE'},
 ];
 
-export const GRADING_CRITERIA_COLUMN_SETTINGS: ColumnSetting<GradingCriteriaEntry>[] = [
+export const GRADING_CRITERIA_COLUMN_SETTINGS: ColumnSetting<GradingCriteriaEntryUI>[] = [
   {key: 'grade', label: 'Grade'},
   {key: 'minMark', label: 'Minimum Mark', editable: true, numeric: true},
   {key: 'maxMark', label: 'Maximum Mark', numeric: true},
