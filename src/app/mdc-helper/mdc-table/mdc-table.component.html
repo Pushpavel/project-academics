@@ -5,13 +5,10 @@
     <th cdk-header-cell
         class="mdc-data-table__header-cell"
         [class.mdc-data-table__header-cell--numeric]="column.numeric"
-        [class.mdc-data-table__header-cell--with-sort]="column.sortable"
         *cdkHeaderCellDef
         [attr.data-column-id]="column.key">
       <div class="mdc-data-table__header-cell-wrapper">
         <div class="mdc-data-table__header-cell-label">{{column.label}}</div>
-        <button mdc-icon *ngIf="column.sortable" class="mdc-data-table__sort-icon-button dark-icon">arrow_upward
-        </button>
       </div>
     </th>
 

@@ -39,7 +39,6 @@ export type ColumnSetting<T extends Record<string, any> = any> = {
   key: keyof T,
   label: string,
   editable?: boolean,
-  sortable?: boolean // TODO: Implement this
   flex?: number,
   numeric?: boolean,
 }
