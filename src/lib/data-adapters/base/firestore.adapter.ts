@@ -22,7 +22,7 @@ export function fetchList<T extends DocumentData>(p: Params<T>) {
   if (p.convert) ref = ref.withConverter(p.convert);
 
   if (!p.once)
-    return collectionData(ref, p.idField as string);
+    return collectionData<T>(ref, p.idField as string);
 
   return fromPromise(ref.get()).pipe(map(listSnap => listSnap.docs.map(snap => snapToData(snap, p.idField as string) as T)));
 }

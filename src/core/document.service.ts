@@ -9,15 +9,12 @@ import {DEPT_ABBR} from '@lib/constants/dept.constants';
 import {courseDocumentStat, courseDocumentStats} from '@lib/data-adapters/document-stat.adapter';
 import {filter, map, shareReplay, switchMap} from 'rxjs/operators';
 import {
-  attendanceEntryUIModels,
-  gradingCriteriaDocument, marklistEntryUIModels,
-  privateDocumentMeta,
-  privateRollNoEntries
+  privateAttendanceEntries,
+  privateDocumentMeta
 } from '@lib/data-adapters/document.adapter';
 import {DocumentPath} from '@lib/models/path.model';
 import {studentNames} from '@lib/data-adapters/students.adapter';
 import {MARK_DOCUMENT_IDS} from '@lib/constants/document.constants';
-import {computeGradeEntryUIModels} from '@lib/data-adapters/grading.adapter';
 import {
   privateAttendanceDocumentEntriesSink,
   privateDocumentMetaSink,
@@ -48,42 +45,38 @@ export class DocumentService {
   }
 
   getDocument(path: DocumentPath, isPrivate = false): Observable<[DocumentMetaRaw, DocumentEntryUI[]]> {
-    let meta: Observable<DocumentMetaRaw>, entries: Observable<DocumentEntryUI[]>;
-    if (path.documentId == 'GRADING_CRITERIA')
-      return gradingCriteriaDocument(path, isPrivate);
+    let meta, entries;
+
     const studentNamesDoc = studentNames(path).pipe(shareReplay(1));
 
     switch (path.documentId) {
       case 'ATTENDANCE':
-        meta = privateDocumentMeta(path).pipe(shareReplay(1));
+        meta = privateDocumentMeta(path as DocumentPath<'ATTENDANCE'>).pipe(shareReplay(1));
         entries = combineLatest([meta, studentNamesDoc]).pipe(
-          switchMap(([meta, studentNames]) => privateRollNoEntries<AttendanceEntryRaw>(path).pipe(
-            map(entries => attendanceEntryUIModels(entries, meta, studentNames))
-          )),
+          switchMap(([meta, studentNames]) => privateAttendanceEntries(path, studentNames, meta)),
         );
         break;
       case 'GRADES':
-        const markEntriesArray = combineLatest(MARK_DOCUMENT_IDS.map(documentId => privateRollNoEntries<MarklistEntryRaw>({
-          ...path,
-          documentId
-        }).pipe(
-          map(entries => [documentId, entries] as const)
-        )));
-        meta = of({} as DocumentMetaRaw);
-        entries = combineLatest([gradingCriteriaDocument(path, true), markEntriesArray, studentNamesDoc])
-          .pipe(map(([[meta, criteriaEntries], markEntries, studentNames]) =>
-            computeGradeEntryUIModels(meta, criteriaEntries, new Map(markEntries), studentNames)
-          ));
+        // const markEntriesArray = combineLatest(MARK_DOCUMENT_IDS.map(documentId =>
+        //   privateMarklistEntries({...path, documentId})
+        //     .pipe(
+        //       map(entries => [documentId, entries] as const)
+        //     ))
+        // );
+        // meta = of({} as DocumentMetaRaw);
+        // entries = combineLatest([gradingCriteriaDocument(path, true), markEntriesArray, studentNamesDoc])
+        //   .pipe(map(([[meta, criteriaEntries], markEntries, studentNames]) =>
+        //     computeGradeEntryUIModels(meta, criteriaEntries, new Map(markEntries), studentNames)
+        //   ));
         break;
       default:
-        meta = privateDocumentMeta(path).pipe(shareReplay(1));
-        entries = combineLatest([privateRollNoEntries<MarklistEntryRaw>(path), studentNamesDoc]).pipe(
-          map(([entries, studentNames]) => marklistEntryUIModels(entries, studentNames))
-        );
+        meta = privateDocumentMeta(path as any).pipe(shareReplay(1));
+        // entries = combineLatest([privateMarklistEntries(path as any), studentNamesDoc]);
     }
 
     // TODO: Implement for public documents also
-    return combineLatest([meta, entries]);
+    //  return combineLatest([meta, entries]);
+    return null as unknown as any;
   }
 
   connectPrivateDocumentEntriesSink(p: DocumentPath, sink: Observable<Partial<DocumentEntry> | Partial<GradingCriteriaEntryUI>>) {

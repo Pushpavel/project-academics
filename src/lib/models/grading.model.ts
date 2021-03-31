@@ -1,3 +1,5 @@
+import {GRADES} from '@lib/constants/grading.constants';
+
 export interface GradeEntryRaw {
   rollNo: string,
   total: number,
@@ -18,18 +20,12 @@ export interface GradingCriteriaEntryUI {
   maxMark: number
 }
 
+export interface GradingCriteriaMeta {
+  total: number,
+  entries: GradingCriteriaEntryUI[],
+}
 
 export interface GradingCriteriaMetaRaw {
   total: number,
-  entries: GradingCriteriaEntriesRaw
-}
-
-export interface GradingCriteriaEntriesRaw {
-  S: number,
-  A: number,
-  B: number,
-  C: number,
-  D: number,
-  E: number,
-  F: number,
+  entries: Record<typeof GRADES[number], number>
 }

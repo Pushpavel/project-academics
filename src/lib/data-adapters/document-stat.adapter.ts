@@ -15,11 +15,11 @@ export function courseDocumentStat(semId: string, courseCode: string) {
 export function courseDocumentStats(query: { semId: string, batchId?: string, deptId?: string }) {
   let ref = firestore.collectionGroup('protected_course_documents')
     .where('document', '==', 'DOCUMENT_STATS')
-    .where('semId', '==', query.semId);
+    .where('sem', '==', query.semId);
   if (query.batchId)
     ref = ref.where('batch', '==', query.batchId);
   if (query.deptId)
-    ref = ref.where(query.deptId, '!=', false);
+    ref = ref.where('dept.' + query.deptId, '!=', false);
 
   return collection(ref).pipe(
     map(snapshots => snapshots.map(snapshot =>

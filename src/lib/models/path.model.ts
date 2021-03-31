@@ -5,6 +5,6 @@ export interface CoursePath {
   courseCode: string,
 }
 
-export interface DocumentPath extends CoursePath {
-  documentId: DocumentId
+export interface DocumentPath<T extends Partial<DocumentId> = DocumentId> extends CoursePath {
+  documentId: T,
 }

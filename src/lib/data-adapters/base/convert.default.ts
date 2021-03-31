@@ -1,12 +1,13 @@
 import firebase from 'firebase/app';
 import DocumentData = firebase.firestore.DocumentData;
 import FirestoreDataConverter = firebase.firestore.FirestoreDataConverter;
+import QuerySnapshot = firebase.firestore.QueryDocumentSnapshot;
 
 function defaultToFirestore(modelObject: any): DocumentData {
   return modelObject;
 }
 
-function defaultFromFirestore(snapshot: firebase.firestore.QueryDocumentSnapshot): any {
+function defaultFromFirestore(snapshot: QuerySnapshot): any {
   return snapshot.data();
 }
 
