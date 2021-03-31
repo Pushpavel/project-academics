@@ -8,7 +8,6 @@ export enum DocStatus {PUBLIC, SUBMITTED, PRIVATE, REMARKED}
 export type DocumentId = keyof typeof DOCUMENT_NAMES;
 export type DocumentName = (typeof DOCUMENT_NAMES)[DocumentId];
 export type DocumentEntry = AttendanceEntry | MarklistEntry// TODO: include other entries
-
 export interface DocumentMeta {
   total?: number,
 }

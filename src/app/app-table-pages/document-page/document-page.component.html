@@ -2,4 +2,5 @@
   <div class="caption" *ngIf="stat.timestamp">PUBLISHED : {{stat.timestamp}}</div>
   <!--  TODO: ngSwitch to different headers according to documentId  -->
 </header-tile>
-<mdc-table *ngIf="columns|async as cols" [columns]="cols" [inputSource]="entries"></mdc-table>
+<mdc-table *ngIf="columns|async as cols" [columns]="cols" [inputSource]="entries"
+           (edit)="cellDataChange?.call(null,$event)"></mdc-table>

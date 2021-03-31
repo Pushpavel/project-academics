@@ -3,12 +3,13 @@ import {ActivatedRoute} from '@angular/router';
 import {DocumentService, DocumentEntryUI} from '@service/document.service';
 import {getParams} from '../../routes/routing.helper';
 import {filter, map, shareReplay, switchMap} from 'rxjs/operators';
-import {DocStatus, DocumentId} from '@lib/models/document.model';
-import {combineLatest, Observable} from 'rxjs';
+import {DocStatus, DocumentEntry, DocumentId} from '@lib/models/document.model';
+import {combineLatest, Observable, Subject} from 'rxjs';
 import {DOCUMENT_COLUMN_SETTINGS} from '@lib/constants/column-settings.constants';
-import {ColumnSetting} from '../../mdc-helper/mdc-table/mdc-table.component';
+import {EditEvent, ColumnSetting} from '../../mdc-helper/mdc-table/mdc-table.component';
 import {UserService} from '@service/user.service';
 import {CourseService} from '@service/course.service';
+import {GradingCriteriaEntry} from '@lib/models/grading.model';
 
 @Component({
   selector: 'app-document-page',
@@ -18,10 +19,6 @@ import {CourseService} from '@service/course.service';
 export class DocumentPageComponent {
 
   params = getParams(['semId', 'courseCode', 'documentId'], this.route);
-
-  columns: Observable<ColumnSetting<DocumentEntryUI>[]> = this.params.pipe(
-    map(params => DOCUMENT_COLUMN_SETTINGS[params.documentId as DocumentId])
-  );
 
   stat = this.params.pipe(
     switchMap(params => this.documentService.getStat(params.semId, params.courseCode, params.documentId)),
@@ -37,19 +34,47 @@ export class DocumentPageComponent {
     filter(data => data[1] != null),
     switchMap(([stat, user, course]) => {
       // TODO: Handle Unauthorized access
-      const isPrivate = user?.uid == course.facultyId && (stat.status == DocStatus.PRIVATE || stat.status == DocStatus.REMARKED);
+      const isPrivate = (stat.status == DocStatus.PRIVATE || stat.status == DocStatus.REMARKED);
       return this.documentService.getDocument({
         semId: stat.semId,
         courseCode: stat.courseCode,
         documentId: stat.id
-      }, isPrivate);
+      }, isPrivate).pipe(map(doc => [...doc, isPrivate] as const));
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   meta = this.doc.pipe(map(doc => doc[0]));
   entries = this.doc.pipe(map(doc => doc[1]));
 
+
+  cellDataChange?: (event: EditEvent<any>) => any;
+
+  columns: Observable<ColumnSetting<DocumentEntryUI>[]> = combineLatest([this.params, this.doc]).pipe(
+    map(([params, [, , isPrivate]]) => {
+      const cols = DOCUMENT_COLUMN_SETTINGS[params.documentId as DocumentId];
+      if (!isPrivate) {
+        for (const col of cols) if (col.editable) col.editable = undefined;
+      } else if (cols.some(col => col.editable)) {
+        const entriesSink = new Subject<Partial<DocumentEntry> | Partial<GradingCriteriaEntry>>();
+
+        this.documentService.connectPrivateDocumentEntriesSink({
+          semId: params.semId,
+          courseCode: params.courseCode,
+          documentId: params.documentId as DocumentId
+        }, entriesSink.asObservable());
+
+        this.cellDataChange = ({key, row}) => {
+          const uniqueKey = params.documentId == 'GRADING_CRITERIA' ? 'grade' : 'rollNo';
+          entriesSink.next({
+            // [changedKey]: changedRow[changedKey as any],
+            // [uniqueKey]: changedRow[uniqueKey]
+          });
+        };
+      }
+      return cols;
+    }),
+  );
 
   constructor(
     private documentService: DocumentService,

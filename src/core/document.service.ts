@@ -4,10 +4,10 @@ import {AttendanceEntry, AttendanceEntryUI} from '@lib/models/attendance.model';
 import {combineLatest, Observable, of} from 'rxjs';
 import {GradingCriteriaEntry, GradeEntryUI} from '@lib/models/grading.model';
 import {randFromRange} from '@lib/utils/number.util';
-import {DocumentId, DocumentMeta, DocumentStat} from '@lib/models/document.model';
+import {DocumentEntry, DocumentMeta, DocumentStat} from '@lib/models/document.model';
 import {DEPT_ABBR} from '@lib/constants/dept.constants';
 import {courseDocumentStat, courseDocumentStats} from '@lib/data-adapters/document-stat.adapter';
-import {map, shareReplay, switchMap} from 'rxjs/operators';
+import {filter, map, shareReplay, switchMap} from 'rxjs/operators';
 import {
   attendanceEntryUIModels,
   gradingCriteriaDocument, marklistEntryUIModels,
@@ -18,6 +18,12 @@ import {DocumentPath} from '@lib/models/path.model';
 import {studentNames} from '@lib/data-adapters/students.adapter';
 import {MARK_DOCUMENTS} from '@lib/constants/document.constants';
 import {computeGradeEntryUIModels} from '@lib/data-adapters/grading.adapter';
+import {
+  privateAttendanceDocumentEntriesSink,
+  privateDocumentMetaSink,
+  privateGradingCriteriaEntriesSink,
+  privateMarkDocumentEntriesSink
+} from '@lib/data-adapters/document-sink.adapter';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +32,7 @@ export class DocumentService {
 
   getCourseDocStats = courseDocumentStats;
   getCourseDocStat = courseDocumentStat;
+  connectPrivateDocumentMetaSink = privateDocumentMetaSink;
 
   getStat(semId: string, courseCode: string, documentId: string): Observable<DocumentStat> {
     return this.getCourseDocStat(semId, courseCode).pipe(
@@ -79,23 +86,18 @@ export class DocumentService {
     return combineLatest([meta, entries]);
   }
 
-  getMeta(semId: string, courseCode: string, documentId: DocumentId, isPrivate = false) {
-    // TODO: Implement this
-    return privateDocumentMeta({semId, courseCode, documentId});
-  }
+  connectPrivateDocumentEntriesSink(p: DocumentPath, sink: Observable<Partial<DocumentEntry> | Partial<GradingCriteriaEntry>>) {
+    if (p.documentId in MARK_DOCUMENTS) {
+      privateMarkDocumentEntriesSink(p, (sink as Observable<Partial<MarklistEntry>>)
+        .pipe(filter(updates => !!updates.rollNo)) as any);
+    } else if (p.documentId == 'GRADING_CRITERIA')
+      privateGradingCriteriaEntriesSink(p, sink as any);
+    else if (p.documentId == 'ATTENDANCE')
+      privateAttendanceDocumentEntriesSink(p, (sink as Observable<Partial<AttendanceEntry>>)
+        .pipe(filter(updates => !!updates.rollNo),) as any);
 
-  getEntries<T extends DocumentEntryUI>(semId: string, courseCode: string, documentId: string, isPrivate = false): Observable<T[]> {
-    // TODO: Implement this
-    return of(new Array(40).fill(1).map((_, index) => (
-        {
-          rollNo: 'CS19B10' + index,
-          name: 'Student ' + index,
-          attended: randFromRange(0, 200),
-          percentage: randFromRange(0, 100).toString()
-        }) as AttendanceEntryUI
-      ) as T[]
-    );
   }
 }
 
 export type DocumentEntryUI = MarklistEntryUI | AttendanceEntryUI | GradeEntryUI | GradingCriteriaEntry
+
