@@ -9,20 +9,26 @@ import {PageNotFoundComponent} from '../app-404/page-not-found/page-not-found.co
 import {BatchResultPageComponent} from '../app-result/batch-result-page/batch-result-page.component';
 import {StudentResultPageComponent} from '../app-result/student-result-page/student-result-page.component';
 import {ROUTING_PARAMS_AS_OBJECT as p} from '@lib/constants/routing.constants';
-import {DocumentPageComponent} from '../app-table-pages/document-page/document-page.component';
 import {RegexGuard} from './regex.guard';
+import {documentPageRoutes} from './document-page.routing';
 
 const routes: Routes = [
   {path: 'login', component: LoginPageComponent},// TODO: Redirect to current Sem home if logged in
   {
     path: `sem/:${p.semId}`,
-    canActivate: [RegexGuard],
     children: [
       {path: `home`, component: HomePageComponent},
       {path: `result`, component: StudentResultPageComponent},
-      {path: `result/:${p.batchId}`, component: BatchResultPageComponent},
-      {path: `course/:${p.courseCode}/:${p.documentId}`, component: DocumentPageComponent},
-      {path: `course/:${p.courseCode}`, component: CoursePageComponent},
+      {path: `result/:${p.batchId}`, canActivate: [RegexGuard], component: BatchResultPageComponent},
+      {
+        path: `course/:${p.courseCode}`,
+        canActivate: [RegexGuard],
+        children: [
+          ...documentPageRoutes,
+          {path: ``, component: CoursePageComponent, pathMatch: 'full'},
+        ]
+      },
+      // {path: `course/:${p.courseCode}/:${p.documentId}`, component: AttendancePageComponent},
       {path: ``, redirectTo: 'home', pathMatch: 'full'},
     ]
   },
@@ -36,7 +42,7 @@ if (!environment.production) routes.unshift({path: 'dev', component: DevPageComp
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {enableTracing: true})],
   exports: [RouterModule]
 })
 export class RoutingModule {
