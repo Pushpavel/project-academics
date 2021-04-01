@@ -1,28 +1,26 @@
-import {ROUTING_PARAMS} from '@lib/constants/routing.constants';
-import {ActivatedRoute} from '@angular/router';
+import {RoutingParam} from '@lib/constants/routing.constants';
+import {ActivatedRoute, ParamMap} from '@angular/router';
 import {filter, map, shareReplay} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 
-// TODO: separate param validating logic to a RouteGuard which also should handle redirects to 404
-// TODO: this function should only convert paramMap to object
-export function getParams(requiredParams: Params, route: ActivatedRoute): Observable<typeof ROUTING_PARAMS> {
+type RoutingParamsObject = Record<RoutingParam, string>;
+
+
+export function getParams(requiredParams: readonly RoutingParam[], route: ActivatedRoute): Observable<RoutingParamsObject> {
   return route.paramMap.pipe(
-    map(paramMap => {
-        // convert Map to object extracting only the requiredParams
-        const params: Partial<typeof ROUTING_PARAMS> = {};
-
-        for (const param of requiredParams)
-          params[param] = paramMap.get(ROUTING_PARAMS[param]) ?? undefined;
-
-        // Actual type of params is Partial<typeof ROUTING_PARAMS>
-        // but, we are sure that the requiredParams values will never be undefined
-        // as it won't go past filter operator below
-        return params as typeof ROUTING_PARAMS;
-      }
-    ),
-    filter(params => requiredParams.every(param => params[param])), // never emit if any required param is invalid
+    map(paramMapToObj),
+    filter(params => {
+      if (!requiredParams.every(param => params[param]))
+        throw new Error(`Required Url Parameter ${requiredParams.find(param => !params[param])} not Found `);
+      return true;
+    }), // never emit if any required param is undefined
     shareReplay(1),
   );
 }
 
-type Params = (keyof typeof ROUTING_PARAMS)[]
+export function paramMapToObj(map: ParamMap) {
+  return map.keys.reduce((obj, key) => ({
+    ...obj,
+    [key]: map.get(key)
+  }), {} as RoutingParamsObject);
+}
