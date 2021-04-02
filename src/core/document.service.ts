@@ -4,7 +4,7 @@ import {AttendanceEntryUI} from '@lib/models/attendance.model';
 import {combineLatest, Observable, of} from 'rxjs';
 import {GradingCriteriaEntryUI, GradeEntryUI} from '@lib/models/grading.model';
 import {randFromRange} from '@lib/utils/number.util';
-import {DocumentMetaRaw, DocumentStat} from '@lib/models/document.model';
+import {DocumentMetaRaw, DocumentStat, MarklistDocumentId} from '@lib/models/document.model';
 import {DEPT_ABBR} from '@lib/constants/dept.constants';
 import {courseDocumentStat, courseDocumentStats} from '@lib/data-adapters/document-stat.adapter';
 import {map} from 'rxjs/operators';
@@ -18,6 +18,7 @@ import {
 } from '@lib/data-adapters/document-sink.adapter';
 import {studentNames} from '@lib/data-adapters/students.adapter';
 import {attendanceEntriesUIModel} from '@lib/data-adapters/combine/attendance.combine';
+import {marklistEntriesUIModel} from '@lib/data-adapters/combine/marklist.combine';
 
 @Injectable({
   providedIn: 'root'
@@ -29,10 +30,10 @@ export class DocumentService {
   getCourseDocStat = courseDocumentStat;
 
   getPrivateMeta = privateDocumentMeta;
-  getPrivateMarklistEntries = privateMarklistEntries;
 
   sinkPrivateDocumentEntry = privateDocumentEntriesSink;
   sinkPrivateDocumentMeta = privateDocumentMetaSink;
+
   getPrivateAttendanceEntries(p: CoursePath) {
     return combineLatest([
       privateAttendanceEntries(p),
@@ -40,6 +41,12 @@ export class DocumentService {
       this.getPrivateMeta({...p, documentId: 'ATTENDANCE'})
     ]).pipe(
       map(([entries, names, meta]) => attendanceEntriesUIModel(entries, names, meta))
+    );
+  }
+
+  getPrivateMarklistEntries(p: DocumentPath<MarklistDocumentId>) {
+    return combineLatest([privateMarklistEntries(p), studentNames(p)]).pipe(
+      map(([entries, names]) => marklistEntriesUIModel(entries, names))
     );
   }
 
