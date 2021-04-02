@@ -8,7 +8,6 @@ import {environment} from '../environments/environment';
 import {ArchiveModule} from './app-archive/archive.module';
 import {AuthModule} from './app-auth/auth.module';
 import {CourseModule} from './app-course/course.module';
-import {GradeCriteriaModule} from './app-grade-criteria/grade-criteria.module';
 import {HomeModule} from './app-home/home.module';
 import {ResultModule} from './app-result/result.module';
 import {TablePagesModule} from './app-table-pages/table-pages.module';
@@ -24,7 +23,6 @@ const FEATURE_MODULES = [
   ArchiveModule,
   AuthModule,
   CourseModule,
-  GradeCriteriaModule,
   HomeModule,
   ResultModule,
   TablePagesModule,
