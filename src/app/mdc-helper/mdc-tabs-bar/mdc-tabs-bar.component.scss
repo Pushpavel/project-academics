@@ -1,0 +1,18 @@
+@forward  "@material/tab-bar/mdc-tab-bar";
+@forward "@material/tab-scroller/mdc-tab-scroller";
+@forward "@material/tab-indicator/mdc-tab-indicator";
+@forward "@material/tab/mdc-tab";
+
+:host{
+    --mdc-theme-primary : #0038C8
+}
+
+.mdc-tab-bar{
+    border: 1px solid gray;
+}
+::-webkit-scrollbar{
+    display: none;
+}
+.mdc-tab-scroller__scroll-area{
+    scrollbar-width: none;
+}

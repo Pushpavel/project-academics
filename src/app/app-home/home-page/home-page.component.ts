@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CourseService } from '@service/course.service';
+import { UserService } from '@service/user.service';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -9,11 +10,17 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class HomePageComponent implements OnInit, OnDestroy {
 
-  constructor(private courseService: CourseService) {  }
+  constructor(private courseService: CourseService, private userService : UserService) {  }
 
   courseCollections ?: any = null
 
+  //dummy
+  homeTabs : String[] = ["Tab1", "Tab2", "Tab3", "Tab4", "Tab5"]
+
+  tabIndex : number = 0
+
   private courseSubscription!: Subscription  
+
 
   getCourseCollections() {
   }
@@ -27,8 +34,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.courseSubscription.unsubscribe()
   }
 
+  handletabChange(i: any){
+    this.tabIndex = i
+  }
+
   handleArchive() {
-    console.log("archive");
+    console.log("archive", this.tabIndex);
   }
 
 

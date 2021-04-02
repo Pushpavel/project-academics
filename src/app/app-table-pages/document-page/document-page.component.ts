@@ -33,7 +33,7 @@ export class DocumentPageComponent {
     shareReplay(1)
   );
 
-  doc = combineLatest([this.stat, this.user, this.course]).pipe(
+  doc = combineLatest([this.stat, this.user.user, this.course]).pipe(
     filter(data => data[1] != null),
     switchMap(([stat, user, course]) => {
       // TODO: Handle Unauthorized access
