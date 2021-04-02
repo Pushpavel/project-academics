@@ -19,3 +19,8 @@ export interface CourseDocumentStats {
   courseName: string,
   stats: Map<string, DocumentStat>
 }
+
+export interface UserCourseRelation {
+  isFaculty?: boolean,
+  isHod?: boolean,
+}

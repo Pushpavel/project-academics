@@ -13,6 +13,7 @@ export type DocumentEntry = AttendanceEntryRaw | MarklistEntryRaw// TODO: includ
 
 export interface DocumentMetaRaw {
   total?: number,
+  editable?: boolean,
 }
 
 export interface PrivateDocumentMetaRaw extends DocumentMetaRaw {

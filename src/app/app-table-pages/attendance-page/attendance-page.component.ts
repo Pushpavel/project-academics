@@ -7,4 +7,5 @@ import {DocumentPageComponent} from '../document-page/document-page.component';
   styleUrls: ['./attendance-page.component.scss']
 })
 export class AttendancePageComponent extends DocumentPageComponent {
+
 }

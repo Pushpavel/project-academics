@@ -3,6 +3,7 @@ import DocumentData = firebase.firestore.DocumentData;
 import FirestoreDataConverter = firebase.firestore.FirestoreDataConverter;
 import QuerySnapshot = firebase.firestore.QueryDocumentSnapshot;
 
+
 function defaultToFirestore(modelObject: any): DocumentData {
   return modelObject;
 }
@@ -15,6 +16,7 @@ interface Converter<T extends DocumentData> {
   toFirestore?: FirestoreDataConverter<T>['toFirestore'],
   fromFirestore?: FirestoreDataConverter<T>['fromFirestore']
 }
+
 
 export function converter<T extends DocumentData>(converters: Converter<T>): FirestoreDataConverter<T> {
   return {

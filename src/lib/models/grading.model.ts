@@ -1,4 +1,5 @@
 import {GRADES} from '@lib/constants/grading.constants';
+import {PrivateDocumentMetaRaw} from '@lib/models/document.model';
 
 export interface GradeEntryRaw {
   rollNo: string,
@@ -24,6 +25,8 @@ export interface GradingCriteriaMeta {
   total: number,
   entries: GradingCriteriaEntryUI[],
 }
+
+export type PrivateGradingCriteriaMeta = GradingCriteriaMeta & PrivateDocumentMetaRaw
 
 export interface GradingCriteriaMetaRaw {
   total: number,
