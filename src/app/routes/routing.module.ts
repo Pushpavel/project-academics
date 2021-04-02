@@ -41,7 +41,7 @@ if (!environment.production) routes.unshift({path: 'dev', component: DevPageComp
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {enableTracing: true})],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class RoutingModule {

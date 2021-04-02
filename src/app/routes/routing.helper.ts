@@ -3,7 +3,7 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 import {filter, map, shareReplay} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 
-type RoutingParamsObject = Record<RoutingParam, string>; // TODO: strong type documentId field
+export type RoutingParamsObject = Record<RoutingParam, string>; // TODO: strong type documentId field
 
 
 export function getParams(requiredParams: readonly RoutingParam[], route: ActivatedRoute): Observable<RoutingParamsObject> {
