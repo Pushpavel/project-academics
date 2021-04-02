@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DocumentPageComponent} from '../document-page/document-page.component';
 import {switchMap} from 'rxjs/operators';
 import {Sink} from '@lib/data-adapters/base/sink.interfaces';
-import {AttendanceEntryRaw} from '@lib/models/attendance.model';
+import {AttendanceEntryRaw, AttendanceEntryUI} from '@lib/models/attendance.model';
 import {combineLatest, Subject, Subscription} from 'rxjs';
 import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table.component';
 
@@ -23,7 +23,7 @@ export class AttendancePageComponent extends DocumentPageComponent implements On
   entrySink: Sink<AttendanceEntryRaw, 'rollNo'> = new Subject();
   subs = new Subscription();
 
-  onEdit({key, row}: EditEvent<AttendanceEntryRaw>) {
+  onEdit({key, row}: EditEvent<AttendanceEntryUI>) {
     this.entrySink.next({
       rollNo: row.rollNo,
       [key]: row[key]

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {MarklistEntryUI} from '@lib/models/marklist.model';
 import {AttendanceEntryUI} from '@lib/models/attendance.model';
-import {Observable, of} from 'rxjs';
+import {combineLatest, Observable, of} from 'rxjs';
 import {GradingCriteriaEntryUI, GradeEntryUI} from '@lib/models/grading.model';
 import {randFromRange} from '@lib/utils/number.util';
 import {DocumentMetaRaw, DocumentStat} from '@lib/models/document.model';
@@ -12,24 +12,36 @@ import {
   privateAttendanceEntries,
   privateDocumentMeta, privateMarklistEntries
 } from '@lib/data-adapters/document.adapter';
-import {DocumentPath} from '@lib/models/path.model';
+import {CoursePath, DocumentPath} from '@lib/models/path.model';
 import {
   privateDocumentEntriesSink
 } from '@lib/data-adapters/document-sink.adapter';
+import {studentNames} from '@lib/data-adapters/students.adapter';
+import {attendanceEntriesUIModel} from '@lib/data-adapters/combine/attendance.combine';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
 
+
   getCourseDocStats = courseDocumentStats;
   getCourseDocStat = courseDocumentStat;
 
   getPrivateMeta = privateDocumentMeta;
   getPrivateMarklistEntries = privateMarklistEntries;
-  getPrivateAttendanceEntries = privateAttendanceEntries;
 
   sinkPrivateDocumentEntry = privateDocumentEntriesSink;
+
+  getPrivateAttendanceEntries(p: CoursePath) {
+    return combineLatest([
+      privateAttendanceEntries(p),
+      studentNames(p),
+      this.getPrivateMeta({...p, documentId: 'ATTENDANCE'})
+    ]).pipe(
+      map(([entries, names, meta]) => attendanceEntriesUIModel(entries, names, meta))
+    );
+  }
 
   getStat(semId: string, courseCode: string, documentId: string): Observable<DocumentStat> {
     return this.getCourseDocStat(semId, courseCode).pipe(
