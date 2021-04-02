@@ -12,11 +12,10 @@ export class RegexGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log(route.paramMap.keys);
     const isValid = route.paramMap.keys.every(paramKey => {
       const regex = ROUTING_REGEXES[paramKey as RoutingParam];
       const param = route.paramMap.get(paramKey);
-      return param && regex?.test(param);
+      return param && (!regex || regex.test(param));
     });
 
     return isValid || this.router.parseUrl('404');

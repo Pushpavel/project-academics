@@ -26,7 +26,7 @@ export abstract class DocumentPageComponent {
   });
 
   isPrivate = combineLatest([this.userCR, this.stat]).pipe(
-    map(([cr, stat]) => cr.isFaculty && (stat.status == 'private' || stat.status == 'remarked') && stat.id == 'GRADES')
+    map(([cr, stat]) => cr.isFaculty && (stat.status == 'private' || stat.status == 'remarked') && stat.id != 'GRADES')
   );
 
   meta = combineLatest([this.params, this.isPrivate]).pipe(

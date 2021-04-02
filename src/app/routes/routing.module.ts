@@ -28,7 +28,6 @@ const routes: Routes = [
           {path: ``, component: CoursePageComponent, pathMatch: 'full'},
         ]
       },
-      // {path: `course/:${p.courseCode}/:${p.documentId}`, component: AttendancePageComponent},
       {path: ``, redirectTo: 'home', pathMatch: 'full'},
     ]
   },

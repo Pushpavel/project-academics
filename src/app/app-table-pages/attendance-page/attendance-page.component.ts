@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {DocumentPageComponent} from '../document-page/document-page.component';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-attendance-page',
@@ -7,5 +8,12 @@ import {DocumentPageComponent} from '../document-page/document-page.component';
   styleUrls: ['./attendance-page.component.scss']
 })
 export class AttendancePageComponent extends DocumentPageComponent {
+
+  entries = this.params.pipe(
+    switchMap(params => this.documentService.getPrivateAttendanceEntries({
+      semId: params.semId,
+      courseCode: params.courseCode
+    }))
+  );
 
 }
