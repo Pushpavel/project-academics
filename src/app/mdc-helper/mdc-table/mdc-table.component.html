@@ -19,6 +19,7 @@
         *cdkCellDef="let row">
       <label mdc-text-field *ngIf="column.editable else nonEditableTemplate">
         <input mdc-input [value]="row[column.key]"
+               [type]="column.numeric?'number':'text'"
                (change)="onCellChange($event,column.key,row,column)">
       </label>
       <ng-template #nonEditableTemplate>
