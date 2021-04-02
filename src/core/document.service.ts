@@ -14,7 +14,7 @@ import {
 } from '@lib/data-adapters/document.adapter';
 import {CoursePath, DocumentPath} from '@lib/models/path.model';
 import {
-  privateDocumentEntriesSink, privateDocumentMetaSink
+  privateDocumentEntriesSink, privateDocumentMetaSink, privateGradingCriteriaEntriesSink
 } from '@lib/data-adapters/document-sink.adapter';
 import {studentNames} from '@lib/data-adapters/students.adapter';
 import {attendanceEntriesUIModel} from '@lib/data-adapters/combine/attendance.combine';
@@ -33,6 +33,7 @@ export class DocumentService {
 
   sinkPrivateDocumentEntry = privateDocumentEntriesSink;
   sinkPrivateDocumentMeta = privateDocumentMetaSink;
+  sinkPrivateGradingCriteriaEntry = privateGradingCriteriaEntriesSink;
 
   getPrivateAttendanceEntries(p: CoursePath) {
     return combineLatest([

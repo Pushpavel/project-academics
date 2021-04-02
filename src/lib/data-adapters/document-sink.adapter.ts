@@ -1,5 +1,4 @@
-import {DocumentPath} from '@lib/models/path.model';
-import {Observable} from 'rxjs';
+import {CoursePath, DocumentPath} from '@lib/models/path.model';
 import {DocumentMetaRaw, PrivateDocumentId} from '@lib/models/document.model';
 import {firestore} from '../../firebase.app';
 import {MarklistEntryRaw} from '@lib/models/marklist.model';
@@ -27,8 +26,8 @@ export function privateDocumentMetaSink<T extends DocumentMetaRaw | GradingCrite
 }
 
 export function privateGradingCriteriaEntriesSink(
-  p: DocumentPath, sink: Observable<Partial<GradingCriteriaEntryUI> & { grade: string }>
+  p: CoursePath, sink: ListSink<GradingCriteriaEntryUI, 'grade'>
 ) {
-  const ref = firestore.doc(`semesters/${p.semId}/courses/${p.courseCode}/private_course_documents/${p.documentId}`);
+  const ref = firestore.doc(`semesters/${p.semId}/courses/${p.courseCode}/private_course_documents/GRADING_CRITERIA`);
   return sink.subscribe(updates => ref.update(`entries.${updates.grade}`, updates.minMark));
 }
