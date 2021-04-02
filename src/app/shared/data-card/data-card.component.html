@@ -1,10 +1,12 @@
-<!--<mdc-card>-->
-<!--  <mat-card-title>-->
-<!--    {{cardTitle}}-->
-<!--  </mat-card-title>-->
-<!--  <div *ngFor="let row of cardTable">-->
-<!--    <mat-card-title>{{row.title}}</mat-card-title>-->
-<!--    <mat-card-content>{{row.content}}</mat-card-content>-->
-<!--  </div>-->
-<!--  <ng-content></ng-content>-->
-<!--</mdc-card>-->
+<div class="mdc-card mdc-card--outlined">
+  <h6 class="mdc-card-title">{{cardTitle}}</h6>
+  <div class="mdc-card-items" *ngFor="let row of cardTable">
+    <p class="body2">{{row.title}}</p>
+    <h6>{{row.content}}</h6>
+  </div>
+  <ng-content></ng-content>
+  <!--  <div class="mdc-card-items">-->
+  <!--    <p class="body2">Last Updated On</p>-->
+  <!--    <h6>12 Aug 2021</h6>-->
+  <!--  </div>-->
+</div>

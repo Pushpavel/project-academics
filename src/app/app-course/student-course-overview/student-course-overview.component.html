@@ -1,14 +1,12 @@
 <ng-container *ngIf="courseOverview|async as data">
   <div>
-    <h6>ATTENDANCE</h6>
     <!--  TODO: StudentAttendanceEntry is available here, use it  -->
     {{data.attendanceEntry|json}}
   </div>
-  <h5>Mark Updates</h5>
+  <h6>MARK UPDATES</h6>
   <div *ngFor="let entry of data.markEntries">
     <div class="sub1">{{entry.documentName}}</div>
     <!--  TODO: StudentMarkEntry is available here, use it  -->
     {{entry|json}}
   </div>
-
 </ng-container>

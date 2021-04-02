@@ -1,7 +1,20 @@
-//@use "theme" as *;
-//
-//mat-card {
-//  display: flex;
-//  justify-content: center;
-//  align-content: center;
-//}
+@use "theme" as *;
+
+.mdc-card {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  padding: 25px;
+  column-gap: 20px;
+  border-radius: 15px;
+
+  .mdc-card-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+  }
+
+  .mdc-card-items {
+    padding: 15px;
+  }
+}

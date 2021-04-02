@@ -1,6 +1,7 @@
 @use "@material/ripple";
 @use "@material/circular-progress";
 @use "@material/elevation";
+@use "@material/card";
 
 @use "mdc-button";
 @use "mdc-icon";
@@ -13,7 +14,7 @@
   @include ripple.core-styles();
   @include circular-progress.core-styles();
   @include elevation.core-styles();
-
+  @include card.core-styles();
 
   //custom files
   @include mdc-button.styles;

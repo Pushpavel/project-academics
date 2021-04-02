@@ -6,24 +6,24 @@ interface cardRow {
 }
 
 @Component({
-  selector: 'app-data-card',
+  selector: 'data-card',
   templateUrl: './data-card.component.html',
   styleUrls: ['./data-card.component.scss']
 })
 export class DataCardComponent implements OnInit {
 
-  // @Input() cardTitle: string | undefined;
-  //
-  // @Input() cardRow: cardRow | undefined;
+  @Input() cardTitle: string | undefined;
 
-  cardTitle = 'Testing';
+  @Input() cardTable: Array<cardRow> | undefined;
+
+  // cardTitle = 'TESTING';
+  //
+  // cardTable = [{title: 'Chips', content: 'Good'},
+  //   {title: 'Chips', content: 'Good'},
+  //   {title: 'Chips', content: 'Good'}];
 
   constructor() {
   }
-
-  // cardTable: Array<cardRow> | undefined;
-
-  cardTable = [{title:'chips', content:'Good'}, {title:'chips', content:'Good'}, {title:'chips', content:'Good'}];
 
   ngOnInit(): void {
   }
