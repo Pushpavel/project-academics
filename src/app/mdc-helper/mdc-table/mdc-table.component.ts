@@ -16,13 +16,22 @@ import {Observable, of} from 'rxjs';
 export class MdcTableComponent<T extends Record<string, any>> {
 
   @Input() inputSource: Observable<readonly Readonly<T>[]> = of([]);
+  @Output() edit = new EventEmitter<EditEvent<T>>();
 
   @Input('columns') columnSettings: ColumnSetting<T>[] = [];
-  @Output() cellDataChange = new EventEmitter<CellDataChangeEvent<T>>();
 
-  get _columnLabels() {
+  get _columnKeys() {
     return this.columnSettings.map(s => s.key);
   };
+
+  onCellChange({target}: Event, key: keyof T, row: T, col: ColumnSetting) {
+    if (!(target instanceof HTMLInputElement) || !(target instanceof HTMLInputElement)) return;
+
+    this.edit.next({
+      key,
+      row: {...row, [key]: col.numeric ? target.valueAsNumber : target.value}
+    });
+  }
 
 }
 
@@ -30,8 +39,8 @@ export type ColumnSetting<T extends Record<string, any> = any> = {
   key: keyof T,
   label: string,
   editable?: boolean,
-  sortable?: boolean // TODO: Implement this
   flex?: number,
+  numeric?: boolean,
 }
 
-export type CellDataChangeEvent<T extends Record<string, any>> = { index: number, key: keyof T, changed_row: Readonly<T> };
+export type EditEvent<T extends Record<string, any>> = { key: keyof T, row: Readonly<T> };
