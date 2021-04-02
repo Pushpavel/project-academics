@@ -10,7 +10,7 @@ export function attendanceEntriesUIModel(
     const percentage = meta.total ? 100 * entry.attended / meta.total : 100;
     return {
       ...entry,
-      percentage: percentage.toString() + '%',
+      percentage: (Math.round(percentage * 100) / 100).toString() + '%', // TODO: Implement correct rounding of percentage
       name: studentNames.get(entry.rollNo) ?? 'Error' // TODO: Handle this
     };
   });

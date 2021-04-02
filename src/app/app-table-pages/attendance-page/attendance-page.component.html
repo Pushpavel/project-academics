@@ -1,2 +1,6 @@
+<div class="p16" *ngIf="meta|async as meta">
+  <span>Total Classes Conducted </span>
+  <input type="number" [value]="meta.total" (change)="onTotalChange($event)">
+</div>
 <mdc-table *ngIf="columns|async as cols" [columns]="$any(cols)" [inputSource]="entries"
            (edit)="onEdit($any($event))"></mdc-table>

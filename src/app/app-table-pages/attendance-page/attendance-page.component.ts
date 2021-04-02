@@ -1,10 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DocumentPageComponent} from '../document-page/document-page.component';
 import {switchMap} from 'rxjs/operators';
-import {Sink} from '@lib/data-adapters/base/sink.interfaces';
+import {ListSink, Sink} from '@lib/data-adapters/base/sink.interfaces';
 import {AttendanceEntryRaw, AttendanceEntryUI} from '@lib/models/attendance.model';
 import {combineLatest, Subject, Subscription} from 'rxjs';
 import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table.component';
+import {DocumentMetaRaw} from '@lib/models/document.model';
+import {DocumentPath} from '@lib/models/path.model';
 
 @Component({
   selector: 'app-attendance-page',
@@ -20,8 +22,18 @@ export class AttendancePageComponent extends DocumentPageComponent implements On
     }))
   );
 
-  entrySink: Sink<AttendanceEntryRaw, 'rollNo'> = new Subject();
+  entrySink: ListSink<AttendanceEntryRaw, 'rollNo'> = new Subject();
+  metaSink: Sink<DocumentMetaRaw> = new Subject();
+
   subs = new Subscription();
+
+
+  onTotalChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.metaSink.next({
+      total: target.valueAsNumber
+    });
+  }
 
   onEdit({key, row}: EditEvent<AttendanceEntryUI>) {
     this.entrySink.next({
@@ -35,12 +47,16 @@ export class AttendancePageComponent extends DocumentPageComponent implements On
     //  Setup Sinks
     const sub = combineLatest([this.editable, this.params])
       .subscribe(([editable, params]) => {
-        if (editable)
-          this.documentService.sinkPrivateDocumentEntry({
-            semId: params.semId,
-            courseCode: params.courseCode,
-            documentId: 'ATTENDANCE'
-          }, this.entrySink);
+        const p: DocumentPath<'ATTENDANCE'> = {
+          semId: params.semId,
+          courseCode: params.courseCode,
+          documentId: 'ATTENDANCE'
+        };
+
+        if (editable) {
+          this.documentService.sinkPrivateDocumentEntry(p, this.entrySink);
+          this.documentService.sinkPrivateDocumentMeta(p, this.metaSink);
+        }
       });
 
     this.subs.add(sub);

@@ -5,12 +5,12 @@ import {firestore} from '../../firebase.app';
 import {MarklistEntryRaw} from '@lib/models/marklist.model';
 import {GradingCriteriaEntryUI, GradingCriteriaMetaRaw} from '@lib/models/grading.model';
 import {AttendanceEntryRaw} from '@lib/models/attendance.model';
-import {Sink} from '@lib/data-adapters/base/sink.interfaces';
+import {ListSink, Sink} from '@lib/data-adapters/base/sink.interfaces';
 
 
 export function privateDocumentEntriesSink<T extends MarklistEntryRaw | AttendanceEntryRaw>(
   p: DocumentPath<Exclude<PrivateDocumentId, 'GRADING_CRITERIA'>>,
-  sink: Sink<T, 'rollNo'>
+  sink: ListSink<T, 'rollNo'>
 ) {
   const col = firestore.collection(`semesters/${p.semId}/courses/${p.courseCode}/private_course_documents/${p.documentId}/entries`);
   return sink.subscribe(markEntryUpdate => {
@@ -21,10 +21,7 @@ export function privateDocumentEntriesSink<T extends MarklistEntryRaw | Attendan
 }
 
 
-
-
-
-export function privateDocumentMetaSink<T extends DocumentMetaRaw | GradingCriteriaMetaRaw>(p: DocumentPath, sink: Observable<Partial<T>>) {
+export function privateDocumentMetaSink<T extends DocumentMetaRaw | GradingCriteriaMetaRaw>(p: DocumentPath, sink: Sink<T>) {
   const ref = firestore.doc(`semesters/${p.semId}/courses/${p.courseCode}/private_course_documents/${p.documentId}`);
   return sink.subscribe(metaUpdate => ref.update(metaUpdate));
 }
