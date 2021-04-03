@@ -9,12 +9,12 @@ import {ColumnDirective} from '../column.directive';
     class: 'mdc-data-table'
   }
 })
-export class MdcTableComponent<T extends Record<string, any>>  {
+export class MdcTableComponent<T extends Record<string, any>> {
 
   @ContentChildren(ColumnDirective) columns!: QueryList<ColumnDirective>;
 
-  @Input() rows?: T[];
+  @Input() rows?: T[] | null;
 
-  @Input() editableCell?: TemplateRef<T>
+  @Input() editableCell?: TemplateRef<T>;
 
 }

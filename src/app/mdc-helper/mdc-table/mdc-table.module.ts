@@ -29,5 +29,3 @@ export type ColumnSetting<T extends Record<string, any> = any> = {
   flex?: number,
   numeric?: boolean,
 }
-
-export type EditEvent<T extends Record<string, any>> = { key: keyof T, row: Readonly<T> };

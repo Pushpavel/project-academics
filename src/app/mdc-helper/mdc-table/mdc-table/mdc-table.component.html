@@ -25,7 +25,7 @@
 
         <!--  EDITABLE CELL  -->
         <ng-container *ngIf="col._editable && editableCell else DefaultCell">
-          <ng-container *ngTemplateOutlet="editableCell;context:{$implicit:row,col:col}"></ng-container>
+          <ng-container *ngTemplateOutlet="editableCell;context:{row:row,col:col}"></ng-container>
         </ng-container>
 
         <!--  DEFAULT CELL -->

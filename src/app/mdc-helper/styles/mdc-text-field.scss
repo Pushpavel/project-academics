@@ -8,4 +8,16 @@
   @include notched-outline.core-styles();
   @include textfield.core-styles();
   @include floating-label.core-styles();
+
+  .numeric[mdc-text-field] {
+    width: 4em;
+    height: 3em;
+    padding: 0 0.25em;
+    margin: 0.5em 0;
+    text-align: center;
+
+    > input {
+      text-align: center;
+    }
+  }
 }

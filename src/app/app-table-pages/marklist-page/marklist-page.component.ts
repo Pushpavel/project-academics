@@ -6,7 +6,6 @@ import {combineLatest, Subject, Subscription} from 'rxjs';
 import {MarklistDocumentId} from '@lib/models/document.model';
 import {DocumentPath} from '@lib/models/path.model';
 import {MarklistEntryRaw, MarklistEntryUI} from '@lib/models/marklist.model';
-import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table.module';
 
 @Component({
   selector: 'app-marklist-page',
@@ -27,11 +26,10 @@ export class MarklistPageComponent extends DocumentPageComponent implements OnIn
 
   subs = new Subscription();
 
-
-  onEdit({key, row}: EditEvent<MarklistEntryUI>) {
+  onEdit(key: string, row: MarklistEntryUI, event: Event) {
     this.entrySink.next({
       rollNo: row.rollNo,
-      [key]: row[key]
+      [key]: (event.target as HTMLInputElement).valueAsNumber
     });
   }
 

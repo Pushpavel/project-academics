@@ -4,7 +4,6 @@ import {map} from 'rxjs/operators';
 import {ListSink} from '@lib/data-adapters/base/sink.interfaces';
 import {combineLatest, Subject, Subscription} from 'rxjs';
 import {GradingCriteriaEntryUI, GradingCriteriaMeta} from '@lib/models/grading.model';
-import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table.module';
 
 @Component({
   selector: 'app-grading-criteria-page',
@@ -21,11 +20,10 @@ export class GradingCriteriaPageComponent extends DocumentPageComponent implemen
 
   subs = new Subscription();
 
-
-  onEdit({key, row}: EditEvent<GradingCriteriaEntryUI>) {
+  onEdit(key: string, row: GradingCriteriaEntryUI, event: Event) {
     this.entrySink.next({
       grade: row.grade,
-      [key]: row[key]
+      [key]: (event.target as HTMLInputElement).valueAsNumber
     });
   }
 

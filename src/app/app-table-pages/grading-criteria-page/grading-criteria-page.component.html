@@ -1,2 +1,11 @@
-<!--<mdc-table *ngIf="columns|async as cols" [columns]="$any(cols)" [inputSource]="entries"-->
-<!--           (edit)="onEdit($any($event))"></mdc-table>-->
+<mdc-table [rows]="entries|async" [editableCell]="editableCell">
+  <column key="grade" label="Grade"></column>
+  <column key="minMark" label="Minimum Mark" numeric editable></column>
+  <column key="maxMark" label="Maximum Mark" numeric></column>
+</mdc-table>
+
+<ng-template #editableCell let-row='row' let-col='col'>
+  <label mdc-text-field class="numeric">
+    <input mdc-input type="number" [value]="row[col.key]" (change)="onEdit(col.key,row,$event)">
+  </label>
+</ng-template>

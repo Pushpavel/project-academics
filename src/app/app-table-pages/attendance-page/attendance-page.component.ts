@@ -6,7 +6,6 @@ import {AttendanceEntryRaw, AttendanceEntryUI} from '@lib/models/attendance.mode
 import {combineLatest, Subject, Subscription} from 'rxjs';
 import {DocumentMetaRaw} from '@lib/models/document.model';
 import {DocumentPath} from '@lib/models/path.model';
-import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table.module';
 
 @Component({
   selector: 'app-attendance-page',
@@ -35,10 +34,10 @@ export class AttendancePageComponent extends DocumentPageComponent implements On
     });
   }
 
-  onEdit({key, row}: EditEvent<AttendanceEntryUI>) {
+  onEdit(key: string, row: AttendanceEntryUI, event: Event) {
     this.entrySink.next({
       rollNo: row.rollNo,
-      [key]: row[key]
+      [key]: (event.target as HTMLInputElement).valueAsNumber
     });
   }
 
