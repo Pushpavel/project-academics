@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DocumentPageComponent} from '../document-page/document-page.component';
+import {DocumentPage} from '../document-page/DocumentPage';
 import {switchMap} from 'rxjs/operators';
 import {ListSink} from '@lib/data-adapters/base/sink.interfaces';
 import {combineLatest, Subject, Subscription} from 'rxjs';
@@ -12,7 +12,7 @@ import {MarklistEntryRaw, MarklistEntryUI} from '@lib/models/marklist.model';
   templateUrl: './marklist-page.component.html',
   styleUrls: ['./marklist-page.component.scss']
 })
-export class MarklistPageComponent extends DocumentPageComponent implements OnInit, OnDestroy {
+export class MarklistPageComponent extends DocumentPage implements OnInit, OnDestroy {
 
   entries = this.params.pipe(
     switchMap(params => this.documentService.getPrivateMarklistEntries({

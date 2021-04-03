@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DocumentPageComponent} from '../document-page/document-page.component';
+import {DocumentPage} from '../document-page/DocumentPage';
 import {switchMap} from 'rxjs/operators';
 import {ListSink, Sink} from '@lib/data-adapters/base/sink.interfaces';
 import {AttendanceEntryRaw, AttendanceEntryUI} from '@lib/models/attendance.model';
@@ -12,7 +12,7 @@ import {DocumentPath} from '@lib/models/path.model';
   templateUrl: './attendance-page.component.html',
   styleUrls: ['./attendance-page.component.scss']
 })
-export class AttendancePageComponent extends DocumentPageComponent implements OnInit, OnDestroy {
+export class AttendancePageComponent extends DocumentPage implements OnInit, OnDestroy {
 
   entries = this.params.pipe(
     switchMap(params => this.documentService.getPrivateAttendanceEntries({

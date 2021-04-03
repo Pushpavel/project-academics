@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DocumentPageComponent} from '../document-page/document-page.component';
+import {DocumentPage} from '../document-page/DocumentPage';
 import {map} from 'rxjs/operators';
 import {ListSink} from '@lib/data-adapters/base/sink.interfaces';
 import {combineLatest, Subject, Subscription} from 'rxjs';
@@ -10,7 +10,7 @@ import {GradingCriteriaEntryUI, GradingCriteriaMeta} from '@lib/models/grading.m
   templateUrl: './grading-criteria-page.component.html',
   styleUrls: ['./grading-criteria-page.component.scss']
 })
-export class GradingCriteriaPageComponent extends DocumentPageComponent implements OnInit, OnDestroy {
+export class GradingCriteriaPageComponent extends DocumentPage implements OnInit, OnDestroy {
 
   entries = this.meta.pipe(
     map((meta) => (meta as GradingCriteriaMeta).entries)

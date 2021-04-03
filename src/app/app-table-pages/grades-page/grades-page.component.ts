@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
-import {DocumentPageComponent} from '../document-page/document-page.component';
+import {DocumentPage} from '../document-page/DocumentPage';
 
 @Component({
   selector: 'app-grades-page',
   templateUrl: './grades-page.component.html',
   styleUrls: ['./grades-page.component.scss']
 })
-export class GradesPageComponent extends DocumentPageComponent {
+export class GradesPageComponent extends DocumentPage {
 
 }

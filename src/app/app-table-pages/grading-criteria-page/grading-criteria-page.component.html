@@ -1,6 +1,6 @@
 <mdc-table [rows]="entries|async" [editableCell]="editableCell">
   <column key="grade" label="Grade"></column>
-  <column key="minMark" label="Minimum Mark" numeric editable></column>
+  <column key="minMark" label="Minimum Mark" numeric [editable]="editable|async"></column>
   <column key="maxMark" label="Maximum Mark" numeric></column>
 </mdc-table>
 

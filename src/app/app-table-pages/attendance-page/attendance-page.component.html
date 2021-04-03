@@ -6,11 +6,11 @@
 <mdc-table [rows]="entries|async" [editableCell]="editableCell">
   <column key="rollNo" label="Roll No"></column>
   <column key="name" label="Name"></column>
-  <column key="attended" label="No of Classes Attended" numeric editable></column>
+  <column key="attended" label="No of Classes Attended" numeric [editable]="editable|async"></column>
   <column key="percentage" label="Percentage" numeric></column>
 </mdc-table>
 
-<ng-template #editableCell  let-row='row' let-col='col'>
+<ng-template #editableCell let-row='row' let-col='col'>
   <label mdc-text-field class="numeric">
     <input mdc-input type="number" [value]="row[col.key]" (change)="onEdit(col.key,row,$event)">
   </label>
