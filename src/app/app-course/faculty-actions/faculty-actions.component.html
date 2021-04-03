@@ -1,13 +1,13 @@
 <ng-template #actionButton let-doc>
   <!--  TODO: CourseDocumentStat is available here, use it  -->
-  <button mdc-button class="surface" (click)="openDocument(doc.id)">
-    <p class="sub2"><!--{{doc.name}}-->SUBTOPIC </p>
-    <!--    &#45;&#45;{{doc.timestamp}}-->
-    <p class="last-updated">Last Updated 25 Aug 2020</p>
+  <button mdc-button class="surface mdc-button--outlined" (click)="openDocument(doc.id)">
+    <h5><!--{{doc.name}}-->SUBTOPIC </h5>
+    <!--    --{{doc.timestamp}}-->
+    <p class="body2">Last Updated 25 Aug 2020</p>
   </button>
 </ng-template>
 
-<div *ngFor="let group of documentGroups|async">
+<div class="sub-group" *ngFor="let group of documentGroups|async">
   <h6>{{group.title}}</h6>
   <div class="surface-group">
     <ng-container *ngFor="let doc of group.actions">

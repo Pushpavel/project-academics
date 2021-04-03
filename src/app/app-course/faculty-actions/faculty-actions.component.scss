@@ -1,28 +1,22 @@
 .surface {
   display: grid;
-  grid-template-rows: repeat(2, auto);
+  grid-template-rows: repeat(2, 60px);
   grid-template-columns: auto;
   background-color: white;
   color: black;
-  height: auto;
-  margin: 15px;
+  height: 120px;
+  width: 300px;
+  margin: 15px 15px 15px 0;
 
-  .last-updated {
-    font-weight: lighter;
+  p {
     text-transform: capitalize;
   }
 }
 
-div {
-  padding-top: 12px;
-  padding-left: 32px;
+.sub-group {
+  padding: 20px 80px;
+}
 
-  h6 {
-    font-weight: lighter;
-    font-size: medium;
-  }
-
-  .surface-group {
-    display: flex;
-  }
+.surface-group {
+  display: flex;
 }
