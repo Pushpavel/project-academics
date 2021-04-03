@@ -1,4 +1,4 @@
-<faculty-actions *ngIf="false"></faculty-actions>
+<faculty-actions *ngIf="true"></faculty-actions>
 <student-course-overview *ngIf="true"></student-course-overview>
 
 <ng-container *pageTemplate="t.SECONDARY_HEADER">
@@ -13,7 +13,9 @@
       <p class="details-title"> ENROLLED </p>
       <p class="details-title"> FACULTY </p>
       <p class="details-title"> SEMESTER </p>
-      <p> {{course.courseCode}} </p>
+      <!--      TODO: Problem with course code-->
+      <!--      <p> {{course.courseCode}} </p>-->
+      <p>CS208</p>
       <p> {{course.studentCount}} </p>
       <p> {{course.facultyName}} </p>
       <p> EVEN 2020 </p>

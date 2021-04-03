@@ -1,12 +1,15 @@
 <ng-container *ngIf="courseOverview|async as data">
-  <div>
-    <!--  TODO: StudentAttendanceEntry is available here, use it  -->
-    {{data.attendanceEntry|json}}
-  </div>
+  <data-card [title]="attendanceCardTitle">
+    <entry title="Percentage" [value]="data.attendanceEntry.percentage"></entry>
+    <entry title="No. of Classes Attended" [value]="data.attendanceEntry.attendedClasses"></entry>
+    <entry title="No. of Classes Conducted" [value]="data.attendanceEntry.totalClasses"></entry>
+    <entry title="Last Updated On" [value]="data.attendanceEntry.timestamp"></entry>
+  </data-card>
   <h6>MARK UPDATES</h6>
-  <div *ngFor="let entry of data.markEntries">
-    <div class="sub1">{{entry.documentName}}</div>
-    <!--  TODO: StudentMarkEntry is available here, use it  -->
-    {{entry|json}}
+  <div class="mark-cards">
+    <data-card *ngFor="let entry of data.markEntries" [title]="entry.documentName">
+      <entry title="Marks" [value]="entry.mark"></entry>
+      <entry title="Last Updated On" [value]="entry.timestamp"></entry>
+    </data-card>
   </div>
 </ng-container>

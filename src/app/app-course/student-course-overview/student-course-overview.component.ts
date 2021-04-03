@@ -21,6 +21,8 @@ export class StudentCourseOverviewComponent {
     )
   );
 
+  attendanceCardTitle = 'ATTENDANCE';
+
   constructor(
     private studentService: StudentService,
     private route: ActivatedRoute,

@@ -10,5 +10,5 @@ import {Component, Input} from '@angular/core';
 })
 export class EntryComponent {
   @Input() title?: string;
-  @Input() value?: string;
+  @Input() value?: number;
 }

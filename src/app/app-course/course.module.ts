@@ -17,9 +17,10 @@ import {StudentCourseOverviewComponent} from './student-course-overview/student-
     SharedModule,
     MdcHelperModule,
   ],
-  exports: [
-    CoursePageComponent
-  ]
+    exports: [
+        CoursePageComponent,
+        StudentCourseOverviewComponent
+    ]
 })
 export class CourseModule {
 }

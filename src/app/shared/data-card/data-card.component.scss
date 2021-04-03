@@ -1,11 +1,15 @@
 @use "theme" as *;
 
 :host {
-  display: grid;
-  grid-template-columns: repeat(5, auto);
-  padding: 25px;
-  column-gap: 20px;
-  border-radius: 15px;
+  //display: grid;
+  //grid-template-columns: repeat(5, auto);
+  //padding: 15px;
+  //border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 150px;
 
   > .mdc-card-title {
     display: flex;
@@ -15,6 +19,7 @@
   }
 
   > entry {
-    padding: 15px;
+    margin: 5px;
+    width: 50px;
   }
 }
