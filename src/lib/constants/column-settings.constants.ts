@@ -1,8 +1,8 @@
-import {ColumnSetting} from '../../app/mdc-helper/mdc-table/mdc-table.component';
 import {AttendanceEntryUI} from '@lib/models/attendance.model';
 import {MarklistEntryUI} from '@lib/models/marklist.model';
 import {GradingCriteriaEntryUI, GradeEntryUI} from '@lib/models/grading.model';
 import {DOCUMENT_NAMES} from '@lib/constants/document.constants';
+import {ColumnSetting} from '../../app/mdc-helper/mdc-table/mdc-table.module';
 
 type Settings<T> = (editable?: boolean) => ColumnSetting<T>[]
 

@@ -4,9 +4,9 @@ import {switchMap} from 'rxjs/operators';
 import {ListSink} from '@lib/data-adapters/base/sink.interfaces';
 import {combineLatest, Subject, Subscription} from 'rxjs';
 import {MarklistDocumentId} from '@lib/models/document.model';
-import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table.component';
 import {DocumentPath} from '@lib/models/path.model';
 import {MarklistEntryRaw, MarklistEntryUI} from '@lib/models/marklist.model';
+import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table.module';
 
 @Component({
   selector: 'app-marklist-page',

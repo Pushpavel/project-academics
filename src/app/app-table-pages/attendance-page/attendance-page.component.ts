@@ -4,9 +4,9 @@ import {switchMap} from 'rxjs/operators';
 import {ListSink, Sink} from '@lib/data-adapters/base/sink.interfaces';
 import {AttendanceEntryRaw, AttendanceEntryUI} from '@lib/models/attendance.model';
 import {combineLatest, Subject, Subscription} from 'rxjs';
-import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table.component';
 import {DocumentMetaRaw} from '@lib/models/document.model';
 import {DocumentPath} from '@lib/models/path.model';
+import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table.module';
 
 @Component({
   selector: 'app-attendance-page',

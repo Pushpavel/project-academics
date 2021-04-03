@@ -3,8 +3,8 @@ import {DocumentPageComponent} from '../document-page/document-page.component';
 import {map} from 'rxjs/operators';
 import {ListSink} from '@lib/data-adapters/base/sink.interfaces';
 import {combineLatest, Subject, Subscription} from 'rxjs';
-import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table.component';
 import {GradingCriteriaEntryUI, GradingCriteriaMeta} from '@lib/models/grading.model';
+import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table.module';
 
 @Component({
   selector: 'app-grading-criteria-page',

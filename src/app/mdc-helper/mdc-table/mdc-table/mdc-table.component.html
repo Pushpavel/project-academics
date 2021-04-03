@@ -1,0 +1,43 @@
+<div class="mdc-data-table__table-container">
+  <table class="mdc-data-table__table">
+    <thead>
+    <tr class="mdc-data-table__header-row">
+
+      <th
+        *ngFor="let col of columns"
+        [class.mdc-data-table__header-cell--numeric]="col._numeric"
+        class="mdc-data-table__header-cell">
+        {{col.label}}
+      </th>
+
+    </tr>
+    </thead>
+    <tbody class="mdc-data-table__content">
+
+    <tr
+      *ngFor="let row of rows"
+      class="mdc-data-table__row">
+
+      <td
+        *ngFor="let col of columns"
+        [class.mdc-data-table__cell--numeric]="col._numeric"
+        class="mdc-data-table__cell">
+
+        <!--  EDITABLE CELL  -->
+        <ng-container *ngIf="col._editable && editableCell else DefaultCell">
+          <ng-container *ngTemplateOutlet="editableCell;context:{$implicit:row,col:col}"></ng-container>
+        </ng-container>
+
+        <!--  DEFAULT CELL -->
+        <ng-template #DefaultCell>
+          {{row[col.key]}}
+        </ng-template>
+
+      </td>
+
+    </tr>
+
+    </tbody>
+  </table>
+</div>
+
