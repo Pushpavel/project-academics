@@ -7,6 +7,7 @@ import {MdcTextFieldComponent} from './mdc-text-field/mdc-text-field.component';
 import {MdcInputDirective} from './mdc-input/mdc-input.directive';
 import {MdcTabsBarComponent} from './mdc-tabs-bar/mdc-tabs-bar.component';
 import {MdcTableModule} from './mdc-table/mdc-table.module';
+import {MdcLayoutGridModule} from './mdc-layout-grid/mdc-layout-grid.module';
 
 
 @NgModule({
@@ -25,11 +26,13 @@ import {MdcTableModule} from './mdc-table/mdc-table.module';
     MdcTextFieldComponent,
     MdcInputDirective,
     MdcTabsBarComponent,
-    MdcTableModule
+    MdcTableModule,
+    MdcLayoutGridModule
   ],
   imports: [
     CommonModule,
-    MdcTableModule
+    MdcTableModule,
+    MdcLayoutGridModule
   ]
 })
 export class MdcHelperModule {
