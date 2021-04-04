@@ -6,19 +6,14 @@ import {combineLatest, Subject, Subscription} from 'rxjs';
 import {MarklistDocumentId} from '@lib/models/document.model';
 import {DocumentPath} from '@lib/models/path.model';
 import {MarklistEntryRaw, MarklistEntryUI} from '@lib/models/marklist.model';
-import {mdcLayoutCssClass} from '../../mdc-helper/mdc-layout-grid/mdc-layout.component';
 
 @Component({
   selector: 'app-marklist-page',
   templateUrl: './marklist-page.component.html',
   styleUrls: ['./marklist-page.component.scss'],
-  host: {
-    '[class]': `layoutCssClass + ' hm32'`
-  }
 })
 export class MarklistPageComponent extends DocumentPage implements OnInit, OnDestroy {
 
-  layoutCssClass = mdcLayoutCssClass();
 
   entries = this.params.pipe(
     switchMap(params => this.documentService.getPrivateMarklistEntries({

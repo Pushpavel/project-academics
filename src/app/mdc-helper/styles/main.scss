@@ -7,9 +7,7 @@
 @use "mdc-icon";
 @use "mdc-table";
 @use "mdc-text-field";
-
-//imports
-@use "@material/layout-grid/mdc-layout-grid";
+@use "mdc-layout";
 
 @mixin all-styles {
   //@material styles
@@ -19,6 +17,7 @@
   @include card.core-styles();
 
   //custom files
+  @include mdc-layout.styles;
   @include mdc-button.styles;
   @include mdc-icon.styles;
   @include mdc-table.styles;

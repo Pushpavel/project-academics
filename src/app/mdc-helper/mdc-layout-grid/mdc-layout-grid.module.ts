@@ -1,19 +1,17 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MdcLayoutComponent} from './mdc-layout.component';
+import {MdcLayoutDirective} from './mdc-layout.directive';
 import {MdcCellDirective} from './mdc-cell.directive';
-import {InnerLayoutComponent} from './inner-layout.component';
 
 
 @NgModule({
   declarations: [
-    MdcLayoutComponent,
+    MdcLayoutDirective,
     MdcCellDirective,
-    InnerLayoutComponent
   ],
   exports: [
-    InnerLayoutComponent,
-    MdcCellDirective
+    MdcCellDirective,
+    MdcLayoutDirective
   ],
   imports: [
     CommonModule

@@ -1,35 +1,36 @@
-import {Directive, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Directive, Input, OnChanges} from '@angular/core';
 
 @Directive({
-  selector: '[cell],[span],[spanDesktop],[spanTablet],[spanPhone]',
-  host: {
-    '[class]': `'mdc-layout-grid__cell' + _cssClasses`,
-  }
+  selector: '[span],[span.lg],[span.md],[span.sm],[span.xs]',
+  host: {'[class]': '_class'}
 })
 export class MdcCellDirective implements OnChanges {
 
-  /**
-   * Default cell span , overridden by spanDesktop, spanTablet , spanPhone
-   */
-  @Input() span?: OneTo12 = 4;
+  @Input('span') span?: OneTo12;
+  @Input('span.lg') spanLg?: OneTo12;
+  @Input('span.md') spanMd?: OneTo12;
+  @Input('span.sm') spanSm?: OneTo8;
+  @Input('span.xs') spanXs?: OneTo4;
 
-  @Input() spanDesktop?: OneTo12;
-  @Input() spanTablet?: OneTo8;
-  @Input() spanPhone?: OneTo4;
+  _class?: string;
 
-  _cssClasses = '';
+  ngOnChanges() {
+    this._class = '';
 
-  ngOnChanges(changes: SimpleChanges) {
-    this._cssClasses = '';
+    if (this.spanLg || this.span)
+      this._class += ` cell--lg--${this.spanLg ?? this.span}`;
 
-    this._cssClasses += ` mdc-layout-grid__cell--span-${this.spanDesktop ?? this.span}-desktop`;
-    this._cssClasses += ` mdc-layout-grid__cell--span-${this.spanTablet ?? this.span}-tablet`;
-    this._cssClasses += ` mdc-layout-grid__cell--span-${this.spanPhone ?? this.span}-phone`;
+    if (this.spanMd || this.span)
+      this._class += ` cell--md--${this.spanMd ?? this.span}`;
+
+    if (this.spanSm || this.span)
+      this._class += ` cell--sm--${this.spanSm ?? this.span}`;
+
+    if (this.spanXs || this.span)
+      this._class += ` cell--xs--${this.spanXs ?? this.span}`;
   }
 
-
 }
-
 
 type OneTo12 = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
 type OneTo8 = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8

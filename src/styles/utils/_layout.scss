@@ -3,3 +3,38 @@
   height: 100%;
   box-sizing: border-box;
 }
+
+$breakpoints: (
+  lg:1440px,
+  md:1024px,
+  sm:600px,
+  xs:0px,
+);
+
+$columns: (
+  lg:12,
+  md:12,
+  sm:8,
+  xs:4
+);
+
+$default-margins: (
+  lg:72px,
+  md:48px,
+  sm:16px,
+  xs:16px
+);
+
+$fixed-column-widths: (
+  lg:72px,
+  md:72px,
+  sm:72px,
+  xs:72px
+);
+
+$default-gutters: map-merge($default-margins, (
+  lg:48px,
+  md:32px
+));
+
+$default-column-span: 4;

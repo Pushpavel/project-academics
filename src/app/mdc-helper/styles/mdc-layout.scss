@@ -1,0 +1,57 @@
+@use "sass:map";
+@use "sass:math";
+@use "utils/layout";
+@use "utils/media";
+
+
+@mixin styles {
+  mdc-layout, [mdc-layout] {
+    // CONTAINER LAYOUT
+    box-sizing: border-box;
+    display: grid;
+    margin: 0;
+
+    @each $key in map.keys(layout.$columns) {
+      $padding: map.get(layout.$default-margins, $key);
+      $gutter: map.get(layout.$default-gutters, $key);
+      $column-count: map.get(layout.$columns, $key);
+      $column-width: map.get(layout.$fixed-column-widths, $key);
+      $gutter-count: $column-count - 1;
+
+      @include media.breakpoint($key) {
+        padding: $padding;
+        grid-gap: $gutter;
+        grid-template-columns: repeat($column-count, minmax(0, 1fr));
+        &.fixed {
+          width: $column-width * $column-count + $gutter * $gutter-count + $padding * 2;
+        }
+      }
+    }
+
+    // CELL LAYOUT
+    > * {
+      box-sizing: border-box;
+
+      $columns-counts: map.values(layout.$columns);
+      $max-column-count: math.max($columns-counts...);
+
+      @each $key in map.keys(layout.$columns) {
+        $column-count: map.get(layout.$columns, $key);
+
+
+        @include media.breakpoint($key) {
+
+          grid-column-end: span layout.$default-column-span;
+
+          @for $span from 1 through $max-column-count {
+
+            &.cell--#{$key}--#{$span} {
+              grid-column-end: span math.min($span, $column-count);
+            }
+          }
+        }
+
+      }
+    }
+  }
+}
