@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start-dev": "cd ./firebase && firebase emulators:exec \"cd ../ && ng serve\" --ui --only firestore --import=./emulator-data  --export-on-exit=./emulator-data",
-    "start-authOnly": "cd ./firebase && firebase emulators:exec \"cd ../ && ng serve\" --ui --only auth  --import=./emulator-data  --export-on-exit=./emulator-data"
+    "start-authOnly": "cd ./firebase && firebase emulators:exec \"cd ../ && ng serve\" --ui --only auth"
   },
   "private": true,
   "dependencies": {

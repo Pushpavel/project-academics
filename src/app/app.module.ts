@@ -10,8 +10,8 @@ import {AuthModule} from './app-auth/auth.module';
 import {CourseModule} from './app-course/course.module';
 import {HomeModule} from './app-home/home.module';
 import {ResultModule} from './app-result/result.module';
-import {TablePagesModule} from './app-table-pages/table-pages.module';
 import {SharedModule} from './shared/shared.module';
+import {DocumentPagesModule} from './app-document-pages/document-pages.module';
 
 const CORE_MODULES = [
   BrowserModule,
@@ -25,7 +25,7 @@ const FEATURE_MODULES = [
   CourseModule,
   HomeModule,
   ResultModule,
-  TablePagesModule,
+  DocumentPagesModule,
 ];
 
 if (!environment.production) CORE_MODULES.push(_DevModule);

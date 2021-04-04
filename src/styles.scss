@@ -1,6 +1,9 @@
 @use "theme" as *;
 @use "src/app/mdc-helper/styles/main" as material;
 
+//imports
+@use "app/app-document-pages/document-pages.import";
+
 @include material.all-styles();
 
 body {
@@ -13,3 +16,4 @@ body {
 .firebase-emulator-warning {
   display: none;
 }
+
