@@ -31,16 +31,7 @@ export class UserService extends BehaviorSubject<AcademicUser | null> implements
   }
 
   private authClaims(u: firebase.User) {
-    return from(u.getIdTokenResult()).pipe(map(r => r.claims.role))
-  }
-
-  private roleBools(role: 'faculty' | 'student' | 'hod' | 'exam_cell'){
-    return {
-      isExamCell: role === 'exam_cell',
-      isFaculty: role === 'faculty',
-      isHod: role === 'hod',
-      isStudent: role === 'student',
-    }
+    return from(u.getIdTokenResult()).pipe(map(r => r.claims))
   }
 
   //TODO : check whether is it nessary to fetch firestore object of authenticated user
@@ -56,8 +47,7 @@ export class UserService extends BehaviorSubject<AcademicUser | null> implements
         displayName: c[0].displayName,
         email: c[0].email,
         uid: c[0].uid,
-        role: c[2],
-        ...this.roleBools(c[2]),
+        ...c[2],
         ...safe(c[1].data())
       } as AcademicUser : null
     })).subscribe((u) => {

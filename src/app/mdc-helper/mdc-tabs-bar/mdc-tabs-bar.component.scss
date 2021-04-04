@@ -1,7 +1,7 @@
-@forward  "@material/tab-bar/mdc-tab-bar";
-@forward "@material/tab-scroller/mdc-tab-scroller";
-@forward "@material/tab-indicator/mdc-tab-indicator";
-@forward "@material/tab/mdc-tab";
+@use "@material/tab-bar/mdc-tab-bar";
+@use "@material/tab-scroller/mdc-tab-scroller";
+@use "@material/tab-indicator/mdc-tab-indicator";
+@use "@material/tab/mdc-tab";
 
 :host{
     --mdc-theme-primary : #0038C8
