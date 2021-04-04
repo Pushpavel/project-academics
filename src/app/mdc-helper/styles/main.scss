@@ -8,6 +8,8 @@
 @use "mdc-table";
 @use "mdc-text-field";
 
+//imports
+@use "@material/layout-grid/mdc-layout-grid";
 
 @mixin all-styles {
   //@material styles

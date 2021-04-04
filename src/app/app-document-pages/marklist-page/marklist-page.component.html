@@ -1,12 +1,17 @@
-<div class="header-tile">
-  <h4>Marklist</h4>
-</div>
+<inner-layout>
 
-<mdc-table [rows]="entries|async" [editableCell]="editableCell">
-  <column key="rollNo" label="Roll No"></column>
-  <column key="name" label="Name"></column>
-  <column key="mark" label="Mark" numeric [editable]="editable|async"></column>
-</mdc-table>
+  <div [span]="12" class="header-tile">
+    <h4>Marklist</h4>
+  </div>
+
+  <mdc-table [span]="12" [spanDesktop]="8" [rows]="entries|async"
+             [editableCell]="editableCell">
+    <column key="rollNo" label="Roll No"></column>
+    <column key="name" label="Name"></column>
+    <column key="mark" label="Mark" [editable]="editable|async"></column>
+  </mdc-table>
+
+</inner-layout>
 
 <ng-template #editableCell let-row='row' let-col='col'>
   <label mdc-text-field class="numeric">

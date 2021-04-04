@@ -26,8 +26,9 @@ export class MdcLayoutComponent {
   }
 }
 
-export function mdcLayout(align?: 'left' | 'right', fixedColWidth?: boolean) {
+export function mdcLayoutCssClass(align?: 'left' | 'right', fixedColWidth?: boolean) {
   let alignClass = '';
+
   if (align) alignClass = (align == 'left') ? 'mdc-layout-grid--align-left ' : 'mdc-layout-grid--align-right ';
   return 'mdc-layout-grid ' + alignClass + (fixedColWidth ? 'mdc-layout-grid--fixed-column-width' : '');
 }

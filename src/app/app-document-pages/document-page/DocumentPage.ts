@@ -2,7 +2,7 @@ import {Directive} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DocumentService} from '@service/document.service';
 import {getParams} from '../../routes/routing.helper';
-import {map, shareReplay, switchMap} from 'rxjs/operators';
+import {map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {combineLatest, Observable, of} from 'rxjs';
 import {UserCourseRelation} from '@lib/models/course.model';
 import {DocumentPath} from '@lib/models/path.model';
@@ -39,7 +39,8 @@ export abstract class DocumentPage {
       if (isPrivate)
         return this.documentService.getPrivateMeta(p as DocumentPath<PrivateDocumentId>);
       return this.documentService.getPublicMeta(p);
-    })
+    }),
+    tap(v => console.log(v)),
   );
 
   editable = this.meta.pipe(map(meta => meta.editable));
