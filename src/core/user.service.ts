@@ -31,7 +31,7 @@ export class UserService extends BehaviorSubject<AcademicUser | null> implements
   }
 
   private authClaims(u: firebase.User) {
-    return from(u.getIdTokenResult()).pipe(map(r => r.claims))
+    return u ? from(u.getIdTokenResult()).pipe(map(r => r.claims)) : of(null)
   }
 
   //TODO : check whether is it nessary to fetch firestore object of authenticated user
