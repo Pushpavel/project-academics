@@ -31,7 +31,7 @@ export function fetchObj<T extends DocumentData>(p: SourceDef<T>) {
 export function fetchList<T extends DocumentData, C extends CollectionReference | Query<DocumentData> = Query<DocumentData>>(
   p: ListSourceDef<T, C>
 ) {
-  let ref: Query<DocumentData> = (p.colGroupQuery) ? firestore.collection(p.path) : firestore.collectionGroup(p.path);
+  let ref: Query<DocumentData> = (!p.colGroupQuery) ? firestore.collection(p.path) : firestore.collectionGroup(p.path);
 
   if (p.query) ref = p.query(ref as C);
 
