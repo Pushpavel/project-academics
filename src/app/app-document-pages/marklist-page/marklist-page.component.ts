@@ -3,9 +3,9 @@ import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {ListSink} from '@lib/data-adapters/base/sink.interfaces';
 import {combineLatest, Subject, Subscription} from 'rxjs';
-import {MarklistDocumentId} from '@lib/models/document.model';
+import {MarklistDocumentId} from '@lib/models/document/document-base.model';
 import {CoursePath, DocumentPath} from '@lib/models/path.model';
-import {MarklistEntryRaw, MarklistEntryUI} from '@lib/models/marklist.model';
+import {MarklistEntryRaw, MarklistEntryUI} from '@lib/models/document/marklist.model';
 import {marklistEntriesUIModel} from '@lib/data-adapters/combine/marklist.combine';
 
 @Component({

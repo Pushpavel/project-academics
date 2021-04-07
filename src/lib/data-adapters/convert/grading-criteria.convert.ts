@@ -2,7 +2,7 @@ import {converter} from '@lib/data-adapters/base/convert.default';
 import {
   PrivateGradingCriteriaMeta,
   PrivateGradingCriteriaMetaRaw
-} from '@lib/models/grading.model';
+} from '@lib/models/document/grading-criteria.model';
 import {GRADES} from '@lib/constants/grading.constants';
 
 

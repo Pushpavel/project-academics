@@ -1,8 +1,7 @@
-import {PrivateDocumentMetaRaw} from '@lib/models/document.model';
-import {AttendanceEntryRaw, AttendanceEntryUI} from '@lib/models/attendance.model';
+import {AttendanceEntryRaw, AttendanceEntryUI, PrivateAttendanceMetaRaw} from '@lib/models/document/attendance.model';
 
 export function attendanceEntriesUIModel(
-  [entries, studentNames, meta]: [AttendanceEntryRaw[], Map<string, string>, PrivateDocumentMetaRaw]
+  [entries, studentNames, meta]: [AttendanceEntryRaw[], Map<string, string>, PrivateAttendanceMetaRaw]
 ): AttendanceEntryUI[] {
   return entries.map(entry => {
     const percentage = meta.total ? 100 * entry.attended / meta.total : 100;

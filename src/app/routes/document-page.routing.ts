@@ -1,5 +1,5 @@
 import {Routes, UrlMatcher} from '@angular/router';
-import {DocumentId} from '@lib/models/document.model';
+import {DocumentId} from '@lib/models/document/document-base.model';
 import {ROUTING_PARAMS_AS_OBJECT as p} from '@lib/constants/routing.constants';
 import {RegexGuard} from './regex.guard';
 import {AttendancePageComponent} from '../app-document-pages/attendance-page/attendance-page.component';

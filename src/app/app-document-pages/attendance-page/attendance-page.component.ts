@@ -2,11 +2,11 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {ListSink, Sink} from '@lib/data-adapters/base/sink.interfaces';
-import {AttendanceEntryRaw, AttendanceEntryUI} from '@lib/models/attendance.model';
+import {AttendanceEntryRaw, AttendanceEntryUI} from '@lib/models/document/attendance.model';
 import {combineLatest, Subject, Subscription} from 'rxjs';
-import {DocumentMetaRaw} from '@lib/models/document.model';
 import {CoursePath, DocumentPath} from '@lib/models/path.model';
 import {attendanceEntriesUIModel} from '@lib/data-adapters/combine/attendance.combine';
+import {PrivateMetaRaw} from '@lib/models/document/document-base.model';
 
 @Component({
   selector: 'app-attendance-page',
@@ -32,7 +32,7 @@ export class AttendancePageComponent extends DocumentPage implements OnInit, OnD
   );
 
   entrySink: ListSink<AttendanceEntryRaw, 'rollNo'> = new Subject();
-  metaSink: Sink<DocumentMetaRaw> = new Subject();
+  metaSink: Sink<PrivateMetaRaw> = new Subject();
 
   subs = new Subscription();
 

@@ -1,10 +1,10 @@
 import {firestore} from '../../firebase.app';
 import {collection, doc} from 'rxfire/firestore';
-import {DocumentStat, StatsDocumentRaw} from '@lib/models/document.model';
 import {map} from 'rxjs/operators';
 import {DOCUMENT_NAMES} from '@lib/constants/document.constants';
 import {mapObjectEntries} from '@lib/utils/other.util';
-import {CourseDocumentStats} from '@lib/models/course.model';
+import {CourseDocumentStats} from '@lib/models/document/course.model';
+import {StatEntryRaw, StatsDocumentRaw} from '@lib/models/document/document-stat.model';
 
 
 export function courseDocumentStat(semId: string, courseCode: string) {
@@ -32,7 +32,7 @@ export function courseDocumentStats(query: { semId: string, batchId?: string, de
 function courseDocStatsModel(data: StatsDocumentRaw, courseCode: string): CourseDocumentStats {
 
   const stats = mapObjectEntries(DOCUMENT_NAMES, (id, documentName) => {
-    const stat: DocumentStat = {
+    const stat: StatEntryRaw = {
       id,
       courseCode,
       documentName,

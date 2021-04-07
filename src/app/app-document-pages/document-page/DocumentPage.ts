@@ -4,10 +4,10 @@ import {DocumentService} from '@service/document.service';
 import {getParams} from '../../routes/routing.helper';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {combineLatest, Observable, of} from 'rxjs';
-import {UserCourseRelation} from '@lib/models/course.model';
+import {UserCourseRelation} from '@lib/models/document/course.model';
 import {DocumentPath} from '@lib/models/path.model';
-import {PrivateDocumentId} from '@lib/models/document.model';
-import {DocumentId} from '@lib/models/document.model';
+import {PrivateDocumentId} from '@lib/models/document/document-base.model';
+import {DocumentId} from '@lib/models/document/document-base.model';
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix

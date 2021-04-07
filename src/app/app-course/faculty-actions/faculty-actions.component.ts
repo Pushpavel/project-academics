@@ -2,9 +2,9 @@ import {Component} from '@angular/core';
 import {FACULTY_DOCUMENT_GROUPS} from '@lib/constants/document.constants';
 import {map, switchMap} from 'rxjs/operators';
 import {DocumentService} from '@service/document.service';
-import {DocumentStat} from '@lib/models/document.model';
 import {getParams} from '../../routes/routing.helper';
 import {ActivatedRoute} from '@angular/router';
+import {StatEntryRaw} from '@lib/models/document/document-stat.model';
 
 @Component({
   selector: 'faculty-actions',
@@ -46,6 +46,6 @@ export class FacultyActionsComponent {
 
 export interface DocumentGroupUI {
   title: string,
-  actions: DocumentStat[]
+  actions: StatEntryRaw[]
 }
 

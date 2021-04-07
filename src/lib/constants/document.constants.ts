@@ -1,4 +1,4 @@
-import {DocumentId} from '@lib/models/document.model';
+import {DocumentId} from '@lib/models/document/document-base.model';
 
 export const MARK_DOCUMENT_IDS = ['CT1', 'CT2', 'ASSIGNMENT', 'END_SEM'] as const;
 

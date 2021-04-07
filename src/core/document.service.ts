@@ -1,10 +1,6 @@
 import {Injectable} from '@angular/core';
-import {MarklistEntryUI} from '@lib/models/marklist.model';
-import {AttendanceEntryUI} from '@lib/models/attendance.model';
 import {Observable, of} from 'rxjs';
-import {GradingCriteriaEntryUI, GradeEntryUI} from '@lib/models/grading.model';
 import {randFromRange} from '@lib/utils/number.util';
-import {DocumentMetaRaw, DocumentStat} from '@lib/models/document.model';
 import {DEPT_ABBR} from '@lib/constants/dept.constants';
 import {courseDocumentStat, courseDocumentStats} from '@lib/data-adapters/document-stat.adapter';
 import {map} from 'rxjs/operators';
@@ -17,6 +13,7 @@ import {
   privateDocumentEntriesSink, privateDocumentMetaSink, privateGradingCriteriaEntriesSink
 } from '@lib/data-adapters/document-sink.adapter';
 import {studentNames} from '@lib/data-adapters/students.adapter';
+import {StatEntryRaw} from '@lib/models/document/document-stat.model';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +33,7 @@ export class DocumentService {
   sinkPrivateGradingCriteriaEntry = privateGradingCriteriaEntriesSink;
 
 
-  getStat(semId: string, courseCode: string, documentId: string): Observable<DocumentStat> {
+  getStat(semId: string, courseCode: string, documentId: string): Observable<StatEntryRaw> {
     return this.getCourseDocStat(semId, courseCode).pipe(
       // tslint:disable-next-line:no-non-null-assertion TODO: HANDLE THIS
       map(stats => stats.stats.get(documentId)!)
@@ -49,11 +46,8 @@ export class DocumentService {
     return of(new Map(entries));
   }
 
-  getPublicMeta(path: DocumentPath): Observable<DocumentMetaRaw> {
+  getPublicMeta(path: DocumentPath): Observable<any> {
     throw new Error('Not Implemented');// TODO: Implement this
   }
 
 }
-
-export type DocumentEntryUI = MarklistEntryUI | AttendanceEntryUI | GradeEntryUI | GradingCriteriaEntryUI
-
