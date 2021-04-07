@@ -1,4 +1,4 @@
-import {DocumentId} from '@lib/models/document.model';
+import {DocumentId} from '@lib/models/document/document-base.model';
 
 export interface CoursePath {
   semId: string,

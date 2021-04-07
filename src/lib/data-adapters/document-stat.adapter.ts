@@ -1,59 +1,32 @@
-import {firestore} from '../../firebase.app';
-import {collection, doc} from 'rxfire/firestore';
-import {DocumentStat, StatsDocumentRaw} from '@lib/models/document.model';
-import {map} from 'rxjs/operators';
-import {DOCUMENT_NAMES} from '@lib/constants/document.constants';
-import {mapObjectEntries} from '@lib/utils/other.util';
-import {CourseDocumentStats} from '@lib/models/course.model';
+import {CourseDocumentStats} from '@lib/models/document/course.model';
+import {CoursePath} from '@lib/models/path.model';
+import {fetchList, fetchObj} from '@lib/data-adapters/base/firestore.adapter';
+import {PROTECTED_DOCUMENT_PATH} from '@lib/constants/firestore.path';
+import {documentStatConvert} from '@lib/data-adapters/convert/document-stat.convert';
 
 
-export function courseDocumentStat(semId: string, courseCode: string) {
-  const ref = firestore.doc(`semesters/${semId}/courses/${courseCode}/protected_course_documents/DOCUMENT_STATS`);
-  return doc(ref).pipe(map(snapshot => courseDocStatsModel(snapshot.data() as any, courseCode)));
+export function courseDocumentStat(p: CoursePath) {
+  return fetchObj<CourseDocumentStats>({
+    path: PROTECTED_DOCUMENT_PATH(p, 'DOCUMENT_STATS'),
+    convert: documentStatConvert
+  });
 }
 
 export function courseDocumentStats(query: { semId: string, batchId?: string, deptId?: string }) {
-  let ref = firestore.collectionGroup('protected_course_documents')
-    .where('document', '==', 'DOCUMENT_STATS')
-    .where('sem', '==', query.semId);
-  if (query.batchId)
-    ref = ref.where('batch', '==', query.batchId);
-  if (query.deptId)
-    ref = ref.where('dept.' + query.deptId, '!=', false);
+  return fetchList<CourseDocumentStats>({
+    path: 'protected_course_documents',
+    colGroupQuery: true,
+    convert: documentStatConvert,
+    query: q => {
 
-  return collection(ref).pipe(
-    map(snapshots => snapshots.map(snapshot =>
-      courseDocStatsModel(snapshot.data() as any, getCourseCodeFromPath(snapshot.ref.path)))
-    )
-  );
-}
+      q = q.where('document', '==', 'DOCUMENT_STATS').where('sem', '==', query.semId);
 
+      if (query.batchId)
+        q = q.where('batch', '==', query.batchId);
+      if (query.deptId)
+        q = q.where('dept.' + query.deptId, '!=', false);
 
-function courseDocStatsModel(data: StatsDocumentRaw, courseCode: string): CourseDocumentStats {
-
-  const stats = mapObjectEntries(DOCUMENT_NAMES, (id, documentName) => {
-    const stat: DocumentStat = {
-      id,
-      courseCode,
-      documentName,
-      semId: data.sem,
-      status: 'private',
-    };
-    const statData = data.entries[id];
-    if (statData) {
-      stat.status = statData.status as any; //  TODO: use Type guard
-      stat.timestamp = statData.timestamp;
+      return q;
     }
-    return stat;
   });
-
-  return {
-    courseCode,
-    courseName: data.courseName,
-    stats: new Map(stats.map(stat => [stat.id, stat]))
-  };
-}
-
-function getCourseCodeFromPath(path: string) {
-  return /courses\/(.*)\//.exec(path)?.[1] ?? 'Error';// TODO: Handle this
 }

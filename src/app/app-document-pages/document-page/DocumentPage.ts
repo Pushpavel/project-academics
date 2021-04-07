@@ -4,18 +4,18 @@ import {DocumentService} from '@service/document.service';
 import {getParams} from '../../routes/routing.helper';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {combineLatest, Observable, of} from 'rxjs';
-import {UserCourseRelation} from '@lib/models/course.model';
+import {UserCourseRelation} from '@lib/models/document/course.model';
 import {DocumentPath} from '@lib/models/path.model';
-import {PrivateDocumentId} from '@lib/models/document.model';
+import {PrivateDocumentId} from '@lib/models/document/document-base.model';
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
 export abstract class DocumentPage {
 
-  params = getParams(['semId', 'courseCode', 'documentId'], this.route);
+  params = getParams<DocumentPath>(['semId', 'courseCode', 'documentId'], this.route);
 
   stat = this.params.pipe(
-    switchMap(params => this.documentService.getStat(params.semId, params.courseCode, params.documentId)),
+    switchMap(p => this.documentService.getStat(p)),
     shareReplay(1)
   );
 
@@ -29,15 +29,10 @@ export abstract class DocumentPage {
   );
 
   meta = combineLatest([this.params, this.isPrivate]).pipe(
-    switchMap(([params, isPrivate]) => {
-      const p: DocumentPath = {
-        semId: params.semId,
-        courseCode: params.courseCode,
-        documentId: params.documentId as any
-      };
+    switchMap(([p, isPrivate]) => {
 
       if (isPrivate)
-        return this.documentService.getPrivateMeta(p as DocumentPath<PrivateDocumentId>);
+        return this.documentService.getPrivateMeta(p, p.documentId as PrivateDocumentId);
       return this.documentService.getPublicMeta(p);
     }),
   );

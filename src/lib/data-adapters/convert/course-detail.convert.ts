@@ -1,5 +1,5 @@
 import firebase from 'firebase/app';
-import {CourseDetailRaw} from '@lib/models/course.model';
+import {CourseDetailRaw} from '@lib/models/document/course.model';
 import {converter} from '@lib/data-adapters/base/convert.default';
 
 export const courseDetailConvert = converter({
@@ -8,6 +8,6 @@ export const courseDetailConvert = converter({
   },
 });
 
-function getCourseCodeFromPath(path: string) {
+export function getCourseCodeFromPath(path: string) {
   return /courses\/(.*)\//.exec(path)?.[1] ?? 'Error';// TODO: Handle this
 }

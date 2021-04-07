@@ -1,4 +1,5 @@
-import {DocumentStat} from '@lib/models/document.model';
+import {StatEntryRaw} from '@lib/models/document/document-stat.model';
+import {DocumentId} from '@lib/models/document/document-base.model';
 
 export interface CourseRaw {
   courseCode: string,
@@ -17,10 +18,11 @@ export interface CourseDetailRaw {
 export interface CourseDocumentStats {
   courseCode: string,
   courseName: string,
-  stats: Map<string, DocumentStat>
+  stats: Record<DocumentId, StatEntryRaw>
 }
 
 export interface UserCourseRelation {
   isFaculty?: boolean,
   isHod?: boolean,
 }
+
