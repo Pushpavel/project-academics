@@ -10,10 +10,11 @@ interface StatsRaw extends Partial<DeptFields> {
   courseName: string,
   status: string,
   entries: {
-    [docId in DocumentId]: {
-      status: string,
+    [docId in DocumentId]:
+    {
+      status: DocumentStatus,
       timestamp?: number,
-    }
+    } | undefined
   },
 }
 

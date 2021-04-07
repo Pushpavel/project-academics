@@ -25,13 +25,15 @@ export function fetchObj<T extends DocumentData>(p: SourceDef<T>) {
 }
 
 /**
- * Fetches or observes documents from a collection from Firestore
+ * Fetches or observes documents from a collection from Firestore or using a collectionQuery query
  * @param p config for query
  */
-export function fetchList<T extends DocumentData>(p: ListSourceDef<T>) {
-  let ref: Query<DocumentData> = firestore.collection(p.path);
+export function fetchList<T extends DocumentData, C extends CollectionReference | Query<DocumentData> = Query<DocumentData>>(
+  p: ListSourceDef<T, C>
+) {
+  let ref: Query<DocumentData> = (p.colGroupQuery) ? firestore.collection(p.path) : firestore.collectionGroup(p.path);
 
-  if (p.query) ref = p.query(ref as CollectionReference);
+  if (p.query) ref = p.query(ref as C);
 
   if (p.convert) ref = ref.withConverter(p.convert);
 
@@ -41,8 +43,9 @@ export function fetchList<T extends DocumentData>(p: ListSourceDef<T>) {
   return fromPromise(ref.get()).pipe(map(listSnap => listSnap.docs.map(snap => snapToData(snap, p.idField as string) as T)));
 }
 
-interface ListSourceDef<T extends DocumentData> extends SourceDef<T> {
-  query?: (q: CollectionReference) => Query<DocumentData>
+interface ListSourceDef<T extends DocumentData, C extends CollectionReference | Query<DocumentData>> extends SourceDef<T> {
+  query?: (q: C) => Query<DocumentData>,
+  colGroupQuery?: boolean
 }
 
 

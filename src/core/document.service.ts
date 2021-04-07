@@ -33,11 +33,8 @@ export class DocumentService {
   sinkPrivateGradingCriteriaEntry = privateGradingCriteriaEntriesSink;
 
 
-  getStat(semId: string, courseCode: string, documentId: string): Observable<StatEntryRaw> {
-    return this.getCourseDocStat(semId, courseCode).pipe(
-      // tslint:disable-next-line:no-non-null-assertion TODO: HANDLE THIS
-      map(stats => stats.stats.get(documentId)!)
-    );
+  getStat(p: DocumentPath): Observable<StatEntryRaw> {
+    return this.getCourseDocStat(p).pipe(map(stats => stats.stats[p.documentId]));
   }
 
   getDeptwiseDocSubmissionOverview(semId: string, batchId: string) {

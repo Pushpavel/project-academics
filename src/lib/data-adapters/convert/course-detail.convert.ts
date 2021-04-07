@@ -8,6 +8,6 @@ export const courseDetailConvert = converter({
   },
 });
 
-function getCourseCodeFromPath(path: string) {
+export function getCourseCodeFromPath(path: string) {
   return /courses\/(.*)\//.exec(path)?.[1] ?? 'Error';// TODO: Handle this
 }

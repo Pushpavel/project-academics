@@ -16,7 +16,11 @@ export abstract class DocumentPage {
   params = getParams(['semId', 'courseCode', 'documentId'], this.route);
 
   stat = this.params.pipe(
-    switchMap(params => this.documentService.getStat(params.semId, params.courseCode, params.documentId)),
+    switchMap(params => this.documentService.getStat({
+      semId: params.semId,
+      courseCode: params.courseCode,
+      documentId: params.documentId as DocumentId
+    })),
     shareReplay(1)
   );
 
