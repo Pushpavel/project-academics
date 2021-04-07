@@ -6,6 +6,9 @@ import DocumentData = firebase.firestore.DocumentData;
 import {collectionData, docData, snapToData} from 'rxfire/firestore';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
+import CollectionReference = firebase.firestore.CollectionReference;
+import Query = firebase.firestore.Query;
+
 
 /**
  * Fetches or observes a single Document from Firestore
@@ -25,8 +28,11 @@ export function fetchObj<T extends DocumentData>(p: SourceDef<T>) {
  * Fetches or observes documents from a collection from Firestore
  * @param p config for query
  */
-export function fetchList<T extends DocumentData>(p: SourceDef<T>) {
-  let ref = firestore.collection(p.path);
+export function fetchList<T extends DocumentData>(p: ListSourceDef<T>) {
+  let ref: Query<DocumentData> = firestore.collection(p.path);
+
+  if (p.query) ref = p.query(ref as CollectionReference);
+
   if (p.convert) ref = ref.withConverter(p.convert);
 
   if (!p.once)
@@ -35,11 +41,18 @@ export function fetchList<T extends DocumentData>(p: SourceDef<T>) {
   return fromPromise(ref.get()).pipe(map(listSnap => listSnap.docs.map(snap => snapToData(snap, p.idField as string) as T)));
 }
 
-export interface SourceDef<T extends DocumentData> {
+interface ListSourceDef<T extends DocumentData> extends SourceDef<T> {
+  query?: (q: CollectionReference) => Query<DocumentData>
+}
+
+
+interface SourceDef<T extends DocumentData> {
   path: string,
   convert?: FirestoreDataConverter<T>,
   idField?: keyof T,
   once?: boolean
 }
+
+
 
 
