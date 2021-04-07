@@ -1,15 +1,14 @@
 import {DEPT_ABBR} from '@lib/constants/dept.constants';
 import {DOCUMENT_IDS, MARK_DOCUMENT_IDS} from '@lib/constants/document.constants';
-import {AttendanceEntryRaw} from '@lib/models/attendance.model';
-import {MarklistEntryRaw} from '@lib/models/marklist.model';
 
+// Document Ids
 export type DocumentId = typeof DOCUMENT_IDS[number];
 export type MarklistDocumentId = typeof MARK_DOCUMENT_IDS[number];
+export type NonGradeDocumentId = MarklistDocumentId | 'ATTENDANCE'
 export type PrivateDocumentId = Exclude<DocumentId, 'GRADES'>
 
-export type DocumentStatus = 'public' | 'submitted' | 'private' | 'remarked'
 
-export type DocumentEntry = AttendanceEntryRaw | MarklistEntryRaw// TODO: include other entries
+export type DocumentStatus = 'public' | 'submitted' | 'private' | 'remarked'
 
 export interface DocumentMetaRaw {
   total?: number,

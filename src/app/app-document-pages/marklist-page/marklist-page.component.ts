@@ -1,11 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DocumentPage} from '../document-page/DocumentPage';
-import {switchMap} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {ListSink} from '@lib/data-adapters/base/sink.interfaces';
 import {combineLatest, Subject, Subscription} from 'rxjs';
 import {MarklistDocumentId} from '@lib/models/document.model';
-import {DocumentPath} from '@lib/models/path.model';
+import {CoursePath, DocumentPath} from '@lib/models/path.model';
 import {MarklistEntryRaw, MarklistEntryUI} from '@lib/models/marklist.model';
+import {marklistEntriesUIModel} from '@lib/data-adapters/combine/marklist.combine';
 
 @Component({
   selector: 'app-marklist-page',
@@ -16,11 +17,20 @@ export class MarklistPageComponent extends DocumentPage implements OnInit, OnDes
 
 
   entries = this.params.pipe(
-    switchMap(params => this.documentService.getPrivateMarklistEntries({
-      semId: params.semId,
-      courseCode: params.courseCode,
-      documentId: params.documentId as MarklistDocumentId
-    }))
+    switchMap(params => {
+      // build Course Path
+      const p: CoursePath = {semId: params.semId, courseCode: params.courseCode};
+
+      // get dependencies
+      const entries$ = this.documentService.getPrivateDocumentEntries<MarklistEntryRaw>(p, params.documentId as MarklistDocumentId);
+      const studentNames$ = this.documentService.getStudentNames(p);
+
+      // build ui model
+      return combineLatest([entries$, studentNames$]).pipe(
+        map((deps) => marklistEntriesUIModel(deps))
+      );
+
+    })
   );
 
   entrySink: ListSink<MarklistEntryRaw, 'rollNo'> = new Subject();

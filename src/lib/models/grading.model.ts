@@ -26,9 +26,11 @@ export interface GradingCriteriaMeta {
   entries: GradingCriteriaEntryUI[],
 }
 
-export type PrivateGradingCriteriaMeta = GradingCriteriaMeta & PrivateDocumentMetaRaw
-
 export interface GradingCriteriaMetaRaw {
   total: number,
   entries: Record<typeof GRADES[number], number>
 }
+
+export type PrivateGradingCriteriaMeta = GradingCriteriaMeta & PrivateDocumentMetaRaw
+export type PrivateGradingCriteriaMetaRaw = GradingCriteriaMetaRaw & PrivateDocumentMetaRaw
+
