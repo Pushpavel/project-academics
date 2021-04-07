@@ -30,12 +30,9 @@ export class GradingCriteriaPageComponent extends DocumentPage implements OnInit
   ngOnInit(): void {
     //  Setup Sinks
     const sub = combineLatest([this.editable, this.params])
-      .subscribe(([editable, params]) => {
+      .subscribe(([editable, p]) => {
         if (editable)
-          this.documentService.sinkPrivateGradingCriteriaEntry({
-            semId: params.semId,
-            courseCode: params.courseCode
-          }, this.entrySink);
+          this.documentService.sinkPrivateGradingCriteriaEntry(p, this.entrySink);
       });
 
     this.subs.add(sub);

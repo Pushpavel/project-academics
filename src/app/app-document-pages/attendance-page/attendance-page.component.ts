@@ -4,7 +4,7 @@ import {map, switchMap} from 'rxjs/operators';
 import {ListSink, Sink} from '@lib/data-adapters/base/sink.interfaces';
 import {AttendanceEntryRaw, AttendanceEntryUI} from '@lib/models/document/attendance.model';
 import {combineLatest, Subject, Subscription} from 'rxjs';
-import {CoursePath, DocumentPath} from '@lib/models/path.model';
+import {DocumentPath} from '@lib/models/path.model';
 import {attendanceEntriesUIModel} from '@lib/data-adapters/combine/attendance.combine';
 import {PrivateMetaRaw} from '@lib/models/document/document-base.model';
 
@@ -16,18 +16,13 @@ import {PrivateMetaRaw} from '@lib/models/document/document-base.model';
 export class AttendancePageComponent extends DocumentPage implements OnInit, OnDestroy {
 
   entries = this.params.pipe(
-    switchMap(params => {
-      // build course path
-      const p: CoursePath = {semId: params.semId, courseCode: params.courseCode};
-
+    switchMap(p => {
       // get dependencies
       const entries$ = this.documentService.getPrivateDocumentEntries<AttendanceEntryRaw>(p, 'ATTENDANCE');
       const studentNames$ = this.documentService.getStudentNames(p);
 
       // build ui model
-      return combineLatest([entries$, studentNames$, this.meta]).pipe(
-        map(deps => attendanceEntriesUIModel(deps as any))
-      );
+      return combineLatest([entries$, studentNames$, this.meta]).pipe(map(deps => attendanceEntriesUIModel(deps)));
     })
   );
 
@@ -56,7 +51,7 @@ export class AttendancePageComponent extends DocumentPage implements OnInit, OnD
     //  Setup Sinks
     const sub = combineLatest([this.editable, this.params])
       .subscribe(([editable, params]) => {
-        const p: DocumentPath<'ATTENDANCE'> = {
+        const p: DocumentPath<'ATTENDANCE'> = {// TODO: Refactor this
           semId: params.semId,
           courseCode: params.courseCode,
           documentId: 'ATTENDANCE'
