@@ -85,6 +85,9 @@ export class UserService extends BehaviorSubject<AcademicUser | null> implements
       }
       //hope user state observer takes care
       window.localStorage.removeItem('emailForSignIn');
+      if (auth.currentUser) {
+        return null
+      }
       return auth.signInWithEmailLink(email as string, url);
     }
     return null

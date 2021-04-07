@@ -1,14 +1,17 @@
 import * as functions from 'firebase-functions';
-import {ImportUsersData} from './models';
+import { ImportUsersData } from './models';
 import * as admin from 'firebase-admin';
+import { publishDocuments as PD } from './publishDocuments';
 
 const app = admin.initializeApp();
+
+export const publishDocuments = PD(app.firestore())
 
 export const importUsers = functions.region('asia-south1').https.onCall(async (data: ImportUsersData, context) => {
   // TODO: Check administrative privileges
   // TODO: Verify Claims
   // TODO: Check duplicate entries
-  if (data.users.length > 1000) return {error: 'MAX_USERS_PER_IMPORT_LIMIT_EXCEEDED'};
+  if (data.users.length > 1000) return { error: 'MAX_USERS_PER_IMPORT_LIMIT_EXCEEDED' };
   const claims = data.claims.reduce((obj, claim) => {
     obj[claim] = true;
     return obj;
