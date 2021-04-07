@@ -7,6 +7,10 @@ import {collectionData, docData, snapToData} from 'rxfire/firestore';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 
+/**
+ * Fetches or observes a single Document from Firestore
+ * @param p config for the query
+ */
 export function fetchObj<T extends DocumentData>(p: SourceDef<T>) {
   let ref = firestore.doc(p.path);
   if (p.convert) ref = ref.withConverter(p.convert);
@@ -17,6 +21,10 @@ export function fetchObj<T extends DocumentData>(p: SourceDef<T>) {
   return fromPromise(ref.get()).pipe(map(snap => snapToData(snap, p.idField as string) as T));
 }
 
+/**
+ * Fetches or observes documents from a collection from Firestore
+ * @param p config for query
+ */
 export function fetchList<T extends DocumentData>(p: SourceDef<T>) {
   let ref = firestore.collection(p.path);
   if (p.convert) ref = ref.withConverter(p.convert);

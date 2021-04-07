@@ -8,13 +8,28 @@ import {PRIVATE_DOCUMENT_PATH} from '@lib/constants/firestore.path';
 import {NonGradeDocumentId, PrivateDocumentId} from '@lib/models/document/document-base.model';
 
 
-export function privateDocumentMeta(p: CoursePath, documentId: PrivateDocumentId) {
-  return fetchObj<PrivateMetaRaw>({
+/**
+ * fetches the firestore document that represents the Meta data of an Academic Document at location given by the params
+ * @param p CoursePath object
+ * @param documentId academic document id
+ */
+export function privateDocumentMeta<T extends PrivateMetaRaw>(p: CoursePath, documentId: PrivateDocumentId) {
+  let convert;
+
+  if (documentId == 'GRADING_CRITERIA')
+    convert = gradingCriteriaConvert;
+
+  return fetchObj<T>({
     path: PRIVATE_DOCUMENT_PATH({...p, documentId}),
-    convert: documentId == 'GRADING_CRITERIA' ? gradingCriteriaConvert : undefined,
+    convert: convert as any,
   });
 }
 
+/**
+ * fetches all firestore documents in sub-collection 'entries' of an academic document at location given by params
+ * @param p CoursePath object
+ * @param documentId academic document id
+ */
 export function privateDocumentEntries<T extends MarklistEntryRaw | AttendanceEntryRaw>(
   p: CoursePath, documentId: NonGradeDocumentId
 ) {
