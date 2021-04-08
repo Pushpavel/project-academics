@@ -11,9 +11,15 @@ import {StudentResultPageComponent} from '../app-result/student-result-page/stud
 import {ROUTING_PARAMS_AS_OBJECT as p} from '@lib/constants/routing.constants';
 import {RegexGuard} from './regex.guard';
 import {documentPageRoutes} from './document-page.routing';
+import {authGuard} from './auth-pipe.guard';
+import {pipe} from 'rxjs';
+import {elseRedirectTo, loggedIn, thenRedirectToHome} from './routing.pipes';
+
+const redirectLoggedInToHome = authGuard(() => pipe(loggedIn, thenRedirectToHome()));
+
 
 const routes: Routes = [
-  {path: 'login', component: LoginPageComponent},// TODO: Redirect to current Sem home if logged in
+  {path: 'login', component: LoginPageComponent, ...redirectLoggedInToHome},
   {
     path: `sem/:${p.semId}`,
     children: [
@@ -32,7 +38,15 @@ const routes: Routes = [
     ]
   },
   {path: '404', component: PageNotFoundComponent},
-  {path: ``, redirectTo: 'home', pathMatch: 'full'},// TODO: Redirect to Current Sem Home if Logged In
+  {
+    path: ``,
+    pathMatch: 'full',
+    ...authGuard(() => pipe(
+      loggedIn,
+      thenRedirectToHome(),
+      elseRedirectTo('/login')
+    ))
+  },
   {path: '**', redirectTo: '/404', pathMatch: 'full'},
 ];
 
