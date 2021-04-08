@@ -1,11 +1,11 @@
 import {CourseRaw, CourseDetailRaw} from '@lib/models/document/course.model';
 import {fetchObj} from '@lib/data-adapters/base/firestore.adapter';
-import {courseDetailConvert} from '@lib/data-adapters/convert/course-detail.convert';
+import {courseDetailFromSnapshot} from '@lib/data-adapters/convert/course-detail-from.snapshot';
 
 export function courseDetail(semId: string, courseCode: string) {
   return fetchObj<CourseDetailRaw>({
     path: `semesters/${semId}/courses/${courseCode}/public_course_documents/COURSE_DETAIL`,
-    convert: courseDetailConvert,
+    convert: courseDetailFromSnapshot,
     once: true
   });
 }

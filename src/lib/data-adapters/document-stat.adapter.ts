@@ -2,13 +2,13 @@ import {CourseDocumentStats} from '@lib/models/document/course.model';
 import {CoursePath} from '@lib/models/path.model';
 import {fetchList, fetchObj} from '@lib/data-adapters/base/firestore.adapter';
 import {PROTECTED_DOCUMENT_PATH} from '@lib/constants/firestore.path';
-import {documentStatConvert} from '@lib/data-adapters/convert/document-stat.convert';
+import {documentStatsFromSnapshot} from '@lib/data-adapters/convert/document-stats-from.snapshot';
 
 
 export function courseDocumentStat(p: CoursePath) {
   return fetchObj<CourseDocumentStats>({
     path: PROTECTED_DOCUMENT_PATH(p, 'DOCUMENT_STATS'),
-    convert: documentStatConvert
+    convert: documentStatsFromSnapshot
   });
 }
 
@@ -16,7 +16,7 @@ export function courseDocumentStats(query: { semId: string, batchId?: string, de
   return fetchList<CourseDocumentStats>({
     path: 'protected_course_documents',
     colGroupQuery: true,
-    convert: documentStatConvert,
+    convert: documentStatsFromSnapshot,
     query: q => {
 
       q = q.where('document', '==', 'DOCUMENT_STATS').where('sem', '==', query.semId);

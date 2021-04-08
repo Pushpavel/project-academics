@@ -2,7 +2,7 @@ import {GRADES} from '@lib/constants/grading.constants';
 import {BasePrivateMetaRaw} from '@lib/models/document/document-base.model';
 
 interface EntryUI {
-  grade: string,
+  grade: GradeId,
   minMark: number,
   maxMark: number
 }
@@ -15,10 +15,10 @@ interface Meta {
 
 interface MetaRaw {
   total: number,
-  entries: Record<typeof GRADES[number], number>
+  entries: Record<GradeId, number>
 }
 
-
+export type GradeId = typeof GRADES[number];
 export type GradingCriteriaEntryUI = EntryUI
 export type GradingCriteriaMeta = Meta
 export type GradingCriteriaMetaRaw = MetaRaw

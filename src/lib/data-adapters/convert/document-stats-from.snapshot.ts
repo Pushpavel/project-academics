@@ -1,13 +1,13 @@
-import {converter} from '@lib/data-adapters/base/convert.default';
+import {fromFirestore} from '@lib/data-adapters/base/convert.default';
 import {mapObjectEntries} from '@lib/utils/other.util';
 import {DOCUMENT_NAMES} from '@lib/constants/document.constants';
 import {StatEntryRaw, StatsDocumentRaw} from '@lib/models/document/document-stat.model';
-import {getCourseCodeFromPath} from '@lib/data-adapters/convert/course-detail.convert';
+import {getCourseCodeFromPath} from '@lib/data-adapters/convert/course-detail-from.snapshot';
 import {CourseDocumentStats} from '@lib/models/document/course.model';
 import {DocumentId} from '@lib/models/document/document-base.model';
 
-export const documentStatConvert = converter<CourseDocumentStats>({
-  fromFirestore(snapshot) {
+export const documentStatsFromSnapshot: fromFirestore<CourseDocumentStats> =
+  (snapshot) => {
     // get course code from path
     const courseCode = getCourseCodeFromPath(snapshot.ref.path);
 
@@ -38,5 +38,4 @@ export const documentStatConvert = converter<CourseDocumentStats>({
       // so no documentIds key in stats will be undefined
       stats: stats.reduce((obj, stat) => ({...obj, [stat.id]: stat}), {}) as Record<DocumentId, StatEntryRaw>
     };
-  }
-});
+  };

@@ -1,4 +1,4 @@
-import {converter} from '@lib/data-adapters/base/convert.default';
+import {fromFirestore} from '@lib/data-adapters/base/convert.default';
 import {
   PrivateGradingCriteriaMeta,
   PrivateGradingCriteriaMetaRaw
@@ -6,8 +6,8 @@ import {
 import {GRADES} from '@lib/constants/grading.constants';
 
 
-export const gradingCriteriaConvert = converter<PrivateGradingCriteriaMeta>({
-  fromFirestore(snap) {
+export const gradingCriteriaFromSnapshot: fromFirestore<PrivateGradingCriteriaMeta> =
+  (snap) => {
     const data = snap.data() as PrivateGradingCriteriaMetaRaw;
     return {
       ...data,
@@ -17,5 +17,4 @@ export const gradingCriteriaConvert = converter<PrivateGradingCriteriaMeta>({
         return {grade, minMark, maxMark};
       })
     };
-  }
-});
+  };

@@ -3,7 +3,7 @@ import {CoursePath} from '@lib/models/path.model';
 import {AttendanceEntryRaw} from '@lib/models/document/attendance.model';
 import {MarklistEntryRaw} from '@lib/models/document/marklist.model';
 import {fetchList, fetchObj} from '@lib/data-adapters/base/firestore.adapter';
-import {gradingCriteriaConvert} from '@lib/data-adapters/convert/grading-criteria.convert';
+import {gradingCriteriaFromSnapshot} from '@lib/data-adapters/convert/grading-criteria-from.snapshot';
 import {PRIVATE_DOCUMENT_PATH} from '@lib/constants/firestore.path';
 import {NonGradeDocumentId, PrivateDocumentId} from '@lib/models/document/document-base.model';
 
@@ -17,7 +17,7 @@ export function privateDocumentMeta<T extends PrivateMetaRaw>(p: CoursePath, doc
   let convert;
 
   if (documentId == 'GRADING_CRITERIA')
-    convert = gradingCriteriaConvert;
+    convert = gradingCriteriaFromSnapshot;
 
   return fetchObj<T>({
     path: PRIVATE_DOCUMENT_PATH({...p, documentId}),

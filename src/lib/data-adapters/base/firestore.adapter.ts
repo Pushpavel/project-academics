@@ -1,22 +1,22 @@
 import {fromPromise} from 'rxjs/internal-compatibility';
 import {firestore} from '../../../firebase.app';
 import firebase from 'firebase/app';
-import FirestoreDataConverter = firebase.firestore.FirestoreDataConverter;
 import DocumentData = firebase.firestore.DocumentData;
 import {collectionData, docData, snapToData} from 'rxfire/firestore';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import CollectionReference = firebase.firestore.CollectionReference;
 import Query = firebase.firestore.Query;
+import {defaultToFirestore, fromFirestore} from '@lib/data-adapters/base/convert.default';
 
 
 /**
  * Fetches or observes a single Document from Firestore
  * @param p config for the query
  */
-export function fetchObj<T extends DocumentData>(p: SourceDef<T>) {
+export function fetchObj<T>(p: SourceDef<T>) {
   let ref = firestore.doc(p.path);
-  if (p.convert) ref = ref.withConverter(p.convert);
+  if (p.convert) ref = ref.withConverter({fromFirestore: p.convert, toFirestore: defaultToFirestore});
 
   if (!p.once)
     return docData(ref, p.idField as string) as Observable<T>;
@@ -35,7 +35,7 @@ export function fetchList<T extends DocumentData, C extends CollectionReference 
 
   if (p.query) ref = p.query(ref as C);
 
-  if (p.convert) ref = ref.withConverter(p.convert);
+  if (p.convert) ref = ref.withConverter({fromFirestore: p.convert, toFirestore: defaultToFirestore});
 
   if (!p.once)
     return collectionData<T>(ref, p.idField as string);
@@ -49,9 +49,9 @@ interface ListSourceDef<T extends DocumentData, C extends CollectionReference | 
 }
 
 
-interface SourceDef<T extends DocumentData> {
+interface SourceDef<T> {
   path: string,
-  convert?: FirestoreDataConverter<T>,
+  convert?: fromFirestore<T>,
   idField?: keyof T,
   once?: boolean
 }
