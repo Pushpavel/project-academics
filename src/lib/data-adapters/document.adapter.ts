@@ -22,6 +22,7 @@ export function privateDocumentMeta<T extends PrivateMetaRaw>(p: CoursePath, doc
   return fetchObj<T>({
     path: PRIVATE_DOCUMENT_PATH({...p, documentId}),
     convert: convert as any,
+    once: true,
   });
 }
 
@@ -36,5 +37,6 @@ export function privateDocumentEntries<T extends MarklistEntryRaw | AttendanceEn
   return fetchList<T>({
     path: PRIVATE_DOCUMENT_PATH({...p, documentId}) + `/entries`,
     idField: 'rollNo',
+    once: true,
   });
 }

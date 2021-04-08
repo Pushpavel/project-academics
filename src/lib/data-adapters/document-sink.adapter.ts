@@ -27,6 +27,7 @@ export function privateDocumentEntriesSink<T extends MarklistEntryRaw | Attendan
 ) {
   return sinkObject({
     path: PRIVATE_DOCUMENT_PATH({...p, documentId}) + '/entries',
+    idField: 'rollNo',
     sink
   });
 
