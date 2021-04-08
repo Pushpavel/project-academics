@@ -1,57 +1,79 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, combineLatest, from, Observable, of } from 'rxjs';
-import { delay, map, switchMap } from 'rxjs/operators';
-import { AcademicUser } from '@lib/models/user.model';
-import { authState } from 'rxfire/auth';
-import { auth, firestore } from '../firebase.app';
-// todo: Remove as valueChanges | This was kept for understanding purpose
-import { doc as valueChanges } from 'rxfire/firestore';
+import {Injectable, OnDestroy} from '@angular/core';
+import {combineLatest, from, Observable, of, ReplaySubject} from 'rxjs';
+import {filter, map, switchMap} from 'rxjs/operators';
+import {AcademicUser} from '@lib/models/user.model';
+import {authState} from 'rxfire/auth';
+import {auth, firestore} from '../firebase.app';
+import {fromDocRef} from 'rxfire/firestore';
 import firebase from 'firebase/app';
 
+/**
+ * Manages User Authentication and State
+ *
+ * This Observable behaves similar to FirebaseUser.getCurrentUser()
+ * @type {AcademicUser} - user is authenticated
+ * @type {null} - user is not authenticated
+ */
 @Injectable({
   providedIn: 'root'
 })
+export class UserService extends Observable<AcademicUser | null> implements OnDestroy {
 
-/*
-* service is Behavioral Subject, has {user} observable, which can be used to observe authentication events
-*/
-
-export class UserService extends BehaviorSubject<AcademicUser | null> implements OnDestroy {
+  /**
+   * data of the logged in user
+   * @private
+   */
+  private userData = new ReplaySubject<AcademicUser | null>(1);
 
 
   constructor() {
-    super(null)
-    this.listenAuthState()
+    super(subscriber => this.userData.subscribe(subscriber));
+    this.listenAuthState();
   }
 
-  private authStateListener?: any
+  /**
+   * observable that emits only if there is a logged in user
+   */
+  get loggedInUser() {
+    return this.userData.pipe(
+      filter(user => !!user)
+    );
+  }
 
+  /**
+   * @deprecated instead use UserService instance directly
+   */
   get user() {
-    return this.asObservable()
+    return this;
   }
+
+  private authStateListener?: any;
 
   private authClaims(u: firebase.User) {
-    return u ? from(u.getIdTokenResult()).pipe(map(r => r.claims)) : of(null)
+    return u ? from(u.getIdTokenResult()).pipe(map(r => r.claims)) : of(null);
   }
 
-  //TODO : check whether is it nessary to fetch firestore object of authenticated user
+  // TODO : (can be removed) check whether is it necessary to fetch firestore object of authenticated user
+  // TODO : move map in outer pipe inside switchMap to avoid passing FirebaseUser instance
   private listenAuthState() {
     this.authStateListener = authState(auth).pipe(switchMap((u) => {
-      const authClaimsObs = this.authClaims(u)
-      return u ? combineLatest([of(u), valueChanges(firestore.doc(`accounts/${u.uid}`)), authClaimsObs]) : of(null)
+      const authClaimsObs = this.authClaims(u);
+      return u ? combineLatest([of(u), fromDocRef(firestore.doc(`accounts/${u.uid}`)), authClaimsObs]) : of(null);
     })).pipe(map((c) => {
       const safe = (data: any) => {
-        return data ? data : {}
-      }
+        return data ? data : {};
+      };
       return c ? {
         displayName: c[0].displayName,
         email: c[0].email,
         uid: c[0].uid,
         ...c[2],
+        // TODO: can be replaced with ...(c[1].data() ?? {})
         ...safe(c[1].data())
-      } as AcademicUser : null
+      } as AcademicUser : null;
+      // TODO: .subscribe(this.userData); is better as it will subscribe to error and complete callbacks as well
     })).subscribe((u) => {
-      this.next(u)
+      this.userData.next(u);
     });
   }
 
@@ -60,20 +82,20 @@ export class UserService extends BehaviorSubject<AcademicUser | null> implements
   /**
    * Gives boolean, whether user is opted for password or passwordless
    * if user is not passwordless, then he might set password for his account, on previous authentication
-   * @param email 
+   * @param email
    */
   async isPasswordLess(email: string) {
-    let methods = await auth.fetchSignInMethodsForEmail(email)
+    let methods = await auth.fetchSignInMethodsForEmail(email);
     if (methods.indexOf(firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD) !== -1) {
-      return true
+      return true;
     } else {
-      return false
+      return false;
     }
   }
 
   /**
    * Call this initalially, for redirection from passwordless signin
-   * @param url 
+   * @param url
    * @returns Promise
    */
   SignInWithLink(url: string) {
@@ -86,47 +108,47 @@ export class UserService extends BehaviorSubject<AcademicUser | null> implements
       //hope user state observer takes care
       window.localStorage.removeItem('emailForSignIn');
       if (auth.currentUser) {
-        return null
+        return null;
       }
       return auth.signInWithEmailLink(email as string, url);
     }
-    return null
+    return null;
   }
 
   /**
    * Sends the auth link incase the user prefers passwordless
-   * @param email 
+   * @param email
    * @returns Promise
    */
   async sendSignInLink(email: string) {
     const actionCodeSettings = {
       url: 'https://localhost:4200/login',
       handleCodeInApp: true,
-    }
+    };
     try {
       await auth.sendSignInLinkToEmail(
         email,
         actionCodeSettings
       );
       window.localStorage.setItem('emailForSignIn', email);
-      return true
+      return true;
     } catch (err) {
-      return false
+      return false;
     }
   }
 
   /**
    * set password for the user, incase he prefers email/password authentication method
    * returns null if user is not signed in
-   * @param password 
+   * @param password
    * @returns Promise
    */
   setpassword(password: string) {
     if (auth.currentUser) {
-      return auth.currentUser.updatePassword(password)
+      return auth.currentUser.updatePassword(password);
     }
 
-    return null
+    return null;
   }
 
 
@@ -135,15 +157,16 @@ export class UserService extends BehaviorSubject<AcademicUser | null> implements
    * @returns promise
    */
   signOut() {
-    return auth.signOut()
+    return auth.signOut();
   }
 
-
-
+  /**
+   * TODO: Unsubscribing authStateListener is unnecessary as we need to be listening throughout the lifecycle of the app
+   */
   ngOnDestroy() {
     if (this.authStateListener) {
-      console.log("user service  Unsubscribed");
-      this.authStateListener.unsubscribe()
+      console.log('user service  Unsubscribed');
+      this.authStateListener.unsubscribe();
     }
   }
 }
