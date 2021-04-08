@@ -3,49 +3,62 @@ import {FACULTY_DOCUMENT_GROUPS} from '@lib/constants/document.constants';
 import {map, switchMap} from 'rxjs/operators';
 import {DocumentService} from '@service/document.service';
 import {getParams} from '../../routes/routing.helper';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {StatEntryRaw} from '@lib/models/document/document-stat.model';
+import {Observable, of} from "rxjs";
+import {UserCourseRelation} from "@lib/models/document/course.model";
 
 @Component({
-  selector: 'faculty-actions',
-  templateUrl: './faculty-actions.component.html',
-  styleUrls: ['./faculty-actions.component.scss']
+    selector: 'faculty-actions',
+    templateUrl: './faculty-actions.component.html',
+    styleUrls: ['./faculty-actions.component.scss']
 })
 export class FacultyActionsComponent {
 
-  params = getParams(['semId', 'courseCode'], this.route);
+    params = getParams(['semId', 'courseCode'], this.route);
 
-  documentGroups = this.params.pipe(
-    switchMap(params => this.documentService.getCourseDocStat({semId: params.semId, courseCode: params.courseCode})),
-    map(courseDocStat => {
-      const docs = courseDocStat.stats;
+    documentGroups = this.params.pipe(
+        switchMap(params => this.documentService.getCourseDocStat({
+            semId: params.semId,
+            courseCode: params.courseCode
+        })),
+        map(courseDocStat => {
+            const docs = courseDocStat.stats;
 
-      // maps ids of documents in each document group to CourseDocumentStat
-      return FACULTY_DOCUMENT_GROUPS.map(group => {
-        const actions = group.actions
-          .map(id => docs[id])
-          .filter(val => val != undefined);
+            // maps ids of documents in each document group to CourseDocumentStat
+            return FACULTY_DOCUMENT_GROUPS.map(group => {
+                const actions = group.actions
+                    .map(id => docs[id])
+                    .filter(val => val != undefined);
 
-        return {...group, actions} as DocumentGroupUI;
-      });
-    }),
-  );
+                return {...group, actions} as DocumentGroupUI;
+            });
+        }),
+    );
 
-  openDocument(docId: string) {
-    // TODO: navigate to a table page
-  }
+    userCR: Observable<UserCourseRelation> = of({
+        isFaculty: true
+    });
 
-  constructor(
-    private documentService: DocumentService,
-    private route: ActivatedRoute
-  ) {
-  }
+    openDocument(docId: string) {
+        // TODO: navigate to a table page
+        // Attendance, CT1, CT2, Assignment, End Semester, Grading Criteria, Grades
+
+        this.router.navigate([docId], {relativeTo: this.route});
+    }
+
+    constructor(
+        private documentService: DocumentService,
+        private route: ActivatedRoute,
+        private router: Router
+    ) {
+    }
 
 }
 
 
 export interface DocumentGroupUI {
-  title: string,
-  actions: StatEntryRaw[]
+    title: string,
+    actions: StatEntryRaw[]
 }
 

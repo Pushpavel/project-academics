@@ -1,9 +1,11 @@
 <ng-template #actionButton let-doc>
   <!--  TODO: CourseDocumentStat is available here, use it  -->
   <button mdc-button class="surface mdc-button--outlined" (click)="openDocument(doc.id)">
-    <h5><!--{{doc.name}}-->SUBTOPIC </h5>
-    <!--    --{{doc.timestamp}}-->
-    <p class="body2">Last Updated 25 Aug 2020</p>
+    <h5>{{doc.documentName}}</h5>
+    <!--    <ng-template [ngIf]="doc.timestamp">-->
+    <!--      <p class="body2">{{doc.timestamp}}</p>-->
+    <!--    </ng-template>-->
+    <p class="body2">Last Updated 25 Aug 2021</p>
   </button>
 </ng-template>
 
@@ -15,3 +17,5 @@
     </ng-container>
   </div>
 </div>
+
+<router-outlet></router-outlet>
