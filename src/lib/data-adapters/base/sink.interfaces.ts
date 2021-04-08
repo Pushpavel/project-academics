@@ -5,6 +5,9 @@ import DocumentData = firebase.firestore.DocumentData;
 
 export type ListSink<T, K extends keyof T> = Subject<Partial<T> & Pick<T, K>>
 
+
+export type SinkUpdate<T extends DocumentData, K extends keyof T | never = never> = Partial<T> & Pick<T, K>;
+
 /**
  * Subject that buffers values whenever Sink<T>.output observable has no subscribers
  *
@@ -14,9 +17,9 @@ export type ListSink<T, K extends keyof T> = Subject<Partial<T> & Pick<T, K>>
  */
 export class Sink<T extends DocumentData,
   K extends keyof T | never = never,
-  P extends Partial<T> & Pick<T, K> = any> {
+  P extends SinkUpdate<T, K> = any> {
 
-  private buffer = new BehaviorSubject<Partial<T>[]>([]);
+  private buffer = new BehaviorSubject<P[]>([]);
 
   output = this.buffer.pipe(
     filter(buf => buf.length > 0),
