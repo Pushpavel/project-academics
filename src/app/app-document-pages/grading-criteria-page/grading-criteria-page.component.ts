@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map} from 'rxjs/operators';
-import {ListSink} from '@lib/data-adapters/base/sink.interfaces';
-import {combineLatest, Subject, Subscription} from 'rxjs';
+import {Sink} from '@lib/data-adapters/base/sink.interfaces';
+import {combineLatest, Subscription} from 'rxjs';
 import {GradingCriteriaEntryUI, GradingCriteriaMeta} from '@lib/models/document/grading-criteria.model';
 
 @Component({
@@ -16,14 +16,15 @@ export class GradingCriteriaPageComponent extends DocumentPage implements OnInit
     map((meta) => (meta as GradingCriteriaMeta).entries)
   );
 
-  entrySink: ListSink<GradingCriteriaEntryUI, 'grade'> = new Subject();
+  entrySink = new Sink<GradingCriteriaEntryUI, 'grade' | 'minMark'>();
 
   subs = new Subscription();
 
   onEdit(key: string, row: GradingCriteriaEntryUI, event: Event) {
+    if (key != 'minMark') return;
     this.entrySink.next({
       grade: row.grade,
-      [key]: (event.target as HTMLInputElement).valueAsNumber
+      minMark: (event.target as HTMLInputElement).valueAsNumber
     });
   }
 

@@ -22,5 +22,5 @@ export type GradeId = typeof GRADES[number];
 export type GradingCriteriaEntryUI = EntryUI
 export type GradingCriteriaMeta = Meta
 export type GradingCriteriaMetaRaw = MetaRaw
-export type PrivateGradingCriteriaMeta = GradingCriteriaMeta & BasePrivateMetaRaw
-export type PrivateGradingCriteriaMetaRaw = GradingCriteriaMetaRaw & BasePrivateMetaRaw
+export type PrivateGradingCriteriaMeta = Meta & BasePrivateMetaRaw
+export type PrivateGradingCriteriaMetaRaw = MetaRaw & BasePrivateMetaRaw

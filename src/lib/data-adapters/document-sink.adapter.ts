@@ -1,37 +1,43 @@
 import {CoursePath, DocumentPath} from '@lib/models/path.model';
-import {PrivateDocumentId, PrivateMetaRaw} from '@lib/models/document/document-base.model';
-import {firestore} from '../../firebase.app';
+import {
+  NonGradeDocumentId,
+  PrivateMetaRaw
+} from '@lib/models/document/document-base.model';
 import {MarklistEntryRaw} from '@lib/models/document/marklist.model';
 import {AttendanceEntryRaw} from '@lib/models/document/attendance.model';
-import {ListSink, Sink} from '@lib/data-adapters/base/sink.interfaces';
-import {GradingCriteriaEntryUI} from '@lib/models/document/grading-criteria.model';
+import {SinkOut} from '@lib/data-adapters/base/sink.interfaces';
+import {GradingCriteriaEntryUI, PrivateGradingCriteriaMetaRaw} from '@lib/models/document/grading-criteria.model';
 import {sinkObject} from '@lib/data-adapters/base/firestore.sink';
 import {PRIVATE_DOCUMENT_PATH} from '@lib/constants/firestore.path';
+import {gradingCriteriaMetaUpdateFromEntries} from '@lib/data-adapters/convert/grading-criteria-from.snapshot';
+import {map} from 'rxjs/operators';
 
 
-export function privateDocumentEntriesSink<T extends MarklistEntryRaw | AttendanceEntryRaw>(
-  p: DocumentPath<Exclude<PrivateDocumentId, 'GRADING_CRITERIA'>>,
-  sink: ListSink<T, 'rollNo'>
-) {
-  const col = firestore.collection(`semesters/${p.semId}/courses/${p.courseCode}/private_course_documents/${p.documentId}/entries`);
-  return sink.subscribe(markEntryUpdate => {
-    const update: Partial<T> = {...markEntryUpdate};
-    delete update.rollNo;
-    return col.doc(markEntryUpdate.rollNo).update(update);
-  });
-}
-
-
-export function privateDocumentMetaSink<T extends PrivateMetaRaw>(p: DocumentPath, sink: Sink<T>) {
+export function privateDocumentMetaSink<T extends PrivateMetaRaw>(p: DocumentPath, sink: SinkOut<T>) {
   return sinkObject({
     path: PRIVATE_DOCUMENT_PATH(p),
     sink
   });
 }
 
-export function privateGradingCriteriaEntriesSink(
-  p: CoursePath, sink: ListSink<GradingCriteriaEntryUI, 'grade'>
+export function privateDocumentEntriesSink<T extends MarklistEntryRaw | AttendanceEntryRaw>(
+  p: CoursePath,
+  documentId: NonGradeDocumentId,
+  sink: SinkOut<T, 'rollNo'>
 ) {
-  const ref = firestore.doc(`semesters/${p.semId}/courses/${p.courseCode}/private_course_documents/GRADING_CRITERIA`);
-  return sink.subscribe(updates => ref.update(`entries.${updates.grade}`, updates.minMark));
+  return sinkObject({
+    path: PRIVATE_DOCUMENT_PATH({...p, documentId}) + '/entries',
+    sink
+  });
+
+}
+
+export function privateGradingCriteriaEntriesSink(
+  p: CoursePath,
+  sink: SinkOut<GradingCriteriaEntryUI, 'grade' | 'minMark'>
+) {
+  return privateDocumentMetaSink<PrivateGradingCriteriaMetaRaw>(
+    {...p, documentId: 'GRADING_CRITERIA'},
+    sink.pipe(map(gradingCriteriaMetaUpdateFromEntries))
+  );
 }

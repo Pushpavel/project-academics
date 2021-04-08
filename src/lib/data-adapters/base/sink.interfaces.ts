@@ -1,33 +1,45 @@
-import {BehaviorSubject, Subject} from 'rxjs';
-import {filter, tap} from 'rxjs/operators';
+import {BehaviorSubject, Observable} from 'rxjs';
 import firebase from 'firebase';
 import DocumentData = firebase.firestore.DocumentData;
 
-export type ListSink<T, K extends keyof T> = Subject<Partial<T> & Pick<T, K>>
-
-
-export type SinkUpdate<T extends DocumentData, K extends keyof T | never = never> = Partial<T> & Pick<T, K>;
-
 /**
- * Subject that buffers values whenever Sink<T>.output observable has no subscribers
+ * Observable with next function that buffers values if it does not have any subscribers
  *
  * @template T - Model interface
- * @template K - required keys in T
- * @template P - the resultant type each update should be
+ * @template K - union of all the required keys of T
  */
-export class Sink<T extends DocumentData,
-  K extends keyof T | never = never,
-  P extends SinkUpdate<T, K> = any> {
+export class Sink<T extends DocumentData, K extends keyof T | never = never> extends Observable<SinkUpdate<T, K>[]> {
 
-  private buffer = new BehaviorSubject<P[]>([]);
+  private buffer = new BehaviorSubject<SinkUpdate<T, K>[]>([]);
 
-  output = this.buffer.pipe(
-    filter(buf => buf.length > 0),
-    tap(() => this.buffer.next([]))  // reset buffer
-  );
+  constructor() {
+    super(sub => this.buffer.subscribe(buf => {
+      if (buf.length == 0) return;
 
-  next(...value: P[]) {
+      // dispatch buffer
+      sub.next(buf);
+
+      //  reset buffer
+      this.buffer.next([]);
+    }));
+  }
+
+  next(...value: SinkUpdate<T, K>[]) {
     if (value.length)
       this.buffer.next([...this.buffer.value, ...value]);
   }
 }
+
+/**
+ * Object Representing a single update to a sink
+ * @template T - Model interface
+ * @template K - union of all the required keys of T
+ */
+export type SinkUpdate<T extends DocumentData, K extends keyof T | never> = Partial<T> & Pick<T, K>;
+
+/**
+ * Base Observable type which Sink<T> class extends
+ * @template T - Model interface
+ * @template K - union of all the required keys of T
+ */
+export type SinkOut<T extends DocumentData, K extends keyof T | never = never> = Observable<SinkUpdate<T, K>[]>

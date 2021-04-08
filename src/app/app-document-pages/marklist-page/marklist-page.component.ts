@@ -1,10 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
-import {ListSink} from '@lib/data-adapters/base/sink.interfaces';
-import {combineLatest, Subject, Subscription} from 'rxjs';
+import {Sink} from '@lib/data-adapters/base/sink.interfaces';
+import {combineLatest, Subscription} from 'rxjs';
 import {MarklistDocumentId} from '@lib/models/document/document-base.model';
-import {DocumentPath} from '@lib/models/path.model';
 import {MarklistEntryRaw, MarklistEntryUI} from '@lib/models/document/marklist.model';
 import {marklistEntriesUIModel} from '@lib/data-adapters/combine/marklist.combine';
 
@@ -31,7 +30,7 @@ export class MarklistPageComponent extends DocumentPage implements OnInit, OnDes
     })
   );
 
-  entrySink: ListSink<MarklistEntryRaw, 'rollNo'> = new Subject();
+  entrySink = new Sink<MarklistEntryRaw, 'rollNo'>();
 
   subs = new Subscription();
 
@@ -45,15 +44,9 @@ export class MarklistPageComponent extends DocumentPage implements OnInit, OnDes
   ngOnInit(): void {
     //  Setup Sinks
     const sub = combineLatest([this.editable, this.params])
-      .subscribe(([editable, params]) => {
-        const p: DocumentPath<MarklistDocumentId> = { //  TODO: refactor this
-          semId: params.semId,
-          courseCode: params.courseCode,
-          documentId: params.documentId as MarklistDocumentId
-        };
-
+      .subscribe(([editable, p]) => {
         if (editable)
-          this.documentService.sinkPrivateDocumentEntry(p, this.entrySink);
+          this.documentService.sinkPrivateDocumentEntry(p, p.documentId as MarklistDocumentId, this.entrySink);
       });
 
     this.subs.add(sub);
