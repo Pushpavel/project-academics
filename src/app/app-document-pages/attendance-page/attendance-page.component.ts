@@ -27,7 +27,7 @@ export class AttendancePageComponent extends DocumentPage implements OnInit, OnD
   );
 
   entrySink: ListSink<AttendanceEntryRaw, 'rollNo'> = new Subject();
-  metaSink: Sink<PrivateMetaRaw> = new Subject();
+  metaSink = new Sink<PrivateMetaRaw>();
 
   subs = new Subscription();
 

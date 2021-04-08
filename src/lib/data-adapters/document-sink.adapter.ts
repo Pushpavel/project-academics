@@ -22,7 +22,7 @@ export function privateDocumentEntriesSink<T extends MarklistEntryRaw | Attendan
 
 export function privateDocumentMetaSink<T extends PrivateMetaRaw>(p: DocumentPath, sink: Sink<T>) {
   const ref = firestore.doc(`semesters/${p.semId}/courses/${p.courseCode}/private_course_documents/${p.documentId}`);
-  return sink.subscribe(metaUpdate => ref.update(metaUpdate));
+  return sink.output.subscribe(metaUpdate => ref.update(metaUpdate));
 }
 
 export function privateGradingCriteriaEntriesSink(
