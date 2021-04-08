@@ -1,13 +1,23 @@
 .header-tile {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 
   > :first-child {
     flex: 1;
   }
 
   > :not(:first-child) {
-    margin-left: 16px;
+    margin-left: 32px;
+  }
+
+  > .text-block {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    > * {
+      line-height: 1.5rem;
+    }
   }
 }
 

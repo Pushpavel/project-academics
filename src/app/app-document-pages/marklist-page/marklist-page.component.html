@@ -2,6 +2,15 @@
 
   <div [span]="12" class="header-tile">
     <h4>Marklist</h4>
+    <div class="text-block">
+      <span class="dark-text-secondary overline">PUBLISHED ON</span>
+      <span class="dark-text-primary sub2">12 AUG 2021</span>
+    </div>
+    <button mdc-button="outlined" class="surface">
+      <mdc-icon>download</mdc-icon>
+      DOWNLOAD
+    </button>
+    <button mdc-button="raised">PUBLISH</button>
   </div>
 
   <mdc-table [span]="6" [rows]="entries|async"
