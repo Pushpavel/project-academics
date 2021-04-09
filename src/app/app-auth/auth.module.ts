@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginPageComponent } from './login-page/login-page.component';
-
-
-
+import { MdcHelperModule } from "../mdc-helper/mdc-helper.module";
 @NgModule({
-  declarations: [LoginPageComponent],
+  declarations: [
+    LoginPageComponent,
+  ],
   imports: [
-    CommonModule
+    CommonModule,
+    MdcHelperModule
   ]
 })
 export class AuthModule { }
