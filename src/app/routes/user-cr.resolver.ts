@@ -9,11 +9,11 @@ import {paramMapToObj} from './routing.helper';
 import {CourseService} from '@service/course.service';
 import {UserService} from '@service/user.service';
 import {DocumentService} from '@service/document.service';
-import {filter, map, switchMap, tap} from 'rxjs/operators';
+import {filter, map, switchMap, take, tap} from 'rxjs/operators';
 import {CourseRaw, UserCourseRelation} from '@lib/models/course.model';
 import {StatEntryRaw} from '@lib/models/document/document-stat.model';
 import {AcademicUser} from '@lib/models/user.model';
-import {elseRedirectTo, thenMap, thenSwitchMap} from './routing.pipes';
+import {elseRedirectTo, thenMap, elseSwitchMap} from './routing.pipes';
 
 export interface UserCrData {
   userCR: UserCourseRelation,
@@ -43,14 +43,14 @@ export class UserCrResolver implements Resolve<UserCrData> {
           let stat: StatEntryRaw;
 
           // authGuard like pattern
-          return of(userCR.isFaculty || userCR.isHod || userCR.isStudent) // is user related to course
+          return of(!!(userCR.isFaculty || userCR.isHod || userCR.isStudent)) // is user related to course
             .pipe(
               elseRedirectTo('404'),
-              thenMap(() => !params.documentId || userCR.isFaculty || !userCR.isHod), // is documentStat check needed
-              thenSwitchMap(() =>
+              thenMap(() => !params.documentId || userCR.isFaculty || !userCR.isHod && !userCR.isExamCell), // is private check not needed
+              elseSwitchMap(() =>
                 this.documentService.getStat(params).pipe(
                   tap(_stat => stat = _stat),
-                  map(stat => stat.status != 'private') // is private document
+                  map(stat => stat?.status != 'private') // is not private document
                 )
               ),
               elseRedirectTo('404'),
@@ -58,13 +58,13 @@ export class UserCrResolver implements Resolve<UserCrData> {
               // TODO: verify whether student is enrolled in course
               map(activate => {
                 if (activate == true) return {userCR, course, stat};
-
                 this.router.navigate([activate as string]);
                 return null;
               })
             );
         }),
         filter(data => data != null),
+        take(1),
       );
   }
 

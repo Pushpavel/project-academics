@@ -14,7 +14,9 @@ import {authGuard, AuthPipeGuard} from './auth-pipe.guard';
 import {pipe} from 'rxjs';
 import {elseRedirectTo, elseStay, loggedIn, thenRedirectToHome} from './routing.pipes';
 import {regexGuard, RegexGuard} from './regex.guard';
+import {UserCrResolver} from './user-cr.resolver';
 
+// UTIL PIPES
 const redirectLoggedInToHome = authGuard(() => pipe(
   loggedIn,
   thenRedirectToHome,
@@ -33,6 +35,28 @@ const redirectByAuth = authGuard(() => pipe(
 ));
 
 
+// CHILD ROUTES UNDER 'sem/:semId'
+const routesUnderSem = [
+  {path: `home`, component: HomePageComponent},
+  {path: `result`, component: StudentResultPageComponent},
+  {
+    path: `result/:${p.batchId}`,
+    ...regexGuard(p.batchId),
+    component: BatchResultPageComponent
+  },
+  {
+    path: `course/:${p.courseCode}`,
+    ...regexGuard(p.courseCode),
+    children: [
+      ...documentPageRoutes,
+      {path: ``, component: CoursePageComponent, resolve: {userCrResolve: UserCrResolver}, pathMatch: 'full'},
+    ]
+  },
+  {path: ``, redirectTo: 'home', pathMatch: 'full'},
+];
+
+
+// ROOT ROUTES
 const routes: Routes = [
   {path: 'login', component: LoginPageComponent, ...redirectLoggedInToHome},
   {
@@ -42,24 +66,7 @@ const routes: Routes = [
       authGuardPipe: redirectUnAuthorizedToLogin,
       regexGuardParamId: p.semId
     },
-    children: [
-      {path: `home`, component: HomePageComponent},
-      {path: `result`, component: StudentResultPageComponent},
-      {
-        path: `result/:${p.batchId}`,
-        ...regexGuard(p.batchId),
-        component: BatchResultPageComponent
-      },
-      {
-        path: `course/:${p.courseCode}`,
-        ...regexGuard(p.courseCode),
-        children: [
-          ...documentPageRoutes,
-          {path: ``, component: CoursePageComponent, pathMatch: 'full'},
-        ]
-      },
-      {path: ``, redirectTo: 'home', pathMatch: 'full'},
-    ]
+    children: routesUnderSem
   },
   {path: '404', component: PageNotFoundComponent},
   {
@@ -76,7 +83,7 @@ if (!environment.production) routes.unshift({path: 'dev', component: DevPageComp
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,)],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class RoutingModule {

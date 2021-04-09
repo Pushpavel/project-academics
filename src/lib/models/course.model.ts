@@ -25,6 +25,7 @@ export interface CourseDocumentStats {
 export interface UserCourseRelation {
   isFaculty?: boolean,
   isHod?: boolean,
+  isExamCell?: boolean,
   isStudent?: boolean,
 }
 
