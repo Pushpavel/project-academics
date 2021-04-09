@@ -12,9 +12,9 @@
     <button mdc-button="raised">PUBLISH</button>
   </div>
 
-  <div [span]="12" class="p16" *ngIf="meta|async as meta">
-    <span>Total Classes Conducted </span>
-    <label mdc-text-field class="surface">
+  <div [span]="12" *ngIf="meta|async as meta">
+    <span class="sub2 dark-text-primary">Total Classes Conducted </span>
+    <label mdc-text-field class="surface hm16">
       <input mdc-input type="number" [value]="meta.total" (change)="onTotalChange($event)">
     </label>
   </div>
