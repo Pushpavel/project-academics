@@ -9,7 +9,7 @@
   </div>
 
 
-  <mdc-table [rows]="entries|async" [editableCell]="editableCell">
+  <mdc-table [span]="4" [rows]="entries|async" [editableCell]="editableCell">
     <column key="grade" label="Grade"></column>
     <column key="minMark" label="Minimum Mark" numeric [editable]="editable|async"></column>
     <column key="maxMark" label="Maximum Mark" numeric></column>

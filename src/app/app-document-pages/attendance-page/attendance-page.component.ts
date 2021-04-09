@@ -10,7 +10,8 @@ import {PrivateMetaRaw} from '@lib/models/document/document-base.model';
 @Component({
   selector: 'app-attendance-page',
   templateUrl: './attendance-page.component.html',
-  styleUrls: ['./attendance-page.component.scss']
+  styleUrls: ['./attendance-page.component.scss'],
+  host: {class: 'document-page'}
 })
 export class AttendancePageComponent extends DocumentPage implements OnInit, OnDestroy {
 

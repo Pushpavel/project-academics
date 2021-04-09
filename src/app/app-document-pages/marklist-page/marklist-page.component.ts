@@ -11,6 +11,7 @@ import {marklistEntriesUIModel} from '@lib/data-adapters/combine/marklist.combin
   selector: 'app-marklist-page',
   templateUrl: './marklist-page.component.html',
   styleUrls: ['./marklist-page.component.scss'],
+  host:{class:'document-page'}
 })
 export class MarklistPageComponent extends DocumentPage implements OnInit, OnDestroy {
 

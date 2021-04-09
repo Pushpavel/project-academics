@@ -8,7 +8,8 @@ import {GradingCriteriaEntryUI, GradingCriteriaMeta} from '@lib/models/document/
 @Component({
   selector: 'app-grading-criteria-page',
   templateUrl: './grading-criteria-page.component.html',
-  styleUrls: ['./grading-criteria-page.component.scss']
+  styleUrls: ['./grading-criteria-page.component.scss'],
+  host: {class: 'document-page'}
 })
 export class GradingCriteriaPageComponent extends DocumentPage implements OnInit, OnDestroy {
 
