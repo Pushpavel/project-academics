@@ -17,7 +17,7 @@
 </mdc-layout>
 
 <ng-template #editableCell let-row='row' let-col='col'>
-  <label mdc-text-field class="numeric">
+  <label mdc-text-field>
     <input mdc-input type="number" [value]="row[col.key]" (change)="onEdit(col.key,row,$event)">
   </label>
 </ng-template>

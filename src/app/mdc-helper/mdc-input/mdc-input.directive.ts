@@ -1,4 +1,4 @@
-import {Directive, ElementRef, HostBinding, OnInit} from '@angular/core';
+import {Directive, ElementRef} from '@angular/core';
 
 /**
  * Using this directive as a marker for mdc-text-field
@@ -9,17 +9,21 @@ import {Directive, ElementRef, HostBinding, OnInit} from '@angular/core';
     class: 'mdc-text-field__input'
   }
 })
-export class MdcInputDirective implements OnInit {
+export class MdcInputDirective {
 
-  isTextArea = false;
-
-  @HostBinding('attr.disabled') disabled?: boolean;
-
-  constructor(private elementRef: ElementRef<HTMLInputElement | HTMLTextAreaElement>) {
+  get isTextArea() {
+    return this.elementRef.nativeElement.tagName == 'TEXTAREA';
   }
 
-  ngOnInit() {
-    this.isTextArea = this.elementRef.nativeElement.tagName == 'TEXTAREA';
+  get disabled() {
+    return this.elementRef.nativeElement.disabled;
+  }
+
+  get type() {
+    return this.elementRef.nativeElement.type;
+  };
+
+  constructor(private elementRef: ElementRef<HTMLInputElement | HTMLTextAreaElement>) {
   }
 
 }
