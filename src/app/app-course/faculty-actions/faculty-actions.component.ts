@@ -41,9 +41,6 @@ export class FacultyActionsComponent {
     });
 
     openDocument(docId: string) {
-        // TODO: navigate to a table page
-        // Attendance, CT1, CT2, Assignment, End Semester, Grading Criteria, Grades
-
         this.router.navigate([docId], {relativeTo: this.route});
     }
 

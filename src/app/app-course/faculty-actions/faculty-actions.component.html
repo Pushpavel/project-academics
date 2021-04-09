@@ -9,6 +9,15 @@
   </button>
 </ng-template>
 
+<!--<div class="sub-group" *ngFor="let group of documentGroups|async">-->
+<!--  <h6>{{group.title}}</h6>-->
+<!--  <div class="surface-group">-->
+<!--    <ng-container *ngFor="let doc of group.actions">-->
+<!--      <ng-container *ngTemplateOutlet="actionButton;context:{$implicit:doc}"></ng-container>-->
+<!--    </ng-container>-->
+<!--  </div>-->
+<!--</div>-->
+
 <div class="sub-group" *ngFor="let group of documentGroups|async">
   <h6>{{group.title}}</h6>
   <div class="surface-group">
@@ -17,5 +26,3 @@
     </ng-container>
   </div>
 </div>
-
-<router-outlet></router-outlet>
