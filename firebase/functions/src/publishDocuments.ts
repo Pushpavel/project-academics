@@ -1,9 +1,10 @@
 
 import * as functions from 'firebase-functions';
+import { DocumentPublishType } from './models';
 
-export const publishDocuments = (firestore: FirebaseFirestore.Firestore) => functions.region('asia-south1').https.onCall(async (data: any, context) => {
+export const publishDocuments = (firestore: FirebaseFirestore.Firestore) => functions.region('asia-south1').https.onCall(async (data: DocumentPublishType, context) => {
 
-    const course_doc_ref = firestore.collection('Semesters').doc(data.sem_id).collection('Courses').doc(data.course_id)
+    const course_doc_ref = firestore.collection('semesters').doc(data.sem_id).collection('courses').doc(data.course_id)
 
     const course_snap = await course_doc_ref.get()
     const course_data = course_snap.data()

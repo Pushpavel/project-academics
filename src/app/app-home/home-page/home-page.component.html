@@ -1,6 +1,6 @@
 <ng-container *ngIf="courseCollections !== null else loader">
 
-  <mdc-tabs-bar (handletabChange)='handletabChange($event)' [tabs]="homeTabs" >
+  <mdc-tabs-bar *ngIf="this.isHodPage()" (handletabChange)='handletabChange($event)' [tabs]="homeTabs" >
     
   </mdc-tabs-bar>
 

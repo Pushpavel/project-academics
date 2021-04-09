@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
 import {CourseDetailRaw} from '@lib/models/course.model';
 
 @Component({
@@ -12,7 +13,7 @@ export class CourseButtonComponent implements OnInit {
   @Input() course!: CourseDetailRaw
 
 
-  constructor() {
+  constructor(private router : Router) {
   }
 
   ngOnInit(): void {
@@ -20,7 +21,6 @@ export class CourseButtonComponent implements OnInit {
 
   handleCourseChoosen() {
     console.log(this.course.courseCode);
-
   }
 
 }

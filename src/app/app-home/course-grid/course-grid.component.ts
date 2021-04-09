@@ -14,7 +14,6 @@ export class CourseGridComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.title,this.courses);
   }
 
 }

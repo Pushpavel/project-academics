@@ -1,4 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AcademicUser } from '@lib/models/user.model';
 import { CourseService } from '@service/course.service';
 import { UserService } from '@service/user.service';
 import { Observable, Subscription } from 'rxjs';
@@ -10,7 +12,7 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class HomePageComponent implements OnInit, OnDestroy {
 
-  constructor(private courseService: CourseService, private userService: UserService) { }
+  constructor(private router: Router, private courseService: CourseService, private userService: UserService) { }
 
   courseCollections?: any = null
 
@@ -21,20 +23,26 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   private courseSubscription!: Subscription
   private userSubscription!: Subscription
-
+  private user ?: AcademicUser | null
 
   getCourseCollections() {
   }
 
-  authValid(user: any) {
-    console.log("from home : ", user);
+  isHodPage() : boolean {
+    return this.user?.isHod !== undefined
+  }
+
+  authValidate(user: AcademicUser | null) {
+    if (user) {
+      this.courseService.fetchCourseCollection(user.uid)
+    }
+    this.user = user
   }
 
   ngOnInit(): void {
     this.courseSubscription = this.courseService.courseCollection.subscribe((result) => this.courseCollections = result)
-    this.courseService.fetchCourseCollection("Carmela.Konopelski67@nitpy.ac.in")
-    this.userSubscription = this.userService.user.subscribe(u => {
-      this.authValid(u)
+    this.userSubscription = this.userService.subscribe(u => {
+      this.authValidate(u)
     })
   }
 
