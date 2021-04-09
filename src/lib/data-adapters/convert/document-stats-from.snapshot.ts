@@ -3,7 +3,7 @@ import {mapObjectEntries} from '@lib/utils/other.util';
 import {DOCUMENT_NAMES} from '@lib/constants/document.constants';
 import {StatEntryRaw, StatsDocumentRaw} from '@lib/models/document/document-stat.model';
 import {getCourseCodeFromPath} from '@lib/data-adapters/convert/course-detail-from.snapshot';
-import {CourseDocumentStats} from '@lib/models/document/course.model';
+import {CourseDocumentStats} from '@lib/models/course.model';
 import {DocumentId} from '@lib/models/document/document-base.model';
 
 export const documentStatsFromSnapshot: fromFirestore<CourseDocumentStats> =

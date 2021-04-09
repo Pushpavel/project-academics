@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {CourseDetailRaw} from '@lib/models/document/course.model';
+import {CourseDetailRaw} from '@lib/models/course.model';
 
 @Component({
   selector: 'course-button',

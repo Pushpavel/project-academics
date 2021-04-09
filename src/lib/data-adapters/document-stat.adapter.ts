@@ -1,4 +1,4 @@
-import {CourseDocumentStats} from '@lib/models/document/course.model';
+import {CourseDocumentStats} from '@lib/models/course.model';
 import {CoursePath} from '@lib/models/path.model';
 import {fetchList, fetchObj} from '@lib/data-adapters/base/firestore.adapter';
 import {PROTECTED_DOCUMENT_PATH} from '@lib/constants/firestore.path';

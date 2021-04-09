@@ -1,4 +1,4 @@
-import {CourseDetailRaw} from '@lib/models/document/course.model';
+import {CourseDetailRaw} from '@lib/models/course.model';
 import {fromFirestore} from '@lib/data-adapters/base/convert.default';
 
 export const courseDetailFromSnapshot: fromFirestore<CourseDetailRaw> =

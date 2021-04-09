@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CourseDetailRaw} from '@lib/models/document/course.model';
+import {CourseDetailRaw} from '@lib/models/course.model';
 import {firestore} from 'firebase.app';
 import {collectionData} from 'rxfire/firestore';
 import {BehaviorSubject} from 'rxjs';

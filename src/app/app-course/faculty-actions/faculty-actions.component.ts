@@ -5,8 +5,8 @@ import {DocumentService} from '@service/document.service';
 import {getParams} from '../../routes/routing.helper';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StatEntryRaw} from '@lib/models/document/document-stat.model';
-import {Observable, of} from "rxjs";
-import {UserCourseRelation} from "@lib/models/document/course.model";
+import {Observable, of} from 'rxjs';
+import {UserCourseRelation} from '@lib/models/course.model';
 
 @Component({
     selector: 'faculty-actions',

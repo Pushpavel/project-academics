@@ -1,4 +1,4 @@
-import {CourseRaw, CourseDetailRaw} from '@lib/models/document/course.model';
+import {CourseRaw, CourseDetailRaw} from '@lib/models/course.model';
 import {fetchObj} from '@lib/data-adapters/base/firestore.adapter';
 import {courseDetailFromSnapshot} from '@lib/data-adapters/convert/course-detail-from.snapshot';
 

@@ -1,8 +1,5 @@
-import {DEPT_ABBR} from '@lib/constants/dept.constants';
-import {DocumentId} from '@lib/models/document/document-base.model';
+import {DeptFields, DocumentId} from '@lib/models/document/document-base.model';
 
-
-type DeptFields = { [dept in keyof typeof DEPT_ABBR]: 'core' | 'elective1' | 'elective2'; };
 
 interface StatsRaw extends Partial<DeptFields> {
   sem: string,
