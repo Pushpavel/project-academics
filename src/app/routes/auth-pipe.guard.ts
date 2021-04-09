@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router} from '@angular/router';
-import {Observable, pipe, UnaryFunction} from 'rxjs';
+import {Observable, UnaryFunction} from 'rxjs';
 import {UserService} from '@service/user.service';
 import {map, take} from 'rxjs/operators';
 import {AcademicUser} from '@lib/models/user.model';
@@ -41,10 +41,3 @@ export class AuthPipeGuard implements CanActivate {
 export const authGuard = (pipe: AuthPipeGenerator) => ({
   canActivate: [AuthPipeGuard], data: {authGuardPipe: pipe}
 });
-
-
-export const redirectUnauthorizedTo: (redirect: string | any[]) => AuthPipe =
-  (redirect) => pipe(loggedIn, map(loggedIn => loggedIn || redirect));
-
-export const redirectLoggedInTo: (redirect: string | any[]) => AuthPipe =
-  (redirect) => pipe(loggedIn, map(loggedIn => loggedIn && redirect || true));

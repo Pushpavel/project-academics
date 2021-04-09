@@ -1,3 +1,5 @@
+import {DeptId} from '@lib/models/document/document-base.model';
+
 export interface AcademicUser {
   uid: string, // can be roll_no or email id depending on user
   displayName: string;
@@ -5,5 +7,5 @@ export interface AcademicUser {
   isStudent?: boolean,
   isFaculty?: boolean,
   isExamCell?: boolean,
-  isHod?: boolean
+  isHod?: DeptId
 }
