@@ -4,7 +4,7 @@ import {AuthPipe} from './auth-pipe.guard';
 
 export const loggedIn: AuthPipe = map(user => !!user);
 
-export const thenRedirectToHome = () => switchMap((can: any) => {
+export const thenRedirectToHome = switchMap((can: any) => {
     if (can == true)
       return of('/sem/2020_EVEN/home');//  TODO: fetch real current sem
 
@@ -12,5 +12,9 @@ export const thenRedirectToHome = () => switchMap((can: any) => {
   }
 );
 
+export const elseStay = map((can: any) => can == false || can);
+
 export const elseRedirectTo = <I, O>(redirect: string | any[]) =>
   map<I, O>((can: any) => (can == false) && redirect || can);
+
+

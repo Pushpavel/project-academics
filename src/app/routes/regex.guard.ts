@@ -12,15 +12,22 @@ export class RegexGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const isValid = route.paramMap.keys.every(paramKey => {
-      const regex = ROUTING_REGEXES[paramKey as RoutingParam];
-      const param = route.paramMap.get(paramKey);
-      return param && (!regex || regex.test(param));
-    });
 
-    return isValid || this.router.parseUrl('404');
+    const paramId = route.data.regexGuardParamId as RoutingParam;
+
+    if (!paramId)
+      throw new Error('RegexGuard must be provided with regexGuardParamId in data property of the route');
+
+    const param = route.paramMap.get(paramId);
+    const regex = ROUTING_REGEXES[paramId];
+    return param && (!regex || regex.test(param)) || this.router.parseUrl('404');
   }
 
   constructor(private router: Router) {
   }
 }
+
+
+export const regexGuard = (paramId: RoutingParam) => ({
+  canActivate: [RegexGuard], data: {regexGuardParamId: paramId}
+});
