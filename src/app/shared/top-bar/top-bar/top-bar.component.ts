@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {UserService} from '@service/user.service';
-import {AcademicUser} from '@lib/models/user.model';
 import {PageService} from '@service/page.service';
 
 @Component({
@@ -10,7 +9,8 @@ import {PageService} from '@service/page.service';
 })
 export class TopBarComponent {
 
-  userIcon: Record<AcademicUser['role'], string> = {
+  //  TODO: find alternative
+  userIcon: Record<string, string> = {
     exam_cell: 'account_balance',
     hod: 'account_circle',
     student: 'tag_faces',
