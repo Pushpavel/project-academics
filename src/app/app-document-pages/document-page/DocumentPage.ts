@@ -3,14 +3,19 @@ import {ActivatedRoute} from '@angular/router';
 import {DocumentService} from '@service/document.service';
 import {getParams} from '../../routes/routing.helper';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
-import {combineLatest, Observable, of} from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 import {UserCourseRelation} from '@lib/models/course.model';
 import {DocumentPath} from '@lib/models/path.model';
-import {PrivateDocumentId} from '@lib/models/document/document-base.model';
+import {NonGradeDocumentId, PrivateDocumentId} from '@lib/models/document/document-base.model';
+import {getValue} from '@lib/utils/other.util';
+import {PublishService} from '@service/publish.service';
+import {MdcDialog} from '../../mdc-helper/mdc-dialog/mdc-dialog.service';
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
 export abstract class DocumentPage {
+
+  disableEdit = false;
 
   params = getParams<DocumentPath>(['semId', 'courseCode', 'documentId'], this.route);
 
@@ -19,10 +24,9 @@ export abstract class DocumentPage {
     shareReplay(1)
   );
 
-  //  TODO: Implement this
-  userCR: Observable<UserCourseRelation> = of({
-    isFaculty: true
-  });
+  userCR: Observable<UserCourseRelation> = this.route.data.pipe(
+    map(data => data.userCrResolve?.userCR)
+  );
 
   isPrivate = combineLatest([this.userCR, this.stat]).pipe(
     map(([cr, stat]) => cr.isFaculty && (stat.status == 'private' || stat.status == 'remarked') && stat.id != 'GRADES')
@@ -39,9 +43,24 @@ export abstract class DocumentPage {
 
   editable = this.meta.pipe(map(meta => meta.editable));
 
+  async publishBtn() {
+    this.disableEdit = true;
+    const [params] = await getValue(this.params);
+    const confirm = await this.dialog.alert({message: `Confirm ?`, action: 'Publish', cancel: 'Cancel'});
+    console.log(confirm);
+
+    if (!confirm) {
+      this.disableEdit = false;
+      return;
+    }
+    this.publishService.publishDocument(params, params.documentId as NonGradeDocumentId);
+  }
+
   constructor(
+    protected publishService: PublishService,
     protected documentService: DocumentService,
     protected route: ActivatedRoute,
+    protected dialog: MdcDialog,
   ) {
   }
 

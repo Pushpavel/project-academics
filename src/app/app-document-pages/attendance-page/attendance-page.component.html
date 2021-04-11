@@ -9,7 +9,7 @@
       <mdc-icon>download</mdc-icon>
       DOWNLOAD
     </button>
-    <button mdc-button="raised">PUBLISH</button>
+    <button mdc-button="raised" (click)="publishBtn()">PUBLISH</button>
   </div>
 
   <div [span]="12" *ngIf="meta|async as meta">
@@ -30,6 +30,7 @@
 
 <ng-template #editableCell let-row='row' let-col='col'>
   <label mdc-text-field>
-    <input mdc-input type="number" [value]="row[col.key]" (change)="onEdit(col.key,row,$event)">
+    <input mdc-input type="number" [disabled]="disableEdit" [value]="row[col.key]"
+           (change)="onEdit(col.key,row,$event)">
   </label>
 </ng-template>
