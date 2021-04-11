@@ -1,20 +1,22 @@
-<mdc-layout>
-  <div [span]="12" class="header-tile">
-    <h4>Grading Criteria</h4>
-    <button mdc-button class="surface">
-      <mdc-icon>refresh</mdc-icon>
-      RESET
-    </button>
-    <button mdc-button="raised" (click)="publishBtn()">APPLY</button>
-  </div>
+<top-bar-layout>
+  <mdc-layout container>
+    <div [span]="12" class="header-tile">
+      <h4>Grading Criteria</h4>
+      <button mdc-button class="surface">
+        <mdc-icon>refresh</mdc-icon>
+        RESET
+      </button>
+      <button mdc-button="raised" (click)="publishBtn()">APPLY</button>
+    </div>
 
 
-  <mdc-table [span]="4" [rows]="entries|async" [editableCell]="editableCell">
-    <column key="grade" label="Grade"></column>
-    <column key="minMark" label="Minimum Mark" numeric [editable]="editable|async"></column>
-    <column key="maxMark" label="Maximum Mark" numeric></column>
-  </mdc-table>
-</mdc-layout>
+    <mdc-table [span]="4" [rows]="entries|async" [editableCell]="editableCell">
+      <column key="grade" label="Grade"></column>
+      <column key="minMark" label="Minimum Mark" numeric [editable]="editable|async"></column>
+      <column key="maxMark" label="Maximum Mark" numeric></column>
+    </mdc-table>
+  </mdc-layout>
+</top-bar-layout>
 
 <ng-template #editableCell let-row='row' let-col='col'>
   <label mdc-text-field>

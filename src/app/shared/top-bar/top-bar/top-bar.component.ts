@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {UserService} from '@service/user.service';
-import {PageService} from '@service/page.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -26,7 +25,6 @@ export class TopBarComponent {
 
   constructor(
     public user: UserService,
-    public service: PageService,
     private router: Router
   ) {
   }

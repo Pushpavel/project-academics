@@ -17,6 +17,7 @@ import {TopBarComponent} from './top-bar/top-bar.component';
   exports: [
     TopBarLayoutComponent,
     TopBarContentDirective,
+    TopBarLayoutContainerDirective,
   ],
   imports: [
     CommonModule,
