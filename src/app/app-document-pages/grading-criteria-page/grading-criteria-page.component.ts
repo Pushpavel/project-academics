@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {DocumentPage} from '../document-page/DocumentPage';
-import {map} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {Sink} from '@lib/data-adapters/base/sink.interfaces';
-import {combineLatest, Subscription} from 'rxjs';
+import {combineLatest, of} from 'rxjs';
 import {GradingCriteriaEntryUI, GradingCriteriaMeta} from '@lib/models/document/grading-criteria.model';
 
 @Component({
@@ -11,7 +11,7 @@ import {GradingCriteriaEntryUI, GradingCriteriaMeta} from '@lib/models/document/
   styleUrls: ['./grading-criteria-page.component.scss'],
   host: {class: 'document-page'}
 })
-export class GradingCriteriaPageComponent extends DocumentPage implements OnInit, OnDestroy {
+export class GradingCriteriaPageComponent extends DocumentPage {
 
   entries = this.meta.pipe(
     map((meta) => (meta as GradingCriteriaMeta).entries)
@@ -19,7 +19,13 @@ export class GradingCriteriaPageComponent extends DocumentPage implements OnInit
 
   entrySink = new Sink<GradingCriteriaEntryUI, 'grade' | 'minMark'>();
 
-  subs = new Subscription();
+  setupSink = combineLatest([this.editable, this.params]).pipe(
+    switchMap(([editable, p]) => {
+      if (editable)
+        return this.documentService.sinkPrivateGradingCriteriaEntry(p, this.entrySink);
+      return of(null);
+    })
+  ).subscribe();
 
   onEdit(key: string, row: GradingCriteriaEntryUI, event: Event) {
     if (key != 'minMark') return;
@@ -27,21 +33,5 @@ export class GradingCriteriaPageComponent extends DocumentPage implements OnInit
       grade: row.grade,
       minMark: (event.target as HTMLInputElement).valueAsNumber
     });
-  }
-
-  ngOnInit(): void {
-    //  Setup Sinks
-    const sub = combineLatest([this.editable, this.params])
-      .subscribe(([editable, p]) => {
-        if (editable)
-          this.documentService.sinkPrivateGradingCriteriaEntry(p, this.entrySink);
-      });
-
-    this.subs.add(sub);
-  }
-
-
-  ngOnDestroy() {
-    this.subs.unsubscribe();
   }
 }

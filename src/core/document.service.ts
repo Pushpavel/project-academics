@@ -20,6 +20,8 @@ import {StatEntryRaw} from '@lib/models/document/document-stat.model';
 })
 export class DocumentService {
 
+  // TODO: caching
+  // TODO: connect sink to source
 
   getCourseDocStats = courseDocumentStats;
   getCourseDocStat = courseDocumentStat;
