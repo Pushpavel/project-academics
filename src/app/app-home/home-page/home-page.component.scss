@@ -5,14 +5,11 @@
   //max-width: 1080px;
 
   > div {
+    margin-top: 100px;
     display: flex;
-    justify-content: start;
     > button{
-      margin-top: 100px;
       padding: 16px 24px;
-    }
-    > button :first-child{
-      margin-right: 62px;
+      margin-right : 62px
     }
   }
 

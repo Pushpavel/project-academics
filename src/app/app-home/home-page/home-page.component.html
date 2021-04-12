@@ -13,12 +13,12 @@
     </button>
 
     <button *ngIf="this.user && this.user.isExamCell" mdc-button="outlined" flex (click)="handleArchive()">
-      <mdc-icon [size]="24">view</mdc-icon>
+      <mdc-icon [size]="24">visibility</mdc-icon>
       Result Summary
     </button>
 
-    <button *ngIf="this.user && this.user.isStudent" flex (click)="handleArchive()">
-      Result Summary
+    <button mdc-button="raised" *ngIf="this.user && this.user.isStudent" flex (click)="handleArchive()">
+      Result
     </button>
   </div>
 </ng-container>

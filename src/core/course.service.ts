@@ -29,9 +29,9 @@ export class CourseService {
 
   getCourse = course;
 
+  //TODO : need to initialise for current sem a
+  //TODO : Hod student exam cell fetch 
 
-  //need to initialise for current sem
-  
   fetchCoursesForFaculty(faculty_id: string, sem_id : string): void {
     const courseRef = firestore.collection(`/semesters/${sem_id}/courses`).where('facultyId', '==', faculty_id);
 

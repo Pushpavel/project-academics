@@ -50,8 +50,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
       //fetch hod courses
     }
 
-    if (user?.isStudent) {
-      //student courses
+    if (user?.isStudent) {  
+      //TODO: student filter params
+      this.courseService.fetchCoursesForStudent('19B1', '2020_EVEN')
     }
 
     if (user?.isExamCell) {
