@@ -1,7 +1,7 @@
 <ng-container *ngIf="courseCollections !== null else loader">
 
-  <mdc-tabs-bar *ngIf="this.isHodPage()" (handletabChange)='handletabChange($event)' [tabs]="homeTabs" >
-    
+  <mdc-tabs-bar *ngIf="this.user && this.user.isExamCell" (handletabChange)='handletabChange($event)' [tabs]="homeTabs">
+
   </mdc-tabs-bar>
 
   <batch-grid [courseCollections]="courseCollections"></batch-grid>
@@ -9,6 +9,15 @@
   <button mdc-button="outlined" flex (click)="handleArchive()">
     <mdc-icon [size]="24">archive</mdc-icon>
     archive
+  </button>
+
+  <button *ngIf="this.user && this.user.isExamCell" mdc-button="outlined" flex (click)="handleArchive()">
+    <mdc-icon [size]="24">view</mdc-icon>
+    Result Summary
+  </button>
+
+  <button *ngIf="this.user && this.user.isStudent" flex (click)="handleArchive()">
+    Result Summary
   </button>
 </ng-container>
 

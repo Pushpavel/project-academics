@@ -10,6 +10,16 @@ import { Observable, Subscription } from 'rxjs';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss']
 })
+
+/**
+ * Faculty
+ * Student
+ * Exam cell
+ * Hod
+ * 
+ * TODO : make tabs feasible
+ * 
+ */
 export class HomePageComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router, private courseService: CourseService, private userService: UserService) { }
@@ -23,20 +33,31 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   private courseSubscription!: Subscription
   private userSubscription!: Subscription
-  private user ?: AcademicUser | null
+  user?: AcademicUser | null
 
   getCourseCollections() {
   }
 
-  isHodPage() : boolean {
-    return this.user?.isHod !== undefined
-  }
-
   authValidate(user: AcademicUser | null) {
-    if (user) {
-      this.courseService.fetchCourseCollection(user.uid)
-    }
+
     this.user = user
+
+    if (user?.isFaculty) {
+      this.courseService.fetchCoursesForFaculty(user.uid, '2020_EVEN')
+    }
+
+    if (user?.isHod) {
+      //fetch hod courses
+    }
+
+    if (user?.isStudent) {
+      //student courses
+    }
+
+    if (user?.isExamCell) {
+      //exam cell (all)
+    }
+
   }
 
   ngOnInit(): void {
@@ -55,6 +76,15 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   handletabChange(i: any) {
     this.tabIndex = i
+  }
+
+
+  handleResultSummary(){
+    console.log("result summary", this.tabIndex);
+  }
+
+  handleResult(){
+    console.log("Result", this.tabIndex);
   }
 
   handleArchive() {

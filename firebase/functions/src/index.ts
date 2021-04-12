@@ -2,10 +2,12 @@ import * as functions from 'firebase-functions';
 import { ImportUsersData } from './models';
 import * as admin from 'firebase-admin';
 import { publishDocuments as PD } from './publishDocuments';
+import { createGrade as CG } from './createGrade';
 
 const app = admin.initializeApp();
 
 export const publishDocuments = PD(app.firestore())
+export const createGrade = CG(app.firestore())
 
 export const importUsers = functions.region('asia-south1').https.onCall(async (data: ImportUsersData, context) => {
   // TODO: Check administrative privileges
