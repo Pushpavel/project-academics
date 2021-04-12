@@ -23,7 +23,6 @@ export class CourseButtonComponent implements OnInit {
   }
 
   handleCourseButton() {
-    console.log(this.course.courseCode);
     this.router.navigate([`course/${this.course.courseCode}`], {relativeTo: this.route.parent});
   }
 
