@@ -2,17 +2,15 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {randFromRange} from '@lib/utils/number.util';
 import {DEPT_ABBR} from '@lib/constants/dept.constants';
-import {courseDocumentStat, courseDocumentStats} from '@lib/data-adapters/document-stat.adapter';
+import {DocumentStatSources} from '@lib/data/source/document-stat.source';
 import {map} from 'rxjs/operators';
 import {
-  privateDocumentEntries,
-  privateDocumentMeta, protectedDocumentMetas
-} from '@lib/data-adapters/document.adapter';
+  DocumentSources
+} from '@lib/data/source/document.source';
 import {DocumentPath} from '@lib/models/path.model';
 import {
   privateDocumentEntriesSink, privateDocumentMetaSink, privateGradingCriteriaEntriesSink
-} from '@lib/data-adapters/document-sink.adapter';
-import {studentNames} from '@lib/data-adapters/students.adapter';
+} from '@lib/data/document-sink.adapter';
 import {StatEntryRaw} from '@lib/models/document/document-stat.model';
 
 @Injectable({
@@ -23,13 +21,13 @@ export class DocumentService {
   // TODO: caching
   // TODO: connect sink to source
 
-  getCourseDocStats = courseDocumentStats;
-  getCourseDocStat = courseDocumentStat;
-  getStudentNames = studentNames;
+  getCourseDocStats = this.statSources.courseDocumentStats.bind(this.statSources);
+  getCourseDocStat = this.statSources.courseDocumentStat.bind(this.statSources);
+  getStudentNames = this.docSources.studentNames.bind(this.docSources);
 
-  getPrivateMeta = privateDocumentMeta;
-  getPrivateDocumentEntries = privateDocumentEntries;
-  getProtectedMetas = protectedDocumentMetas;
+  getPrivateMeta = this.docSources.privateDocumentMeta.bind(this.docSources);
+  getPrivateDocumentEntries = this.docSources.privateDocumentEntries.bind(this.docSources);
+  getProtectedMetas = this.docSources.protectedDocumentMetas.bind(this.docSources);
 
   sinkPrivateDocumentEntry = privateDocumentEntriesSink;
   sinkPrivateDocumentMeta = privateDocumentMetaSink;
@@ -37,7 +35,11 @@ export class DocumentService {
 
 
   getStat(p: DocumentPath): Observable<StatEntryRaw> {
-    return this.getCourseDocStat(p).pipe(map(stats => stats.stats[p.documentId]));
+    return this.getCourseDocStat(p).pipe(map(stats => {
+      if (!stats)
+        throw new Error('Document Stats does not exits'); //  TODO : handle gracefully
+      return stats.stats[p.documentId];
+    }));
   }
 
 
@@ -51,4 +53,6 @@ export class DocumentService {
     throw new Error('Not Implemented');// TODO: Implement this
   }
 
+  constructor(private docSources: DocumentSources, private statSources: DocumentStatSources) {
+  }
 }

@@ -38,6 +38,8 @@ export class UserCrResolver implements Resolve<UserCrData> {
 
           if (!user)
             throw new Error('UserCrResolver called with un-authenticated user');
+          else if (!course)
+            throw new Error('UserCrResolver called with invalid course');
 
           const userCR = buildUserCR(user, course);
           let stat: StatEntryRaw;

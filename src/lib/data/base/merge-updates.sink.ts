@@ -1,4 +1,4 @@
-import {SinkUpdate} from '@lib/data-adapters/base/sink.interfaces';
+import {SinkUpdate} from '@lib/data/base/sink.interfaces';
 import firebase from 'firebase/app';
 import DocumentData = firebase.firestore.DocumentData;
 

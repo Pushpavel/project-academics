@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
-import {Sink} from '@lib/data-adapters/base/sink.interfaces';
+import {Sink} from '@lib/data/base/sink.interfaces';
 import {combineLatest, of} from 'rxjs';
 import {MarklistDocumentId} from '@lib/models/document/document-base.model';
 import {MarklistEntryRaw, MarklistEntryUI} from '@lib/models/document/marklist.model';
-import {marklistEntriesUIModel} from '@lib/data-adapters/combine/marklist.combine';
+import {marklistEntriesUIModel} from '@lib/data/combine/marklist.combine';
 import {sortByKey} from '@lib/utils/other.util';
 
 @Component({
@@ -21,7 +21,13 @@ export class MarklistPageComponent extends DocumentPage {
 
       // get dependencies
       const entries$ = this.documentService.getPrivateDocumentEntries<MarklistEntryRaw>(p, p.documentId as MarklistDocumentId);
-      const studentNames$ = this.documentService.getStudentNames(p);
+      const studentNames$ = this.documentService.getStudentNames(p).pipe(
+        map(names => {
+          if (!names)
+            throw new Error('StudentNames does not exists'); // TODO: handle gracefully
+          return names;
+        })
+      );
 
       // build ui model
       return combineLatest([entries$, studentNames$]).pipe(

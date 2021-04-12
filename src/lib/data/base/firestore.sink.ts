@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import {firestore} from '../../../firebase.app';
 import DocumentReference = firebase.firestore.DocumentReference;
-import {SinkOut} from '@lib/data-adapters/base/sink.interfaces';
+import {SinkOut} from '@lib/data/base/sink.interfaces';
 import {switchMap} from 'rxjs/operators';
 import {fromPromise} from 'rxjs/internal-compatibility';
 

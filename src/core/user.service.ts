@@ -1,10 +1,10 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { combineLatest, from, Observable, of, ReplaySubject } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
-import { AcademicUser } from '@lib/models/user.model';
-import { authState } from 'rxfire/auth';
-import { auth, firestore } from '../firebase.app';
-import { fromDocRef } from 'rxfire/firestore';
+import {Injectable, OnDestroy} from '@angular/core';
+import {combineLatest, from, Observable, of, ReplaySubject} from 'rxjs';
+import {filter, map, switchMap} from 'rxjs/operators';
+import {AcademicUser} from '@lib/models/user.model';
+import {authState} from 'rxfire/auth';
+import {auth, firestore} from '../firebase.app';
+import {fromDocRef} from 'rxfire/firestore';
 import firebase from 'firebase/app';
 
 /**
@@ -28,7 +28,13 @@ export class UserService extends Observable<AcademicUser | null> implements OnDe
 
   constructor() {
     super(subscriber => this.userData.subscribe(subscriber));
-    this.listenAuthState();
+    this.userData.next({
+      displayName: `Test Faculty's Name`,
+      uid: 'testfaculty@nitpy.ac.in',
+      email: 'testfaculty@nitpy.ac.in',
+      isFaculty: true,
+    });
+    // this.listenAuthState();
   }
 
   /**

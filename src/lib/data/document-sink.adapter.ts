@@ -5,11 +5,11 @@ import {
 } from '@lib/models/document/document-base.model';
 import {MarklistEntryRaw} from '@lib/models/document/marklist.model';
 import {AttendanceEntryRaw} from '@lib/models/document/attendance.model';
-import {SinkOut} from '@lib/data-adapters/base/sink.interfaces';
+import {SinkOut} from '@lib/data/base/sink.interfaces';
 import {GradingCriteriaEntryUI, PrivateGradingCriteriaMetaRaw} from '@lib/models/document/grading-criteria.model';
-import {sinkObject} from '@lib/data-adapters/base/firestore.sink';
+import {sinkObject} from '@lib/data/base/firestore.sink';
 import {PRIVATE_DOCUMENT_PATH} from '@lib/constants/firestore.path';
-import {gradingCriteriaMetaUpdateFromEntries} from '@lib/data-adapters/convert/grading-criteria-from.snapshot';
+import {gradingCriteriaMetaUpdateFromEntries} from '@lib/data/convert/grading-criteria-from.snapshot';
 import {map} from 'rxjs/operators';
 
 

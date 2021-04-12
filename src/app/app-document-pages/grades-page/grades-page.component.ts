@@ -4,7 +4,7 @@ import {combineLatest, Observable, of} from 'rxjs';
 import {GradeEntryUI} from '@lib/models/document/grading.model';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {DocumentId} from '@lib/models/document/document-base.model';
-import {gradesUIModel} from '@lib/data-adapters/combine/grades.combine';
+import {gradesUIModel} from '@lib/data/combine/grades.combine';
 import {sortByKey} from '@lib/utils/other.util';
 
 @Component({
@@ -17,6 +17,11 @@ export class GradesPageComponent extends DocumentPage {
 
   stats = this.params.pipe(
     switchMap(p => this.documentService.getCourseDocStat(p)),
+    map(stats => {
+      if (!stats)
+        throw new Error('stats does not exists'); // TODO: handle gracefully
+      return stats;
+    }),
     shareReplay(1)
   );
 
@@ -29,9 +34,17 @@ export class GradesPageComponent extends DocumentPage {
       const metas = (availableDocIds.length == 0) ?
         of([]) : this.documentService.getProtectedMetas(p, availableDocIds);
 
+      const studentNames = this.documentService.getStudentNames(p).pipe(
+        map(names => {
+          if (!names)
+            throw new Error('StudentNames does not exists'); // TODO: handle gracefully
+          return names;
+        })
+      );
+
       return combineLatest([
         metas,
-        this.documentService.getStudentNames(p),
+        studentNames,
       ]).pipe(
         map(gradesUIModel),
         sortByKey('rollNo')

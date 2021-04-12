@@ -1,16 +1,16 @@
-import {fromFirestore} from '@lib/data-adapters/base/convert.default';
+import {fromFirestore} from '@lib/data/base/convert.default';
 import {
   GradingCriteriaEntryUI,
   PrivateGradingCriteriaMeta,
   PrivateGradingCriteriaMetaRaw
 } from '@lib/models/document/grading-criteria.model';
 import {GRADES} from '@lib/constants/grading.constants';
-import {SinkUpdate} from '@lib/data-adapters/base/sink.interfaces';
+import {SinkUpdate} from '@lib/data/base/sink.interfaces';
 
 
 export const gradingCriteriaFromSnapshot: fromFirestore<PrivateGradingCriteriaMeta> =
   (snap) => {
-    const data = snap.data() as PrivateGradingCriteriaMetaRaw;
+    const data = snap.data() as any as PrivateGradingCriteriaMetaRaw;
     return {
       ...data,
       entries: GRADES.map(grade => {

@@ -12,10 +12,13 @@ import {HomeModule} from './app-home/home.module';
 import {ResultModule} from './app-result/result.module';
 import {SharedModule} from './shared/shared.module';
 import {DocumentPagesModule} from './app-document-pages/document-pages.module';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {FirebaseModule} from './firebase/firebase.module';
 
 const CORE_MODULES = [
   BrowserModule,
   RoutingModule,
+  FirebaseModule,
   BrowserAnimationsModule,
 ];
 
@@ -26,6 +29,7 @@ const FEATURE_MODULES = [
   HomeModule,
   ResultModule,
   DocumentPagesModule,
+  AngularFirestoreModule
 ];
 
 if (!environment.production) CORE_MODULES.push(_DevModule);

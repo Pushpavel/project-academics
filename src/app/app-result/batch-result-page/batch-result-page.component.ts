@@ -32,6 +32,8 @@ export class BatchResultPageComponent {
       )
     ),
     map(courseStats => courseStats.map(courseStat => {
+      if (!courseStat)
+        throw new Error('CourseStat does not Exists !'); // TODO: handle gracefully
       const stats = new Map(mapObjectEntries(courseStat.stats, (_, stat) => [stat.documentName, stat.status]));
       const statsAndCourseCode = new Map([['CODE', courseStat.courseCode], ...stats.entries()]);
 

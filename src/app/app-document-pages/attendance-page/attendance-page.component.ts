@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
-import {Sink} from '@lib/data-adapters/base/sink.interfaces';
+import {Sink} from '@lib/data/base/sink.interfaces';
 import {AttendanceEntryRaw, AttendanceEntryUI} from '@lib/models/document/attendance.model';
 import {combineLatest, of} from 'rxjs';
-import {attendanceEntriesUIModel} from '@lib/data-adapters/combine/attendance.combine';
+import {attendanceEntriesUIModel} from '@lib/data/combine/attendance.combine';
 import {PrivateMetaRaw} from '@lib/models/document/document-base.model';
 import {sortByKey} from '@lib/utils/other.util';
 
@@ -20,7 +20,13 @@ export class AttendancePageComponent extends DocumentPage {
     switchMap(p => {
       // get dependencies
       const entries$ = this.documentService.getPrivateDocumentEntries<AttendanceEntryRaw>(p, 'ATTENDANCE');
-      const studentNames$ = this.documentService.getStudentNames(p);
+      const studentNames$ = this.documentService.getStudentNames(p).pipe(
+        map(names => {
+          if (!names)
+            throw new Error('StudentNames does not exists'); // TODO: handle gracefully
+          return names;
+        })
+      );
 
       // build ui model
       return combineLatest([entries$, studentNames$, this.meta])

@@ -9,53 +9,55 @@ import {Observable, of} from 'rxjs';
 import {UserCourseRelation} from '@lib/models/course.model';
 
 @Component({
-    selector: 'faculty-actions',
-    templateUrl: './faculty-actions.component.html',
-    styleUrls: ['./faculty-actions.component.scss']
+  selector: 'faculty-actions',
+  templateUrl: './faculty-actions.component.html',
+  styleUrls: ['./faculty-actions.component.scss']
 })
 export class FacultyActionsComponent {
 
-    params = getParams(['semId', 'courseCode'], this.route);
+  params = getParams(['semId', 'courseCode'], this.route);
 
-    documentGroups = this.params.pipe(
-        switchMap(params => this.documentService.getCourseDocStat({
-            semId: params.semId,
-            courseCode: params.courseCode
-        })),
-        map(courseDocStat => {
-            const docs = courseDocStat.stats;
+  documentGroups = this.params.pipe(
+    switchMap(params => this.documentService.getCourseDocStat({
+      semId: params.semId,
+      courseCode: params.courseCode
+    })),
+    map(courseDocStat => {
+      if (!courseDocStat)
+        throw new Error('courseDocStat does not exists'); // TODO: handle gracefully
+      const docs = courseDocStat.stats;
 
-            // maps ids of documents in each document group to CourseDocumentStat
-            return FACULTY_DOCUMENT_GROUPS.map(group => {
-                const actions = group.actions
-                    .map(id => docs[id])
-                    .filter(val => val != undefined);
+      // maps ids of documents in each document group to CourseDocumentStat
+      return FACULTY_DOCUMENT_GROUPS.map(group => {
+        const actions = group.actions
+          .map(id => docs[id])
+          .filter(val => val != undefined);
 
-                return {...group, actions} as DocumentGroupUI;
-            });
-        }),
-    );
+        return {...group, actions} as DocumentGroupUI;
+      });
+    }),
+  );
 
-    userCR: Observable<UserCourseRelation> = of({
-        isFaculty: true
-    });
+  userCR: Observable<UserCourseRelation> = of({
+    isFaculty: true
+  });
 
-    openDocument(docId: string) {
-        this.router.navigate([docId], {relativeTo: this.route});
-    }
+  openDocument(docId: string) {
+    this.router.navigate([docId], {relativeTo: this.route});
+  }
 
-    constructor(
-        private documentService: DocumentService,
-        private route: ActivatedRoute,
-        private router: Router
-    ) {
-    }
+  constructor(
+    private documentService: DocumentService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+  }
 
 }
 
 
 export interface DocumentGroupUI {
-    title: string,
-    actions: StatEntryRaw[]
+  title: string,
+  actions: StatEntryRaw[]
 }
 

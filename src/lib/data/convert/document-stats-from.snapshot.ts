@@ -1,8 +1,8 @@
-import {fromFirestore} from '@lib/data-adapters/base/convert.default';
+import {fromFirestore} from '@lib/data/base/convert.default';
 import {mapObjectEntries} from '@lib/utils/other.util';
 import {DOCUMENT_NAMES} from '@lib/constants/document.constants';
 import {StatEntryRaw, StatsDocumentRaw} from '@lib/models/document/document-stat.model';
-import {getCourseCodeFromPath} from '@lib/data-adapters/convert/course-detail-from.snapshot';
+import {getCourseCodeFromPath} from '@lib/data/convert/course-detail-from.snapshot';
 import {CourseDocumentStats} from '@lib/models/course.model';
 import {DocumentId} from '@lib/models/document/document-base.model';
 
