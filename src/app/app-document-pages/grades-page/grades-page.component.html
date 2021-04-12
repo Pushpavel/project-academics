@@ -1,1 +1,33 @@
-<p>grades-page works!</p>
+<top-bar-layout>
+  <mdc-layout>
+
+    <div [span]="12" class="header-tile">
+
+      <h4>Grades</h4>
+
+      <ng-container *ngIf="userCR|async as cr">
+        <div class="text-block">
+          <span class="dark-text-secondary overline">PUBLISHED ON</span>
+          <span class="dark-text-primary sub2">12 AUG 2021</span>
+        </div>
+        <button mdc-button="outlined" class="surface">
+          <mdc-icon>download</mdc-icon>
+          DOWNLOAD
+        </button>
+      </ng-container>
+
+    </div>
+
+    <mdc-table [span]="12" [rows]="entries|async">
+      <column key="rollNo" label="Roll No"></column>
+      <column key="name" label="Name"></column>
+      <column key="CT1" label="CT1"></column>
+      <column key="CT2" label="CT2"></column>
+      <column key="ASSIGNMENT" label="ASSIGNMENT"></column>
+      <column key="END_SEM" label="END_SEM"></column>
+      <column key="total" label="TOTAL"></column>
+      <column key="grade" label="GRADE"></column>
+    </mdc-table>
+
+  </mdc-layout>
+</top-bar-layout>

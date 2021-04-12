@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {DocumentPage} from '../document-page/DocumentPage';
+import {Observable, of} from 'rxjs';
+import {GradeEntryUI} from '@lib/models/document/grading.model';
 
 @Component({
   selector: 'app-grades-page',
@@ -9,4 +11,5 @@ import {DocumentPage} from '../document-page/DocumentPage';
 })
 export class GradesPageComponent extends DocumentPage {
 
+  entries: Observable<GradeEntryUI[]> = of([]);
 }

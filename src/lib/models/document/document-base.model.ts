@@ -1,8 +1,9 @@
 import {DOCUMENT_IDS, MARK_DOCUMENT_IDS} from '@lib/constants/document.constants';
-import {PrivateMarklistMetaRaw} from '@lib/models/document/marklist.model';
-import {PrivateAttendanceMetaRaw} from '@lib/models/document/attendance.model';
-import {PrivateGradingCriteriaMetaRaw} from '@lib/models/document/grading-criteria.model';
+import {PrivateMarklistMetaRaw, ProtectedMarklistMetaRaw} from '@lib/models/document/marklist.model';
+import {PrivateAttendanceMetaRaw, ProtectedAttendanceMetaRaw} from '@lib/models/document/attendance.model';
+import {PrivateGradingCriteriaMetaRaw, ProtectedGradingCriteriaMetaRaw} from '@lib/models/document/grading-criteria.model';
 import {DEPT_ABBR} from '@lib/constants/dept.constants';
+import {ProtectedGradesMeta} from '@lib/models/document/grading.model';
 
 
 export interface BasePrivateMetaRaw {
@@ -21,3 +22,4 @@ export type DeptFields = { [dept in DeptId]: 'core' | 'elective1' | 'elective2';
 
 
 export type PrivateMetaRaw = PrivateMarklistMetaRaw | PrivateAttendanceMetaRaw | PrivateGradingCriteriaMetaRaw
+export type ProtectedMetaRaw = ProtectedAttendanceMetaRaw | ProtectedMarklistMetaRaw | ProtectedGradingCriteriaMetaRaw | ProtectedGradesMeta

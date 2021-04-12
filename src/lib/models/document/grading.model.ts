@@ -16,3 +16,4 @@ interface EntryUI extends EntryRaw {
 export type GradeEntryRaw = EntryRaw;
 export type GradeEntryUI = EntryUI;
 
+export type ProtectedGradesMeta = { entries: Record<string, { total: number, grade: string }> }

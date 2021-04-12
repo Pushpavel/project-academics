@@ -15,5 +15,5 @@ interface MetaRaw {
 
 export type MarklistEntryRaw = EntryRaw;
 export type MarklistEntryUI = EntryUI;
-export type PublicMarklistMetaRaw = MetaRaw
+export type ProtectedMarklistMetaRaw = MetaRaw & { entries: Record<string, string> }
 export type PrivateMarklistMetaRaw = MetaRaw & BasePrivateMetaRaw

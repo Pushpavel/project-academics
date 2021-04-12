@@ -5,7 +5,7 @@ import { AttendancePageComponent } from './attendance-page/attendance-page.compo
 import { GradesPageComponent } from './grades-page/grades-page.component';
 import { GradingCriteriaPageComponent } from './grading-criteria-page/grading-criteria-page.component';
 import { MarklistPageComponent } from './marklist-page/marklist-page.component';
-import {SharedModule} from '../shared/shared.module';
+import {TopBarModule} from '../shared/top-bar/top-bar.module';
 
 
 @NgModule({
@@ -15,11 +15,11 @@ import {SharedModule} from '../shared/shared.module';
     GradingCriteriaPageComponent,
     MarklistPageComponent,
   ],
-  imports: [
-    CommonModule,
-    MdcHelperModule,
-    SharedModule,
-  ]
+    imports: [
+        CommonModule,
+        MdcHelperModule,
+        TopBarModule,
+    ]
 })
 export class DocumentPagesModule {
 }
