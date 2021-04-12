@@ -6,6 +6,7 @@ import {AttendanceEntryRaw, AttendanceEntryUI} from '@lib/models/document/attend
 import {combineLatest, of} from 'rxjs';
 import {attendanceEntriesUIModel} from '@lib/data-adapters/combine/attendance.combine';
 import {PrivateMetaRaw} from '@lib/models/document/document-base.model';
+import {sortByKey} from '@lib/utils/other.util';
 
 @Component({
   selector: 'app-attendance-page',
@@ -22,7 +23,11 @@ export class AttendancePageComponent extends DocumentPage {
       const studentNames$ = this.documentService.getStudentNames(p);
 
       // build ui model
-      return combineLatest([entries$, studentNames$, this.meta]).pipe(map(deps => attendanceEntriesUIModel(deps)));
+      return combineLatest([entries$, studentNames$, this.meta])
+        .pipe(
+          map(deps => attendanceEntriesUIModel(deps)),
+          sortByKey('rollNo'),
+        );
     })
   );
 

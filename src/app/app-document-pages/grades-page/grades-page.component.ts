@@ -5,6 +5,7 @@ import {GradeEntryUI} from '@lib/models/document/grading.model';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {DocumentId} from '@lib/models/document/document-base.model';
 import {gradesUIModel} from '@lib/data-adapters/combine/grades.combine';
+import {sortByKey} from '@lib/utils/other.util';
 
 @Component({
   selector: 'app-grades-page',
@@ -31,7 +32,10 @@ export class GradesPageComponent extends DocumentPage {
       return combineLatest([
         metas,
         this.documentService.getStudentNames(p),
-      ]).pipe(map(gradesUIModel));
+      ]).pipe(
+        map(gradesUIModel),
+        sortByKey('rollNo')
+      );
     })
   );
 
