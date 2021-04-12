@@ -9,17 +9,17 @@
       <mdc-icon>download</mdc-icon>
       DOWNLOAD
     </button>
-    <button mdc-button="raised">PUBLISH</button>
+    <button mdc-button="raised" (click)="publishBtn()">PUBLISH</button>
   </div>
 
   <div [span]="12" *ngIf="meta|async as meta">
-    <span class="sub2 dark-text-primary">Total Classes Conducted </span>
+    <span class="sub2 dark-text-primary">No of Classes Conducted</span>
     <label mdc-text-field class="surface hm16">
       <input mdc-input type="number" [value]="meta.total" (change)="onTotalChange($event)">
     </label>
   </div>
 
-  <mdc-table [span]="6" [rows]="entries|async" [editableCell]="editableCell">
+  <mdc-table [span]="8" [rows]="entries|async" [editableCell]="editableCell">
     <column key="rollNo" label="Roll No"></column>
     <column key="name" label="Name"></column>
     <column key="attended" label="No of Classes Attended" numeric [editable]="editable|async"></column>
@@ -30,6 +30,7 @@
 
 <ng-template #editableCell let-row='row' let-col='col'>
   <label mdc-text-field>
-    <input mdc-input type="number" [value]="row[col.key]" (change)="onEdit(col.key,row,$event)">
+    <input mdc-input type="number" [disabled]="disableEdit" [value]="row[col.key]"
+           (change)="onEdit(col.key,row,$event)">
   </label>
 </ng-template>

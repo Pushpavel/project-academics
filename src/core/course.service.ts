@@ -29,8 +29,9 @@ export class CourseService {
 
   getCourse = course;
 
+  // TODO: need to make sem_id dynamic
   fetchCourseCollection(faculty_id: string): void {
-    const courseRef = firestore.collection(`/semesters/2020_EVEN/courses`).where('faculty_id', '==', faculty_id);
+    const courseRef = firestore.collection(`/semesters/2020_EVEN/courses`).where('facultyId', '==', faculty_id);
 
     collectionData(courseRef, 'id').pipe(
       map(e => {

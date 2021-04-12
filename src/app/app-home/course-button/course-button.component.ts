@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CourseDetailRaw} from '@lib/models/course.model';
 
 @Component({
@@ -12,15 +13,18 @@ export class CourseButtonComponent implements OnInit {
   @Input() course!: CourseDetailRaw
 
 
-  constructor() {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
   }
 
   ngOnInit(): void {
   }
 
-  handleCourseChoosen() {
+  handleCourseButton() {
     console.log(this.course.courseCode);
-
+    this.router.navigate([`course/${this.course.courseCode}`], {relativeTo: this.route.parent});
   }
 
 }

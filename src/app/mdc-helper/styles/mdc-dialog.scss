@@ -1,0 +1,6 @@
+@use "@material/dialog";
+@import '~@angular/cdk/overlay-prebuilt.css';
+
+@mixin styles() {
+  @include dialog.core-styles();
+}

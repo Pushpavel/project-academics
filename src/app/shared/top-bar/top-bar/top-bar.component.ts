@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {UserService} from '@service/user.service';
 import {PageService} from '@service/page.service';
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'top-bar',
@@ -17,7 +18,16 @@ export class TopBarComponent {
     faculty: 'class'
   };
 
-  constructor(public user: UserService, public service: PageService) {
+  openHomePage() {
+    this.router.navigate(['']);
+  }
+
+  constructor(
+    public user: UserService,
+    public service: PageService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
   }
 
 }

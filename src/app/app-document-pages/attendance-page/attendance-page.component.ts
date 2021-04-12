@@ -1,18 +1,19 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {Sink} from '@lib/data-adapters/base/sink.interfaces';
 import {AttendanceEntryRaw, AttendanceEntryUI} from '@lib/models/document/attendance.model';
-import {combineLatest, Subscription} from 'rxjs';
+import {combineLatest, of} from 'rxjs';
 import {attendanceEntriesUIModel} from '@lib/data-adapters/combine/attendance.combine';
 import {PrivateMetaRaw} from '@lib/models/document/document-base.model';
 
 @Component({
   selector: 'app-attendance-page',
   templateUrl: './attendance-page.component.html',
-  styleUrls: ['./attendance-page.component.scss']
+  styleUrls: ['./attendance-page.component.scss'],
+  host: {class: 'document-page'}
 })
-export class AttendancePageComponent extends DocumentPage implements OnInit, OnDestroy {
+export class AttendancePageComponent extends DocumentPage {
 
   entries = this.params.pipe(
     switchMap(p => {
@@ -28,7 +29,18 @@ export class AttendancePageComponent extends DocumentPage implements OnInit, OnD
   entrySink = new Sink<AttendanceEntryRaw, 'rollNo'>();
   metaSink = new Sink<PrivateMetaRaw>();
 
-  subs = new Subscription();
+
+  sinkResponse = combineLatest([this.editable, this.params]).pipe(
+    switchMap(([editable, p]) => {
+      if (editable)
+        return combineLatest([
+          this.documentService.sinkPrivateDocumentEntry(p, 'ATTENDANCE', this.entrySink),
+          this.documentService.sinkPrivateDocumentMeta(p, this.metaSink)
+        ]);
+      else
+        return of(null);
+    })
+  ).subscribe();
 
 
   onTotalChange(event: Event) {
@@ -45,23 +57,4 @@ export class AttendancePageComponent extends DocumentPage implements OnInit, OnD
     });
   }
 
-  ngOnInit(): void {
-
-    //  Setup Sinks
-    const sub = combineLatest([this.editable, this.params])
-      .subscribe(([editable, p]) => {
-
-        if (editable) {
-          this.documentService.sinkPrivateDocumentEntry(p, 'ATTENDANCE', this.entrySink);
-          this.documentService.sinkPrivateDocumentMeta(p, this.metaSink);
-        }
-      });
-
-    this.subs.add(sub);
-  }
-
-
-  ngOnDestroy() {
-    this.subs.unsubscribe();
-  }
 }

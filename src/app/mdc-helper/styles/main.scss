@@ -8,6 +8,7 @@
 @use "mdc-table";
 @use "mdc-text-field";
 @use "mdc-layout";
+@use "mdc-dialog";
 
 @mixin all-styles {
   //@material styles
@@ -22,4 +23,5 @@
   @include mdc-icon.styles;
   @include mdc-table.styles;
   @include mdc-text-field.styles;
+  @include mdc-dialog.styles;
 }

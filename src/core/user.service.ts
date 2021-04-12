@@ -21,7 +21,7 @@ import { environment } from '../environments/environment';
 export class UserService extends Observable<AcademicUser | null> implements OnDestroy {
 
   /**
-   * data of the logged in user
+   * data of the logged in user 
    * @private
    */
   private userData = new ReplaySubject<AcademicUser | null>(1);
@@ -72,8 +72,7 @@ export class UserService extends Observable<AcademicUser | null> implements OnDe
         email: c[0].email,
         uid: c[0].uid,
         ...c[2],
-        // TODO: can be replaced with ...(c[1].data() ?? {})
-        ...safe(c[1].data())
+        ...c[1].data() ?? {}
       } as AcademicUser : null;
       // TODO: .subscribe(this.userData); is better as it will subscribe to error and complete callbacks as well
     })).subscribe((u) => {
