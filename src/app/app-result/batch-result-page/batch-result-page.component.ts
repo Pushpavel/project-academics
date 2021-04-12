@@ -22,6 +22,9 @@ export class BatchResultPageComponent {
     map(deptStats => mapMapEntries(deptStats, (key, val) => [key, val + '%']))
   );
 
+  chooseSubject(c: number) {
+    this.selectedDeptId.next(Object.keys(DEPT_ABBR)[c]);
+  }
 
   selectedDeptId = new BehaviorSubject<string>(Object.keys(DEPT_ABBR)[0]);
 
@@ -50,7 +53,6 @@ export class BatchResultPageComponent {
     private documentService: DocumentService,
   ) {
   }
-
 }
 
 interface CourseStatUI {

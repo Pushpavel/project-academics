@@ -1,7 +1,7 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {combineLatest, from, Observable, of, ReplaySubject} from 'rxjs';
-import {filter, map, switchMap} from 'rxjs/operators';
-import {AcademicUser} from '@lib/models/user.model';
+import { Injectable, OnDestroy } from '@angular/core';
+import { combineLatest, from, Observable, of, ReplaySubject } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
+import { AcademicUser } from '@lib/models/user.model';
 import firebase from 'firebase/app';
 import {AngularFireAuth} from '@angular/fire/auth';
 
@@ -26,12 +26,6 @@ export class UserService extends Observable<AcademicUser | null> implements OnDe
 
   constructor(private auth: AngularFireAuth) {
     super(subscriber => this.userData.subscribe(subscriber));
-    // this.userData.next({
-    //   displayName: `Test Faculty's Name`,
-    //   uid: 'testfaculty@nitpy.ac.in',
-    //   email: 'testfaculty@nitpy.ac.in',
-    //   isFaculty: true,
-    // });
     this.listenAuthState();
   }
 

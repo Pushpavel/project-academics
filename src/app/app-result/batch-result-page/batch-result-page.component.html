@@ -10,12 +10,19 @@
 </data-card>
 
 <!--TODO: TabBar -->
+<div class="tab-bar">
+  <button (click)="chooseSubject(0)" mdc-button>CSE</button>
+  <button (click)="chooseSubject(1)" mdc-button>ECE</button>
+  <button (click)="chooseSubject(2)" mdc-button>EEE</button>
+  <button (click)="chooseSubject(3)" mdc-button>MECH</button>
+  <button (click)="chooseSubject(5)" mdc-button>CIVIL</button>
+</div>
 
 <data-card *ngFor="let courseStat of courseStats|async">
   <h6>{{courseStat.courseName}}Course Name</h6>
   <!--  TODO: Map<docName,status> is available here, use it  -->
   <ng-container *ngFor="let entry of courseStat.statsAndCourseCode|keyvalue">
-    <entry [title]="entry.key" value="-"></entry>
+    <entry [title]="entry.key" [value]="entry.value"></entry>
   </ng-container>
 </data-card>
 
