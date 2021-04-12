@@ -89,6 +89,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   handleArchive() {
+    this.userService.signOut(); // Dummy signout
     console.log("archive", this.tabIndex);
   }
 

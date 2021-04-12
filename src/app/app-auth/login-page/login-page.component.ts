@@ -37,18 +37,6 @@ export class LoginPageComponent extends PageLayout {
       console.log("Invalid email")
     }
   }
-  //"The action code is invalid. This can happen if the code is malformed, expired, or has already been used."
-
-  confirmEmail(url: string) {
-    this.auth.SignInWithLink(url)
-      ?.then((user) => {
-        if (user != null) {
-          this.router.navigateByUrl("http://localhost:4200/");
-        }
-      })
-      .catch(e => console.log(e))
-
-  }
 
   handleGoBack() {
     this.nextPage = false;
@@ -59,12 +47,15 @@ export class LoginPageComponent extends PageLayout {
     console.log(this.email, this.password);
   }
 
-  handleToggle() {
-    if (this.Input?.nativeElement.type == "password") {
-      this.Input?.nativeElement.setAttribute("type", "text");
-    } else {
-      this.Input?.nativeElement.setAttribute("type", "password");
-    }
+  confirmEmail(url: string) {
+    this.auth.SignInWithLink(url)
+      ?.then((user) => {
+        if (user != null) {
+          this.router.navigateByUrl("http://localhost:4200/sem/2020_EVEN/home");
+        }
+      })
+      .catch(e => console.log(e))
+
   }
 
   private validateEmail(email: string) {

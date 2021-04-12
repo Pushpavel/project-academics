@@ -9,6 +9,7 @@
 </div>
 <div class="password_container" *ngIf="this.nextPage">
     <span class="sub1 dark-text-primary">Verification link has been sent to the email</span>
+    <button mdc-button (click)="handleGoBack()"></button>
     <!-- <div class="username">
         <button (click)="handleGoBack()" mdc-button>NAME</button>
     </div>

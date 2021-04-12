@@ -1,12 +1,12 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {combineLatest, from, Observable, of, ReplaySubject} from 'rxjs';
-import {filter, map, switchMap} from 'rxjs/operators';
-import {AcademicUser} from '@lib/models/user.model';
-import {authState} from 'rxfire/auth';
-import {auth, firestore} from '../firebase.app';
-import {fromDocRef} from 'rxfire/firestore';
+import { Injectable, OnDestroy } from '@angular/core';
+import { combineLatest, from, Observable, of, ReplaySubject } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
+import { AcademicUser } from '@lib/models/user.model';
+import { authState } from 'rxfire/auth';
+import { auth, firestore } from '../firebase.app';
+import { fromDocRef } from 'rxfire/firestore';
 import firebase from 'firebase/app';
-import {environment} from '../environments/environment';
+import { environment } from '../environments/environment';
 
 /**
  * Manages User Authentication and State
