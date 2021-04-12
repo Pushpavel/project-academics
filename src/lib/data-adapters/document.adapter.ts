@@ -42,7 +42,7 @@ export function privateDocumentEntries<T extends MarklistEntryRaw | AttendanceEn
 }
 
 
-export function protectedDocuments<T extends ProtectedMetaRaw>(p: CoursePath, documentIds: DocumentId[]) {
+export function protectedDocumentMetas<T extends ProtectedMetaRaw>(p: CoursePath, documentIds: DocumentId[]) {
   return fetchList<T>({
     path: COURSE_PATH(p) + '/protected_course_documents',
     once: true,

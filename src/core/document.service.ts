@@ -6,7 +6,7 @@ import {courseDocumentStat, courseDocumentStats} from '@lib/data-adapters/docume
 import {map} from 'rxjs/operators';
 import {
   privateDocumentEntries,
-  privateDocumentMeta
+  privateDocumentMeta, protectedDocumentMetas
 } from '@lib/data-adapters/document.adapter';
 import {DocumentPath} from '@lib/models/path.model';
 import {
@@ -29,6 +29,7 @@ export class DocumentService {
 
   getPrivateMeta = privateDocumentMeta;
   getPrivateDocumentEntries = privateDocumentEntries;
+  getProtectedMetas = protectedDocumentMetas;
 
   sinkPrivateDocumentEntry = privateDocumentEntriesSink;
   sinkPrivateDocumentMeta = privateDocumentMetaSink;
@@ -38,6 +39,7 @@ export class DocumentService {
   getStat(p: DocumentPath): Observable<StatEntryRaw> {
     return this.getCourseDocStat(p).pipe(map(stats => stats.stats[p.documentId]));
   }
+
 
   getDeptwiseDocSubmissionOverview(semId: string, batchId: string) {
     // TODO: Implement this
