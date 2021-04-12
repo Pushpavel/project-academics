@@ -1,23 +1,21 @@
-<div *ngIf="submissionOverview|async as data">
+<data-card class="submissions" *ngIf="submissionOverview|async as data">
   <h6>SUBMISSIONS</h6>
   <!--  TODO: Map<dept,percent> is available here, use it  -->
   <ng-container *ngFor="let entry of data|keyvalue">
-    [{{entry.key}}:{{entry.value}}]
+    <entry [title]="entry.key" [value]="entry.value"></entry>
   </ng-container>
   <button mdc-button>
     PUBLISH
   </button>
-</div>
+</data-card>
 
 <!--TODO: TabBar -->
 
-<div>
-  <div *ngFor="let courseStat of courseStats|async">
-    <h6>{{courseStat.courseName}}</h6>
+<data-card *ngFor="let courseStat of courseStats|async">
+  <h6>{{courseStat.courseName}}Course Name</h6>
   <!--  TODO: Map<docName,status> is available here, use it  -->
-    <ng-container *ngFor="let entry of courseStat.statsAndCourseCode|keyvalue">
-      [{{entry.key}}:{{entry.value}}]
-    </ng-container>
-  </div>
-</div>
+  <ng-container *ngFor="let entry of courseStat.statsAndCourseCode|keyvalue">
+    <entry [title]="entry.key" value="-"></entry>
+  </ng-container>
+</data-card>
 
