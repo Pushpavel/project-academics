@@ -2,9 +2,8 @@ import {Injectable, OnDestroy} from '@angular/core';
 import {combineLatest, from, Observable, of, ReplaySubject} from 'rxjs';
 import {filter, map, switchMap} from 'rxjs/operators';
 import {AcademicUser} from '@lib/models/user.model';
-import {authState} from 'rxfire/auth';
-import {auth} from '../firebase.app';
 import firebase from 'firebase/app';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 /**
  * Manages User Authentication and State
@@ -25,15 +24,15 @@ export class UserService extends Observable<AcademicUser | null> implements OnDe
   private userData = new ReplaySubject<AcademicUser | null>(1);
 
 
-  constructor() {
+  constructor(private auth: AngularFireAuth) {
     super(subscriber => this.userData.subscribe(subscriber));
-    this.userData.next({
-      displayName: `Test Faculty's Name`,
-      uid: 'testfaculty@nitpy.ac.in',
-      email: 'testfaculty@nitpy.ac.in',
-      isFaculty: true,
-    });
-    // this.listenAuthState();
+    // this.userData.next({
+    //   displayName: `Test Faculty's Name`,
+    //   uid: 'testfaculty@nitpy.ac.in',
+    //   email: 'testfaculty@nitpy.ac.in',
+    //   isFaculty: true,
+    // });
+    this.listenAuthState();
   }
 
   /**
@@ -54,14 +53,14 @@ export class UserService extends Observable<AcademicUser | null> implements OnDe
 
   private authStateListener?: any;
 
-  private authClaims(u: firebase.User) {
+  private authClaims(u: firebase.User | null) {
     return u ? from(u.getIdTokenResult()).pipe(map(r => r.claims)) : of(null);
   }
 
   // TODO : (can be removed) check whether is it necessary to fetch firestore object of authenticated user
   // TODO : move map in outer pipe inside switchMap to avoid passing FirebaseUser instance
   private listenAuthState() {
-    this.authStateListener = authState(auth).pipe(switchMap((u) => {
+    this.auth.authState.pipe(switchMap((u) => {
       const authClaimsObs = this.authClaims(u);
       return u ? combineLatest([of(u), authClaimsObs]) : of(null);
     })).pipe(map((c) => {
@@ -85,7 +84,7 @@ export class UserService extends Observable<AcademicUser | null> implements OnDe
    * @param email
    */
   async isPasswordLess(email: string) {
-    let methods = await auth.fetchSignInMethodsForEmail(email);
+    let methods = await this.auth.fetchSignInMethodsForEmail(email);
     if (methods.indexOf(firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD) !== -1) {
       return true;
     } else {
@@ -98,8 +97,9 @@ export class UserService extends Observable<AcademicUser | null> implements OnDe
    * @param url
    * @returns Promise
    */
-  SignInWithLink(url: string) {
-    if (auth.isSignInWithEmailLink(url)) {
+  async SignInWithLink(url: string) {
+    const signIn = await this.auth.isSignInWithEmailLink(url);
+    if (signIn) {
       let email = window.localStorage.getItem('emailForSignIn');
 
       if (!email) {
@@ -107,10 +107,11 @@ export class UserService extends Observable<AcademicUser | null> implements OnDe
       }
       //hope user state observer takes care
       window.localStorage.removeItem('emailForSignIn');
-      if (auth.currentUser) {
+      const user = await this.auth.currentUser;
+      if (user) {
         return null;
       }
-      return auth.signInWithEmailLink(email as string, url);
+      return this.auth.signInWithEmailLink(email as string, url);
     }
     return null;
   }
@@ -126,7 +127,7 @@ export class UserService extends Observable<AcademicUser | null> implements OnDe
       handleCodeInApp: true,
     };
     try {
-      await auth.sendSignInLinkToEmail(
+      await this.auth.sendSignInLinkToEmail(
         email,
         actionCodeSettings
       );
@@ -143,9 +144,10 @@ export class UserService extends Observable<AcademicUser | null> implements OnDe
    * @param password
    * @returns Promise
    */
-  setpassword(password: string) {
-    if (auth.currentUser) {
-      return auth.currentUser.updatePassword(password);
+  async setpassword(password: string) {
+    const user = await this.auth.currentUser;
+    if (user) {
+      return user.updatePassword(password);
     }
 
     return null;
@@ -156,8 +158,8 @@ export class UserService extends Observable<AcademicUser | null> implements OnDe
    * Sign Out User :D
    * @returns promise
    */
-  signOut() {
-    return auth.signOut();
+ async signOut() {
+    return this.auth.signOut();
   }
 
   /**

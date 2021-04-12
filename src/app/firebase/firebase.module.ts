@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../../environments/environment';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
-import {USE_EMULATOR as USE_AUTH_EMULATOR} from '@angular/fire/auth';
+import {AngularFireAuthModule, USE_EMULATOR as USE_AUTH_EMULATOR} from '@angular/fire/auth';
 import {USE_EMULATOR as USE_DATABASE_EMULATOR} from '@angular/fire/database';
 import {USE_EMULATOR as USE_FIRESTORE_EMULATOR} from '@angular/fire/firestore';
 import {USE_EMULATOR as USE_FUNCTIONS_EMULATOR} from '@angular/fire/functions';
@@ -12,10 +12,12 @@ import {USE_EMULATOR as USE_FUNCTIONS_EMULATOR} from '@angular/fire/functions';
   imports: [
     AngularFireModule.initializeApp(environment.FIREBASE_CONFIG),
     AngularFirestoreModule,
+    AngularFireAuthModule,
   ],
   exports: [
     AngularFireModule,
     AngularFirestoreModule,
+    AngularFireAuthModule,
   ],
   providers: [
     // ... Existing Providers
