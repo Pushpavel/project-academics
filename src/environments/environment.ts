@@ -1,5 +1,5 @@
 import FIREBASE_CONFIG from './firebase.config';
-import {sampleFacultyUser} from './local.config';
+import { sampleFacultyUser } from './local.config';
 
 /**
  * TODO: Create local.config.ts with content
@@ -17,6 +17,6 @@ import {sampleFacultyUser} from './local.config';
 
 export const environment = {
   production: false,
-  localUser: sampleFacultyUser,
+  localUser: null,
   FIREBASE_CONFIG,
 };

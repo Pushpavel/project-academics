@@ -1,15 +1,15 @@
-import {of, ObservableInput} from 'rxjs';
-import {map, switchMap} from 'rxjs/operators';
-import {AuthPipe} from './auth-pipe.guard';
+import { of, ObservableInput } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { AuthPipe } from './auth-pipe.guard';
 
 export const loggedIn: AuthPipe = map(user => !!user);
 
 export const thenRedirectToHome = switchMap((can: any) => {
-    if (can == true)
-      return of('/sem/2020_EVEN/home');//  TODO: fetch real current sem
+  if (can == true)
+    return of('/sem/2020_EVEN/home');//  TODO: fetch real current sem
 
-    return of(can);
-  }
+  return of(can);
+}
 );
 
 export const elseStay = map((can: any) => can == false || can);

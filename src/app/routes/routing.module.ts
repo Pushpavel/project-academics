@@ -1,20 +1,20 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {DevPageComponent} from '../_dev/dev-page/dev-page.component';
-import {environment} from '../../environments/environment';
-import {HomePageComponent} from '../app-home/home-page/home-page.component';
-import {LoginPageComponent} from '../app-auth/login-page/login-page.component';
-import {CoursePageComponent} from '../app-course/course-page/course-page.component';
-import {PageNotFoundComponent} from '../app-404/page-not-found/page-not-found.component';
-import {BatchResultPageComponent} from '../app-result/batch-result-page/batch-result-page.component';
-import {StudentResultPageComponent} from '../app-result/student-result-page/student-result-page.component';
-import {ROUTING_PARAMS_AS_OBJECT as p} from '@lib/constants/routing.constants';
-import {documentPageRoutes} from './document-page.routing';
-import {authGuard, AuthPipeGuard} from './auth-pipe.guard';
-import {pipe} from 'rxjs';
-import {elseRedirectTo, elseStay, loggedIn, thenRedirectToHome} from './routing.pipes';
-import {regexGuard, RegexGuard} from './regex.guard';
-import {UserCrResolver} from './user-cr.resolver';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { DevPageComponent } from '../_dev/dev-page/dev-page.component';
+import { environment } from '../../environments/environment';
+import { HomePageComponent } from '../app-home/home-page/home-page.component';
+import { LoginPageComponent } from '../app-auth/login-page/login-page.component';
+import { CoursePageComponent } from '../app-course/course-page/course-page.component';
+import { PageNotFoundComponent } from '../app-404/page-not-found/page-not-found.component';
+import { BatchResultPageComponent } from '../app-result/batch-result-page/batch-result-page.component';
+import { StudentResultPageComponent } from '../app-result/student-result-page/student-result-page.component';
+import { ROUTING_PARAMS_AS_OBJECT as p } from '@lib/constants/routing.constants';
+import { documentPageRoutes } from './document-page.routing';
+import { authGuard, AuthPipeGuard } from './auth-pipe.guard';
+import { pipe } from 'rxjs';
+import { elseRedirectTo, elseStay, loggedIn, thenRedirectToHome } from './routing.pipes';
+import { regexGuard, RegexGuard } from './regex.guard';
+import { UserCrResolver } from './user-cr.resolver';
 
 // UTIL PIPES
 const redirectLoggedInToHome = authGuard(() => pipe(
@@ -37,8 +37,8 @@ const redirectByAuth = authGuard(() => pipe(
 
 // CHILD ROUTES UNDER 'sem/:semId'
 const routesUnderSem = [
-  {path: `home`, component: HomePageComponent},
-  {path: `result`, component: StudentResultPageComponent},
+  { path: `home`, component: HomePageComponent },
+  { path: `result`, component: StudentResultPageComponent },
   {
     path: `result/:${p.batchId}`,
     ...regexGuard(p.batchId),
@@ -49,16 +49,16 @@ const routesUnderSem = [
     ...regexGuard(p.courseCode),
     children: [
       ...documentPageRoutes,
-      {path: ``, component: CoursePageComponent, resolve: {userCrResolve: UserCrResolver}, pathMatch: 'full'},
+      { path: ``, component: CoursePageComponent, resolve: { userCrResolve: UserCrResolver }, pathMatch: 'full' },
     ]
   },
-  {path: ``, redirectTo: 'home', pathMatch: 'full'},
+  { path: ``, redirectTo: 'home', pathMatch: 'full' },
 ];
 
 
 // ROOT ROUTES
 const routes: Routes = [
-  {path: 'login', component: LoginPageComponent, ...redirectLoggedInToHome},
+  { path: 'login', component: LoginPageComponent, ...redirectLoggedInToHome },
   {
     path: `sem/:${p.semId}`,
     canActivate: [RegexGuard, AuthPipeGuard],
@@ -68,18 +68,18 @@ const routes: Routes = [
     },
     children: routesUnderSem
   },
-  {path: '404', component: PageNotFoundComponent},
+  { path: '404', component: PageNotFoundComponent },
   {
     path: ``,
     pathMatch: 'full',
     ...redirectByAuth,
     component: PageNotFoundComponent
   },
-  {path: '**', redirectTo: '/404', pathMatch: 'full'},
+  { path: '**', redirectTo: '/404', pathMatch: 'full' },
 ];
 
 
-if (!environment.production) routes.unshift({path: 'dev', component: DevPageComponent});
+if (!environment.production) routes.unshift({ path: 'dev', component: DevPageComponent });
 
 
 @NgModule({
