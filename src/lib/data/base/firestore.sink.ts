@@ -1,37 +1,44 @@
-import firebase from 'firebase/app';
-import {firestore} from '../../../firebase.app';
-import DocumentReference = firebase.firestore.DocumentReference;
 import {SinkOut} from '@lib/data/base/sink.interfaces';
 import {switchMap} from 'rxjs/operators';
 import {fromPromise} from 'rxjs/internal-compatibility';
+import {Injectable} from '@angular/core';
+import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestore';
 
-export function sinkObject<T, K extends keyof T | never = never>(p: SinkDef<T, K>) {
+@Injectable({
+  providedIn: 'root'
+})
+export class SinkService {
 
-  let ref: DocumentReference;
+  constructor(private db: AngularFirestore) {
+  }
 
-  return p.sink.pipe(
-    switchMap(updates => {
-        const promises = updates.map(async update => {
-          const updateData = {...update};
+  sinkObject<T, K extends keyof T | never = never>(p: SinkDef<T, K>) {
 
-          // build ref
-          if (p.idField) {
-            ref = firestore.collection(p.path).doc(updateData[p.idField] as any);
-            // remove idField From updateData
-            delete updateData[p.idField];
-          } else
-            ref = firestore.doc(p.path);
+    let ref: AngularFirestoreDocument;
 
-          return await ref.update(updateData);
-        });
+    return p.sink.pipe(
+      switchMap(updates => {
+          const promises = updates.map(async update => {
+            const updateData = {...update};
 
-        return fromPromise(Promise.all(promises));
-      }
-    )
-  );
+            // build ref
+            if (p.idField) {
+              ref = this.db.collection(p.path).doc(updateData[p.idField] as any);
+              // remove idField From updateData
+              delete updateData[p.idField];
+            } else
+              ref = this.db.doc(p.path);
 
+            return await ref.update(updateData);
+          });
+
+          return fromPromise(Promise.all(promises));
+        }
+      )
+    );
+
+  }
 }
-
 
 interface SinkDef<T, K extends keyof T | never = never> {
   path: string,

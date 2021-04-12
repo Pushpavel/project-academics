@@ -6,7 +6,7 @@ import {gradingCriteriaFromSnapshot} from '@lib/data/convert/grading-criteria-fr
 import {COURSE_PATH, PRIVATE_DOCUMENT_PATH, PUBLIC_DOCUMENT_PATH} from '@lib/constants/firestore.path';
 import {NonGradeDocumentId, PrivateDocumentId} from '@lib/models/document/document-base.model';
 import {Injectable} from '@angular/core';
-import {SourceService} from '@lib/data/base/source.abstract';
+import {SourceService} from '@lib/data/base/service.abstract';
 import {objectToMap} from '@lib/utils/other.util';
 import {StudentsDocumentRaw} from '@lib/models/student.model';
 

@@ -8,10 +8,8 @@ import {
   DocumentSources
 } from '@lib/data/source/document.source';
 import {DocumentPath} from '@lib/models/path.model';
-import {
-  privateDocumentEntriesSink, privateDocumentMetaSink, privateGradingCriteriaEntriesSink
-} from '@lib/data/document-sink.adapter';
 import {StatEntryRaw} from '@lib/models/document/document-stat.model';
+import {DocumentSinks} from '@lib/data/document-sink.adapter';
 
 @Injectable({
   providedIn: 'root'
@@ -29,9 +27,9 @@ export class DocumentService {
   getPrivateDocumentEntries = this.docSources.privateDocumentEntries.bind(this.docSources);
   getProtectedMetas = this.docSources.protectedDocumentMetas.bind(this.docSources);
 
-  sinkPrivateDocumentEntry = privateDocumentEntriesSink;
-  sinkPrivateDocumentMeta = privateDocumentMetaSink;
-  sinkPrivateGradingCriteriaEntry = privateGradingCriteriaEntriesSink;
+  sinkPrivateDocumentEntry = this.docSinks.privateDocumentEntriesSink.bind(this.docSinks);
+  sinkPrivateDocumentMeta = this.docSinks.privateDocumentMetaSink.bind(this.docSinks);
+  sinkPrivateGradingCriteriaEntry = this.docSinks.privateGradingCriteriaEntriesSink.bind(this.docSinks);
 
 
   getStat(p: DocumentPath): Observable<StatEntryRaw> {
@@ -53,6 +51,10 @@ export class DocumentService {
     throw new Error('Not Implemented');// TODO: Implement this
   }
 
-  constructor(private docSources: DocumentSources, private statSources: DocumentStatSources) {
+  constructor(
+    private docSources: DocumentSources,
+    private statSources: DocumentStatSources,
+    private docSinks: DocumentSinks,
+  ) {
   }
 }
