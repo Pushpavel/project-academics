@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {CoursePath} from '@lib/models/path.model';
 import {NonGradeDocumentId} from '@lib/models/document/document-base.model';
-import {cloudFunction} from '../firebase.app';
+import {AngularFireFunctions} from '@angular/fire/functions';
 
 /**
  * manages publishing or revoking course documents
@@ -12,6 +12,9 @@ import {cloudFunction} from '../firebase.app';
 export class PublishService {
 
   async submitDocument(path: CoursePath, documentId: NonGradeDocumentId) {
-    return await cloudFunction.httpsCallable('submitDocument')({...path, documentId});
+    return this.functions.httpsCallable('submitDocument')({...path, documentId}).toPromise();
+  }
+
+  constructor(private functions: AngularFireFunctions) {
   }
 }
