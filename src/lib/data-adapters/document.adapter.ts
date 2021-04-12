@@ -1,10 +1,10 @@
-import {PrivateMetaRaw} from '@lib/models/document/document-base.model';
+import {DocumentId, PrivateMetaRaw, ProtectedMetaRaw} from '@lib/models/document/document-base.model';
 import {CoursePath} from '@lib/models/path.model';
 import {AttendanceEntryRaw} from '@lib/models/document/attendance.model';
 import {MarklistEntryRaw} from '@lib/models/document/marklist.model';
 import {fetchList, fetchObj} from '@lib/data-adapters/base/firestore.adapter';
 import {gradingCriteriaFromSnapshot} from '@lib/data-adapters/convert/grading-criteria-from.snapshot';
-import {PRIVATE_DOCUMENT_PATH} from '@lib/constants/firestore.path';
+import {COURSE_PATH, PRIVATE_DOCUMENT_PATH} from '@lib/constants/firestore.path';
 import {NonGradeDocumentId, PrivateDocumentId} from '@lib/models/document/document-base.model';
 
 
@@ -38,5 +38,14 @@ export function privateDocumentEntries<T extends MarklistEntryRaw | AttendanceEn
     path: PRIVATE_DOCUMENT_PATH({...p, documentId}) + `/entries`,
     idField: 'rollNo',
     once: true,
+  });
+}
+
+
+export function protectedDocumentMetas<T extends ProtectedMetaRaw>(p: CoursePath, documentIds: DocumentId[]) {
+  return fetchList<T>({
+    path: COURSE_PATH(p) + '/protected_course_documents',
+    once: true,
+    query: q => q.where('document', 'in', documentIds)
   });
 }

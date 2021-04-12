@@ -1,31 +1,33 @@
-<mdc-layout>
+<top-bar-layout>
+  <mdc-layout>
 
-  <div [span]="12" class="header-tile">
+    <div [span]="12" class="header-tile">
 
-    <h4>Marklist</h4>
+      <h4>Marklist</h4>
 
-    <ng-container *ngIf="userCR|async as cr">
-      <div class="text-block">
-        <span class="dark-text-secondary overline">PUBLISHED ON</span>
-        <span class="dark-text-primary sub2">12 AUG 2021</span>
-      </div>
-      <button mdc-button="outlined" class="surface">
-        <mdc-icon>download</mdc-icon>
-        DOWNLOAD
-      </button>
-      <button *ngIf="cr.isFaculty" mdc-button="raised" (click)="publishBtn()">PUBLISH</button>
-    </ng-container>
+      <ng-container *ngIf="userCR|async as cr">
+        <div class="text-block">
+          <span class="dark-text-secondary overline">PUBLISHED ON</span>
+          <span class="dark-text-primary sub2">12 AUG 2021</span>
+        </div>
+        <button mdc-button="outlined" class="surface">
+          <mdc-icon>download</mdc-icon>
+          DOWNLOAD
+        </button>
+        <button *ngIf="cr.isFaculty" mdc-button="raised" (click)="publishBtn()">PUBLISH</button>
+      </ng-container>
 
-  </div>
+    </div>
 
-  <mdc-table [span]="6" [rows]="entries|async"
-             [editableCell]="editableCell">
-    <column key="rollNo" label="Roll No"></column>
-    <column key="name" label="Name"></column>
-    <column key="mark" label="Mark" [editable]="editable|async"></column>
-  </mdc-table>
+    <mdc-table [span]="6" [rows]="entries|async"
+               [editableCell]="editableCell">
+      <column key="rollNo" label="Roll No"></column>
+      <column key="name" label="Name"></column>
+      <column key="mark" label="Mark" [editable]="editable|async"></column>
+    </mdc-table>
 
-</mdc-layout>
+  </mdc-layout>
+</top-bar-layout>
 
 <ng-template #editableCell let-row='row' let-col='col'>
   <label mdc-text-field>

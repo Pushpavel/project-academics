@@ -1,7 +1,12 @@
 <button mdc-icon class="on-primary" (click)="openHomePage()">font_download</button>
+
+<!--  TOP BAR CONTENT  -->
 <div class="on-primary hp16">
+  <h5 *ngIf="title">{{title}}</h5>
   <ng-content></ng-content>
 </div>
+
+<!--  ACCOUNT BTN -->
 <button *ngIf="user|async as user" mdc-button class="surface dark-text-primary body1 vp16">
   <mdc-icon [size]="24">tag_faces</mdc-icon>
   <label>{{user.displayName}}</label>

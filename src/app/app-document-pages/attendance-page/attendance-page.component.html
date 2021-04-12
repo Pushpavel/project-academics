@@ -1,31 +1,33 @@
-<mdc-layout>
-  <div [span]="12" class="header-tile">
-    <h4>Attendance</h4>
-    <div class="text-block">
-      <span class="dark-text-secondary overline">PUBLISHED ON</span>
-      <span class="dark-text-primary sub2">12 AUG 2021</span>
+<top-bar-layout>
+  <mdc-layout container>
+    <div [span]="12" class="header-tile">
+      <h4>Attendance</h4>
+      <div class="text-block">
+        <span class="dark-text-secondary overline">PUBLISHED ON</span>
+        <span class="dark-text-primary sub2">12 AUG 2021</span>
+      </div>
+      <button mdc-button="outlined" class="surface">
+        <mdc-icon>download</mdc-icon>
+        DOWNLOAD
+      </button>
+      <button mdc-button="raised" (click)="publishBtn()">PUBLISH</button>
     </div>
-    <button mdc-button="outlined" class="surface">
-      <mdc-icon>download</mdc-icon>
-      DOWNLOAD
-    </button>
-    <button mdc-button="raised" (click)="publishBtn()">PUBLISH</button>
-  </div>
 
-  <div [span]="12" *ngIf="meta|async as meta">
-    <span class="sub2 dark-text-primary">No of Classes Conducted</span>
-    <label mdc-text-field class="surface hm16">
-      <input mdc-input type="number" [value]="meta.total" (change)="onTotalChange($event)">
-    </label>
-  </div>
+    <div [span]="12" *ngIf="meta|async as meta">
+      <span class="sub2 dark-text-primary">No of Classes Conducted</span>
+      <label mdc-text-field class="surface hm16">
+        <input mdc-input type="number" [value]="meta.total" (change)="onTotalChange($event)">
+      </label>
+    </div>
 
-  <mdc-table [span]="8" [rows]="entries|async" [editableCell]="editableCell">
-    <column key="rollNo" label="Roll No"></column>
-    <column key="name" label="Name"></column>
-    <column key="attended" label="No of Classes Attended" numeric [editable]="editable|async"></column>
-    <column key="percentage" label="Percentage" numeric></column>
-  </mdc-table>
-</mdc-layout>
+    <mdc-table [span]="8" [rows]="entries|async" [editableCell]="editableCell">
+      <column key="rollNo" label="Roll No"></column>
+      <column key="name" label="Name"></column>
+      <column key="attended" label="No of Classes Attended" numeric [editable]="editable|async"></column>
+      <column key="percentage" label="Percentage" numeric></column>
+    </mdc-table>
+  </mdc-layout>
+</top-bar-layout>
 
 
 <ng-template #editableCell let-row='row' let-col='col'>

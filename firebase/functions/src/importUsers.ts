@@ -10,14 +10,17 @@ export async function _importUsers(data: ImportUsersData) {
   // TODO: Check duplicate entries
   if (data.users.length > 1000) return {error: 'MAX_USERS_PER_IMPORT_LIMIT_EXCEEDED'};
 
+  if (data.claims.find(claim => claim == 'isHod') && !data.dept)
+    return {error:`'isHod' CLAIM REQUESTED WITHOUT 'dept' field`}
+
   const claims = data.claims.reduce((obj, claim) => {
-    obj[claim] = true;
-    return obj;
-  }, {} as any);
+      obj[claim] = claim == 'isHod' ? data.dept : true;
+      return obj;
+    }, {} as any);
 
   data.users.forEach(user => user.customClaims = claims);
-  console.log(`Importing ${data.users.length} Users Account Data 🚀`);
 
+  console.log(`Importing ${data.users.length} Users Account Data 🚀`);
   const response = await auth.importUsers(data.users);
   console.log(`Importing ${data.users.length} User Accounts Completed 🔥`, 'Response :', response);
 

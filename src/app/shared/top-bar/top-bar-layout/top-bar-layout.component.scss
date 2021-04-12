@@ -1,13 +1,19 @@
-@use "utils/layout";
+@use "src/styles/theme" as *;
 
 :host {
-  @include layout.fillParent;
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
 
-  > div {
+  [container], .default-container {
     flex: 1;
     display: flex;
     flex-direction: column;
   }
+
+  .default-container:empty {
+    display: none;
+  }
 }
+

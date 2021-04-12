@@ -6,6 +6,7 @@ import {combineLatest, of} from 'rxjs';
 import {MarklistDocumentId} from '@lib/models/document/document-base.model';
 import {MarklistEntryRaw, MarklistEntryUI} from '@lib/models/document/marklist.model';
 import {marklistEntriesUIModel} from '@lib/data-adapters/combine/marklist.combine';
+import {sortByKey} from '@lib/utils/other.util';
 
 @Component({
   selector: 'app-marklist-page',
@@ -24,7 +25,8 @@ export class MarklistPageComponent extends DocumentPage {
 
       // build ui model
       return combineLatest([entries$, studentNames$]).pipe(
-        map((deps) => marklistEntriesUIModel(deps))
+        map(marklistEntriesUIModel),
+        sortByKey('rollNo'),
       );
     })
   );

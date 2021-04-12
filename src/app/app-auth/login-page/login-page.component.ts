@@ -1,6 +1,4 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { PageLayout } from "../../shared/helpers/PageLayout";
-import { PageService } from "../../../core/page.service";
 import { UserService } from "../../../core/user.service"
 import { Router } from "@angular/router";
 
@@ -9,7 +7,7 @@ import { Router } from "@angular/router";
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
-export class LoginPageComponent extends PageLayout {
+export class LoginPageComponent  {
 
   @ViewChild("Input") Input?: ElementRef;
 
@@ -19,8 +17,7 @@ export class LoginPageComponent extends PageLayout {
   validEmail?: boolean;
   nextPage: boolean = false;
 
-  constructor(page: PageService, private auth: UserService, private router: Router) {
-    super(page);
+  constructor(private auth: UserService, private router: Router) {
     this.disableTopBar = true;
   }
 

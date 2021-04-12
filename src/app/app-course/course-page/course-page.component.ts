@@ -1,6 +1,4 @@
 import {Component} from '@angular/core';
-import {PageLayout} from '../../shared/helpers/PageLayout';
-import {PageService} from '@service/page.service';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {CourseService} from '@service/course.service';
@@ -11,7 +9,7 @@ import {getParams} from '../../routes/routing.helper';
   templateUrl: './course-page.component.html',
   styleUrls: ['./course-page.component.scss']
 })
-export class CoursePageComponent extends PageLayout {
+export class CoursePageComponent {
 
   params = getParams(['semId', 'courseCode'], this.route);
 
@@ -22,9 +20,7 @@ export class CoursePageComponent extends PageLayout {
   constructor(
     private route: ActivatedRoute,
     private courseService: CourseService,
-    page: PageService,
   ) {
-    super(page);
   }
 
 }

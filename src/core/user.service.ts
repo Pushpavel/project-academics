@@ -6,7 +6,6 @@ import { authState } from 'rxfire/auth';
 import { auth, firestore } from '../firebase.app';
 import { fromDocRef } from 'rxfire/firestore';
 import firebase from 'firebase/app';
-import { environment } from '../environments/environment';
 
 /**
  * Manages User Authentication and State
@@ -21,7 +20,7 @@ import { environment } from '../environments/environment';
 export class UserService extends Observable<AcademicUser | null> implements OnDestroy {
 
   /**
-   * data of the logged in user 
+   * data of the logged in user
    * @private
    */
   private userData = new ReplaySubject<AcademicUser | null>(1);
@@ -29,10 +28,7 @@ export class UserService extends Observable<AcademicUser | null> implements OnDe
 
   constructor() {
     super(subscriber => this.userData.subscribe(subscriber));
-    if (environment.localUser)
-      setTimeout(() => this.userData.next(environment.localUser), 800);
-    else
-      this.listenAuthState();
+    this.listenAuthState();
   }
 
   /**

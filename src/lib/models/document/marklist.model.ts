@@ -1,4 +1,4 @@
-import {BasePrivateMetaRaw} from '@lib/models/document/document-base.model';
+import {BasePrivateMetaRaw, BaseProtectedMetaRaw} from '@lib/models/document/document-base.model';
 
 interface EntryRaw {
   rollNo: string,
@@ -15,5 +15,5 @@ interface MetaRaw {
 
 export type MarklistEntryRaw = EntryRaw;
 export type MarklistEntryUI = EntryUI;
-export type PublicMarklistMetaRaw = MetaRaw
+export type ProtectedMarklistMetaRaw = MetaRaw & { entries: Record<string, number> } & BaseProtectedMetaRaw
 export type PrivateMarklistMetaRaw = MetaRaw & BasePrivateMetaRaw

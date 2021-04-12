@@ -1,7 +1,4 @@
-<faculty-actions *ngIf="true"></faculty-actions>
-<student-course-overview *ngIf="false"></student-course-overview>
-
-<ng-container *pageTemplate="t.SECONDARY_HEADER">
+<top-bar-layout title="Course">
   <!--  TODO: Course model is available here, use it  -->
   <div *ngIf="course|async as course">
     <div class="course-name">
@@ -21,4 +18,7 @@
       <p> EVEN 2020 </p>
     </div>
   </div>
-</ng-container>
+
+  <faculty-actions *ngIf="true"></faculty-actions>
+  <student-course-overview *ngIf="false"></student-course-overview>
+</top-bar-layout>
