@@ -2,26 +2,33 @@ import firebase from 'firebase/app';
 import {firestore} from '../../../firebase.app';
 import DocumentReference = firebase.firestore.DocumentReference;
 import {SinkOut} from '@lib/data-adapters/base/sink.interfaces';
+import {switchMap} from 'rxjs/operators';
+import {fromPromise} from 'rxjs/internal-compatibility';
 
 export function sinkObject<T, K extends keyof T | never = never>(p: SinkDef<T, K>) {
 
   let ref: DocumentReference;
 
-  return p.sink.subscribe(updates => updates.forEach(async update => {//  TODO: Optimize updates
-    const updateData = {...update};
+  return p.sink.pipe(
+    switchMap(updates => {
+        const promises = updates.map(async update => {
+          const updateData = {...update};
 
-    // build ref
-    if (p.idField) {
-      ref = firestore.collection(p.path).doc(updateData[p.idField] as any);
-      // remove idField From updateData
-      delete updateData[p.idField];
-    } else
-      ref = firestore.doc(p.path);
+          // build ref
+          if (p.idField) {
+            ref = firestore.collection(p.path).doc(updateData[p.idField] as any);
+            // remove idField From updateData
+            delete updateData[p.idField];
+          } else
+            ref = firestore.doc(p.path);
 
+          return await ref.update(updateData);
+        });
 
-    await ref.update(updateData);
-
-  }));
+        return fromPromise(Promise.all(promises));
+      }
+    )
+  );
 
 }
 

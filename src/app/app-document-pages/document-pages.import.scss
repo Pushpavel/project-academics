@@ -1,23 +1,36 @@
-.header-tile {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
 
-  > :first-child {
-    flex: 1;
+.document-page {
+
+  > mdc-layout {
+    row-gap: 16px;
   }
 
-  > :not(:first-child) {
-    margin-left: 32px;
+  .numeric[mdc-text-field] {
+    font-size: 14px;
   }
 
-  > .text-block {
+  .header-tile {
     display: flex;
-    flex-direction: column;
-    text-align: center;
-    > * {
-      line-height: 1.5rem;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 32px;
+
+    > :first-child {
+      flex: 1;
+    }
+
+    > :not(:first-child) {
+      margin-left: 32px;
+    }
+
+    > .text-block {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+
+      > * {
+        line-height: 1.5rem;
+      }
     }
   }
 }
-

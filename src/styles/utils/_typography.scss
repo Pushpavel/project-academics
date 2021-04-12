@@ -4,6 +4,8 @@
 
 .mdc-typography {
 
+  @include mdc.typography(body2);
+
   @for $i from 1 through 6 {
     h#{$i}, .h#{$i} {
       @include mdc.typography(headline#{$i});
@@ -26,7 +28,7 @@
     margin: 0
   }
 
-  body, .body2 {
+  .body2, p, div {
     @include mdc.typography(body2);
     margin: 0
   }
@@ -45,4 +47,5 @@
     @include mdc.typography(overline);
     margin: 0
   }
+
 }

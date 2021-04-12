@@ -1,12 +1,19 @@
 :host {
   display: block;
   box-sizing: border-box;
-  padding: 125px 0 32px 125px;
-  max-width: 1080px;
+  padding: 125px 250px 25px 150px;
+  //max-width: 1080px;
 
-  > button {
-    margin-top: 100px;
-    padding: 16px 24px;
+  > div {
+    display: flex;
+    justify-content: start;
+    > button{
+      margin-top: 100px;
+      padding: 16px 24px;
+    }
+    > button :first-child{
+      margin-right: 62px;
+    }
   }
 
   > mdc-spinner {

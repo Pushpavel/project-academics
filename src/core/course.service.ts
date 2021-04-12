@@ -29,7 +29,9 @@ export class CourseService {
 
   getCourse = course;
 
-  // TODO: need to make sem_id dynamic
+
+  //need to initialise for current sem
+  
   fetchCoursesForFaculty(faculty_id: string, sem_id : string): void {
     const courseRef = firestore.collection(`/semesters/${sem_id}/courses`).where('facultyId', '==', faculty_id);
 
@@ -45,6 +47,22 @@ export class CourseService {
         this.courseCollectionListener.next(coursesCollection);
       }));
 
+  }
+
+  fetchCoursesForStudent(batch : string, sem_id : string){
+    const courseRef = firestore.collection(`/semesters/${sem_id}/courses`).where('batch', '==', batch);
+
+    collectionData(courseRef, 'id').pipe(
+      map(e => {
+        return e.reduce((collections: any, course: any) => {
+          collections[course.batch] = [{name: course.name, courseCode: course.id} as CourseDetailRaw];
+          return collections;
+        }, {});
+      })
+    )
+      .subscribe((coursesCollection => {
+        this.courseCollectionListener.next(coursesCollection);
+      }));
   }
 
 }

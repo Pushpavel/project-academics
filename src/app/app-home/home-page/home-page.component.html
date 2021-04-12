@@ -6,19 +6,21 @@
 
   <batch-grid [courseCollections]="courseCollections"></batch-grid>
 
-  <button mdc-button="outlined" flex (click)="handleArchive()">
-    <mdc-icon [size]="24">archive</mdc-icon>
-    archive
-  </button>
+  <div>
+    <button mdc-button="outlined" flex (click)="handleArchive()">
+      <mdc-icon [size]="24">archive</mdc-icon>
+      archive
+    </button>
 
-  <button *ngIf="this.user && this.user.isExamCell" mdc-button="outlined" flex (click)="handleArchive()">
-    <mdc-icon [size]="24">view</mdc-icon>
-    Result Summary
-  </button>
+    <button *ngIf="this.user && this.user.isExamCell" mdc-button="outlined" flex (click)="handleArchive()">
+      <mdc-icon [size]="24">view</mdc-icon>
+      Result Summary
+    </button>
 
-  <button *ngIf="this.user && this.user.isStudent" flex (click)="handleArchive()">
-    Result Summary
-  </button>
+    <button *ngIf="this.user && this.user.isStudent" flex (click)="handleArchive()">
+      Result Summary
+    </button>
+  </div>
 </ng-container>
 
 <ng-template #loader>

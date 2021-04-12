@@ -2,6 +2,8 @@ import {StatEntryRaw} from '@lib/models/document/document-stat.model';
 import {DeptFields, DocumentId} from '@lib/models/document/document-base.model';
 
 export interface CourseRaw {
+  sem: string,
+  batch: string,
   courseCode: string,
   name: string,
   facultyId: string,
