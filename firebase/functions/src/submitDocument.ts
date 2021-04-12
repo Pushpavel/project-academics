@@ -34,7 +34,7 @@ export async function _submitDocument(p: any, context: CallableContext) {
     privateMetaRef.update('editable', false);
 
     // 2.get private document meta and entries
-    let entries, meta;
+    let entries, meta: any;
     if (p.documentId != 'GRADING_CRITERIA') {
       const [metaSnap, entriesSnap] = await Promise.all([privateMetaRef.get(), privateEntriesRef.get()]);
 
@@ -75,6 +75,7 @@ export async function _submitDocument(p: any, context: CallableContext) {
     entries?.forEach((entry: any) => batch.update(
       studentsRef.doc(entry.rollNo),
       `entries.${p.documentId}`, {
+        ...meta,
         ...entry,
         publicTimestamp: FieldValue.serverTimestamp(),
       }
