@@ -24,10 +24,14 @@ export class GradesPageComponent extends DocumentPage {
   entries: Observable<GradeEntryUI[]> = combineLatest([this.stats, this.params]).pipe(
     switchMap(([stats, p]) => {
       const documentIds = Object.keys(stats.stats) as DocumentId[];
-      const nonPrivateDocIds = documentIds.filter(id => stats.stats[id].status != 'private');
-      return this.documentService.getProtectedMetas(p, nonPrivateDocIds).pipe(
-        map(gradesUIModel)
-      );
+      const availableDocIds = documentIds.filter(id => stats.stats[id].status != 'private' && id != 'ATTENDANCE');
+      const metas = (availableDocIds.length == 0) ?
+        of([]) : this.documentService.getProtectedMetas(p, availableDocIds);
+
+      return combineLatest([
+        metas,
+        this.documentService.getStudentNames(p),
+      ]).pipe(map(gradesUIModel));
     })
   );
 

@@ -1,19 +1,18 @@
+import {BaseProtectedMetaRaw, MarklistDocumentId} from '@lib/models/document/document-base.model';
+
 interface EntryRaw {
   rollNo: string,
   total: number,
   grade: string,
 }
 
-interface EntryUI extends EntryRaw {
+interface EntryUI extends Partial<EntryRaw & Record<MarklistDocumentId, number>> {
+  rollNo: string,
   name: string,
-  CT1: number,
-  CT2: number,
-  ASSIGNMENT: number,
-  END_SEM: number,
 }
 
 
 export type GradeEntryRaw = EntryRaw;
 export type GradeEntryUI = EntryUI;
 
-export type ProtectedGradesMeta = { entries: Record<string, { total: number, grade: string }> }
+export type ProtectedGradesMeta = { entries: Record<string, { total: number, grade: string }> } & BaseProtectedMetaRaw

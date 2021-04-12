@@ -10,6 +10,10 @@ export interface BasePrivateMetaRaw {
   editable: boolean,
 }
 
+export interface BaseProtectedMetaRaw {
+  document: DocumentId,
+}
+
 
 // Document Ids
 export type DocumentId = typeof DOCUMENT_IDS[number];
