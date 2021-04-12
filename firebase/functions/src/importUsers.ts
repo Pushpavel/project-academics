@@ -1,8 +1,8 @@
-import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
 import {ImportUsersData} from './models';
-import {app} from './index';
 
-export const importUsers = functions.region('asia-south1').https.onCall(_importUsers);
+const auth = admin.auth();
+const firestore = admin.firestore();
 
 export async function _importUsers(data: ImportUsersData) {
   // TODO: Check administrative privileges
@@ -18,14 +18,14 @@ export async function _importUsers(data: ImportUsersData) {
   data.users.forEach(user => user.customClaims = claims);
   console.log(`Importing ${data.users.length} Users Account Data 🚀`);
 
-  const response = await app.auth().importUsers(data.users);
+  const response = await auth.importUsers(data.users);
   console.log(`Importing ${data.users.length} User Accounts Completed 🔥`, 'Response :', response);
 
-  const accountsRef = app.firestore().collection('accounts');
-  const batches = [app.firestore().batch()];
+  const accountsRef = firestore.collection('accounts');
+  const batches = [firestore.batch()];
 
   if (data.users.length > 500)
-    batches.push(app.firestore().batch());
+    batches.push(firestore.batch());
 
   data.users.forEach((user, index) => {
     if (response.errors.some(err => err.index == index)) return; // return if user not created successfully
@@ -44,3 +44,4 @@ export async function _importUsers(data: ImportUsersData) {
 
   return response;
 }
+

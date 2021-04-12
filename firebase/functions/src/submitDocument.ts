@@ -1,10 +1,9 @@
-import {app} from './index';
+import * as admin from 'firebase-admin';
 import {CallableContext} from 'firebase-functions/lib/providers/https';
-import firebase from 'firebase/app';
-import FieldValue = firebase.firestore.FieldValue;
+import FieldValue = admin.firestore.FieldValue;
 
-const db = app.firestore();
 
+const firestore = admin.firestore();
 
 export async function _submitDocument(p: any, context: CallableContext) {
 
@@ -12,7 +11,7 @@ export async function _submitDocument(p: any, context: CallableContext) {
 
     if (!context.auth) return error('unauthorized');
 
-    const courseRef = db.doc(`semesters/${p.semId}/courses/${p.courseCode}`);
+    const courseRef = firestore.doc(`semesters/${p.semId}/courses/${p.courseCode}`);
 
     const course = (await courseRef.get()).data();
 
@@ -72,7 +71,7 @@ export async function _submitDocument(p: any, context: CallableContext) {
     // 4.update public student entry
     const studentsRef = await courseRef.collection('public_student_documents');
 
-    const batch = app.firestore().batch();
+    const batch = firestore.batch();
 
     entries?.forEach((entry: any) => batch.update(
       studentsRef.doc(entry.rollNo),
