@@ -53,7 +53,8 @@ export abstract class DocumentPage {
       this.disableEdit = false;
       return;
     }
-    this.publishService.publishDocument(params, params.documentId as NonGradeDocumentId);
+    const result = await this.publishService.submitDocument(params, params.documentId as NonGradeDocumentId);
+    console.log(result);
   }
 
   constructor(

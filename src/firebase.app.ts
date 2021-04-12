@@ -13,5 +13,5 @@ export const cloudFunction = app.functions('asia-south1');
 if (!environment.production) {
   auth.useEmulator('http://localhost:9099');
   firestore.useEmulator('localhost', 8080);
-  // cloudFunction.useEmulator('localhost', 5001);
+  cloudFunction.useEmulator('localhost', 5001);
 }
