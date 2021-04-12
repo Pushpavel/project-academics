@@ -27,7 +27,6 @@
     "file-saver": "^2.0.5",
     "firebase": "^8.3.3",
     "material-components-web": "^10.0.0",
-    "rxfire": "^4.0.0",
     "rxjs": "^6.6.7",
     "tslib": "^2.2.0",
     "xlsx": "^0.16.9",
