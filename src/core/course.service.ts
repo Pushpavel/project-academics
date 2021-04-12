@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {CourseDetailRaw} from '@lib/models/course.model';
-import {firestore} from 'firebase.app';
-import {collectionData} from 'rxfire/firestore';
+import {CourseDetailRaw, CourseRaw} from '@lib/models/course.model';
 import {BehaviorSubject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {CourseSources} from '@lib/data/source/course.sources';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestoreCollection} from '@angular/fire/firestore/collection/collection';
 
 
 @Injectable({
@@ -33,17 +33,17 @@ export class CourseService {
   //TODO : Hod student exam cell fetch
 
   fetchCoursesForFaculty(faculty_id: string, sem_id: string): void {
-    const courseRef = firestore.collection(`/semesters/${sem_id}/courses`).where('facultyId', '==', faculty_id);
+    const courseRef = this.afs.collection<CourseRaw>(`/semesters/${sem_id}/courses`, q => q.where('facultyId', '==', faculty_id));
     this.fetchCoursesGeneral(courseRef, 'courses that you manage');
   }
 
   fetchCoursesForStudent(batch: string, sem_id: string) {
-    const courseRef = firestore.collection(`/semesters/${sem_id}/courses`).where('batch', '==', batch);
+    const courseRef = this.afs.collection<CourseRaw>(`/semesters/${sem_id}/courses`, q => q.where('batch', '==', batch));
     this.fetchCoursesGeneral(courseRef, 'Courses');
   }
 
-  fetchCoursesGeneral(courseRef: firebase.default.firestore.Query, key: string) {
-    collectionData(courseRef, 'id').pipe(
+  fetchCoursesGeneral(courseRef: AngularFirestoreCollection<CourseRaw>, key: string) {
+    courseRef.valueChanges({idField: 'id'}).pipe(
       map(e => {
         return e.reduce((collections: any, course: any) => {
           collections[key] = [{name: course.name, courseCode: course.id} as CourseDetailRaw];
@@ -56,7 +56,7 @@ export class CourseService {
       }));
   }
 
-  constructor(private source: CourseSources) {
+  constructor(private source: CourseSources, private afs: AngularFirestore) {
   }
 
 }

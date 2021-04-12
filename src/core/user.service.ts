@@ -3,8 +3,7 @@ import {combineLatest, from, Observable, of, ReplaySubject} from 'rxjs';
 import {filter, map, switchMap} from 'rxjs/operators';
 import {AcademicUser} from '@lib/models/user.model';
 import {authState} from 'rxfire/auth';
-import {auth, firestore} from '../firebase.app';
-import {fromDocRef} from 'rxfire/firestore';
+import {auth} from '../firebase.app';
 import firebase from 'firebase/app';
 
 /**
@@ -64,17 +63,13 @@ export class UserService extends Observable<AcademicUser | null> implements OnDe
   private listenAuthState() {
     this.authStateListener = authState(auth).pipe(switchMap((u) => {
       const authClaimsObs = this.authClaims(u);
-      return u ? combineLatest([of(u), fromDocRef(firestore.doc(`accounts/${u.uid}`)), authClaimsObs]) : of(null);
+      return u ? combineLatest([of(u), authClaimsObs]) : of(null);
     })).pipe(map((c) => {
-      const safe = (data: any) => {
-        return data ? data : {};
-      };
       return c ? {
         displayName: c[0].displayName,
         email: c[0].email,
         uid: c[0].uid,
-        ...c[2],
-        ...c[1].data() ?? {}
+        ...c[1],
       } as AcademicUser : null;
       // TODO: .subscribe(this.userData); is better as it will subscribe to error and complete callbacks as well
     })).subscribe((u) => {
