@@ -13,9 +13,10 @@ export class LoginPageComponent  {
 
   disableTopBar?: boolean;
   email: string = "";
-  password: string = "";
   validEmail?: boolean;
   nextPage: boolean = false;
+  error: string = "";
+  emailError: string = "";
 
   constructor(private auth: UserService, private router: Router) {
     this.disableTopBar = true;
@@ -25,30 +26,28 @@ export class LoginPageComponent  {
     this.confirmEmail(this.router.url)
   }
 
-  handleContinue(event: any) {
+  handleContinue() {
     this.email = this.Input?.nativeElement.value;
     if (this.validateEmail(this.email)) {
-      this.nextPage = true;
       this.auth.sendSignInLink(this.email);
+      this.nextPage = true;
     } else {
-      console.log("Invalid email")
+      this.emailError = "Invalid email";
     }
   }
 
   handleGoBack() {
+    this.error = this.emailError = "";
     this.nextPage = false;
-  }
-
-  handleLogin(event: any) {
-    this.password = this.Input?.nativeElement.value;
-    console.log(this.email, this.password);
   }
 
   confirmEmail(url: string) {
     this.auth.SignInWithLink(url)
       ?.then((user) => {
         if (user != null) {
-          this.router.navigateByUrl("http://localhost:4200/sem/2020_2/home");
+          this.router.navigateByUrl("http://localhost:4200/sem/2020_EVEN/home");
+        } else {
+          this.error = "Invalid link, please try again";
         }
       })
       .catch(e => console.log(e))

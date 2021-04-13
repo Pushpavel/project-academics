@@ -2,26 +2,18 @@
     <span class="h5 dark-text-primary">Account</span>
     <div class="inner">
         <input #Input placeholder="Roll No / Email" type="email">
+        <span class="sub1 dark-text-primary">{{ this.emailError }}</span>
         <div class="cont">
-            <button mdc-button (click)="handleContinue($event)">CONTINUE</button>
+            <button mdc-button (click)="handleContinue()">CONTINUE</button>
         </div>
     </div>
 </div>
-<div class="password_container" *ngIf="this.nextPage">
+<div class="next_page" *ngIf="this.nextPage">
     <span class="sub1 dark-text-primary">Verification link has been sent to the email</span>
-    <button mdc-button (click)="handleGoBack()"></button>
-    <!-- <div class="username">
-        <button (click)="handleGoBack()" mdc-button>NAME</button>
-    </div>
-    <div class="inner">
-        <div>
-            <input #Input placeholder="Password" type="password">
-            <button (click)="handleToggle()">
-                <mdc-icon [size]=20></mdc-icon>
-            </button>
-        </div>
-        <div class="cont">
-            <button mdc-button (click)=" handleLogin($event)">LOGIN</button>
-        </div>
-    </div> -->
+    <button mdc-button (click)="handleGoBack()">Go Back</button>
+</div>
+
+<div class="error_container" *ngIf="this.error != ''">
+    <span class="sub1 dark-text-primary">{{this.error}}</span>
+    <button mdc-button (click)="handleGoBack()">Go Back</button>
 </div>
