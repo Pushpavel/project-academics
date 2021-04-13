@@ -47,7 +47,6 @@ export abstract class DocumentPage {
     this.disableEdit = true;
     const [params] = await getValue(this.params);
     const confirm = await this.dialog.alert({message: `Confirm ?`, action: 'Publish', cancel: 'Cancel'});
-    console.log(confirm);
 
     if (!confirm) {
       this.disableEdit = false;

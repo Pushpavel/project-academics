@@ -2,109 +2,129 @@ import * as admin from 'firebase-admin';
 import {CallableContext} from 'firebase-functions/lib/providers/https';
 import FieldValue = admin.firestore.FieldValue;
 import {DocumentPath} from '@models/path.model';
+import {completed, error} from './error.utils';
+import {AUTH_ERROR, INTERNAL_ERROR, INVALID_DATA_ERROR, INVALID_STATE_ERROR} from './error';
+import {PrivateMetaRaw} from '@models/document/document-base.model';
+import {PrivateMarklistMetaRaw} from '@models/document/marklist.model';
+import {PrivateAttendanceMetaRaw} from '@models/document/attendance.model';
+import {CourseRaw} from '@models/course.model';
+import {logger} from 'firebase-functions';
+import QuerySnapshot = admin.firestore.QuerySnapshot;
+
 
 const firestore = admin.firestore();
 
 export async function _submitDocument(p: DocumentPath, context: CallableContext) {
 
-  try {
-
-    if (!context.auth) return error('unauthorized');
-
-    const courseRef = firestore.doc(`semesters/${p.semId}/courses/${p.courseCode}`);
-
-    const course = (await courseRef.get()).data();
-
-    if (!course || !p.semId || !p.courseCode || !(p.documentId in PRIVATE_DOCUMENT_IDS))
-      return error('malformed data');
-    else if (course?.facultyId === context.auth.uid)
-      return error('unauthorized');
+  if (!context.auth) return error(AUTH_ERROR, 'not authenticated');
 
 
-    const statRef = courseRef.collection('protected_course_documents').doc('DOCUMENT_STATS');
-    const stat = (await statRef.get()).data() as any;
-    const status = stat.entries[p.documentId]?.status;
-    if (status && status != 'private' && status != 'remarked')
-      return error('illegal state');
+  // get requested course
+  const courseRef = firestore.doc(`semesters/${p.semId}/courses/${p.courseCode}`);
+  const course = (await courseRef.get()).data() as CourseRaw;
 
-    const privateMetaRef = courseRef.collection('private_course_documents').doc(p.documentId);
-    const protectedMetaRef = courseRef.collection('protected_course_documents').doc(p.documentId);
-    const privateEntriesRef = privateMetaRef.collection('entries');
+  // validate params and whether user if faculty of the course
+  if (!course || !PRIVATE_DOCUMENT_IDS.includes(p.documentId))
+    return error(INVALID_DATA_ERROR, course, p.documentId);
+  else if (course?.facultyId != context.auth.uid)
+    return error(AUTH_ERROR, `${context.auth.uid} is not faculty of the course`, course);
 
-    // 1.set editable to  false
-    privateMetaRef.update('editable', false);
+  logger.log('🚀 submitting', p);
 
-    // 2.get private document meta and entries
-    let entries, meta: any;
-    if (p.documentId != 'GRADING_CRITERIA') {
-      const [metaSnap, entriesSnap] = await Promise.all([privateMetaRef.get(), privateEntriesRef.get()]);
+  // get stats document of the course
+  const statRef = courseRef.collection('protected_course_documents').doc('DOCUMENT_STATS');
+  const stat = (await statRef.get()).data() as any;
 
-      entries = entriesListToMap(
-        entriesSnap.docs.map(snap => snap.data() as any),
-        p.documentId == 'ATTENDANCE' ? 'attended' : 'mark'
-      );
-      meta = metaSnap.data();
-    } else
-      meta = (await privateMetaRef.get()).data();
+  const status = stat.entries[p.documentId]?.status;
+  if (status && status != 'private' && status != 'remarked')
+    return error(INVALID_STATE_ERROR, course, p, status);
 
-    delete meta?.editable;
+  const privateMetaRef = courseRef.collection('private_course_documents').doc(p.documentId);
+  const protectedMetaRef = courseRef.collection('protected_course_documents').doc(p.documentId);
 
-    // 2.create protected document and register
-    await protectedMetaRef.create({
-      sem: course.sem,
-      batch: course.batch,
-      dept: course.dept,
-      document: p.documentId,
-      entries: entries ?? undefined,
-      ...meta,
-    });
+  // 1.set editable to false
+  await privateMetaRef.update('editable', false);
 
-    // 3.update document stat
-    await statRef.update(`entries.${p.documentId}`, {
-      status: 'submitted',
-      timestamp: FieldValue.serverTimestamp()
-    });
+  // 2.get private document meta and entries
+  const isGradingCriteria = p.documentId == 'GRADING_CRITERIA';
+  const batch = firestore.batch();
+  let meta: Partial<PrivateMetaRaw> & Omit<PrivateMetaRaw, 'editable'>;
+  let entriesSnap: QuerySnapshot | undefined;
 
-    if (p.documentId == 'GRADING_CRITERIA')
-      return {remark: 'document submitted'};
+  if (!isGradingCriteria) {
+    const [metaSnap, _entriesSnap] = await Promise.all([
+      privateMetaRef.get(),
+      privateMetaRef.collection('entries').get()
+    ]);
 
-    // 4.update public student entry
-    const studentsRef = await courseRef.collection('public_student_documents');
+    if (_entriesSnap.empty)
+      return error(INVALID_STATE_ERROR, 'private entries are empty', _entriesSnap.query);
+    entriesSnap = _entriesSnap;
+    meta = metaSnap.data() as PrivateMetaRaw;
+  } else
+    meta = (await privateMetaRef.get()).data() as PrivateMarklistMetaRaw | PrivateAttendanceMetaRaw;
 
-    const batch = firestore.batch();
+  if (!meta)
+    return error(INVALID_STATE_ERROR, 'private meta does not exists', p, course);
 
-    entries?.forEach((entry: any) => batch.update(
-      studentsRef.doc(entry.rollNo),
+  const entriesMap = entriesSnap && entriesListToMap(
+    entriesSnap,
+    p.documentId == 'ATTENDANCE'
+  ) || undefined;
+
+  delete meta.editable;
+
+  // 2.create protected document
+  batch.create(protectedMetaRef, {
+    sem: course.sem,
+    batch: course.batch,
+    dept: course.dept,
+    document: p.documentId,
+    entries: entriesMap ?? undefined,
+    ...meta,
+  });
+
+  // 3.update document stat
+  const docStatus = !isGradingCriteria ? 'submitted' : 'public';
+  batch.update(statRef, `entries.${p.documentId}`, {
+    status: docStatus,
+    [`${docStatus}Timestamp`]: FieldValue.serverTimestamp()
+  });
+
+  if (isGradingCriteria)
+    return completed();
+
+  // 4.update public student entry
+  const studentsRef = courseRef.collection('public_student_entries');
+
+  if (!entriesSnap)
+    return error(INTERNAL_ERROR, 'entriesSnap null');
+
+  for (const entry of entriesSnap.docs) {
+    batch.update(
+      studentsRef.doc(entry.id),
       `entries.${p.documentId}`, {
         ...meta,
-        ...entry,
+        ...entry.data(),
         publicTimestamp: FieldValue.serverTimestamp(),
       }
-    ));
-
-    await batch.commit();
-
-    return {remark: 'document submitted'};
-
-  } catch (e) {
-    return error('internal error');
+    );
   }
 
+  await batch.commit();
+
+  return completed();
 }
 
-function entriesListToMap(list: any[], valueField: 'attended' | 'mark') {
-  const entries: any = {};
 
-  for (const entry of list)
-    entries[entry.rollNo] = (entry as any)[valueField];
+function entriesListToMap(snap: QuerySnapshot, hasAttendedField: boolean) {
+  const entries: Record<string, number> = {};
+  const valueField = hasAttendedField ? 'attended' : 'mark';
+
+  for (const doc of snap.docs)
+    entries[doc.id] = (doc.data() as any)[valueField];
 
   return entries;
 }
 
 const PRIVATE_DOCUMENT_IDS = ['ATTENDANCE', 'CT1', 'CT2', 'ASSIGNMENT', 'END_SEM', 'GRADING_CRITERIA'];
-
-export function error(message: string) {
-  return {
-    error: message,
-  };
-}
