@@ -6,10 +6,16 @@
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
-    "target": "es2017"
+    "target": "es2017",
+    "baseUrl": "src",
+    "paths": {
+      "@models/*": ["../../../src/lib/models/*"],
+      "@constants/*": ["../../../src/lib/constants/*"],
+      "@utils/*": ["../../../src/lib/utils/*"]
+    }
   },
   "compileOnSave": true,
-  "include": [
-    "src"
+  "files": [
+    "src/index.ts"
   ]
 }

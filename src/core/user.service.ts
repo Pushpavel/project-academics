@@ -1,7 +1,7 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { combineLatest, from, Observable, of, ReplaySubject } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
-import { AcademicUser } from '@lib/models/user.model';
+import {Injectable, OnDestroy} from '@angular/core';
+import {combineLatest, from, Observable, of, ReplaySubject} from 'rxjs';
+import {filter, map, switchMap} from 'rxjs/operators';
+import {AcademicUser} from '@lib/./models/user.model';
 import firebase from 'firebase/app';
 import {AngularFireAuth} from '@angular/fire/auth';
 

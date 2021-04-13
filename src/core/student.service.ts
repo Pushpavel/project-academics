@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {CourseOverviewUI} from '../app/app-course/student-course-overview/student-course-overview.component';
-import {STUDENT_MARK_NAMES} from '@lib/constants/student.constants';
-import {StudentCourseResult, StudentSemResult} from '@lib/models/student.model';
+import {STUDENT_MARK_NAMES} from '@lib/./constants/student.constants';
+import {StudentCourseResult, StudentSemResult} from '@lib/./models/student.model';
 
 @Injectable({
   providedIn: 'root'

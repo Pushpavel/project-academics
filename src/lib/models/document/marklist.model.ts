@@ -1,4 +1,4 @@
-import {BasePrivateMetaRaw, BaseProtectedMetaRaw} from '@lib/models/document/document-base.model';
+import {BasePrivateMetaRaw, BaseProtectedMetaRaw} from './document-base.model';
 
 interface EntryRaw {
   rollNo: string,

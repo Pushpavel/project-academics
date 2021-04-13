@@ -1,4 +1,4 @@
-import {DeptFields, DocumentId} from '@lib/models/document/document-base.model';
+import {DeptFields, DocumentId} from './document-base.model';
 
 
 interface StatsRaw extends Partial<DeptFields> {

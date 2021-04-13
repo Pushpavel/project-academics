@@ -1,5 +1,5 @@
-import {StatEntryRaw} from '@lib/models/document/document-stat.model';
-import {DeptFields, DocumentId} from '@lib/models/document/document-base.model';
+import {StatEntryRaw} from './document/document-stat.model';
+import {DeptFields, DocumentId} from './document/document-base.model';
 
 export interface CourseRaw {
   sem: string,

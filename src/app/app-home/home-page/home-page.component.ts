@@ -16,9 +16,9 @@ import { Observable, Subscription } from 'rxjs';
  * Student
  * Exam cell
  * Hod
- * 
+ *
  * TODO : make tabs feasible
- * 
+ *
  */
 export class HomePageComponent implements OnInit, OnDestroy {
 
@@ -50,7 +50,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       //fetch hod courses
     }
 
-    if (user?.isStudent) {  
+    if (user?.isStudent) {
       //TODO: student filter params
       this.courseService.fetchCoursesForStudent('19B1', '2020_EVEN')
     }

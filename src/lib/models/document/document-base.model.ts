@@ -1,9 +1,9 @@
 import {DOCUMENT_IDS, MARK_DOCUMENT_IDS} from '@lib/constants/document.constants';
-import {PrivateMarklistMetaRaw, ProtectedMarklistMetaRaw} from '@lib/models/document/marklist.model';
-import {PrivateAttendanceMetaRaw, ProtectedAttendanceMetaRaw} from '@lib/models/document/attendance.model';
-import {PrivateGradingCriteriaMetaRaw, ProtectedGradingCriteriaMetaRaw} from '@lib/models/document/grading-criteria.model';
+import {PrivateMarklistMetaRaw, ProtectedMarklistMetaRaw} from './marklist.model';
+import {PrivateAttendanceMetaRaw, ProtectedAttendanceMetaRaw} from './attendance.model';
+import {PrivateGradingCriteriaMetaRaw, ProtectedGradingCriteriaMetaRaw} from './grading-criteria.model';
 import {DEPT_ABBR} from '@lib/constants/dept.constants';
-import {ProtectedGradesMeta} from '@lib/models/document/grading.model';
+import {ProtectedGradesMeta} from './grading.model';
 
 
 export interface BasePrivateMetaRaw {

@@ -24,7 +24,10 @@
       "@style/*": ["styles/*"],
       "@lib/*": ["lib/*"],
       "@asset/*": ["assets/*"],
-      "@service/*": ["core/*"]
+      "@service/*": ["core/*"],
+      "@models/*": ["lib/models/*"],
+      "@constants/*": ["lib/constants/*"],
+      "@utils/*": ["lib/utils/*"],
     }
   },
   "angularCompilerOptions": {

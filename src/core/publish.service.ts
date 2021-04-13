@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {CoursePath} from '@lib/models/path.model';
-import {NonGradeDocumentId} from '@lib/models/document/document-base.model';
+import {CoursePath} from '@lib/./models/path.model';
+import {NonGradeDocumentId} from '@lib/./models/document/document-base.model';
 import {AngularFireFunctions} from '@angular/fire/functions';
 
 /**
