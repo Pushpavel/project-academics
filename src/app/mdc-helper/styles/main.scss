@@ -9,6 +9,7 @@
 @use "mdc-text-field";
 @use "mdc-layout";
 @use "mdc-dialog";
+@use "mdc-tabs-bar";
 
 @mixin all-styles {
   //@material styles
@@ -24,4 +25,5 @@
   @include mdc-table.styles;
   @include mdc-text-field.styles;
   @include mdc-dialog.styles;
+  @include mdc-tabs-bar.styles;
 }

@@ -2,76 +2,78 @@
 
 @use "@material/theme";
 
-body.mdc-theme-colors { //to increase specificity
-  @include theme.property(background-color, background);
-
-  .primary {
-    @include theme.property(color, primary);
-  }
-
-  .secondary {
-    @include theme.property(color, secondary);
-  }
-
-  .background {
+@mixin styles() {
+  body.mdc-theme-colors { //to increase specificity
     @include theme.property(background-color, background);
-  }
 
-  .surface {
-    @include theme.property(background-color, surface);
-  }
+    .primary {
+      @include theme.property(color, primary);
+    }
 
-  .on-primary {
-    @include theme.property(color, on-primary);
-  }
+    .secondary {
+      @include theme.property(color, secondary);
+    }
 
+    .background {
+      @include theme.property(background-color, background);
+    }
 
-  .on-secondary {
-    @include theme.property(color, on-secondary);
-  }
+    .surface {
+      @include theme.property(background-color, surface);
+    }
 
-  .on-surface {
-    @include theme.property(color, on-surface);
-  }
-
-  .primary-bg {
-    @include theme.property(background-color, primary);
-  }
-
-  .secondary-bg {
-    @include theme.property(background-color, secondary);
-  }
+    .on-primary {
+      @include theme.property(color, on-primary);
+    }
 
 
-  .dark-text-primary {
-    @include theme.property(color, text-primary-on-light);
-  }
+    .on-secondary {
+      @include theme.property(color, on-secondary);
+    }
 
-  .dark-text-secondary {
-    @include theme.property(color, text-secondary-on-light);
-  }
+    .on-surface {
+      @include theme.property(color, on-surface);
+    }
 
-  .dark-text-hint {
-    @include theme.property(color, text-hint-on-light);
-  }
+    .primary-bg {
+      @include theme.property(background-color, primary);
+    }
 
-  .dark-icon {
-    @include theme.property(color, text-icon-on-light);
-  }
+    .secondary-bg {
+      @include theme.property(background-color, secondary);
+    }
 
-  .light-text-primary {
-    @include theme.property(color, text-primary-on-dark);
-  }
 
-  .light-text-secondary {
-    @include theme.property(color, text-secondary-on-dark);
-  }
+    .dark-text-primary {
+      @include theme.property(color, text-primary-on-light);
+    }
 
-  .light-text-hint {
-    @include theme.property(color, text-hint-on-dark);
-  }
+    .dark-text-secondary {
+      @include theme.property(color, text-secondary-on-light);
+    }
 
-  .light-icon {
-    @include theme.property(color, text-icon-on-dark);
+    .dark-text-hint {
+      @include theme.property(color, text-hint-on-light);
+    }
+
+    .dark-icon {
+      @include theme.property(color, text-icon-on-light);
+    }
+
+    .light-text-primary {
+      @include theme.property(color, text-primary-on-dark);
+    }
+
+    .light-text-secondary {
+      @include theme.property(color, text-secondary-on-dark);
+    }
+
+    .light-text-hint {
+      @include theme.property(color, text-hint-on-dark);
+    }
+
+    .light-icon {
+      @include theme.property(color, text-icon-on-dark);
+    }
   }
 }

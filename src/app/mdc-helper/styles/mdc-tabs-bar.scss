@@ -1,0 +1,23 @@
+@use "@material/tab-bar";
+@use "@material/tab-scroller";
+@use "@material/tab-indicator";
+@use "@material/tab";
+
+
+@mixin styles {
+
+  @include tab-bar.core-styles();
+  @include tab-scroller.core-styles();
+  @include tab-indicator.core-styles();
+  @include tab.core-styles();
+
+  .mdc-tab-bar {
+    border: 1px solid gray;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  .mdc-tab-scroller__scroll-area {
+    scrollbar-width: none;
+  }
+}

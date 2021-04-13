@@ -1,10 +1,11 @@
-@use "theme" as *;
-@use "src/app/mdc-helper/styles/main" as material;
+@use "theme";
+@use "src/app/mdc-helper/styles/main" as mdc;
 
 //imports
 @use "app/app-document-pages/document-pages.import";
 
-@include material.all-styles();
+@include theme.styles();
+@include mdc.all-styles();
 
 body {
   position: absolute;

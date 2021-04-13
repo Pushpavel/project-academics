@@ -12,5 +12,11 @@
 @use "utils/typography";
 @use "utils/spacing";
 
+@mixin styles() {
+  @include color.styles;
+  @include typography.styles;
+  @include spacing.styles;
+}
+
 
 
