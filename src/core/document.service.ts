@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {randFromRange} from '@lib/utils/number.util';
+import {randFromRange} from '@utils/number.util';
 import {DEPT_ABBR} from '@lib/./constants/dept.constants';
 import {DocumentStatSources} from '@lib/data/source/document-stat.source';
 import {map} from 'rxjs/operators';

@@ -4,10 +4,10 @@ import {DocumentService} from '@service/document.service';
 import {getParams} from '../../routes/routing.helper';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {combineLatest, Observable} from 'rxjs';
-import {UserCourseRelation} from '@lib/models/course.model';
-import {DocumentPath} from '@lib/models/path.model';
-import {NonGradeDocumentId, PrivateDocumentId} from '@lib/models/document/document-base.model';
-import {getValue} from '@lib/utils/other.util';
+import {UserCourseRelation} from '@models/course.model';
+import {DocumentPath} from '@models/path.model';
+import {NonGradeDocumentId, PrivateDocumentId} from '@models/document/document-base.model';
+import {getValue} from '@utils/other.util';
 import {PublishService} from '@service/publish.service';
 import {MdcDialog} from '../../mdc-helper/mdc-dialog/mdc-dialog.service';
 

@@ -1,5 +1,5 @@
-import {CoursePath, DocumentPath} from '@lib/models/path.model';
-import {DocumentId} from '@lib/models/document/document-base.model';
+import {CoursePath, DocumentPath} from '@models/path.model';
+import {DocumentId} from '@models/document/document-base.model';
 
 export const COURSE_PATH = (p: CoursePath) =>
   `semesters/${p.semId}/courses/${p.courseCode}`;

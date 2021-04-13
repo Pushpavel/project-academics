@@ -1,13 +1,13 @@
-import {CoursePath, DocumentPath} from '@lib/models/path.model';
+import {CoursePath, DocumentPath} from '@models/path.model';
 import {
   NonGradeDocumentId,
   PrivateMetaRaw
-} from '@lib/models/document/document-base.model';
-import {MarklistEntryRaw} from '@lib/models/document/marklist.model';
-import {AttendanceEntryRaw} from '@lib/models/document/attendance.model';
+} from '@models/document/document-base.model';
+import {MarklistEntryRaw} from '@models/document/marklist.model';
+import {AttendanceEntryRaw} from '@models/document/attendance.model';
 import {SinkOut} from '@lib/data/base/sink.interfaces';
-import {GradingCriteriaEntryUI, PrivateGradingCriteriaMetaRaw} from '@lib/models/document/grading-criteria.model';
-import {PRIVATE_DOCUMENT_PATH} from '@lib/constants/firestore.path';
+import {GradingCriteriaEntryUI, PrivateGradingCriteriaMetaRaw} from '@models/document/grading-criteria.model';
+import {PRIVATE_DOCUMENT_PATH} from '@constants/firestore.path';
 import {gradingCriteriaMetaUpdateFromEntries} from '@lib/data/convert/grading-criteria-from.snapshot';
 import {map} from 'rxjs/operators';
 import {Injectable} from '@angular/core';

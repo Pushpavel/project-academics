@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {CourseDetailRaw} from '@lib/models/course.model';
+import {CourseDetailRaw} from '@models/course.model';
 
 @Component({
   selector: 'batch-grid',

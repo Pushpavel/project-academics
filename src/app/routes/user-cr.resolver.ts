@@ -10,9 +10,9 @@ import {CourseService} from '@service/course.service';
 import {UserService} from '@service/user.service';
 import {DocumentService} from '@service/document.service';
 import {filter, map, switchMap, take, tap} from 'rxjs/operators';
-import {CourseRaw, UserCourseRelation} from '@lib/models/course.model';
-import {StatEntryRaw} from '@lib/models/document/document-stat.model';
-import {AcademicUser} from '@lib/models/user.model';
+import {CourseRaw, UserCourseRelation} from '@models/course.model';
+import {StatEntryRaw} from '@models/document/document-stat.model';
+import {AcademicUser} from '@models/user.model';
 import {elseRedirectTo, thenMap, elseSwitchMap} from './routing.pipes';
 
 export interface UserCrData {

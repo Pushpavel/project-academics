@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CourseDetailRaw} from '@lib/models/course.model';
+import {CourseDetailRaw} from '@models/course.model';
 
 @Component({
   selector: 'course-button',

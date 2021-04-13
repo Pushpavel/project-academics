@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {combineLatest, Observable, of} from 'rxjs';
-import {GradeEntryUI} from '@lib/models/document/grading.model';
+import {GradeEntryUI} from '@models/document/grading.model';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
-import {DocumentId} from '@lib/models/document/document-base.model';
+import {DocumentId} from '@models/document/document-base.model';
 import {gradesUIModel} from '@lib/data/combine/grades.combine';
-import {sortByKey} from '@lib/utils/other.util';
+import {sortByKey} from '@utils/other.util';
 
 @Component({
   selector: 'app-grades-page',

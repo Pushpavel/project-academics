@@ -3,8 +3,8 @@ import {
   GradingCriteriaEntryUI,
   PrivateGradingCriteriaMeta,
   PrivateGradingCriteriaMetaRaw
-} from '@lib/models/document/grading-criteria.model';
-import {GRADES} from '@lib/constants/grading.constants';
+} from '@models/document/grading-criteria.model';
+import {GRADES} from '@constants/grading.constants';
 import {SinkUpdate} from '@lib/data/base/sink.interfaces';
 
 

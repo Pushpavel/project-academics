@@ -3,10 +3,10 @@ import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {Sink} from '@lib/data/base/sink.interfaces';
 import {combineLatest, of} from 'rxjs';
-import {MarklistDocumentId} from '@lib/models/document/document-base.model';
-import {MarklistEntryRaw, MarklistEntryUI} from '@lib/models/document/marklist.model';
+import {MarklistDocumentId} from '@models/document/document-base.model';
+import {MarklistEntryRaw, MarklistEntryUI} from '@models/document/marklist.model';
 import {marklistEntriesUIModel} from '@lib/data/combine/marklist.combine';
-import {sortByKey} from '@lib/utils/other.util';
+import {sortByKey} from '@utils/other.util';
 
 @Component({
   selector: 'app-marklist-page',

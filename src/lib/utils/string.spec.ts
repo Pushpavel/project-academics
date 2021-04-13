@@ -1,4 +1,4 @@
-import {getStringSimilarities} from '@lib/utils/string.utils';
+import {getStringSimilarities} from '@utils/string.utils';
 
 describe('String Utils', () => {
   describe('getStringSimilarities', () => {

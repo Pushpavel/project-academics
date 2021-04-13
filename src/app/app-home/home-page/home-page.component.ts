@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AcademicUser } from '@lib/models/user.model';
+import { AcademicUser } from '@models/user.model';
 import { CourseService } from '@service/course.service';
 import { UserService } from '@service/user.service';
 import { Observable, Subscription } from 'rxjs';

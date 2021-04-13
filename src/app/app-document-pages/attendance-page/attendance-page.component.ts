@@ -2,11 +2,11 @@ import {Component} from '@angular/core';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {Sink} from '@lib/data/base/sink.interfaces';
-import {AttendanceEntryRaw, AttendanceEntryUI} from '@lib/models/document/attendance.model';
+import {AttendanceEntryRaw, AttendanceEntryUI} from '@models/document/attendance.model';
 import {combineLatest, of} from 'rxjs';
 import {attendanceEntriesUIModel} from '@lib/data/combine/attendance.combine';
-import {PrivateMetaRaw} from '@lib/models/document/document-base.model';
-import {sortByKey} from '@lib/utils/other.util';
+import {PrivateMetaRaw} from '@models/document/document-base.model';
+import {sortByKey} from '@utils/other.util';
 
 @Component({
   selector: 'app-attendance-page',

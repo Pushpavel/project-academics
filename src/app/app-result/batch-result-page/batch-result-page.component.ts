@@ -3,8 +3,8 @@ import {ActivatedRoute} from '@angular/router';
 import {map, switchMap} from 'rxjs/operators';
 import {DocumentService} from '@service/document.service';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {mapMapEntries, mapObjectEntries} from '@lib/utils/other.util';
-import {DEPT_ABBR} from '@lib/constants/dept.constants';
+import {mapMapEntries, mapObjectEntries} from '@utils/other.util';
+import {DEPT_ABBR} from '@constants/dept.constants';
 import {getParams} from '../../routes/routing.helper';
 
 @Component({

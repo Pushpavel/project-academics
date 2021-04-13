@@ -1,4 +1,4 @@
-import {AttendanceEntryRaw, AttendanceEntryUI, PrivateAttendanceMetaRaw} from '@lib/models/document/attendance.model';
+import {AttendanceEntryRaw, AttendanceEntryUI, PrivateAttendanceMetaRaw} from '@models/document/attendance.model';
 
 export function attendanceEntriesUIModel(
   [entries, studentNames, meta]: [AttendanceEntryRaw[], Map<string, string>, PrivateAttendanceMetaRaw]

@@ -1,9 +1,9 @@
-import {RoutingParam} from '@lib/constants/routing.constants';
+import {RoutingParam} from '@constants/routing.constants';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {filter, map, shareReplay} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {DocumentId} from '@lib/models/document/document-base.model';
-import {CoursePath, DocumentPath} from '@lib/models/path.model';
+import {DocumentId} from '@models/document/document-base.model';
+import {CoursePath, DocumentPath} from '@models/path.model';
 
 export type RoutingParamsObject = Record<RoutingParam, string> & { documentId: DocumentId };
 export type RoutingPathParams = CoursePath | DocumentPath

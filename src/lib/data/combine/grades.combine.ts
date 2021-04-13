@@ -1,9 +1,9 @@
-import {MarklistDocumentId, ProtectedMetaRaw} from '@lib/models/document/document-base.model';
-import {GradeEntryUI, ProtectedGradesMeta} from '@lib/models/document/grading.model';
-import {MARK_DOCUMENT_IDS} from '@lib/constants/document.constants';
-import {ProtectedMarklistMetaRaw} from '@lib/models/document/marklist.model';
-import {ProtectedGradingCriteriaMetaRaw} from '@lib/models/document/grading-criteria.model';
-import {GRADES} from '@lib/constants/grading.constants';
+import {MarklistDocumentId, ProtectedMetaRaw} from '@models/document/document-base.model';
+import {GradeEntryUI, ProtectedGradesMeta} from '@models/document/grading.model';
+import {MARK_DOCUMENT_IDS} from '@constants/document.constants';
+import {ProtectedMarklistMetaRaw} from '@models/document/marklist.model';
+import {ProtectedGradingCriteriaMetaRaw} from '@models/document/grading-criteria.model';
+import {GRADES} from '@constants/grading.constants';
 
 export function gradesUIModel([metas, studentNames]: [ProtectedMetaRaw[], Map<string, string>]): GradeEntryUI[] {
   const entries = [];

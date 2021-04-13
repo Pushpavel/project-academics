@@ -1,4 +1,4 @@
-import {range} from '@lib/utils/number.util';
+import {range} from '@utils/number.util';
 import {combineLatest, Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 

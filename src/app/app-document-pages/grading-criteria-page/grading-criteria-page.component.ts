@@ -3,7 +3,7 @@ import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {Sink} from '@lib/data/base/sink.interfaces';
 import {combineLatest, of} from 'rxjs';
-import {GradingCriteriaEntryUI, GradingCriteriaMeta} from '@lib/models/document/grading-criteria.model';
+import {GradingCriteriaEntryUI, GradingCriteriaMeta} from '@models/document/grading-criteria.model';
 
 @Component({
   selector: 'app-grading-criteria-page',

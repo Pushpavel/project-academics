@@ -1,10 +1,11 @@
 import * as admin from 'firebase-admin';
 import {CallableContext} from 'firebase-functions/lib/providers/https';
 import FieldValue = admin.firestore.FieldValue;
+import {DocumentPath} from '@models/path.model';
 
 const firestore = admin.firestore();
 
-export async function _submitDocument(p: any, context: CallableContext) {
+export async function _submitDocument(p: DocumentPath, context: CallableContext) {
 
   try {
 

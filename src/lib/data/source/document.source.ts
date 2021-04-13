@@ -1,14 +1,14 @@
-import {DocumentId, PrivateMetaRaw, ProtectedMetaRaw} from '@lib/models/document/document-base.model';
-import {CoursePath} from '@lib/models/path.model';
-import {AttendanceEntryRaw} from '@lib/models/document/attendance.model';
-import {MarklistEntryRaw} from '@lib/models/document/marklist.model';
+import {DocumentId, PrivateMetaRaw, ProtectedMetaRaw} from '@models/document/document-base.model';
+import {CoursePath} from '@models/path.model';
+import {AttendanceEntryRaw} from '@models/document/attendance.model';
+import {MarklistEntryRaw} from '@models/document/marklist.model';
 import {gradingCriteriaFromSnapshot} from '@lib/data/convert/grading-criteria-from.snapshot';
-import {COURSE_PATH, PRIVATE_DOCUMENT_PATH, PUBLIC_DOCUMENT_PATH} from '@lib/constants/firestore.path';
-import {NonGradeDocumentId, PrivateDocumentId} from '@lib/models/document/document-base.model';
+import {COURSE_PATH, PRIVATE_DOCUMENT_PATH, PUBLIC_DOCUMENT_PATH} from '@constants/firestore.path';
+import {NonGradeDocumentId, PrivateDocumentId} from '@models/document/document-base.model';
 import {Injectable} from '@angular/core';
 import {SourceService} from '@lib/data/base/service.abstract';
-import {objectToMap} from '@lib/utils/other.util';
-import {StudentsDocumentRaw} from '@lib/models/student.model';
+import {objectToMap} from '@utils/other.util';
+import {StudentsDocumentRaw} from '@models/student.model';
 
 @Injectable({
   providedIn: 'root'

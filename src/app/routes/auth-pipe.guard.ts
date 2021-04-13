@@ -3,10 +3,11 @@ import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Route
 import {Observable, UnaryFunction} from 'rxjs';
 import {UserService} from '@service/user.service';
 import {map, take} from 'rxjs/operators';
-import {AcademicUser} from '@lib/models/user.model';
+import {AcademicUser} from '@models/user.model';
 import {loggedIn} from './routing.pipes';
+import {AngularFirestore} from '@angular/fire/firestore';
 
-export type AuthPipeGenerator = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot) => AuthPipe;
+export type AuthPipeGenerator = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot, afs: AngularFirestore) => AuthPipe;
 export type AuthPipe = UnaryFunction<Observable<AcademicUser | null>, Observable<boolean | string | any[]>>;
 
 @Injectable({
@@ -21,7 +22,7 @@ export class AuthPipeGuard implements CanActivate {
 
     return this.user.pipe(
       take(1),
-      authPipeFactory(route, state),
+      authPipeFactory(route, state, this.afs),
       map(can => {
         if (typeof can === 'boolean')
           return can;
@@ -33,7 +34,11 @@ export class AuthPipeGuard implements CanActivate {
     );
   }
 
-  constructor(private user: UserService, private router: Router) {
+  constructor(
+    private user: UserService,
+    private router: Router,
+    private afs: AngularFirestore) {
+
   }
 
 }
