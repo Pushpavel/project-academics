@@ -48,7 +48,7 @@ export class LoginPageComponent  {
     this.auth.SignInWithLink(url)
       ?.then((user) => {
         if (user != null) {
-          this.router.navigateByUrl("http://localhost:4200/sem/2020_EVEN/home");
+          this.router.navigateByUrl("http://localhost:4200/sem/2020_2/home");
         }
       })
       .catch(e => console.log(e))

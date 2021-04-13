@@ -16,13 +16,11 @@ import {AngularFireFunctionsModule, REGION, USE_EMULATOR as USE_FUNCTIONS_EMULAT
     AngularFireFunctionsModule,
   ],
   exports: [
-    AngularFireModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireFunctionsModule,
   ],
   providers: [
-    // ... Existing Providers
     {provide: USE_AUTH_EMULATOR, useValue: !environment.production ? ['localhost', 9099] : undefined},
     {provide: USE_DATABASE_EMULATOR, useValue: !environment.production ? ['localhost', 9000] : undefined},
     {provide: USE_FIRESTORE_EMULATOR, useValue: !environment.production ? ['localhost', 8080] : undefined},

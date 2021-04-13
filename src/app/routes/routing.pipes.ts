@@ -9,7 +9,7 @@ export const loggedIn: AuthPipe = map(user => !!user);
 
 export const thenRedirectToHome = (afs: AngularFirestore) => switchMap((can: any) => {
     if (can == true)
-      return of('sem/2020_EVEN/home');//afs.collection('semesters', q => q.limitToLast(1));
+      return of('sem/2020_2/home');//afs.collection('semesters', q => q.limitToLast(1));
 
     return of(can);
   }

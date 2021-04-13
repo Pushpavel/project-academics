@@ -1,6 +1,5 @@
 import * as admin from 'firebase-admin';
 import {ImportUsersData} from './models';
-import {logger} from 'firebase-functions';
 
 const auth = admin.auth();
 const firestore = admin.firestore();
@@ -24,9 +23,9 @@ export async function _importUsers(data: ImportUsersData) {
 
     data.users.forEach(user => user.customClaims = claims);
 
-    logger.log(`Importing ${data.users.length} Users Account Data 🚀`);
+    console.log(`Importing ${data.users.length} Users Account Data 🚀`);
     const response = await auth.importUsers(data.users);
-    logger.log(`Importing ${data.users.length} User Accounts Completed 🔥`, 'Response :', response);
+    console.log(`Importing ${data.users.length} User Accounts Completed 🔥`, 'Response :', response);
 
     const accountsRef = firestore.collection('accounts');
     const batches = [firestore.batch()];
@@ -42,18 +41,18 @@ export async function _importUsers(data: ImportUsersData) {
       });
     });
 
-    logger.log('Committing Users To Firestore 🚀');
+    console.log('Committing Users To Firestore 🚀');
 
     await Promise.all(batches.map(batch => batch.commit()
-      .then(_ => logger.log(`Committed Users To Firestore 🔥`))
-      .catch(error => logger.log(`Failed to Commit Users To Firestore 🙁`, 'Reason :', error))
+      .then(_ => console.log(`Committed Users To Firestore 🔥`))
+      .catch(error => console.log(`Failed to Commit Users To Firestore 🙁`, 'Reason :', error))
     ));
-    logger.log('Committing Users Completed 🤚🏻');
+    console.log('Committing Users Completed 🤚🏻');
 
     return response;
 
   } catch (e) {
-    logger.error('!error', e);
+    console.error(e);
     return {error: 'internal error'};
   }
 }

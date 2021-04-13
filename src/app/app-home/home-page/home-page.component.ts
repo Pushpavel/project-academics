@@ -43,7 +43,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.user = user
 
     if (user?.isFaculty) {
-      this.courseService.fetchCoursesForFaculty(user.uid, '2020_EVEN')
+      this.courseService.fetchCoursesForFaculty(user.uid, '2020_2')
     }
 
     if (user?.isHod) {
@@ -52,7 +52,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
     if (user?.isStudent) {
       //TODO: student filter params
-      this.courseService.fetchCoursesForStudent('19B1', '2020_EVEN')
+      this.courseService.fetchCoursesForStudent('19B1', '2020_2')
     }
 
     if (user?.isExamCell) {
