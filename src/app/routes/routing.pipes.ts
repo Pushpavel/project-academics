@@ -10,13 +10,11 @@ export const loggedIn: AuthPipe = map(user => !!user);
 
 export const thenRedirectToHome = (afs: AngularFirestore) => switchMap((can: any) => {
     if (can == true)
-      return of('sem/2020_2/home');
-    // return afs.collection('semesters', q => q.orderBy(FieldPath.documentId()).limitToLast(1)).get().pipe(
-    //   map(snaps => {
-    //     console.log(snaps.docs[0].id);
-    //     return `sem/${snaps.docs[0].id}/home`;
-    //   })
-    // );
+      return afs.collection('semesters', q =>
+        q.orderBy(FieldPath.documentId()).where('version', '==', 1).limitToLast(1)
+      ).get().pipe(
+        map(snaps => `sem/${snaps.docs[0].id}/home`)
+      );
 
     return of(can);
   }
