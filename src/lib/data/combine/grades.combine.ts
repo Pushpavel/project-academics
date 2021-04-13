@@ -15,7 +15,7 @@ export function gradesUIModel([metas, studentNames]: [ProtectedMetaRaw[], Map<st
     let total = 0;
 
     for (const meta of metas)
-      if (meta.document in MARK_DOCUMENT_IDS) {
+      if (MARK_DOCUMENT_IDS.includes(meta.document as any)) {
         const mark = (meta as ProtectedMarklistMetaRaw).entries[rollNo];
         total += mark ?? 0;
         entry[meta.document as MarklistDocumentId] = mark;

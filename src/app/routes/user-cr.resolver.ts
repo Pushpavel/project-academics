@@ -82,7 +82,7 @@ export class UserCrResolver implements Resolve<UserCrData> {
 function buildUserCR(user: AcademicUser, course: CourseRaw): UserCourseRelation {
   return {
     isFaculty: user.isFaculty && user.uid == course.facultyId,
-    isHod: !!user.isHod && user.isHod in course.dept,
+    isHod: !!user.isHod && !!course.dept[user.isHod],
     isStudent: user.isStudent,
   };
 }
