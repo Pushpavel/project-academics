@@ -1,7 +1,7 @@
 export const ROUTING_PARAMS = ['semId', 'courseCode', 'documentId', 'batchId'] as const;
 
 export const ROUTING_REGEXES: Partial<Record<RoutingParam, RegExp>> = {
-  semId: /20[0-9][0-9]_(EVEN|ODD)/,
+  semId: /20[0-9][0-9]_[12]/,
   // TODO: OTHER REGEXES
 };
 

@@ -2,14 +2,21 @@ import {of, ObservableInput} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {AuthPipe} from './auth-pipe.guard';
 import {AngularFirestore} from '@angular/fire/firestore';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import FieldPath = firebase.firestore.FieldPath;
+
 
 export const loggedIn: AuthPipe = map(user => !!user);
 
 export const thenRedirectToHome = (afs: AngularFirestore) => switchMap((can: any) => {
     if (can == true)
-      return of('sem/2020_2/home');//afs.collection('semesters', q => q.limitToLast(1));
+      return of('sem/2020_2/home');
+    // return afs.collection('semesters', q => q.orderBy(FieldPath.documentId()).limitToLast(1)).get().pipe(
+    //   map(snaps => {
+    //     console.log(snaps.docs[0].id);
+    //     return `sem/${snaps.docs[0].id}/home`;
+    //   })
+    // );
 
     return of(can);
   }
