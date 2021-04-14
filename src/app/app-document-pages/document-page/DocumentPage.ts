@@ -7,7 +7,7 @@ import {combineLatest, Observable} from 'rxjs';
 import {UserCourseRelation} from '@models/course.model';
 import {DocumentPath} from '@models/path.model';
 import {NonGradeDocumentId, PrivateDocumentId} from '@models/document/document-base.model';
-import {getValue} from '@utils/other.util';
+import {getValue} from '@utils/rxjs.utils';
 import {PublishService} from '@service/publish.service';
 import {MdcDialog} from '../../mdc-helper/mdc-dialog/mdc-dialog.service';
 

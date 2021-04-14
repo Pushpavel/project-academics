@@ -3,7 +3,7 @@ import {AlertDialog, AlertDialogConfig} from './alert-dialog/alert-dialog.compon
 import {MatDialog} from '@angular/material-experimental/mdc-dialog';
 import {NoopScrollStrategy} from '@angular/cdk/overlay';
 import {MdcDialogModule} from './mdc-dialog.module';
-import {getValue} from '@utils/other.util';
+import {getValue} from '@utils/rxjs.utils';
 
 @Injectable({
   providedIn: MdcDialogModule

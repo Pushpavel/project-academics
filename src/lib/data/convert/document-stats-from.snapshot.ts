@@ -1,5 +1,5 @@
 import {fromFirestore} from '@lib/data/base/convert.default';
-import {mapObjectEntries} from '@utils/other.util';
+import {mapObjectEntries} from '@utils/native/map.utils';
 import {DOCUMENT_NAMES} from '@constants/document.constants';
 import {StatEntryRaw, StatsDocumentRaw} from '@models/document/document-stat.model';
 import {getCourseCodeFromPath} from '@lib/data/convert/course-detail-from.snapshot';

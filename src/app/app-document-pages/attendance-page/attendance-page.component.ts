@@ -6,7 +6,7 @@ import {AttendanceEntryRaw, AttendanceEntryUI} from '@models/document/attendance
 import {combineLatest, of} from 'rxjs';
 import {attendanceEntriesUIModel} from '@lib/data/combine/attendance.combine';
 import {PrivateMetaRaw} from '@models/document/document-base.model';
-import {sortByKey} from '@utils/other.util';
+import {sortByKey} from '@utils/rxjs.utils';
 
 @Component({
   selector: 'app-attendance-page',

@@ -7,7 +7,7 @@ import {COURSE_PATH, PRIVATE_DOCUMENT_PATH, PUBLIC_DOCUMENT_PATH} from '@constan
 import {NonGradeDocumentId, PrivateDocumentId} from '@models/document/document-base.model';
 import {Injectable} from '@angular/core';
 import {SourceService} from '@lib/data/base/service.abstract';
-import {objectToMap} from '@utils/other.util';
+import {objectToMap} from '@utils/native/map.utils';
 import {StudentsDocumentRaw} from '@models/student.model';
 
 @Injectable({
