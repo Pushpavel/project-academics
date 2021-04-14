@@ -10,6 +10,7 @@ import {PrivateAttendanceMetaRaw} from '@models/document/attendance.model';
 import {CourseRaw} from '@models/course.model';
 import {logger} from 'firebase-functions';
 import QuerySnapshot = admin.firestore.QuerySnapshot;
+import {queryMarkers} from './document.utils';
 
 
 const firestore = admin.firestore();
@@ -75,11 +76,8 @@ export async function _submitDocument(p: DocumentPath, context: CallableContext)
   delete meta.editable;
 
   // 2.create protected document
-  batch.create(protectedMetaRef, {
-    sem: course.sem,
-    batch: course.batch,
-    dept: course.dept,
-    document: p.documentId,
+  batch.set(protectedMetaRef, {
+    ...queryMarkers(course, p.documentId),
     entries: entriesMap ?? undefined,
     ...meta,
   });

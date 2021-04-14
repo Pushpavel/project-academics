@@ -5,6 +5,7 @@ import {ProtectedMarklistMetaRaw} from '@models/document/marklist.model';
 import {ProtectedGradingCriteriaMetaRaw} from '@models/document/grading-criteria.model';
 import {GRADES} from '@constants/grading.constants';
 
+//  TODO: compute grades even if it exists, but remarked
 export function gradesUIModel([metas, studentNames]: [ProtectedMetaRaw[], Map<string, string>]): GradeEntryUI[] {
   const entries = [];
 
