@@ -5,6 +5,7 @@ import {PortalModule} from '@angular/cdk/portal';
 import {MdcHelperModule} from '../../mdc-helper/mdc-helper.module';
 import {TopBarContentDirective, TopBarLayoutContainerDirective} from './directives';
 import {TopBarComponent} from './top-bar/top-bar.component';
+import {MatMenuModule} from "@angular/material-experimental/mdc-menu";
 
 
 @NgModule({
@@ -19,11 +20,12 @@ import {TopBarComponent} from './top-bar/top-bar.component';
     TopBarContentDirective,
     TopBarLayoutContainerDirective,
   ],
-  imports: [
-    CommonModule,
-    PortalModule,
-    MdcHelperModule
-  ]
+    imports: [
+        CommonModule,
+        PortalModule,
+        MdcHelperModule,
+        MatMenuModule
+    ]
 })
 export class TopBarModule {
 }

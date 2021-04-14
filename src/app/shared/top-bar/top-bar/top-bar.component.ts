@@ -23,10 +23,15 @@ export class TopBarComponent {
     this.router.navigate(['']);
   }
 
-  constructor(
-    public user: UserService,
-    private router: Router
-  ) {
+  signOut() {
+    this.user.signOut().then(user =>
+      window.location.href = "http://localhost:4200/login"
+    )
   }
 
+  constructor(
+    public user: UserService,
+    private router: Router,
+  ) {
+  }
 }

@@ -4,6 +4,7 @@ import {DataCardComponent} from './data-card/data-card.component';
 import {MdcHelperModule} from '../mdc-helper/mdc-helper.module';
 import {TopBarModule} from './top-bar/top-bar.module';
 import {EntryComponent} from './entry/entry.component';
+import {MatMenuModule} from '@angular/material-experimental/mdc-menu';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {EntryComponent} from './entry/entry.component';
     CommonModule,
     MdcHelperModule,
     TopBarModule,
+    MatMenuModule,
   ]
 })
 export class SharedModule {
