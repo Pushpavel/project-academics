@@ -11,9 +11,10 @@ export interface CourseRaw {
 }
 
 export interface CourseDetailRaw {
-  courseCode: string
+  courseCode: string,
+  credits: number,
   name: string,
-  studentCount: string,
+  studentCount: number,
   facultyName: string,
   facultyId: string
 }

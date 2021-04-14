@@ -22,7 +22,7 @@ export type NonGradeDocumentId = MarklistDocumentId | 'ATTENDANCE'
 export type PrivateDocumentId = Exclude<DocumentId, 'GRADES'>
 
 export type DeptId = keyof typeof DEPT_ABBR;
-export type DeptFields = { [dept in DeptId]: 'core' | 'elective1' | 'elective2'; };
+export type DeptFields = { [dept in DeptId]?: 'core' | 'elective1' | 'elective2'; };
 
 
 export type PrivateMetaRaw = PrivateMarklistMetaRaw | PrivateAttendanceMetaRaw | PrivateGradingCriteriaMetaRaw

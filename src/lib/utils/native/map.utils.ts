@@ -9,3 +9,10 @@ export function mapObjectEntries<T, V>(obj: T, predicate: <K extends keyof T>(ke
 export function objectToMap<K extends keyof any, V>(obj: Record<K, V>): Map<K, V> {
   return new Map(mapObjectEntries(obj, (key, val) => [key, val] as [K, V]));
 }
+
+export function objectFromMap<K extends string, V>(map: Map<K, V>) {
+  const obj = {} as Record<K, V>;
+  for (const [key, value] of map.entries())
+    obj[key] = value;
+  return obj;
+}

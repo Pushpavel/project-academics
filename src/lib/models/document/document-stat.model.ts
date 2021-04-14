@@ -5,7 +5,6 @@ interface StatsRaw {
   sem: string,
   batch: string,
   courseName: string,
-  status: string,
   dept: DeptFields,
   entries: {
     [docId in DocumentId]?: { status?: DocumentStatus } & Partial<Record<DocumentStatusTimestamp, number>>
