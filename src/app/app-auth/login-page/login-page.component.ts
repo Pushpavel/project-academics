@@ -45,9 +45,7 @@ export class LoginPageComponent {
     this.auth.SignInWithLink(url)
       ?.then((user) => {
         if (user != null) {
-          this.router.navigateByUrl("http://localhost:4200/sem/2020_EVEN/home");
-        } else {
-          this.error = "Invalid link, please try again";
+          window.location.href = "http://localhost:4200/";
         }
       })
       .catch(e => console.log(e))
