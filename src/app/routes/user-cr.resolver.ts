@@ -5,10 +5,10 @@ import {
   ActivatedRouteSnapshot, Router
 } from '@angular/router';
 import {combineLatest, Observable, of} from 'rxjs';
+import {CourseService} from '../../core/course.service';
+import {DocumentService} from '../../core/document.service';
+import {UserService} from '../../core/user.service';
 import {paramMapToObj} from './routing.helper';
-import {CourseService} from '@service/course.service';
-import {UserService} from '@service/user.service';
-import {DocumentService} from '@service/document.service';
 import {filter, map, switchMap, take, tap} from 'rxjs/operators';
 import {CourseRaw, UserCourseRelation} from '@models/course.model';
 import {StatEntryRaw} from '@models/document/document-stat.model';

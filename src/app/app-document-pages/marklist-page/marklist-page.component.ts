@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
-import {Sink} from '@lib/data/base/sink.interfaces';
+import {Sink} from 'lib/data/base/sink.interfaces';
 import {combineLatest, of} from 'rxjs';
 import {MarklistDocumentId} from '@models/document/document-base.model';
 import {MarklistEntryRaw, MarklistEntryUI} from '@models/document/marklist.model';
-import {marklistEntriesUIModel} from '@lib/data/combine/marklist.combine';
+import {marklistEntriesUIModel} from 'lib/data/combine/marklist.combine';
 import {sortByKey} from '@utils/rxjs.utils';
 
 @Component({

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import * as XLSX from 'xlsx';
-import {ExportJsonFormat} from '@lib/./models/export.model';
+import {ExportJsonFormat} from 'lib/models/export.model';
 
 const EXCEL_EXTENSION = '.xlsx';
 

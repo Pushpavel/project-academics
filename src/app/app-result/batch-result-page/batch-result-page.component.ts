@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {DocumentService} from 'core/document.service';
+import {DEPT_ABBR} from 'lib/constants/dept.constants';
+import {mapMapEntries, mapObjectEntries} from 'lib/utils/native/map.utils';
 import {map, switchMap} from 'rxjs/operators';
-import {DocumentService} from '@service/document.service';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {mapMapEntries, mapObjectEntries} from '@utils/native/map.utils';
-import {DEPT_ABBR} from '@constants/dept.constants';
-import {getParams} from '../../routes/routing.helper';
+import {getParams} from 'app/routes/routing.helper';
 
 @Component({
   selector: 'app-batch-result-page',

@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import {map} from 'rxjs/operators';
-import {fromFirestore} from '@lib/data/base/convert.default';
+import {fromFirestore} from 'lib/data/base/convert.default';
 import {AngularFirestore, AngularFirestoreCollectionGroup, QueryFn, QueryGroupFn} from '@angular/fire/firestore';
 import {Injectable} from '@angular/core';
 import DocumentSnapshot = firebase.firestore.DocumentSnapshot;

@@ -1,6 +1,6 @@
-import {FetchService} from '@lib/data/base/firestore.source';
+import {FetchService} from 'lib/data/base/firestore.source';
 import {Injectable} from '@angular/core';
-import {SinkService} from '@lib/data/base/firestore.sink';
+import {SinkService} from 'lib/data/base/firestore.sink';
 
 @Injectable()
 export abstract class SourceService {

@@ -5,13 +5,13 @@ import {
 } from '@models/document/document-base.model';
 import {MarklistEntryRaw} from '@models/document/marklist.model';
 import {AttendanceEntryRaw} from '@models/document/attendance.model';
-import {SinkOut} from '@lib/data/base/sink.interfaces';
+import {SinkOut} from 'lib/data/base/sink.interfaces';
 import {GradingCriteriaEntryUI, PrivateGradingCriteriaMetaRaw} from '@models/document/grading-criteria.model';
 import {PRIVATE_DOCUMENT_PATH} from '@constants/firestore.path';
-import {gradingCriteriaMetaUpdateFromEntries} from '@lib/data/convert/grading-criteria-from.snapshot';
+import {gradingCriteriaMetaUpdateFromEntries} from 'lib/data/convert/grading-criteria-from.snapshot';
 import {map} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
-import {SinksService} from '@lib/data/base/service.abstract';
+import {SinksService} from 'lib/data/base/service.abstract';
 
 @Injectable({
   providedIn: 'root'

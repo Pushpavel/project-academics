@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FACULTY_DOCUMENT_GROUPS} from '@constants/document.constants';
 import {map, switchMap} from 'rxjs/operators';
-import {DocumentService} from '@service/document.service';
+import {DocumentService} from 'core/document.service';
 import {getParams} from '../../routes/routing.helper';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StatEntryRaw} from '@models/document/document-stat.model';

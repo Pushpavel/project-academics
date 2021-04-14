@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {StudentService} from '@service/student.service';
+import {StudentService} from 'core/student.service';
 import {of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 

@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {randFromRange} from '@utils/native/number.utils';
-import {DEPT_ABBR} from '@lib/./constants/dept.constants';
-import {DocumentStatSources} from '@lib/data/source/document-stat.source';
+import {DEPT_ABBR} from 'lib/constants/dept.constants';
+import {DocumentStatSources} from 'lib/data/source/document-stat.source';
 import {map} from 'rxjs/operators';
 import {
   DocumentSources
-} from '@lib/data/source/document.source';
-import {DocumentPath} from '@lib/./models/path.model';
-import {StatEntryRaw} from '@lib/./models/document/document-stat.model';
-import {DocumentSinks} from '@lib/data/document-sink.adapter';
+} from 'lib/data/source/document.source';
+import {DocumentPath} from 'lib/models/path.model';
+import {StatEntryRaw} from 'lib/models/document/document-stat.model';
+import {DocumentSinks} from 'lib/data/document-sink.adapter';
 
 @Injectable({
   providedIn: 'root'

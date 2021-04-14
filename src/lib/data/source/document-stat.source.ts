@@ -1,8 +1,8 @@
 import {CourseDocumentStats} from '@models/course.model';
 import {CoursePath} from '@models/path.model';
 import {PROTECTED_DOCUMENT_PATH} from '@constants/firestore.path';
-import {documentStatsFromSnapshot} from '@lib/data/convert/document-stats-from.snapshot';
-import {SourceService} from '@lib/data/base/service.abstract';
+import {documentStatsFromSnapshot} from 'lib/data/convert/document-stats-from.snapshot';
+import {SourceService} from 'lib/data/base/service.abstract';
 import {Injectable} from '@angular/core';
 
 @Injectable({

@@ -21,13 +21,9 @@
       "dom"
     ],
     "paths": {
-      "@style/*": ["styles/*"],
-      "@lib/*": ["lib/*"],
-      "@asset/*": ["assets/*"],
-      "@service/*": ["core/*"],
       "@models/*": ["lib/models/*"],
       "@constants/*": ["lib/constants/*"],
-      "@utils/*": ["lib/utils/*"],
+      "@utils/*": ["lib/utils/*"]
     }
   },
   "angularCompilerOptions": {

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {CourseDetailRaw, CourseRaw} from '@lib/./models/course.model';
+import {CourseDetailRaw, CourseRaw} from '@models/course.model';
 import {BehaviorSubject} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CourseSources} from '@lib/data/source/course.sources';
+import {CourseSources} from 'lib/data/source/course.sources';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFirestoreCollection} from '@angular/fire/firestore/collection/collection';
 

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
-import {CourseService} from '@service/course.service';
+import {CourseService} from 'core/course.service';
 import {getParams} from '../../routes/routing.helper';
 
 @Component({

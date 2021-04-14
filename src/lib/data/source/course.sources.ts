@@ -1,7 +1,7 @@
 import {CourseRaw, CourseDetailRaw} from '@models/course.model';
-import {courseDetailFromSnapshot} from '@lib/data/convert/course-detail-from.snapshot';
 import {Injectable} from '@angular/core';
-import {SourceService} from '@lib/data/base/service.abstract';
+import {SourceService} from 'lib/data/base/service.abstract';
+import {courseDetailFromSnapshot} from 'lib/data/convert/course-detail-from.snapshot';
 
 @Injectable({
   providedIn: 'root'

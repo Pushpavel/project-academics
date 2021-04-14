@@ -1,4 +1,4 @@
-import {GRADES} from '@constants/grading.constants';
+import {GRADES} from '../../constants/grading.constants';
 import {BasePrivateMetaRaw, BaseProtectedMetaRaw} from './document-base.model';
 
 interface EntryUI {

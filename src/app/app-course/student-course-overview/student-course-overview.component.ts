@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {StudentAttendanceEntry, StudentMarkEntry} from '@models/student.model';
-import {StudentService} from '@service/student.service';
+import {StudentService} from 'core/student.service';
 import {ActivatedRoute} from '@angular/router';
 import {getParams} from '../../routes/routing.helper';
 import {switchMap} from 'rxjs/operators';

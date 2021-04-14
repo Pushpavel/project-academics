@@ -1,4 +1,4 @@
-import {SinkOut} from '@lib/data/base/sink.interfaces';
+import {SinkOut} from 'lib/data/base/sink.interfaces';
 import {switchMap} from 'rxjs/operators';
 import {fromPromise} from 'rxjs/internal-compatibility';
 import {Injectable} from '@angular/core';

@@ -2,11 +2,11 @@ import {DocumentId, PrivateMetaRaw, ProtectedMetaRaw} from '@models/document/doc
 import {CoursePath} from '@models/path.model';
 import {AttendanceEntryRaw} from '@models/document/attendance.model';
 import {MarklistEntryRaw} from '@models/document/marklist.model';
-import {gradingCriteriaFromSnapshot} from '@lib/data/convert/grading-criteria-from.snapshot';
+import {gradingCriteriaFromSnapshot} from 'lib/data/convert/grading-criteria-from.snapshot';
 import {COURSE_PATH, PRIVATE_DOCUMENT_PATH, PUBLIC_DOCUMENT_PATH} from '@constants/firestore.path';
 import {NonGradeDocumentId, PrivateDocumentId} from '@models/document/document-base.model';
 import {Injectable} from '@angular/core';
-import {SourceService} from '@lib/data/base/service.abstract';
+import {SourceService} from 'lib/data/base/service.abstract';
 import {objectToMap} from '@utils/native/map.utils';
 import {StudentsDocumentRaw} from '@models/student.model';
 

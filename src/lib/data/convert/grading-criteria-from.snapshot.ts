@@ -1,11 +1,11 @@
-import {fromFirestore} from '@lib/data/base/convert.default';
+import {fromFirestore} from 'lib/data/base/convert.default';
 import {
   GradingCriteriaEntryUI,
   PrivateGradingCriteriaMeta,
   PrivateGradingCriteriaMetaRaw
 } from '@models/document/grading-criteria.model';
 import {GRADES} from '@constants/grading.constants';
-import {SinkUpdate} from '@lib/data/base/sink.interfaces';
+import {SinkUpdate} from 'lib/data/base/sink.interfaces';
 
 
 export const gradingCriteriaFromSnapshot: fromFirestore<PrivateGradingCriteriaMeta> =

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router} from '@angular/router';
+import {UserService} from 'core/user.service';
 import {Observable, UnaryFunction} from 'rxjs';
-import {UserService} from '@service/user.service';
 import {map, take} from 'rxjs/operators';
 import {AcademicUser} from '@models/user.model';
 import {loggedIn} from './routing.pipes';
