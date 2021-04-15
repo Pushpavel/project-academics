@@ -12,14 +12,14 @@ import {_submitDocument} from './submitDocument';
 import {_submitGrades} from './submitGrades';
 
 // uncomment to use for generating fake data
-import {_generateScenario} from '../scenarios/1.private-course';
+// import {_generateScenario} from '../scenarios/all-courses-submitted';
 
 export const importUsers = callable(_importUsers);
 export const submitDocument = callable(_submitDocument);
 export const submitGrades = callable(_submitGrades);
 
 // uncomment to use for generating fake data
-export const generateScenario = callable(_generateScenario);
+// export const generateScenario = callable(_generateScenario);
 
 
 export function callable(func: Parameters<typeof functions.https.onCall>[0]) {

@@ -3,6 +3,7 @@ import {CourseRaw} from '@models/course.model';
 import * as admin from 'firebase-admin';
 import {MARK_DOCUMENT_IDS, PRIVATE_DOCUMENT_IDS} from '../../../../src/lib/constants/document.constants';
 import {PRIVATE_DOCUMENT_PATH} from '../../../../src/lib/constants/firestore.path';
+import {randFromRange} from '../../../../src/lib/utils/native/number.utils';
 
 const firestore = admin.firestore();
 
@@ -12,7 +13,12 @@ const TOTALS: Record<string, number> = {
 
 const GRADING_CRITERIA_ENTRIES = {S: 95, A: 90, B: 80, C: 70, D: 60, E: 50, F: 40,};
 
-export async function createPrivateDocuments(courseCode: string, course: Deletable<CourseRaw, 'courseCode'>, rollNos: string[]) {
+export async function createPrivateDocuments(
+  courseCode: string,
+  course: Deletable<CourseRaw, 'courseCode'>,
+  rollNos: string[],
+  randomValues?: boolean
+) {
 
   const p = {
     semId: course.sem,
@@ -37,7 +43,7 @@ export async function createPrivateDocuments(courseCode: string, course: Deletab
     const colRef = firestore.collection(`${PRIVATE_DOCUMENT_PATH({...p, documentId: id})}/entries`);
     for (const rollNo of rollNos)
       entriesBatch.set(colRef.doc(rollNo), {
-        [id == 'ATTENDANCE' ? 'attended' : 'mark']: 0,
+        [id == 'ATTENDANCE' ? 'attended' : 'mark']: !randomValues ? 0 : randFromRange(0, TOTALS[id]),
       });
 
     entriesPromises.push(entriesBatch.commit());

@@ -2,7 +2,7 @@ import {CourseDetailRaw, CourseRaw} from '@models/course.model';
 import * as admin from 'firebase-admin';
 import {COURSE_PATH, PROTECTED_DOCUMENT_PATH, PUBLIC_DOCUMENT_PATH} from '../../../../src/lib/constants/firestore.path';
 import {objectFromMap} from '../../../../src/lib/utils/native/map.utils';
-import {randFromRange} from '../../../../src/lib/utils/native/number.utils';
+import {randFromRange, range} from '../../../../src/lib/utils/native/number.utils';
 import {pascalCase} from '../../../../src/lib/utils/native/string.utils';
 import {UserRecord} from './defaults';
 import {DeptId} from '@models/document/document-base.model';
@@ -81,7 +81,7 @@ function generateCourseName() {
   return pascalCase(courseAdjective + ' ' + courseNoun + courseNoun2);
 }
 
-export async function createPublicStudentEntries(courseCode: string, course: Deletable<CourseRaw, 'courseCode'>, rollNos: string[]) {
+async function createPublicStudentEntries(courseCode: string, course: Deletable<CourseRaw, 'courseCode'>, rollNos: string[]) {
   const p = {semId: course.sem, courseCode};
 
   const entriesRef = firestore.collection(`${COURSE_PATH(p)}/public_student_entries`);
@@ -95,3 +95,10 @@ export async function createPublicStudentEntries(courseCode: string, course: Del
   await batch.commit();
 }
 
+export function generateCourseCodes(data: { count: number, deptId: string, semId: string, batchNo: number | string }) {
+  const evenSem = data.semId[data.semId.length - 1] == '2';
+  return range(data.count).map(i => {
+    const no = evenSem ? 2 * (i + 1) : 2 * i + 1;
+    return data.deptId + data.batchNo + no.toString().padStart(2, '0');
+  });
+}
