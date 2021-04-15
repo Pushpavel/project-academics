@@ -9,9 +9,9 @@
     "target": "es2017",
     "baseUrl": "src",
     "paths": {
-      "@models/*": ["../../../src/lib/models/*"],
-      "@utils/*": ["../../../src/lib/utils/*"],
-      "@constants/*": ["../../../src/lib/constants/*"],
+      "@models/*": [
+        "../../../src/lib/models/*"
+      ]
     }
   },
   "compileOnSave": true,

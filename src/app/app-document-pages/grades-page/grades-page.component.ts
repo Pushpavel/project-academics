@@ -5,7 +5,7 @@ import {GradeEntryUI} from '@models/document/grading.model';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {DocumentId} from '@models/document/document-base.model';
 import {gradesUIModel} from 'lib/data/combine/grades.combine';
-import {sortByKey} from '@utils/rxjs.utils';
+import {sortByKey} from 'lib/utils/rxjs.utils';
 
 @Component({
   selector: 'app-grades-page',

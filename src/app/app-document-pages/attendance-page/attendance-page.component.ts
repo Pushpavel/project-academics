@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {Sink} from '../../../lib/data/base/sink.interfaces';
 import {attendanceEntriesUIModel} from '../../../lib/data/combine/attendance.combine';
-import {sortByKey} from '@utils/rxjs.utils';
+import {sortByKey} from 'lib/utils/rxjs.utils';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {AttendanceEntryRaw, AttendanceEntryUI} from '@models/document/attendance.model';

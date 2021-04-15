@@ -1,6 +1,6 @@
 import {ProtectedGradingCriteriaMetaRaw} from '@models/document/grading-criteria.model';
-import {GRADES} from '@constants/grading.constants';
 import {ProtectedMarklistMetaRaw} from '@models/document/marklist.model';
+import {GRADES} from '../constants/grading.constants';
 
 export function computeGrade(total: number, criteria: ProtectedGradingCriteriaMetaRaw) {
   for (const grade of GRADES)

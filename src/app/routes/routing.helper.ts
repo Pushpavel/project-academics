@@ -1,4 +1,4 @@
-import {RoutingParam} from '@constants/routing.constants';
+import {RoutingParam} from 'lib/constants/routing.constants';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {filter, map, shareReplay} from 'rxjs/operators';
 import {Observable} from 'rxjs';

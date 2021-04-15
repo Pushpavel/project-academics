@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {FACULTY_DOCUMENT_GROUPS} from '@constants/document.constants';
+import {FACULTY_DOCUMENT_GROUPS} from 'lib/constants/document.constants';
 import {map, switchMap} from 'rxjs/operators';
 import {DocumentService} from 'core/document.service';
 import {getParams} from '../../routes/routing.helper';

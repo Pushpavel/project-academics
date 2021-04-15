@@ -1,9 +1,9 @@
 import {CourseDetailRaw, CourseRaw} from '@models/course.model';
-import {pascalCase} from '@utils/native/string.utils';
 import * as admin from 'firebase-admin';
-import {COURSE_PATH, PROTECTED_DOCUMENT_PATH, PUBLIC_DOCUMENT_PATH} from '@constants/firestore.path';
-import {objectFromMap} from '@utils/native/map.utils';
-import {randFromRange} from '@utils/native/number.utils';
+import {COURSE_PATH, PROTECTED_DOCUMENT_PATH, PUBLIC_DOCUMENT_PATH} from '../../../../src/lib/constants/firestore.path';
+import {objectFromMap} from '../../../../src/lib/utils/native/map.utils';
+import {randFromRange} from '../../../../src/lib/utils/native/number.utils';
+import {pascalCase} from '../../../../src/lib/utils/native/string.utils';
 import {UserRecord} from './defaults';
 import {DeptId} from '@models/document/document-base.model';
 import * as faker from 'faker';

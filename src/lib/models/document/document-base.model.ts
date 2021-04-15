@@ -1,8 +1,8 @@
-import {DOCUMENT_IDS, MARK_DOCUMENT_IDS} from '@constants/document.constants';
+import {DEPT_ABBR} from '../../constants/dept.constants';
+import {DOCUMENT_IDS, MARK_DOCUMENT_IDS} from '../../constants/document.constants';
 import {PrivateMarklistMetaRaw, ProtectedMarklistMetaRaw} from './marklist.model';
 import {PrivateAttendanceMetaRaw, ProtectedAttendanceMetaRaw} from './attendance.model';
 import {PrivateGradingCriteriaMetaRaw, ProtectedGradingCriteriaMetaRaw} from './grading-criteria.model';
-import {DEPT_ABBR} from '@constants/dept.constants';
 import {ProtectedGradesMeta} from './grading.model';
 
 

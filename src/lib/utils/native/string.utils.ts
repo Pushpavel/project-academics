@@ -1,4 +1,4 @@
-import {range} from '@utils/native/number.utils';
+import {range} from './number.utils';
 
 export function getStringSimilarities(ids: string[], minLength: number) {
   const groups: Record<string, string[]> = {};

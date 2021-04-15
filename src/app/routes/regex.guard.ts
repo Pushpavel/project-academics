@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router} from '@angular/router';
 import {Observable} from 'rxjs';
-import {ROUTING_REGEXES, RoutingParam} from '@constants/routing.constants';
+import {ROUTING_REGEXES, RoutingParam} from 'lib/constants/routing.constants';
 
 @Injectable({
   providedIn: 'root'

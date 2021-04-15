@@ -22,8 +22,6 @@
     ],
     "paths": {
       "@models/*": ["lib/models/*"],
-      "@constants/*": ["lib/constants/*"],
-      "@utils/*": ["lib/utils/*"]
     }
   },
   "angularCompilerOptions": {

@@ -1,6 +1,3 @@
-// this import is needed for typescript path mapping to work
-import 'module-alias/register';
-
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 

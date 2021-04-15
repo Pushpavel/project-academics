@@ -7,7 +7,7 @@ import {MarklistEntryRaw} from '@models/document/marklist.model';
 import {AttendanceEntryRaw} from '@models/document/attendance.model';
 import {SinkOut} from 'lib/data/base/sink.interfaces';
 import {GradingCriteriaEntryUI, PrivateGradingCriteriaMetaRaw} from '@models/document/grading-criteria.model';
-import {PRIVATE_DOCUMENT_PATH} from '@constants/firestore.path';
+import {PRIVATE_DOCUMENT_PATH} from 'lib/constants/firestore.path';
 import {gradingCriteriaMetaUpdateFromEntries} from 'lib/data/convert/grading-criteria-from.snapshot';
 import {map} from 'rxjs/operators';
 import {Injectable} from '@angular/core';

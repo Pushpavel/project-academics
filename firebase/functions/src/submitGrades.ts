@@ -1,5 +1,6 @@
 import {CoursePath} from '@models/path.model';
 import {MARK_DOCUMENT_IDS, PRIVATE_DOCUMENT_IDS} from '../../../src/lib/constants/document.constants';
+import {computeGrade, computePartialTotal} from '../../../src/lib/utils/grades.utils';
 import {completed, error} from './error.utils';
 import {AUTH_ERROR, INTERNAL_ERROR, INVALID_DATA_ERROR, INVALID_STATE_ERROR} from './error';
 import {CourseRaw} from '@models/course.model';
@@ -7,7 +8,6 @@ import {logger} from 'firebase-functions';
 import {CallableContext} from 'firebase-functions/lib/providers/https';
 import * as admin from 'firebase-admin';
 import {StatsDocumentRaw} from '@models/document/document-stat.model';
-import {computeGrade, computePartialTotal} from '@utils/grades.utils';
 import {ProtectedMarklistMetaRaw} from '@models/document/marklist.model';
 import {GradeEntryRaw} from '@models/document/grading.model';
 import {ProtectedGradingCriteriaMetaRaw} from '@models/document/grading-criteria.model';

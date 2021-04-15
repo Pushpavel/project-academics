@@ -4,7 +4,7 @@ import {
   PrivateGradingCriteriaMeta,
   PrivateGradingCriteriaMetaRaw
 } from '@models/document/grading-criteria.model';
-import {GRADES} from '@constants/grading.constants';
+import {GRADES} from 'lib/constants/grading.constants';
 import {SinkUpdate} from 'lib/data/base/sink.interfaces';
 
 

@@ -8,7 +8,7 @@ import {CoursePageComponent} from '../app-course/course-page/course-page.compone
 import {PageNotFoundComponent} from '../app-404/page-not-found/page-not-found.component';
 import {BatchResultPageComponent} from '../app-result/batch-result-page/batch-result-page.component';
 import {StudentResultPageComponent} from '../app-result/student-result-page/student-result-page.component';
-import {ROUTING_PARAMS_AS_OBJECT as p} from '@constants/routing.constants';
+import {ROUTING_PARAMS_AS_OBJECT as p} from 'lib/constants/routing.constants';
 import {documentPageRoutes} from './document-page.routing';
 import {authGuard, AuthPipeGuard} from './auth-pipe.guard';
 import {pipe} from 'rxjs';

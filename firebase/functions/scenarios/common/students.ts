@@ -1,4 +1,4 @@
-import {randFromRange, range} from '@utils/native/number.utils';
+import {randFromRange, range} from '../../../../src/lib/utils/native/number.utils';
 import {TEST_COURSE} from './defaults';
 import * as faker from 'faker';
 

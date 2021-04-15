@@ -1,8 +1,8 @@
 import {Deletable} from '@models/util.types';
 import {CourseRaw} from '@models/course.model';
 import * as admin from 'firebase-admin';
-import {MARK_DOCUMENT_IDS, PRIVATE_DOCUMENT_IDS} from '@constants/document.constants';
-import {PRIVATE_DOCUMENT_PATH} from '@constants/firestore.path';
+import {MARK_DOCUMENT_IDS, PRIVATE_DOCUMENT_IDS} from '../../../../src/lib/constants/document.constants';
+import {PRIVATE_DOCUMENT_PATH} from '../../../../src/lib/constants/firestore.path';
 
 const firestore = admin.firestore();
 

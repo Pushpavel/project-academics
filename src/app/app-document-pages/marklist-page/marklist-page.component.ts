@@ -6,7 +6,7 @@ import {combineLatest, of} from 'rxjs';
 import {MarklistDocumentId} from '@models/document/document-base.model';
 import {MarklistEntryRaw, MarklistEntryUI} from '@models/document/marklist.model';
 import {marklistEntriesUIModel} from 'lib/data/combine/marklist.combine';
-import {sortByKey} from '@utils/rxjs.utils';
+import {sortByKey} from 'lib/utils/rxjs.utils';
 
 @Component({
   selector: 'app-marklist-page',
