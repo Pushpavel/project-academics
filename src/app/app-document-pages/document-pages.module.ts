@@ -1,10 +1,11 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {MdcDialogModule} from '../mdc-helper/mdc-dialog/mdc-dialog.module';
 import {MdcHelperModule} from '../mdc-helper/mdc-helper.module';
-import { AttendancePageComponent } from './attendance-page/attendance-page.component';
-import { GradesPageComponent } from './grades-page/grades-page.component';
-import { GradingCriteriaPageComponent } from './grading-criteria-page/grading-criteria-page.component';
-import { MarklistPageComponent } from './marklist-page/marklist-page.component';
+import {AttendancePageComponent} from './attendance-page/attendance-page.component';
+import {GradesPageComponent} from './grades-page/grades-page.component';
+import {GradingCriteriaPageComponent} from './grading-criteria-page/grading-criteria-page.component';
+import {MarklistPageComponent} from './marklist-page/marklist-page.component';
 import {TopBarModule} from '../shared/top-bar/top-bar.module';
 
 
@@ -15,11 +16,12 @@ import {TopBarModule} from '../shared/top-bar/top-bar.module';
     GradingCriteriaPageComponent,
     MarklistPageComponent,
   ],
-    imports: [
-        CommonModule,
-        MdcHelperModule,
-        TopBarModule,
-    ]
+  imports: [
+    CommonModule,
+    MdcHelperModule,
+    TopBarModule,
+    MdcDialogModule,
+  ]
 })
 export class DocumentPagesModule {
 }
