@@ -5,6 +5,7 @@ import {error} from './error.utils';
 import {INTERNAL_ERROR} from './error';
 
 admin.initializeApp();
+admin.firestore().settings({ignoreUndefinedProperties: true});
 
 import {_importUsers} from './importUsers';
 import {_submitDocument} from './submitDocument';

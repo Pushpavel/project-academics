@@ -1,0 +1,1 @@
+{"kind":"identitytoolkit#DownloadAccountResponse","users":[{"localId":"testfaculty@nitpy.ac.in","createdAt":"1618476645545","displayName":"Test Faculty's Name","customAttributes":"{\"isFaculty\":true}","validSince":"1618476645","email":"testfaculty@nitpy.ac.in","emailVerified":false,"disabled":false}]}
