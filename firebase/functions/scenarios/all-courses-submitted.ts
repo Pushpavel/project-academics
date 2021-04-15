@@ -5,17 +5,18 @@ import {_submitDocument} from '../src/submitDocument';
 import {createCourse, generateCourseCodes} from './common/course';
 import {createPrivateDocuments} from './common/documents';
 import {createSemester} from './common/semester';
-import {createStudents, generateRollNos, generateStudentNames} from './common/students';
+import {generateRollNos, generateStudentNames, importTestStudent} from './common/students';
 import {createFaculty} from './common/test-faculty';
+import {createSemesterSummary} from './common/updates/semester-summary';
 
 /**
  * Useful for testing exam cell and hod features and student features
  *
  * auth:
  * one exam cell: ec@nitpy.ac.in
- * HODs: hod*@nitpy.ac.in (*: deptId)
- * faculties: f*@nitpy.ac.in (*:  number)
- * students: *@nitpy.ac.in (*:  rollNo)
+ * HODs: hodCS@nitpy.ac.in
+ * faculties: f0@nitpy.ac.in
+ * students: CS19B1001@nitpy.ac.in
  * hod is also faculty
  *
  * firestore:
@@ -25,7 +26,7 @@ import {createFaculty} from './common/test-faculty';
  *      dept: CSE, MECH, ECE, EEE, CIVIL
  *      documents: submitted
  *      document-entries: random values
- *
+ * summary: initial entries
  */
 export async function _generateScenario() {
   const DEPT_IDS = ['CS', 'ME', 'EC', 'EE', 'CE'] as const;
@@ -43,7 +44,7 @@ export async function _generateScenario() {
     const hod = await createFaculty({
       uid: `hod${deptId}@nitpy.ac.in`,
       email: `hod${deptId}@nitpy.ac.in`,
-    }, true, deptId);
+    }, deptId != 'CS', true, deptId);
 
     faculties.push(hod);
   }
@@ -55,23 +56,25 @@ export async function _generateScenario() {
     const faculty = await createFaculty({
       uid: `f${i}@nitpy.ac.in`,
       email: `f${i}@nitpy.ac.in`,
-    });
+    }, i != 1);
 
     faculties.push(faculty);
   }
+
+  // import only one student
+  await importTestStudent();
 
   // generate students and courses
   for (const deptId of DEPT_IDS) {
     const di = DEPT_IDS.indexOf(deptId);
 
     for (const batchId of BATCH_IDS) {
-      const bi = batchId.indexOf(batchId);
+      const bi = BATCH_IDS.indexOf(batchId);
       const i = BATCH_IDS.length * di + bi;
 
       // create students
       const rollNos = await generateRollNos(deptId, batchId);
       const studentNames = generateStudentNames(rollNos);
-      await createStudents(studentNames);
 
       // create course codes
       const courseCodes = generateCourseCodes({
@@ -81,17 +84,25 @@ export async function _generateScenario() {
 
       // create courses
       for (const courseCode of courseCodes) {
-        const {course} = await createCourse({dept: deptId, courseCode, batchId, semId}, faculties[i], studentNames);
+
+        //  assign f0@nitpy.ac.in to CS208
+        const faculty = (courseCode == 'CS208') ? faculties[5] : faculties[i];
+
+        const {course} = await createCourse({dept: deptId, courseCode, batchId, semId}, faculty, studentNames);
         await createPrivateDocuments(courseCode, course, rollNos, true);
 
         //  submitting all private document
         for (const id of SUBMITTED_DOCUMENT_IDS)
-          _submitDocument({semId, courseCode, documentId: id}, {auth: faculties[i]} as any);
+          await _submitDocument({semId, courseCode, documentId: id}, {auth: faculty} as any);
 
       }
     }
   }
 
+  await createSemesterSummary(semId);
+
   return completed();
 
 }
+
+

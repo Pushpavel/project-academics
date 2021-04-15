@@ -20,6 +20,8 @@ export async function createPrivateDocuments(
   randomValues?: boolean
 ) {
 
+  TOTALS.ATTENDANCE = !randomValues ? 0 : randFromRange(100, 160);
+
   const p = {
     semId: course.sem,
     courseCode,

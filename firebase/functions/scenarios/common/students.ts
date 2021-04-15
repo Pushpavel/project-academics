@@ -7,7 +7,7 @@ import * as faker from 'faker';
 export function generateRollNos(dept: string = Object.keys(TEST_COURSE.dept)[0], batch: string = TEST_COURSE.batch) {
   const rollNos: string[] = [];
 
-  for (const no of range(randFromRange(30, 60)))
+  for (const no of range(1, randFromRange(30, 60)))
     rollNos.push(dept + batch + no.toString().padStart(3, '0'));
 
   return rollNos;
@@ -38,4 +38,16 @@ export async function createStudents(studentNames: Map<string, string>) {
   await Promise.all(userImportPromises);
 
   return reduce2dArray(studentsSegments);
+}
+
+export function importTestStudent() {
+  return _importUsers({
+    claims: ['isStudent'],
+    users: [{
+      uid: 'CS19B1001',
+      email: 'CS19B1001@nitpy.ac.in',
+      displayName: `Test Student's Name`,
+    }]
+  });
+
 }

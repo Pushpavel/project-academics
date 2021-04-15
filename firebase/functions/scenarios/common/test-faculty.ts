@@ -4,7 +4,7 @@ import {_importUsers} from '../../src/importUsers';
 import {TEST_FACULTY, UserRecord} from './defaults';
 
 
-export async function createFaculty(faculty: UserRecord = TEST_FACULTY, isHod?: boolean, dept?: DeptId) {
+export async function createFaculty(faculty: UserRecord = TEST_FACULTY, skipImport?: boolean, isHod?: boolean, dept?: DeptId) {
 
   const _faculty: UserRecord = {
     displayName: faker.name.findName(),
@@ -16,11 +16,12 @@ export async function createFaculty(faculty: UserRecord = TEST_FACULTY, isHod?: 
   if (isHod)
     claims.push('isHod');
 
-  await _importUsers({
-    claims,
-    dept,
-    users: [_faculty]
-  });
+  if (!skipImport)
+    await _importUsers({
+      claims,
+      dept,
+      users: [_faculty]
+    });
 
   return faculty;
 }

@@ -44,7 +44,7 @@ export async function createCourse(
 
   const _courseDetail: Deletable<CourseDetailRaw, 'courseCode'> = {
     name: _courseName,
-    credits: randFromRange(2, 3),
+    credits: randFromRange(1, 3),
     studentCount: studentNames.size,
     facultyId: faculty.uid,
     facultyName: faculty.displayName ?? 'Test Faculty Name'
@@ -89,6 +89,7 @@ async function createPublicStudentEntries(courseCode: string, course: Deletable<
   for (const rollNo of rollNos)
     batch.set(entriesRef.doc(rollNo), {
       rollNo,
+      sem: course.sem,
       entries: {}
     });
 
