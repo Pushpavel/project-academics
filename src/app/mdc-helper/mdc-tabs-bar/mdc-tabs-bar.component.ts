@@ -11,9 +11,9 @@ import { MDCTabBar } from '@material/tab-bar'
 })
 export class MdcTabsBarComponent implements OnDestroy, AfterViewInit {
 
-  @Input() tabs: String[] = ["tab1", "tab2"]
+  @Input() tabs: String[] = []
 
-  @Output("handletabChange") handletabChange: EventEmitter<any> = new EventEmitter()
+  @Output('handletabChange') handletabChange: EventEmitter<any> = new EventEmitter()
 
   updateIndex = (e: any) =>  {
     this.index = e.detail.index

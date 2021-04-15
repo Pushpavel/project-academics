@@ -26,6 +26,8 @@ export class BatchResultPageComponent {
     this.selectedDeptId.next(Object.keys(DEPT_ABBR)[c]);
   }
 
+  allDepartments = Object.values(DEPT_ABBR);
+
   selectedDeptId = new BehaviorSubject<string>(Object.keys(DEPT_ABBR)[0]);
 
   courseStats: Observable<CourseStatUI[]> = this.params.pipe(
