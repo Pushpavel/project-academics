@@ -1,6 +1,7 @@
 import {PRIVATE_DOCUMENT_IDS} from '../../../src/lib/constants/document.constants';
 import {range} from '../../../src/lib/utils/native/number.utils';
 import {completed} from '../src/error.utils';
+import {_importUsers} from '../src/importUsers';
 import {_submitDocument} from '../src/submitDocument';
 import {createCourse, generateCourseCodes} from './common/course';
 import {createPrivateDocuments} from './common/documents';
@@ -37,6 +38,16 @@ export async function _generateScenario() {
   const semId = await createSemester();
 
   const faculties = [];
+
+  // create exam cell
+  await _importUsers({
+    claims: ['isExamCell'],
+    users: [{
+      displayName: `Exam Cell's Name`,
+      uid: 'ec@nitpy.ac.in',
+      email: 'ec@nitpy.ac.in',
+    }]
+  });
 
   // create hods
   for (const deptId of DEPT_IDS) {
