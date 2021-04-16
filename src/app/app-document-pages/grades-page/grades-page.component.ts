@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {combineLatest, Observable, of} from 'rxjs';
-import {GradeEntryUI} from '@models/document/grading.model';
+import {GradeEntryUI, ProtectedGradesMetaRaw} from '@models/document/grading.model';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {DocumentId} from '@models/document/document-base.model';
 import {gradesUIModel} from 'lib/data/combine/grades.combine';
@@ -13,7 +13,7 @@ import {sortByKey} from 'lib/utils/rxjs.utils';
   styleUrls: ['./grades-page.component.scss'],
   host: {class: 'document-page'}
 })
-export class GradesPageComponent extends DocumentPage {
+export class GradesPageComponent extends DocumentPage<'GRADES', never, ProtectedGradesMetaRaw> {
 
   stats = this.params.pipe(
     switchMap(p => this.documentService.getCourseDocStat(p)),

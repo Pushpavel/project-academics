@@ -15,4 +15,4 @@ interface EntryUI extends Partial<EntryRaw & Record<MarklistDocumentId, number>>
 export type GradeEntryRaw = EntryRaw;
 export type GradeEntryUI = EntryUI;
 
-export type ProtectedGradesMeta = { entries: Record<string, { total: number, grade: string }> } & BaseProtectedMetaRaw
+export type ProtectedGradesMetaRaw = { entries: Record<string, { total: number, grade: string }> } & BaseProtectedMetaRaw

@@ -1,5 +1,5 @@
 import {MarklistDocumentId, ProtectedMetaRaw} from '@models/document/document-base.model';
-import {GradeEntryUI, ProtectedGradesMeta} from '@models/document/grading.model';
+import {GradeEntryUI, ProtectedGradesMetaRaw} from '@models/document/grading.model';
 import {MARK_DOCUMENT_IDS} from 'lib/constants/document.constants';
 import {ProtectedMarklistMetaRaw} from '@models/document/marklist.model';
 import {ProtectedGradingCriteriaMetaRaw} from '@models/document/grading-criteria.model';
@@ -45,7 +45,7 @@ export function gradesUIModel([metas, studentNames]: [ProtectedMetaRaw[], Map<st
     return entries.map(entry => {
       return {
         ...entry,
-        ...(grades as ProtectedGradesMeta).entries[entry.rollNo]
+        ...(grades as ProtectedGradesMetaRaw).entries[entry.rollNo]
       };
     });
   }

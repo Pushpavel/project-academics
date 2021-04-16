@@ -1,5 +1,5 @@
 import {DocumentId, PrivateMetaRaw, ProtectedMetaRaw} from '@models/document/document-base.model';
-import {CoursePath} from '@models/path.model';
+import {CoursePath, DocumentPath} from '@models/path.model';
 import {AttendanceEntryRaw} from '@models/document/attendance.model';
 import {MarklistEntryRaw} from '@models/document/marklist.model';
 import {COURSE_PATH, PRIVATE_DOCUMENT_PATH, PUBLIC_DOCUMENT_PATH} from 'lib/constants/firestore.path';
@@ -30,13 +30,12 @@ export class DocumentSources extends SourceService {
   /**
    * fetches all firestore documents in sub-collection 'entries' of an academic document at location given by params
    * @param p CoursePath object
-   * @param documentId academic document id
    */
   privateDocumentEntries<T extends MarklistEntryRaw | AttendanceEntryRaw>(
-    p: CoursePath, documentId: NonGradeDocumentId
+    p: DocumentPath<NonGradeDocumentId>
   ) {
     return this.service.fetchList<T>({
-      path: PRIVATE_DOCUMENT_PATH({...p, documentId}) + `/entries`,
+      path: PRIVATE_DOCUMENT_PATH(p) + `/entries`,
       idField: 'rollNo',
       once: true,
     });

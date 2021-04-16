@@ -1,11 +1,10 @@
 import {Component} from '@angular/core';
-import {ProtectedAttendanceMetaRaw} from '../../../lib/models/document/attendance.model';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {Sink} from 'lib/data/base/sink.interfaces';
 import {combineLatest, of} from 'rxjs';
 import {isPrivateMeta, MarklistDocumentId} from '@models/document/document-base.model';
-import {MarklistEntryRaw, MarklistEntryUI} from '@models/document/marklist.model';
+import {MarklistEntryRaw, MarklistEntryUI, PrivateMarklistMetaRaw, ProtectedMarklistMetaRaw} from '@models/document/marklist.model';
 import {marklistEntriesFromProtectedMeta, marklistEntriesUIModel} from 'lib/data/combine/marklist.combine';
 import {sortByKey} from 'lib/utils/rxjs.utils';
 
@@ -15,16 +14,13 @@ import {sortByKey} from 'lib/utils/rxjs.utils';
   styleUrls: ['./marklist-page.component.scss'],
   host: {class: 'document-page'}
 })
-export class MarklistPageComponent extends DocumentPage {
+export class MarklistPageComponent extends DocumentPage<MarklistDocumentId, PrivateMarklistMetaRaw, ProtectedMarklistMetaRaw> {
 
   entries = combineLatest([this.params, this.meta]).pipe(
     switchMap(([p, meta]) => {
-      if (!meta)
-        throw new Error('Meta is Null'); // TODO: handle this
       if (isPrivateMeta(meta))
-        return this.documentService.getPrivateDocumentEntries<MarklistEntryRaw>(p, p.documentId as MarklistDocumentId);
-
-      return of(marklistEntriesFromProtectedMeta(meta as ProtectedAttendanceMetaRaw));
+        return this.documentService.getPrivateDocumentEntries<MarklistEntryRaw>(p);
+      return of(marklistEntriesFromProtectedMeta(meta));
     }),
     switchMap(entries => {
       const studentNames = this.params.pipe(
@@ -47,7 +43,7 @@ export class MarklistPageComponent extends DocumentPage {
   setupSink = combineLatest([this.editable, this.params]).pipe(
     switchMap(([editable, p]) => {
       if (editable)
-        return this.documentService.sinkPrivateDocumentEntry(p, p.documentId as MarklistDocumentId, this.entrySink);
+        return this.documentService.sinkPrivateDocumentEntry(p, p.documentId, this.entrySink);
 
       return of(null);
     })

@@ -4,7 +4,13 @@ import {attendanceEntriesFromProtectedMeta, attendanceEntriesUIModel} from '../.
 import {sortByKey} from '../../../lib/utils/rxjs.utils';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
-import {AttendanceEntryRaw, AttendanceEntryUI, AttendanceMetaRaw, ProtectedAttendanceMetaRaw} from '@models/document/attendance.model';
+import {
+  AttendanceEntryRaw,
+  AttendanceEntryUI,
+  AttendanceMetaRaw,
+  PrivateAttendanceMetaRaw,
+  ProtectedAttendanceMetaRaw
+} from '@models/document/attendance.model';
 import {combineLatest, Observable, of} from 'rxjs';
 import {isPrivateMeta, PrivateMetaRaw} from '@models/document/document-base.model';
 
@@ -14,14 +20,12 @@ import {isPrivateMeta, PrivateMetaRaw} from '@models/document/document-base.mode
   styleUrls: ['./attendance-page.component.scss'],
   host: {class: 'document-page'}
 })
-export class AttendancePageComponent extends DocumentPage {
+export class AttendancePageComponent extends DocumentPage<'ATTENDANCE', PrivateAttendanceMetaRaw, ProtectedAttendanceMetaRaw> {
 
   entries = combineLatest([this.params, this.meta]).pipe(
     switchMap(([p, meta]) => {
-      if (!meta)
-        throw new Error('Meta is Null'); // TODO: handle this
       if (isPrivateMeta(meta))
-        return this.documentService.getPrivateDocumentEntries<AttendanceEntryRaw>(p, 'ATTENDANCE');
+        return this.documentService.getPrivateDocumentEntries<AttendanceEntryRaw>(p);
 
       return of(attendanceEntriesFromProtectedMeta(meta as ProtectedAttendanceMetaRaw));
     }),

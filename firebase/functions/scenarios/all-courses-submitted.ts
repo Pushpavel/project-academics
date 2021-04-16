@@ -17,7 +17,7 @@ import {createFaculty} from './common/test-faculty';
  * one exam cell: ec@nitpy.ac.in
  * HODs: hodCS@nitpy.ac.in
  * faculties: f0@nitpy.ac.in
- * students: CS18B1001@nitpy.ac.in
+ * students: CS19B1001@nitpy.ac.in
  * hod is also faculty
  *
  * firestore:

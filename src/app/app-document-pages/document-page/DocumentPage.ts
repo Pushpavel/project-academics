@@ -6,18 +6,27 @@ import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {combineLatest, Observable} from 'rxjs';
 import {UserCourseRelation} from '@models/course.model';
 import {DocumentPath} from '@models/path.model';
-import {isPrivateMeta, NonGradeDocumentId, PrivateDocumentId} from '@models/document/document-base.model';
+import {
+  DocumentId,
+  isPrivateMeta,
+  NonGradeDocumentId,
+  PrivateDocumentId,
+  PrivateMetaRaw,
+  ProtectedMetaRaw
+} from '@models/document/document-base.model';
 import {getValue} from 'lib/utils/rxjs.utils';
 import {PublishService} from 'core/publish.service';
 import {MdcDialog} from '../../mdc-helper/mdc-dialog/mdc-dialog.service';
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
-export abstract class DocumentPage {
+export abstract class DocumentPage<ID extends DocumentId,
+  PM extends PrivateMetaRaw,
+  RM extends ProtectedMetaRaw> {
 
   disableEdit = false;
 
-  params = getParams<DocumentPath>(['semId', 'courseCode', 'documentId'], this.route);
+  params = getParams<DocumentPath<ID>>(['semId', 'courseCode', 'documentId'], this.route);
 
   stat = this.params.pipe(
     switchMap(p => this.documentService.getStat(p)),
@@ -35,12 +44,17 @@ export abstract class DocumentPage {
   meta = combineLatest([this.params, this.isDataFromPrivate]).pipe(
     switchMap(([p, isPrivate]) => {
       if (isPrivate)
-        return this.documentService.getPrivateMeta(p, p.documentId as PrivateDocumentId);
-      return this.documentService.getProtectedMetas(p, [p.documentId]).pipe(map(metas => metas[0]));
+        return this.documentService.getPrivateMeta<PM>(p, p.documentId as PrivateDocumentId & ID);
+      return this.documentService.getProtectedMetas<RM>(p, [p.documentId]).pipe(map(metas => metas[0]));
     }),
+    map(meta => {
+      if (!meta)
+        throw new Error('Meta is null'); // TODO: handle this
+      return meta;
+    })
   );
 
-  editable = this.meta.pipe(map(meta => meta && isPrivateMeta(meta) && meta.editable));
+  editable = this.meta.pipe(map(meta => meta && isPrivateMeta<PM>(meta) && meta.editable));
 
   async publishBtn() {
     this.disableEdit = true;
@@ -51,7 +65,7 @@ export abstract class DocumentPage {
       this.disableEdit = false;
       return;
     }
-    const result = await this.publishService.submitDocument(params, params.documentId as NonGradeDocumentId);
+    const result = await this.publishService.submitDocument(params, params.documentId as NonGradeDocumentId & ID);
     console.log(result);
   }
 

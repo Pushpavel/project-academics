@@ -3,8 +3,12 @@ import {gradingCriteriaUIEntriesFromMeta} from '../../../lib/data/combine/gradin
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {Sink} from 'lib/data/base/sink.interfaces';
-import {combineLatest, Observable, of} from 'rxjs';
-import {GradingCriteriaEntryUI, GradingCriteriaMetaRaw} from '@models/document/grading-criteria.model';
+import {combineLatest, of} from 'rxjs';
+import {
+  GradingCriteriaEntryUI,
+  PrivateGradingCriteriaMetaRaw,
+  ProtectedGradingCriteriaMetaRaw
+} from '@models/document/grading-criteria.model';
 
 @Component({
   selector: 'app-grading-criteria-page',
@@ -12,9 +16,11 @@ import {GradingCriteriaEntryUI, GradingCriteriaMetaRaw} from '@models/document/g
   styleUrls: ['./grading-criteria-page.component.scss'],
   host: {class: 'document-page'}
 })
-export class GradingCriteriaPageComponent extends DocumentPage {
+export class GradingCriteriaPageComponent extends DocumentPage<'GRADING_CRITERIA',
+  PrivateGradingCriteriaMetaRaw,
+  ProtectedGradingCriteriaMetaRaw> {
 
-  entries = (this.meta as Observable<GradingCriteriaMetaRaw>).pipe(map(gradingCriteriaUIEntriesFromMeta));
+  entries = this.meta.pipe(map(gradingCriteriaUIEntriesFromMeta));
 
   entrySink = new Sink<GradingCriteriaEntryUI, 'grade' | 'minMark'>();
 

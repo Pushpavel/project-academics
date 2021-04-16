@@ -3,7 +3,7 @@ import {DOCUMENT_IDS, MARK_DOCUMENT_IDS} from '../../constants/document.constant
 import {PrivateMarklistMetaRaw, ProtectedMarklistMetaRaw} from './marklist.model';
 import {PrivateAttendanceMetaRaw, ProtectedAttendanceMetaRaw} from './attendance.model';
 import {PrivateGradingCriteriaMetaRaw, ProtectedGradingCriteriaMetaRaw} from './grading-criteria.model';
-import {ProtectedGradesMeta} from './grading.model';
+import {ProtectedGradesMetaRaw} from './grading.model';
 
 
 export interface BasePrivateMetaRaw {
@@ -26,9 +26,11 @@ export type DeptFields = { [dept in DeptId]?: 'core' | 'elective1' | 'elective2'
 
 
 export type PrivateMetaRaw = PrivateMarklistMetaRaw | PrivateAttendanceMetaRaw | PrivateGradingCriteriaMetaRaw
-export type ProtectedMetaRaw = ProtectedMarklistMetaRaw | ProtectedAttendanceMetaRaw | ProtectedGradingCriteriaMetaRaw | ProtectedGradesMeta
+export type ProtectedMetaRaw = ProtectedMarklistMetaRaw
+  | ProtectedAttendanceMetaRaw
+  | ProtectedGradingCriteriaMetaRaw
+  | ProtectedGradesMetaRaw
 
-
-export function isPrivateMeta(meta: BasePrivateMetaRaw | BaseProtectedMetaRaw): meta is PrivateMetaRaw {
+export function isPrivateMeta<PM extends PrivateMetaRaw>(meta: BasePrivateMetaRaw | BaseProtectedMetaRaw): meta is PM {
   return meta.hasOwnProperty('editable');
 }
