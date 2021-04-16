@@ -8,3 +8,8 @@ export interface CoursePath {
 export interface DocumentPath<T extends Partial<DocumentId> = DocumentId> extends CoursePath {
   documentId: T,
 }
+
+export interface BatchPath {
+  semId: string,
+  batchId: string,
+}

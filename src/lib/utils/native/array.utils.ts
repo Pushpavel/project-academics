@@ -11,5 +11,3 @@ export function reduce2dArray<T>(arr2d: T[][]) {
     return acc;
   }, []);
 }
-
-

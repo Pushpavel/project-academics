@@ -8,6 +8,7 @@ admin.initializeApp();
 admin.firestore().settings({ignoreUndefinedProperties: true});
 
 import {_importUsers} from './importUsers';
+import {_publishResult} from './publishResult';
 import {_submitDocument} from './submitDocument';
 import {_submitGrades} from './submitGrades';
 
@@ -17,6 +18,7 @@ import {_generateScenario} from '../scenarios/all-courses-submitted';
 export const importUsers = callable(_importUsers);
 export const submitDocument = callable(_submitDocument);
 export const submitGrades = callable(_submitGrades);
+export const publishResult = callable(_publishResult);
 
 // uncomment to use for generating fake data
 export const generateScenario = callable(_generateScenario);
