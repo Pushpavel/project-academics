@@ -4,7 +4,7 @@ import {Component, Input} from '@angular/core';
   selector: 'data-card > entry',
   template: `
     <p class="body2">{{title}}</p>
-    <h6>{{value}}</h6>
+    <h5>{{value}}</h5>
   `,
   styleUrls: ['./entry.component.scss']
 })
