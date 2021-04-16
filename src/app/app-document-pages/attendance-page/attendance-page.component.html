@@ -35,6 +35,6 @@
 <ng-template #editableCell let-row='row' let-col='col'>
   <label mdc-text-field>
     <input mdc-input type="number" [disabled]="disableEdit" [value]="row[col.key]"
-           (change)="onEdit(col.key,row,$event)">
+      (change)="onEdit(col.key,row,$event)">
   </label>
 </ng-template>

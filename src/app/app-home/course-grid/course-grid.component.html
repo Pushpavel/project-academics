@@ -1,6 +1,6 @@
 <header>
   <span class="sub1 ">{{title}}</span>
-  <button mdc-button>
+  <button mdc-button *ngIf="this.showDownload">
     <mdc-icon [size]="24">assignment_returned</mdc-icon>
     Pac Download
   </button>

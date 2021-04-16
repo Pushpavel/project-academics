@@ -28,7 +28,8 @@ export class LoginPageComponent {
 
   handleContinue() {
     this.email = this.Input?.nativeElement.value;
-    if (this.validateEmail(this.email)) {
+    // if (this.validateEmail(this.email)) {
+    if (true) {
       this.auth.sendSignInLink(this.email);
       this.nextPage = true;
     } else {

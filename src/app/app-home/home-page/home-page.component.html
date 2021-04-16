@@ -9,10 +9,18 @@
       <!-- End of Exam cell -->
 
       <!-- Faculty -->
-      <div class="card-container" *ngIf="this.user && this.user.isFaculty">
-        <course-grid [title]="this.title | titlecase" [courses]="this.courseCollections[this.title]"></course-grid>
+      <div *ngIf="this.user && this.user.isFaculty">
+        <course-grid [title]="this.title | titlecase" [courses]="this.courseCollections[this.title]"
+          [showDownload]="false"></course-grid>
       </div>
       <!-- End of Faculty -->
+
+      <!-- Student -->
+      <div *ngIf="this.user && this.user.isStudent">
+        <course-grid [title]="this.title | titlecase" [courses]="this.courseCollections[this.title]"
+          [showDownload]="false"></course-grid>
+      </div>
+      <!-- End of Student -->
 
       <div>
         <button mdc-button="outlined" flex (click)="handleArchive()">

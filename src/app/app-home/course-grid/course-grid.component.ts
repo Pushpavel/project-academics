@@ -10,6 +10,7 @@ export class CourseGridComponent implements OnInit {
 
   @Input() title !: String
   @Input() courses !: CourseDetailRaw[]
+  @Input() showDownload: boolean = true
 
   constructor() { }
 

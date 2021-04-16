@@ -4,7 +4,6 @@ import { AcademicUser } from '@models/user.model';
 import { CourseService } from 'core/course.service';
 import { UserService } from 'core/user.service';
 import { Observable, Subscription } from 'rxjs';
-
 @Component({
   selector: 'home-page',
   templateUrl: './home-page.component.html',
@@ -12,14 +11,15 @@ import { Observable, Subscription } from 'rxjs';
 })
 
 /**
- * Faculty
- * Student
- * Exam cell
- * Hod
+ * [\] Faculty
+ * [\] Student - Redirect is remaining
+ * [] Exam cell
+ * [] Hod
  *
  * TODO : make tabs feasible
  *
  */
+
 export class HomePageComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router, private courseService: CourseService, private userService: UserService) { }
@@ -77,6 +77,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   initData(result: any) {
     this.courseCollections = result;
+    console.log(result);
     this.title = Object.keys(result)[0];
   }
 
