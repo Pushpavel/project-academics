@@ -8,7 +8,7 @@ import {
   DocumentSources
 } from 'lib/data/source/document.source';
 import {DocumentPath} from 'lib/models/path.model';
-import {StatEntryRaw} from 'lib/models/document/document-stat.model';
+import {StatsEntryRaw} from 'lib/models/document/document-stat.model';
 import {DocumentSinks} from 'lib/data/document-sink.adapter';
 
 @Injectable({
@@ -18,9 +18,12 @@ export class DocumentService {
 
   // TODO: caching
   // TODO: connect sink to source
+  /**
+   * @deprecated
+   */
+  getCourseDocStats = this.statSources.statsDocumentQuery.bind(this.statSources);
 
-  getCourseDocStats = this.statSources.courseDocumentStats.bind(this.statSources);
-  getCourseDocStat = this.statSources.courseDocumentStat.bind(this.statSources);
+  getStatsDocument = this.statSources.statsDocument.bind(this.statSources);
   getStudentNames = this.docSources.studentNames.bind(this.docSources);
 
   getPrivateMeta = this.docSources.privateDocumentMeta.bind(this.docSources);
@@ -32,11 +35,12 @@ export class DocumentService {
   sinkPrivateGradingCriteriaEntry = this.docSinks.privateGradingCriteriaEntriesSink.bind(this.docSinks);
 
 
-  getStat(p: DocumentPath): Observable<StatEntryRaw> {
-    return this.getCourseDocStat(p).pipe(map(stats => {
-      if (!stats)
-        throw new Error('Document Stats does not exits'); //  TODO : handle gracefully
-      return stats.stats[p.documentId];
+  getStat(p: DocumentPath): Observable<StatsEntryRaw> {
+    return this.getStatsDocument(p).pipe(map(stats => {
+      const stat = stats?.entries?.[p.documentId];
+      if (!stat)
+        throw new Error('Document Stat Entry does not exits'); //  TODO : handle gracefully
+      return stat;
     }));
   }
 
@@ -45,10 +49,6 @@ export class DocumentService {
     // TODO: Implement this
     const entries = Object.keys(DEPT_ABBR).map(id => [DEPT_ABBR[id as keyof typeof DEPT_ABBR], randFromRange(0, 100)] as const);
     return of(new Map(entries));
-  }
-
-  getPublicMeta(path: DocumentPath): Observable<any> {
-    throw new Error('Not Implemented');// TODO: Implement this
   }
 
   constructor(

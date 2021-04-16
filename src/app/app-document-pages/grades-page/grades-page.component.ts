@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {combineLatest, Observable, of} from 'rxjs';
 import {GradeEntryUI, ProtectedGradesMetaRaw} from '@models/document/grading.model';
-import {map, shareReplay, switchMap} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {DocumentId} from '@models/document/document-base.model';
 import {gradesUIModel} from 'lib/data/combine/grades.combine';
 import {sortByKey} from 'lib/utils/rxjs.utils';
@@ -15,22 +15,10 @@ import {sortByKey} from 'lib/utils/rxjs.utils';
 })
 export class GradesPageComponent extends DocumentPage<'GRADES', never, ProtectedGradesMetaRaw> {
 
-  stats = this.params.pipe(
-    switchMap(p => this.documentService.getCourseDocStat(p)),
-    map(stats => {
-      if (!stats)
-        throw new Error('stats does not exists'); // TODO: handle gracefully
-      return stats;
-    }),
-    shareReplay(1)
-  );
-
-  stat = this.stats.pipe(map(stats => stats.stats.GRADES));
-
   entries: Observable<GradeEntryUI[]> = combineLatest([this.stats, this.params]).pipe(
     switchMap(([stats, p]) => {
-      const documentIds = Object.keys(stats.stats) as DocumentId[];
-      const availableDocIds = documentIds.filter(id => stats.stats[id].status != 'private' && id != 'ATTENDANCE');
+      const documentIds = Object.keys(stats.entries) as DocumentId[];
+      const availableDocIds = documentIds.filter(id => stats.entries[id].status != 'private' && id != 'ATTENDANCE');
       const metas = (availableDocIds.length == 0) ?
         of([]) : this.documentService.getProtectedMetas(p, availableDocIds);
 

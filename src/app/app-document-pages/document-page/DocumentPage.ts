@@ -1,6 +1,7 @@
 import {Directive} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DocumentService} from 'core/document.service';
+import {statsDocumentUIModel} from '../../../lib/data/combine/document-stat.combine';
 import {getParams} from '../../routes/routing.helper';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {combineLatest, Observable} from 'rxjs';
@@ -28,9 +29,19 @@ export abstract class DocumentPage<ID extends DocumentId,
 
   params = getParams<DocumentPath<ID>>(['semId', 'courseCode', 'documentId'], this.route);
 
-  stat = this.params.pipe(
-    switchMap(p => this.documentService.getStat(p)),
+  stats = this.params.pipe(
+    switchMap(p => this.documentService.getStatsDocument(p)),
+    map(stats => {
+      if (!stats)
+        throw new Error('stats does not exists'); // TODO: handle gracefully
+      return stats;
+    }),
+    map(statsDocumentUIModel),
     shareReplay(1)
+  );
+
+  stat = combineLatest([this.params, this.stats]).pipe(
+    map(([p, stats]) => stats.entries[p.documentId])
   );
 
   userCR: Observable<UserCourseRelation> = this.route.data.pipe(
@@ -38,7 +49,11 @@ export abstract class DocumentPage<ID extends DocumentId,
   );
 
   isDataFromPrivate = combineLatest([this.userCR, this.stat]).pipe(
-    map(([cr, stat]) => cr.isFaculty && (stat.status == 'private' || stat.status == 'remarked') && stat.id != 'GRADES')
+    map(([cr, stat]) =>
+      cr.isFaculty
+      && (stat.status == 'private' || stat.status == 'remarked')
+      && stat.documentId != 'GRADES'
+    )
   );
 
   meta = combineLatest([this.params, this.isDataFromPrivate]).pipe(
@@ -54,7 +69,7 @@ export abstract class DocumentPage<ID extends DocumentId,
     })
   );
 
-  editable = this.meta.pipe(map(meta => meta && isPrivateMeta<PM>(meta) && meta.editable));
+  editable = this.meta.pipe(map(meta => !!meta && isPrivateMeta<PM>(meta) && meta.editable));
 
   async publishBtn() {
     this.disableEdit = true;

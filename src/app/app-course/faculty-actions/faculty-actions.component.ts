@@ -4,7 +4,7 @@ import {map, switchMap} from 'rxjs/operators';
 import {DocumentService} from 'core/document.service';
 import {getParams} from '../../routes/routing.helper';
 import {ActivatedRoute, Router} from '@angular/router';
-import {StatEntryRaw} from '@models/document/document-stat.model';
+import {_StatEntryRaw} from '@models/document/document-stat.model';
 import {Observable, of} from 'rxjs';
 import {UserCourseRelation} from '@models/course.model';
 
@@ -18,14 +18,14 @@ export class FacultyActionsComponent {
   params = getParams(['semId', 'courseCode'], this.route);
 
   documentGroups = this.params.pipe(
-    switchMap(params => this.documentService.getCourseDocStat({
+    switchMap(params => this.documentService.getStatsDocument({
       semId: params.semId,
       courseCode: params.courseCode
     })),
     map(courseDocStat => {
       if (!courseDocStat)
         throw new Error('courseDocStat does not exists'); // TODO: handle gracefully
-      const docs = courseDocStat.stats;
+      const docs = courseDocStat.entries;
 
       // maps ids of documents in each document group to CourseDocumentStat
       return FACULTY_DOCUMENT_GROUPS.map(group => {
@@ -58,6 +58,6 @@ export class FacultyActionsComponent {
 
 export interface DocumentGroupUI {
   title: string,
-  actions: StatEntryRaw[]
+  actions: _StatEntryRaw[]
 }
 

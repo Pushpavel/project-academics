@@ -1,7 +1,7 @@
 import {CourseRaw, CourseDetailRaw} from '@models/course.model';
 import {Injectable} from '@angular/core';
 import {SourceService} from 'lib/data/base/service.abstract';
-import {courseDetailFromSnapshot} from 'lib/data/convert/course-detail-from.snapshot';
+import {courseCodeExtract} from 'lib/data/convert/common';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class CourseSources extends SourceService {
 
     return this.service.fetchObj<CourseDetailRaw>({
       path: `semesters/${semId}/courses/${courseCode}/public_course_documents/COURSE_DETAIL`,
-      convert: courseDetailFromSnapshot,
+      convert: courseCodeExtract<CourseDetailRaw>(),
       once: true
     });
 

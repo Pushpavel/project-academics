@@ -11,14 +11,14 @@ import {UserService} from '../../core/user.service';
 import {paramMapToObj} from './routing.helper';
 import {filter, map, switchMap, take, tap} from 'rxjs/operators';
 import {CourseRaw, UserCourseRelation} from '@models/course.model';
-import {StatEntryRaw} from '@models/document/document-stat.model';
+import {_StatEntryRaw, StatsEntryRaw} from '@models/document/document-stat.model';
 import {AcademicUser} from '@models/user.model';
 import {elseRedirectTo, thenMap, elseSwitchMap} from './routing.pipes';
 
 export interface UserCrData {
   userCR: UserCourseRelation,
   course: CourseRaw,
-  stat?: StatEntryRaw
+  stat?: _StatEntryRaw
 }
 
 @Injectable({
@@ -42,7 +42,7 @@ export class UserCrResolver implements Resolve<UserCrData> {
             throw new Error('UserCrResolver called with invalid course');
 
           const userCR = buildUserCR(user, course);
-          let stat: StatEntryRaw;
+          let stat: StatsEntryRaw;
 
           // authGuard like pattern
           return of(!!(userCR.isFaculty || userCR.isHod || userCR.isStudent)) // is user related to course
