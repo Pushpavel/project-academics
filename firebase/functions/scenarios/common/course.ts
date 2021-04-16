@@ -60,7 +60,7 @@ export async function createCourse(
 
 
   await batch.commit();
-  await createPublicStudentEntries(course.courseCode, _course, [...studentNames.keys()]);
+  await createPublicStudentEntries(course.courseCode, _course, _courseDetail, [...studentNames.keys()]);
 
   return {
     courseCode: course.courseCode,
@@ -81,7 +81,13 @@ function generateCourseName() {
   return pascalCase(courseAdjective + ' ' + courseNoun + courseNoun2);
 }
 
-async function createPublicStudentEntries(courseCode: string, course: Deletable<CourseRaw, 'courseCode'>, rollNos: string[]) {
+async function createPublicStudentEntries(
+  courseCode: string,
+  course: Deletable<CourseRaw, 'courseCode'>,
+  courseDetail: Deletable<CourseDetailRaw, 'courseCode'>,
+  rollNos: string[]
+) {
+
   const p = {semId: course.sem, courseCode};
 
   const entriesRef = firestore.collection(`${COURSE_PATH(p)}/public_student_entries`);
@@ -90,6 +96,9 @@ async function createPublicStudentEntries(courseCode: string, course: Deletable<
     batch.set(entriesRef.doc(rollNo), {
       rollNo,
       sem: course.sem,
+      batch: course.batch,
+      credits: courseDetail.credits,
+      courseName: courseDetail.name,
       entries: {}
     });
 

@@ -5,6 +5,9 @@ import {mapMapEntries} from '../../../../../src/lib/utils/native/map.utils';
 
 const firestore = admin.firestore();
 
+/**
+ * @deprecated
+ */
 export async function createSemesterSummary(semId: string) {
   // get all rollNos
   const snaps = await firestore.collectionGroup('public_course_documents').get();

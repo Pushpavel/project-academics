@@ -7,10 +7,10 @@ import {createPrivateDocuments} from './common/documents';
 import {createSemester} from './common/semester';
 import {generateRollNos, generateStudentNames, importTestStudent} from './common/students';
 import {createFaculty} from './common/test-faculty';
-import {createSemesterSummary} from './common/updates/semester-summary';
 
 /**
  * Useful for testing exam cell and hod features and student features
+ * TODO: GRADES is not submitted , test _submitGrades function and use it
  *
  * auth:
  * one exam cell: ec@nitpy.ac.in
@@ -26,7 +26,6 @@ import {createSemesterSummary} from './common/updates/semester-summary';
  *      dept: CSE, MECH, ECE, EEE, CIVIL
  *      documents: submitted
  *      document-entries: random values
- * summary: initial entries
  */
 export async function _generateScenario() {
   const DEPT_IDS = ['CS', 'ME', 'EC', 'EE', 'CE'] as const;
@@ -56,7 +55,7 @@ export async function _generateScenario() {
     const faculty = await createFaculty({
       uid: `f${i}@nitpy.ac.in`,
       email: `f${i}@nitpy.ac.in`,
-    }, i != 1);
+    }, i != 0);
 
     faculties.push(faculty);
   }
@@ -98,8 +97,6 @@ export async function _generateScenario() {
       }
     }
   }
-
-  await createSemesterSummary(semId);
 
   return completed();
 
