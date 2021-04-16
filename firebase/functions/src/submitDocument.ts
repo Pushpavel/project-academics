@@ -89,8 +89,10 @@ export async function _submitDocument(p: DocumentPath, context: CallableContext)
     [`${docStatus}Timestamp`]: FieldValue.serverTimestamp()
   });
 
-  if (isGradingCriteria)
+  if (isGradingCriteria) {
+    await batch.commit();
     return completed();
+  }
 
   // 4.update public student entry
   const studentsRef = courseRef.collection('public_student_entries');

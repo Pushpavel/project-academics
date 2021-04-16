@@ -31,7 +31,7 @@ export async function _submitGrades(p: CoursePath, context: CallableContext) {
   else if (course?.facultyId != context.auth.uid)
     return error(AUTH_ERROR, `${context.auth.uid} is not faculty of the course`, course);
 
-  logger.log('🚀 submitting', p);
+  logger.log('🚀 submitting Grades', p);
 
 
   // get required protected documents

@@ -3,6 +3,7 @@ import {range} from '../../../src/lib/utils/native/number.utils';
 import {completed} from '../src/error.utils';
 import {_importUsers} from '../src/importUsers';
 import {_submitDocument} from '../src/submitDocument';
+import {_submitGrades} from '../src/submitGrades';
 import {createCourse, generateCourseCodes} from './common/course';
 import {createPrivateDocuments} from './common/documents';
 import {createSemester} from './common/semester';
@@ -11,13 +12,12 @@ import {createFaculty} from './common/test-faculty';
 
 /**
  * Useful for testing exam cell and hod features and student features
- * TODO: GRADES is not submitted , test _submitGrades function and use it
  *
  * auth:
  * one exam cell: ec@nitpy.ac.in
  * HODs: hodCS@nitpy.ac.in
  * faculties: f0@nitpy.ac.in
- * students: CS19B1001@nitpy.ac.in
+ * students: CS18B1001@nitpy.ac.in
  * hod is also faculty
  *
  * firestore:
@@ -104,6 +104,9 @@ export async function _generateScenario() {
         //  submitting all private document
         for (const id of SUBMITTED_DOCUMENT_IDS)
           await _submitDocument({semId, courseCode, documentId: id}, {auth: faculty} as any);
+
+        // submit the grades
+        await _submitGrades({semId, courseCode}, {auth: faculty} as any);
 
       }
     }
