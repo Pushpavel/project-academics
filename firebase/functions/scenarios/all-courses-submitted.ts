@@ -30,7 +30,7 @@ import {createFaculty} from './common/test-faculty';
  */
 export async function _generateScenario() {
   const DEPT_IDS = ['CS', 'ME', 'EC', 'EE', 'CE'] as const;
-  const BATCH_IDS = ['17B1', '18B1', '19B1', '20B1'] as const;
+  const BATCH_IDS = ['20B1', '19B1', '18B1', '17B1'] as const;
   const NO_OF_COURSE_PER_DEPT_BATCH = 5;
   const NO_OF_COURSE_PER_FACULTY = 5;// must be a factor of (no of depts)*(no of batches)*(no of courses per batch)
   const SUBMITTED_DOCUMENT_IDS = PRIVATE_DOCUMENT_IDS;

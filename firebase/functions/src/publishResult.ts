@@ -16,7 +16,7 @@ const firestore = admin.firestore();
 const statsUpdate = DOCUMENT_IDS.reduce((obj, id) => {
   obj[`entries.${id}.status`] = 'public';
   obj[`entries.${id}.publicTimestamp`] = FieldValue.serverTimestamp();
-  return {};
+  return obj;
 }, {} as any);
 
 export async function _publishResult(p: BatchPath, context: CallableContext) {
@@ -63,11 +63,14 @@ export async function _publishResult(p: BatchPath, context: CallableContext) {
 
       gradesBatch.perform(b => b.update(
         courseRef.collection('public_student_entries').doc(rollNo),
-        entry
+        {
+          ['entries.GRADES']: {
+            ...entry,
+            publicTimestamp: FieldValue.serverTimestamp()
+          }
+        },
       ));
     }
-
-  // TODO: calculate gpa of each student and update semester summary
 
   const promises = [
     statsBatch.commitAll().catch(e => error(INTERNAL_ERROR, 'statsBatch', p, e)),

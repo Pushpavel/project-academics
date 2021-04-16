@@ -44,8 +44,8 @@ export function importTestStudent() {
   return _importUsers({
     claims: ['isStudent'],
     users: [{
-      uid: 'CS18B1001',
-      email: 'CS18B1001@nitpy.ac.in',
+      uid: 'CS19B1001',
+      email: 'CS19B1001@nitpy.ac.in',
       displayName: `Test Student's Name`,
     }]
   });

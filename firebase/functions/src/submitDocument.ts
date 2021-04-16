@@ -83,10 +83,9 @@ export async function _submitDocument(p: DocumentPath, context: CallableContext)
   });
 
   // 3.update document stat
-  const docStatus = !isGradingCriteria ? 'submitted' : 'public';
-  batch.update(statRef, `entries.${p.documentId}`, {
-    status: docStatus,
-    [`${docStatus}Timestamp`]: FieldValue.serverTimestamp()
+  batch.update(statRef,  {
+    [`entries.${p.documentId}.status`]: 'submitted',
+    [`entries.${p.documentId}.submittedTimestamp`]: FieldValue.serverTimestamp()
   });
 
   if (isGradingCriteria) {

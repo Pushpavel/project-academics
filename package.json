@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "scenario": "cd ./firebase/functions && tsc -b && cd ../ && firebase emulators:exec \"cd ../ && ng serve\" --ui --only firestore,functions,auth --export-on-exit=./functions/scenarios/generated/all-courses-submitted",
-    "emulators": "cd ./firebase && firebase emulators:start --ui --only firestore,functions,auth --import=./functions/scenarios/generated/all-courses-submitted",
+    "emulators": "cd ./firebase/functions && tsc -b && cd ../ && firebase emulators:start --only firestore,functions,auth --import=./functions/scenarios/generated/all-courses-submitted",
     "start-dev": "cd ./firebase && firebase emulators:exec \"cd ../ && ng serve\" --ui --only firestore,functions,auth --import=./functions/scenarios/generated/all-courses-submitted"
   },
   "private": true,
