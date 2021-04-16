@@ -54,8 +54,7 @@ export class GradesPageComponent extends DocumentPage {
 
 
   disableEdit = true;
-  meta = of(null);
-  isPrivate = of(undefined);
+  isDataFromPrivate = of(undefined);
   editable = of(false);
 
   async publishBtn(): Promise<void> {

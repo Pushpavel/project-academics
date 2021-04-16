@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
 import {Sink} from '../../../lib/data/base/sink.interfaces';
-import {attendanceEntriesUIModel} from '../../../lib/data/combine/attendance.combine';
-import {sortByKey} from 'lib/utils/rxjs.utils';
+import {attendanceEntriesFromProtectedMeta, attendanceEntriesUIModel} from '../../../lib/data/combine/attendance.combine';
+import {sortByKey} from '../../../lib/utils/rxjs.utils';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
-import {AttendanceEntryRaw, AttendanceEntryUI} from '@models/document/attendance.model';
-import {combineLatest, of} from 'rxjs';
-import {PrivateMetaRaw} from '@models/document/document-base.model';
+import {AttendanceEntryRaw, AttendanceEntryUI, AttendanceMetaRaw, ProtectedAttendanceMetaRaw} from '@models/document/attendance.model';
+import {combineLatest, Observable, of} from 'rxjs';
+import {isPrivateMeta, PrivateMetaRaw} from '@models/document/document-base.model';
 
 @Component({
   selector: 'app-attendance-page',
@@ -16,11 +16,18 @@ import {PrivateMetaRaw} from '@models/document/document-base.model';
 })
 export class AttendancePageComponent extends DocumentPage {
 
-  entries = this.params.pipe(
-    switchMap(p => {
-      // get dependencies
-      const entries$ = this.documentService.getPrivateDocumentEntries<AttendanceEntryRaw>(p, 'ATTENDANCE');
-      const studentNames$ = this.documentService.getStudentNames(p).pipe(
+  entries = combineLatest([this.params, this.meta]).pipe(
+    switchMap(([p, meta]) => {
+      if (!meta)
+        throw new Error('Meta is Null'); // TODO: handle this
+      if (isPrivateMeta(meta))
+        return this.documentService.getPrivateDocumentEntries<AttendanceEntryRaw>(p, 'ATTENDANCE');
+
+      return of(attendanceEntriesFromProtectedMeta(meta as ProtectedAttendanceMetaRaw));
+    }),
+    switchMap(entries => {
+      const studentNames = this.params.pipe(
+        switchMap(p => this.documentService.getStudentNames(p)),
         map(names => {
           if (!names)
             throw new Error('StudentNames does not exists'); // TODO: handle gracefully
@@ -28,14 +35,12 @@ export class AttendancePageComponent extends DocumentPage {
         })
       );
 
-      // build ui model
-      return combineLatest([entries$, studentNames$, this.meta])
-        .pipe(
-          map(deps => attendanceEntriesUIModel(deps)),
-          sortByKey('rollNo'),
-        );
-    })
+      return combineLatest([of(entries), studentNames, this.meta as Observable<AttendanceMetaRaw>]);
+    }),
+    map(attendanceEntriesUIModel),
+    sortByKey('rollNo'),
   );
+
 
   entrySink = new Sink<AttendanceEntryRaw, 'rollNo'>();
   metaSink = new Sink<PrivateMetaRaw>();

@@ -3,7 +3,7 @@ import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {Sink} from 'lib/data/base/sink.interfaces';
 import {combineLatest, of} from 'rxjs';
-import {GradingCriteriaEntryUI, GradingCriteriaMeta} from '@models/document/grading-criteria.model';
+import {GradingCriteriaEntryUI} from '@models/document/grading-criteria.model';
 
 @Component({
   selector: 'app-grading-criteria-page',
@@ -14,7 +14,7 @@ import {GradingCriteriaEntryUI, GradingCriteriaMeta} from '@models/document/grad
 export class GradingCriteriaPageComponent extends DocumentPage {
 
   entries = this.meta.pipe(
-    map((meta) => (meta as GradingCriteriaMeta).entries)
+    map((meta) => (meta as any).entries)
   );
 
   entrySink = new Sink<GradingCriteriaEntryUI, 'grade' | 'minMark'>();

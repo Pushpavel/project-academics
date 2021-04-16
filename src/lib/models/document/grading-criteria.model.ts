@@ -21,6 +21,9 @@ interface MetaRaw {
 export type GradeId = typeof GRADES[number];
 export type GradingCriteriaEntryUI = EntryUI
 export type GradingCriteriaMeta = Meta
+
 export type ProtectedGradingCriteriaMetaRaw = MetaRaw & BaseProtectedMetaRaw
-export type PrivateGradingCriteriaMeta = Meta & BasePrivateMetaRaw
 export type PrivateGradingCriteriaMetaRaw = MetaRaw & BasePrivateMetaRaw
+export type GradingCriteriaMetaRaw = ProtectedGradingCriteriaMetaRaw | PrivateGradingCriteriaMetaRaw
+
+export type PrivateGradingCriteriaMeta = Meta & BasePrivateMetaRaw

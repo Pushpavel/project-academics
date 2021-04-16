@@ -1,7 +1,12 @@
-import {AttendanceEntryRaw, AttendanceEntryUI, PrivateAttendanceMetaRaw} from '@models/document/attendance.model';
+import {
+  AttendanceEntryRaw,
+  AttendanceEntryUI, AttendanceMetaRaw,
+  ProtectedAttendanceMetaRaw
+} from '@models/document/attendance.model';
+import {mapObjectEntries} from '../../utils/native/map.utils';
 
 export function attendanceEntriesUIModel(
-  [entries, studentNames, meta]: [AttendanceEntryRaw[], Map<string, string>, PrivateAttendanceMetaRaw]
+  [entries, studentNames, meta]: [AttendanceEntryRaw[], Map<string, string>, AttendanceMetaRaw]
 ): AttendanceEntryUI[] {
   return entries.map(entry => {
     const percentage = meta.total ? 100 * entry.attended / meta.total : 100;
@@ -11,4 +16,10 @@ export function attendanceEntriesUIModel(
       name: studentNames.get(entry.rollNo) ?? 'Error' // TODO: Handle this
     };
   });
+}
+
+export function attendanceEntriesFromProtectedMeta(meta: ProtectedAttendanceMetaRaw) {
+  return mapObjectEntries(meta.entries,
+    (rollNo, attended) => ({rollNo, attended})
+  );
 }
