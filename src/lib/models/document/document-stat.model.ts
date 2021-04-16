@@ -5,7 +5,7 @@ interface StatsRaw {
   sem: string,
   batch: string,
   courseName: string,
-  courseCode: string,// computed
+  courseCode?: string,// computed
   document: 'DOCUMENT_STATS',
   dept: DeptFields,
   entries: {
