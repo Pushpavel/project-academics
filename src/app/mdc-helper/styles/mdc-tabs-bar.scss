@@ -1,3 +1,4 @@
+@use "theme" as *;
 @use "@material/tab-bar";
 @use "@material/tab-scroller";
 @use "@material/tab-indicator";
@@ -12,7 +13,7 @@
   @include tab.core-styles();
 
   .mdc-tab-bar {
-    border: 1px solid gray;
+
   }
   ::-webkit-scrollbar {
     display: none;
