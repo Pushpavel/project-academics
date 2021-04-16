@@ -25,7 +25,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private courseService: CourseService, private userService: UserService) { }
 
   courseCollections?: any = null
-
+  title = ""
   //dummy
   homeTabs: String[] = ["Tab1", "Tab2", "Tab3", "Tab4", "Tab5"]
 
@@ -62,7 +62,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.courseSubscription = this.courseService.courseCollection.subscribe((result) => this.courseCollections = result)
+    this.courseSubscription = this.courseService.courseCollection.subscribe((result) => { if (result) this.initData(result) })
     this.userSubscription = this.userService.subscribe(u => {
       this.authValidate(u)
     })
@@ -75,21 +75,26 @@ export class HomePageComponent implements OnInit, OnDestroy {
       this.userSubscription.unsubscribe()
   }
 
+  initData(result: any) {
+    this.courseCollections = result;
+    this.title = Object.keys(result)[0];
+  }
+
   handletabChange(i: any) {
     this.tabIndex = i
   }
 
 
-  handleResultSummary(){
+  handleResultSummary() {
     console.log("result summary", this.tabIndex);
   }
 
-  handleResult(){
+  handleResult() {
     console.log("Result", this.tabIndex);
   }
 
   handleArchive() {
-    this.userService.signOut(); // Dummy signout
+    //this.userService.signOut(); // Dummy signout
     console.log("archive", this.tabIndex);
   }
 

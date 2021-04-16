@@ -2,27 +2,35 @@
   <div container>
     <ng-container *ngIf="courseCollections !== null else loader">
 
-  <mdc-tabs-bar *ngIf="this.user && this.user.isExamCell" (handletabChange)='handletabChange($event)' [tabs]="homeTabs">
+      <!-- Exam cell -->
+      <mdc-tabs-bar *ngIf="this.user && this.user.isExamCell" (handletabChange)='handletabChange($event)'
+        [tabs]="homeTabs">
+      </mdc-tabs-bar>
+      <!-- End of Exam cell -->
 
-  </mdc-tabs-bar>
+      <!-- Faculty -->
+      <div class="card-container" *ngIf="this.user && this.user.isFaculty">
+        <course-grid [title]="this.title | titlecase" [courses]="this.courseCollections[this.title]"></course-grid>
+      </div>
+      <!-- End of Faculty -->
 
-  <div>
-    <button mdc-button="outlined" flex (click)="handleArchive()">
-      <mdc-icon [size]="24">archive</mdc-icon>
-      archive
-    </button>
+      <div>
+        <button mdc-button="outlined" flex (click)="handleArchive()">
+          <mdc-icon [size]="24">archive</mdc-icon>
+          archive
+        </button>
 
-    <button *ngIf="this.user && this.user.isExamCell" mdc-button="outlined" flex (click)="handleArchive()">
-      <mdc-icon [size]="24">visibility</mdc-icon>
-      Result Summary
-    </button>
+        <button *ngIf="this.user && this.user.isExamCell" mdc-button="outlined" flex (click)="handleArchive()">
+          <mdc-icon [size]="24">visibility</mdc-icon>
+          Result Summary
+        </button>
 
-    <button mdc-button="raised" *ngIf="this.user && this.user.isStudent" flex (click)="handleArchive()">
-      Result
-    </button>
-  </div>
-</ng-container>
+        <button mdc-button="raised" *ngIf="this.user && this.user.isStudent" flex (click)="handleArchive()">
+          Result
+        </button>
+      </div>
 
+    </ng-container>
   </div>
 </top-bar-layout>
 
