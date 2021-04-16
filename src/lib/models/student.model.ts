@@ -14,7 +14,6 @@ export interface StudentAttendanceEntry {
 }
 
 export interface StudentSemResult {
-  grade: string,
   credits: number,
   gpa: number
 }
@@ -22,7 +21,7 @@ export interface StudentSemResult {
 
 export interface StudentCourseResult {
   courseName: string,
-  courseCode: string,
+  code: string,
   grade: string,
   credits: number,
 }

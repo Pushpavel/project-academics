@@ -1,11 +1,19 @@
-<div *ngIf="result|async as result">
+<data-card *ngIf="result|async as result">
   <h6>RESULT</h6>
-  <!--  TODO: StudentSemResult is available here, use it  -->
-  {{result|json}}
-</div>
+  <ng-container *ngFor="let entry of result|keyvalue">
+    <entry [title]="entry.key" [value]="entry.value"></entry>
+  </ng-container>
+</data-card>
 
-<div *ngFor="let data of courseResults|async">
+<data-card *ngFor="let data of courseResults|async">
   <h6>{{data.courseName}}</h6>
-  <!--  TODO: StudentCourseResult is available here, use it  -->
-  {{data|json}}
-</div>
+  <ng-container *ngFor="let entry of data|keyvalue">
+    <entry *ngIf="entry.key !== 'courseName'" [title]="entry.key" [value]="entry.value"></entry>
+  </ng-container>
+  <button mdc-button>
+    <mdc-icon>
+      open_in_new
+    </mdc-icon>
+    OPEN
+  </button>
+</data-card>

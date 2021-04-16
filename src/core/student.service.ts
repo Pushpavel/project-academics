@@ -33,7 +33,6 @@ export class StudentService {
     return of({
       gpa: 9.8,
       credits: 23,
-      grade: 'S'
     });
   }
 
@@ -41,7 +40,7 @@ export class StudentService {
     // TODO: Implement this
     return of(new Array(8).fill({
       courseName: 'Computer Networks',
-      courseCode: 'CS208',
+      code: 'CS208',
       grade: 'S',
       credits: 3,
     }));
