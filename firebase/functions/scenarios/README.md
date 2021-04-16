@@ -15,5 +15,7 @@ contains source files and exported firestore and auth data from firebase emulato
 - edit ```package.json > scripts.scenario``` and change the path ```./firebase/functions/scenarios/generated/*``` where *
   is the scenario to use
 - call ```generateScenario``` cloud function somewhere from angular project
+- delete ```./firebase/functions/scenarios/generated/*``` where *
+  is the scenario to use folder
 - execute ``npm run scenario``
 - exit terminal after the generateScenario cloud function is executed

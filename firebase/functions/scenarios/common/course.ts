@@ -37,6 +37,7 @@ export async function createCourse(
   const _stats: StatsDocumentRaw = {
     sem: course.semId,
     batch: course.batchId,
+    document: 'DOCUMENT_STATS',
     dept: {[course.dept]: 'core'},
     courseName: _courseName,
     entries: {}

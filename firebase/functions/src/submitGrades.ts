@@ -37,8 +37,7 @@ export async function _submitGrades(p: CoursePath, context: CallableContext) {
   // get required protected documents
   const protectedDocsRef = courseRef.collection('protected_course_documents');
   const protectedDocsSnaps = await protectedDocsRef
-    .where('document', 'in', [...MARK_DOCUMENT_IDS, 'GRADING_CRITERIA', 'DOCUMENT_STATS']
-    )
+    .where('document', 'in', [...MARK_DOCUMENT_IDS, 'GRADING_CRITERIA', 'DOCUMENT_STATS'])
     .get();
 
   const stat = protectedDocsSnaps.docs.find(snap => snap.id == 'DOCUMENT_STATS')?.data() as StatsDocumentRaw;
@@ -48,13 +47,13 @@ export async function _submitGrades(p: CoursePath, context: CallableContext) {
   if (gradeStatus && gradeStatus != 'private' && gradeStatus != 'remarked')
     return error(INVALID_STATE_ERROR, stat);
 
-  // verify whether attendance and all marklists are submitted
-  const isProtectedDocsSubmitted = PRIVATE_DOCUMENT_IDS.every(id => {
+  // verify whether all private documents are submitted
+  const isPrivateDocsSubmitted = PRIVATE_DOCUMENT_IDS.every(id => {
     const status = stat.entries[id];
     return status && status != 'private' && status != 'remarked';
   });
 
-  if (!isProtectedDocsSubmitted)
+  if (!isPrivateDocsSubmitted)
     return error(INVALID_STATE_ERROR, course, p, status);
 
 
@@ -82,7 +81,7 @@ export async function _submitGrades(p: CoursePath, context: CallableContext) {
 
     gradeEntries[rollNo] = {
       total,
-      grade: computeGrade(total, criteria)
+      grade: computeGrade(total, criteria),
     };
   }
 
