@@ -1,19 +1,23 @@
-<data-card *ngIf="result|async as result">
-  <h6>RESULT</h6>
-  <ng-container *ngFor="let entry of result|keyvalue">
-    <entry [title]="entry.key" [value]="entry.value"></entry>
-  </ng-container>
-</data-card>
+<top-bar-layout>
+  <div>
+    <data-card *ngIf="result|async as result">
+      <h6>RESULT</h6>
+      <ng-container *ngFor="let entry of result|keyvalue">
+        <entry [title]="entry.key" [value]="entry.value"></entry>
+      </ng-container>
+    </data-card>
 
-<data-card *ngFor="let data of courseResults|async">
-  <h6>{{data.courseName}}</h6>
-  <ng-container *ngFor="let entry of data|keyvalue">
-    <entry *ngIf="entry.key !== 'courseName'" [title]="entry.key" [value]="entry.value"></entry>
-  </ng-container>
-  <button mdc-button>
-    <mdc-icon>
-      open_in_new
-    </mdc-icon>
-    OPEN
-  </button>
-</data-card>
+    <data-card *ngFor="let data of courseResults|async">
+      <h6>{{data.courseName}}</h6>
+      <ng-container *ngFor="let entry of data|keyvalue">
+        <entry *ngIf="entry.key !== 'courseName'" [title]="entry.key" [value]="entry.value"></entry>
+      </ng-container>
+      <button mdc-button>
+        <mdc-icon>
+          open_in_new
+        </mdc-icon>
+        OPEN
+      </button>
+    </data-card>
+  </div>
+</top-bar-layout>

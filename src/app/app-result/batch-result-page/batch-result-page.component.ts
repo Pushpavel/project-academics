@@ -14,21 +14,17 @@ import {getParams} from 'app/routes/routing.helper';
 })
 export class BatchResultPageComponent {
 
+  allDepartments = Object.values(DEPT_ABBR);
+
   params = getParams(['semId', 'batchId'], this.route);
+
+  selectedDeptId = new BehaviorSubject<string>(Object.keys(DEPT_ABBR)[0]);
 
   submissionOverview = this.params.pipe(
     switchMap(params => this.documentService.getDeptwiseDocSubmissionOverview(params.semId, params.batchId)),
     // Append % to percentage values
     map(deptStats => mapMapEntries(deptStats, (key, val) => [key, val + '%']))
   );
-
-  chooseSubject(c: number) {
-    this.selectedDeptId.next(Object.keys(DEPT_ABBR)[c]);
-  }
-
-  allDepartments = Object.values(DEPT_ABBR);
-
-  selectedDeptId = new BehaviorSubject<string>(Object.keys(DEPT_ABBR)[0]);
 
   courseStats: Observable<CourseStatUI[]> = this.params.pipe(
     switchMap(params =>
@@ -49,6 +45,10 @@ export class BatchResultPageComponent {
       } as CourseStatUI;
     }))
   );
+
+  chooseSubject(c: number) {
+    this.selectedDeptId.next(Object.keys(DEPT_ABBR)[c]);
+  }
 
   constructor(
     private route: ActivatedRoute,

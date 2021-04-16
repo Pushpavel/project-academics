@@ -1,11 +1,13 @@
 :host {
   width: 100%;
 
-  > :first-child {
-    margin: 80px 100px 50px 100px;
-  }
+  div{
+    > :first-child {
+      margin: 80px 10% 50px 10%;
+    }
 
-  > data-card {
-    margin: 20px 100px;
+    > data-card {
+      margin: 20px 10%;
+    }
   }
 }
