@@ -1,6 +1,6 @@
 import {fromFirestore} from 'lib/data/base/convert.default';
 
-export function courseCodeExtract<T extends { courseCode?: string }>(): fromFirestore<T> {
+export function courseCodeExtract<T extends { courseCode: string }>(): fromFirestore<T> {
   return snapshot => ({
     ...snapshot.data(),
     courseCode: getCourseCodeFromPath(snapshot.ref.path)
@@ -8,5 +8,5 @@ export function courseCodeExtract<T extends { courseCode?: string }>(): fromFire
 }
 
 export function getCourseCodeFromPath(path: string) {
-  return /courses\/(.*)\//.exec(path)?.[1] ?? 'Error';// TODO: Handle this
+  return path.split('/')[3];
 }

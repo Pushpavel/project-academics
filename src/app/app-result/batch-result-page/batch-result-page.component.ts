@@ -2,10 +2,15 @@ import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DocumentService} from 'core/document.service';
 import {DEPT_ABBR} from 'lib/constants/dept.constants';
-import {mapMapEntries, mapObjectEntries} from 'lib/utils/native/map.utils';
+import {mapMapEntries} from 'lib/utils/native/map.utils';
 import {map, switchMap} from 'rxjs/operators';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {getParams} from 'app/routes/routing.helper';
+import {DOCUMENT_NAMES, MARK_DOCUMENT_IDS} from '../../../lib/constants/document.constants';
+import {statsDocumentUIModel} from '../../../lib/data/combine/document-stat.combine';
+import {MarklistDocumentId} from '../../../lib/models/document/document-base.model';
+import {StatsDocumentUI} from '../../../lib/models/document/document-stat.model';
+import {BatchPath} from '../../../lib/models/path.model';
 
 @Component({
   selector: 'app-batch-result-page',
@@ -14,11 +19,12 @@ import {getParams} from 'app/routes/routing.helper';
 })
 export class BatchResultPageComponent {
 
-  allDepartments = Object.values(DEPT_ABBR);
+  DEPT_NAMES = Object.values(DEPT_ABBR);
+  DOCUMENT_NAMES = DOCUMENT_NAMES;
 
-  params = getParams(['semId', 'batchId'], this.route);
+  selectedDeptId = new BehaviorSubject(Object.keys(DEPT_ABBR)[0]);
 
-  selectedDeptId = new BehaviorSubject<string>(Object.keys(DEPT_ABBR)[0]);
+  params = getParams<BatchPath>(['semId', 'batchId'], this.route);
 
   submissionOverview = this.params.pipe(
     switchMap(params => this.documentService.getDeptwiseDocSubmissionOverview(params.semId, params.batchId)),
@@ -26,28 +32,19 @@ export class BatchResultPageComponent {
     map(deptStats => mapMapEntries(deptStats, (key, val) => [key, val + '%']))
   );
 
-  courseStats: Observable<CourseStatUI[]> = this.params.pipe(
-    switchMap(params =>
-      this.selectedDeptId.pipe(
-        switchMap(deptId => this.documentService.getCourseDocStats({...params, deptId}))
-      )
+  statDocs: Observable<StatsDocumentUI[]> = combineLatest([this.selectedDeptId, this.params]).pipe(
+    switchMap(([deptId, params]) =>
+      this.documentService.statsDocumentQuery({...params, deptId})
     ),
-    map(courseStats => courseStats.map(courseStat => {
-      if (!courseStat)
-        throw new Error('CourseStat does not Exists !'); // TODO: handle gracefully
-      const stats = new Map(mapObjectEntries(courseStat.stats, (_, stat) => [stat.documentName, stat.status]));
-      const statsAndCourseCode = new Map([['CODE', courseStat.courseCode], ...stats.entries()]);
-
-      return {
-        courseCode: courseStat.courseCode,
-        courseName: courseStat.courseName,
-        statsAndCourseCode,
-      } as CourseStatUI;
-    }))
+    map(statDocs => statDocs.map(statsDocumentUIModel)),
   );
 
   chooseSubject(c: number) {
     this.selectedDeptId.next(Object.keys(DEPT_ABBR)[c]);
+  }
+
+  markEntries(entries: StatsDocumentUI['entries']) {
+    return Object.values(entries).filter(entry => MARK_DOCUMENT_IDS.includes(entry.documentId as MarklistDocumentId));
   }
 
   constructor(
@@ -55,10 +52,4 @@ export class BatchResultPageComponent {
     private documentService: DocumentService,
   ) {
   }
-}
-
-interface CourseStatUI {
-  courseCode: string,
-  courseName: string,
-  statsAndCourseCode: Map<string, string>,
 }

@@ -18,10 +18,8 @@ export class DocumentService {
 
   // TODO: caching
   // TODO: connect sink to source
-  /**
-   * @deprecated
-   */
-  getCourseDocStats = this.statSources.statsDocumentQuery.bind(this.statSources);
+
+  statsDocumentQuery = this.statSources.statsDocumentQuery.bind(this.statSources);
 
   getStatsDocument = this.statSources.statsDocument.bind(this.statSources);
   getStudentNames = this.docSources.studentNames.bind(this.docSources);

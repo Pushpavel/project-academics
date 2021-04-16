@@ -1,34 +1,34 @@
 <top-bar-layout>
-  <div>
-    <data-card class="submissions" *ngIf="submissionOverview|async as data">
-      <h6>SUBMISSIONS</h6>
-      <!--  TODO: Map<dept,percent> is available here, use it  -->
-      <ng-container *ngFor="let entry of data|keyvalue">
-        <entry [title]="entry.key" [value]="'-'"></entry>
-      </ng-container>
+  <mdc-layout container>
+    <data-card
+      *ngIf="submissionOverview|async as data"
+      [span]="12"
+      title="SUBMISSIONS"
+      class="submissions">
+
+      <entry *ngFor="let entry of data|keyvalue" [title]="entry.key" [value]="'-'"></entry>
       <button mdc-button class="mdc-button--raised">
-        <mdc-icon>
-          check_circle
-        </mdc-icon>
+        <mdc-icon> check_circle</mdc-icon>
         PUBLISH
       </button>
+
     </data-card>
 
-    <!--TODO: TabBar -->
-    <mdc-tabs-bar [tabs]="allDepartments" (handletabChange)="chooseSubject($event)"></mdc-tabs-bar>
+    <mdc-tabs-bar [span]="12" [tabs]="DEPT_NAMES" (handletabChange)="chooseSubject($event)"></mdc-tabs-bar>
 
-    <data-card *ngFor="let courseStat of courseStats|async">
-      <h6>{{courseStat.courseName}}Course Name</h6>
-      <!--  TODO: Map<docName,status> is available here, use it  -->
-      <ng-container *ngFor="let entry of courseStat.statsAndCourseCode|keyvalue">
-        <entry [title]="entry.key" [value]="entry.value"></entry>
-      </ng-container>
-      <button mdc-button>
-        <mdc-icon>
-          open_in_new
-        </mdc-icon>
-        OPEN
-      </button>
-    </data-card>
-  </div>
+    <ng-container *ngIf="statDocs|async as docs">
+      <data-card *ngFor="let doc of docs" [span]="12" [title]="doc.courseName">
+        <entry title="COURSE CODE" [value]="doc.courseCode"></entry>
+        <entry *ngFor="let entry of markEntries(doc.entries)"
+               [title]="DOCUMENT_NAMES[entry.documentId]"
+               [value]="entry.status"
+        ></entry>
+        <button mdc-button>
+          <mdc-icon>open_in_new</mdc-icon>
+          OPEN
+        </button>
+
+      </data-card>
+    </ng-container>
+  </mdc-layout>
 </top-bar-layout>

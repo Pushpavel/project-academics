@@ -3,10 +3,10 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 import {filter, map, shareReplay} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {DocumentId} from '@models/document/document-base.model';
-import {CoursePath, DocumentPath} from '@models/path.model';
+import {BatchPath, CoursePath, DocumentPath} from '@models/path.model';
 
 export type RoutingParamsObject = Record<RoutingParam, string> & { documentId: DocumentId };
-export type RoutingPathParams = CoursePath | DocumentPath
+export type RoutingPathParams = CoursePath | DocumentPath | BatchPath
 
 /**
  * Utility Function that gets paramMap as Object from ActivatedRoute (route)

@@ -1,11 +1,9 @@
-import {CourseDocumentStats} from '@models/course.model';
 import {CoursePath} from '@models/path.model';
 import {PROTECTED_DOCUMENT_PATH} from 'lib/constants/firestore.path';
 import {SourceService} from 'lib/data/base/service.abstract';
 import {Injectable} from '@angular/core';
 import {StatsDocumentRaw} from '../../models/document/document-stat.model';
 import {courseCodeExtract} from '../convert/common';
-import {documentStatsFromSnapshot} from '../convert/document-stats-from.snapshot';
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +18,13 @@ export class DocumentStatSources extends SourceService {
   }
 
   statsDocumentQuery(query: { semId: string, batchId?: string, deptId?: string }) {
-    return this.service.fetchList<CourseDocumentStats, true>({
+    return this.service.fetchList<StatsDocumentRaw, true>({
       path: 'protected_course_documents',
       colGroupQuery: true,
-      convert: documentStatsFromSnapshot,
+      convert: courseCodeExtract<StatsDocumentRaw>(),
       query(q) {
-        q = q.where('document', '==', 'DOCUMENT_STATS').where('sem', '==', query.semId);
+        q = q.where('document', '==', 'DOCUMENT_STATS')
+          .where('sem', '==', query.semId);
 
         if (query.batchId)
           q = q.where('batch', '==', query.batchId);
