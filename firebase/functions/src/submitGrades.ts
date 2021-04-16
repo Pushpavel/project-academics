@@ -7,7 +7,7 @@ import {CourseRaw} from '@models/course.model';
 import {logger} from 'firebase-functions';
 import {CallableContext} from 'firebase-functions/lib/providers/https';
 import * as admin from 'firebase-admin';
-import {StatsDocumentRaw} from '@models/document/document-stat.model';
+import {StatsDocumentZZZ} from '@models/document/document-stat.model';
 import {ProtectedMarklistMetaRaw} from '@models/document/marklist.model';
 import {GradeEntryRaw} from '@models/document/grading.model';
 import {ProtectedGradingCriteriaMetaRaw} from '@models/document/grading-criteria.model';
@@ -40,7 +40,7 @@ export async function _submitGrades(p: CoursePath, context: CallableContext) {
     .where('document', 'in', [...MARK_DOCUMENT_IDS, 'GRADING_CRITERIA', 'DOCUMENT_STATS'])
     .get();
 
-  const stat = protectedDocsSnaps.docs.find(snap => snap.id == 'DOCUMENT_STATS')?.data() as StatsDocumentRaw;
+  const stat = protectedDocsSnaps.docs.find(snap => snap.id == 'DOCUMENT_STATS')?.data() as StatsDocumentZZZ;
 
   // verify whether grade is already submitted
   const gradeStatus = stat.entries.GRADES?.status;

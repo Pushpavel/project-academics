@@ -1,7 +1,7 @@
 import {fromFirestore} from 'lib/data/base/convert.default';
 import {mapObjectEntries} from 'lib/utils/native/map.utils';
 import {DOCUMENT_NAMES} from 'lib/constants/document.constants';
-import {_StatEntryRaw, StatsDocumentRaw} from '@models/document/document-stat.model';
+import {_StatEntryRaw, StatsDocumentZZZ} from '@models/document/document-stat.model';
 import {getCourseCodeFromPath} from 'lib/data/convert/common';
 import {CourseDocumentStats} from '@models/course.model';
 import {DocumentId} from '@models/document/document-base.model';
@@ -15,7 +15,7 @@ export const documentStatsFromSnapshot: fromFirestore<CourseDocumentStats> =
     const courseCode = getCourseCodeFromPath(snapshot.ref.path);
 
     // get raw data
-    const data = snapshot.data() as StatsDocumentRaw;
+    const data = snapshot.data() as StatsDocumentZZZ;
 
     // build StatEntryRaw[]
     const stats = mapObjectEntries(DOCUMENT_NAMES, (id, documentName) => {

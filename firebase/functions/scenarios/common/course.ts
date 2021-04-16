@@ -8,7 +8,7 @@ import {UserRecord} from './defaults';
 import {DeptId} from '@models/document/document-base.model';
 import * as faker from 'faker';
 import {Deletable} from '@models/util.types';
-import {StatsDocumentRaw} from '@models/document/document-stat.model';
+import {StatsDocumentZZZ} from '@models/document/document-stat.model';
 
 const firestore = admin.firestore();
 
@@ -34,7 +34,7 @@ export async function createCourse(
   };
 
 
-  const _stats: StatsDocumentRaw = {
+  const _stats: StatsDocumentZZZ = {
     sem: course.semId,
     batch: course.batchId,
     document: 'DOCUMENT_STATS',
