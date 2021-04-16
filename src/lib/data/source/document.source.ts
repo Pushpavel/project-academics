@@ -2,7 +2,6 @@ import {DocumentId, PrivateMetaRaw, ProtectedMetaRaw} from '@models/document/doc
 import {CoursePath} from '@models/path.model';
 import {AttendanceEntryRaw} from '@models/document/attendance.model';
 import {MarklistEntryRaw} from '@models/document/marklist.model';
-import {gradingCriteriaFromSnapshot} from 'lib/data/convert/grading-criteria-from.snapshot';
 import {COURSE_PATH, PRIVATE_DOCUMENT_PATH, PUBLIC_DOCUMENT_PATH} from 'lib/constants/firestore.path';
 import {NonGradeDocumentId, PrivateDocumentId} from '@models/document/document-base.model';
 import {Injectable} from '@angular/core';
@@ -22,14 +21,8 @@ export class DocumentSources extends SourceService {
    * @param documentId academic document id
    */
   privateDocumentMeta<T extends PrivateMetaRaw>(p: CoursePath, documentId: PrivateDocumentId) {
-    let convert;
-
-    if (documentId == 'GRADING_CRITERIA')
-      convert = gradingCriteriaFromSnapshot;
-
     return this.service.fetchObj<T>({
       path: PRIVATE_DOCUMENT_PATH({...p, documentId}),
-      convert: convert as any,
       once: true,
     });
   }

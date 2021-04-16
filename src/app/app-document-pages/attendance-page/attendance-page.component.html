@@ -16,7 +16,7 @@
     <div [span]="12" *ngIf="meta|async as meta">
       <span class="sub2 dark-text-primary">No of Classes Conducted</span>
       <label mdc-text-field class="surface hm16">
-        <input mdc-input type="number" [value]="meta.total" (change)="onTotalChange($event)">
+        <input mdc-input type="number" [value]="$any(meta).total" (change)="onTotalChange($event)">
       </label>
     </div>
 

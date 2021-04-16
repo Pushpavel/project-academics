@@ -7,7 +7,9 @@ import {
 import {GRADES} from 'lib/constants/grading.constants';
 import {SinkUpdate} from 'lib/data/base/sink.interfaces';
 
-
+/**
+ * @deprecated
+ */
 export const gradingCriteriaFromSnapshot: fromFirestore<PrivateGradingCriteriaMeta> =
   (snap) => {
     const data = snap.data() as any as PrivateGradingCriteriaMetaRaw;

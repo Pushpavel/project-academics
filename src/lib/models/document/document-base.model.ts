@@ -26,7 +26,7 @@ export type DeptFields = { [dept in DeptId]?: 'core' | 'elective1' | 'elective2'
 
 
 export type PrivateMetaRaw = PrivateMarklistMetaRaw | PrivateAttendanceMetaRaw | PrivateGradingCriteriaMetaRaw
-export type ProtectedMetaRaw = ProtectedAttendanceMetaRaw | ProtectedMarklistMetaRaw | ProtectedGradingCriteriaMetaRaw | ProtectedGradesMeta
+export type ProtectedMetaRaw = ProtectedMarklistMetaRaw | ProtectedAttendanceMetaRaw | ProtectedGradingCriteriaMetaRaw | ProtectedGradesMeta
 
 
 export function isPrivateMeta(meta: BasePrivateMetaRaw | BaseProtectedMetaRaw): meta is PrivateMetaRaw {
