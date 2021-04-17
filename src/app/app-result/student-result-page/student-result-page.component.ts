@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {StudentService} from 'core/student.service';
-import {of} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
+import {UserService} from '../../../core/user.service';
 
 @Component({
   selector: 'app-student-result-page',
@@ -10,7 +10,7 @@ import {switchMap} from 'rxjs/operators';
 })
 export class StudentResultPageComponent {
 
-  rollNo = of('CS19B1042'); // TODO: Prepare student data
+  rollNo = this.user.loggedInUser.pipe(map(u => u?.uid ?? 'ERROR')); // TODO: handle this
 
   result = this.rollNo.pipe(
     switchMap(rollNo => this.studentService.getResult(rollNo))
@@ -22,6 +22,7 @@ export class StudentResultPageComponent {
 
   constructor(
     private studentService: StudentService,
+    private user: UserService,
   ) {
   }
 

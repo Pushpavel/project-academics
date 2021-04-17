@@ -12,6 +12,7 @@ interface EntryUI extends Partial<EntryRaw & Record<MarklistDocumentId, number>>
 }
 
 
+export type GradeEntryZZZ = Omit<EntryRaw, 'rollNo'>
 export type GradeEntryRaw = EntryRaw;
 export type GradeEntryUI = EntryUI;
 

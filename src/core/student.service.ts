@@ -9,6 +9,9 @@ import {StudentCourseResult, StudentSemResult} from 'lib/models/student.model';
 })
 export class StudentService {
 
+  /**
+   * @deprecated
+   */
   getCourseOverview(semId: string, rollNo: string, courseCode: string): Observable<CourseOverviewUI> {
     // TODO: implement this
     return of({
@@ -26,6 +29,10 @@ export class StudentService {
         timestamp: 844848888,
       }))
     });
+  }
+
+  getStudentEntries(query: { rollNo?: string, semId?: string, courseCode?: string }) {
+
   }
 
   getResult(rollNo: string): Observable<StudentSemResult> {

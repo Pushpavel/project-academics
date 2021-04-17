@@ -15,8 +15,12 @@ interface MetaRaw {
 }
 
 
+export type AttendanceEntryZZZ = Omit<EntryRaw, 'rollNo'>
 export type AttendanceEntryRaw = EntryRaw
 export type AttendanceEntryUI = EntryUI
+
+export type BaseAttendanceMetaZZZ = MetaRaw;
 export type ProtectedAttendanceMetaRaw = MetaRaw & { entries: Record<string, number> } & BaseProtectedMetaRaw
 export type PrivateAttendanceMetaRaw = MetaRaw & BasePrivateMetaRaw
+
 export type AttendanceMetaRaw = ProtectedAttendanceMetaRaw | PrivateAttendanceMetaRaw

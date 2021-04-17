@@ -1,3 +1,8 @@
+import {BaseMetaZZZMap, EntryZZZMap, PublicDocumentId} from './document/document-base.model';
+
+/**
+ * @deprecated
+ */
 export interface StudentMarkEntry {
   documentId: string,
   documentName: string,
@@ -6,6 +11,9 @@ export interface StudentMarkEntry {
   timestamp: number
 }
 
+/**
+ * @deprecated
+ */
 export interface StudentAttendanceEntry {
   percentage: number,
   attendedClasses: number,
@@ -13,6 +21,9 @@ export interface StudentAttendanceEntry {
   timestamp: number
 }
 
+/**
+ * @deprecated
+ */
 export interface StudentSemResult {
   credits: number,
   gpa: number
@@ -29,3 +40,18 @@ export interface StudentCourseResult {
 export interface StudentsDocumentRaw {
   entries: Record<string, string>
 }
+
+interface ZZZ {
+  sem: string,
+  rollNo: string,
+  batch: string,
+  credits: number,
+  courseName: string,
+  entries: {
+    [docId in PublicDocumentId]?: EntryZZZ<docId>
+  }
+}
+
+type EntryZZZ<ID extends PublicDocumentId> = BaseMetaZZZMap[ID] & EntryZZZMap[ID] & { publicTimestamp: number };
+
+export type StudentZZZ = ZZZ;
