@@ -5,7 +5,7 @@ import {StatsDocumentRaw, StatsDocumentUI, StatsEntryRaw, StatsEntryUI} from '..
 
 export function statsDocumentUIModel(data: StatsDocumentRaw): StatsDocumentUI {
   const entries = DOCUMENT_IDS.reduce((entries, id) => {
-    entries[id] = statsEntryUIModel(id, entries[id]);
+    entries[id] = statsEntryUIModel(id, data.entries[id]);
     return entries;
   }, {} as any);
 
