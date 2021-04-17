@@ -7,7 +7,7 @@
       class="submissions">
 
       <entry *ngFor="let entry of data|keyvalue" [title]="entry.key" [value]="'-'"></entry>
-      <button mdc-button class="mdc-button--raised">
+      <button [disabled]="!isPublishable" mdc-button class="mdc-button--raised" (click)="publishBtn()">
         <mdc-icon> check_circle</mdc-icon>
         PUBLISH
       </button>
@@ -23,7 +23,7 @@
                [title]="DOCUMENT_NAMES[entry.documentId]"
                [value]="entry.status"
         ></entry>
-        <button mdc-button>
+        <button mdc-button (click)="openCourse(doc.courseCode)">
           <mdc-icon>open_in_new</mdc-icon>
           OPEN
         </button>

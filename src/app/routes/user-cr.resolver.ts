@@ -45,7 +45,7 @@ export class UserCrResolver implements Resolve<UserCrData> {
           let stat: StatsEntryRaw;
 
           // authGuard like pattern
-          return of(!!(userCR.isFaculty || userCR.isHod || userCR.isStudent)) // is user related to course
+          return of(!!(userCR.isFaculty || userCR.isHod || userCR.isStudent || userCR.isExamCell)) // is user related to course
             .pipe(
               elseRedirectTo('404'),
               thenMap(() => !params.documentId || userCR.isFaculty || !userCR.isHod && !userCR.isExamCell), // is private check not needed
@@ -84,5 +84,6 @@ function buildUserCR(user: AcademicUser, course: CourseRaw): UserCourseRelation 
     isFaculty: user.isFaculty && user.uid == course.facultyId,
     isHod: !!user.isHod && !!course.dept[user.isHod],
     isStudent: user.isStudent,
+    isExamCell: user.isExamCell,
   };
 }
