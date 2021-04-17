@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {CourseDetailRaw, CourseRaw} from '@models/course.model';
-import {BehaviorSubject} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {CourseSources} from 'lib/data/source/course.sources';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {AngularFirestoreCollection} from '@angular/fire/firestore/collection/collection';
+import { Injectable } from '@angular/core';
+import { CourseDetailRaw, CourseRaw } from '@models/course.model';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CourseSources } from 'lib/data/source/course.sources';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestoreCollection } from '@angular/fire/firestore/collection/collection';
 
 
 @Injectable({
@@ -43,12 +43,15 @@ export class CourseService {
   }
 
   fetchCoursesGeneral(courseRef: AngularFirestoreCollection<CourseRaw>, key: string) {
-    courseRef.valueChanges({idField: 'id'}).pipe(
+    courseRef.valueChanges({ idField: 'id' }).pipe(
       map(e => {
-        return e.reduce((collections: any, course: any) => {
-          collections[key] = [{name: course.name, courseCode: course.id} as CourseDetailRaw];
-          return collections;
-        }, {});
+        //Really janky implementation. Can break for sure
+        //TODO: Refactor the implementation
+        let tmp: any = {};
+        tmp[key] = e.map(el => {
+          return { name: el.name, courseCode: el.id } as CourseDetailRaw
+        })
+        return tmp
       })
     )
       .subscribe((coursesCollection => {

@@ -41,12 +41,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
   authValidate(user: AcademicUser | null) {
 
     this.user = user
-
-    if (user?.isFaculty) {
+    if (user?.isFaculty && user?.isHod == undefined) {
       this.courseService.fetchCoursesForFaculty(user.uid, '2020_2')
     }
 
     if (user?.isHod) {
+      this.courseService.fetchCoursesForFaculty(user.uid, '2020_2')
       //fetch hod courses
     }
 
@@ -62,7 +62,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.courseSubscription = this.courseService.courseCollection.subscribe((result) => { if (result) this.initData(result) })
+    this.courseSubscription = this.courseService.courseCollection.subscribe((result) => { console.log(result); if (result) this.initData(result) })
     this.userSubscription = this.userService.subscribe(u => {
       this.authValidate(u)
     })
@@ -77,7 +77,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   initData(result: any) {
     this.courseCollections = result;
-    console.log(result);
     this.title = Object.keys(result)[0];
   }
 
