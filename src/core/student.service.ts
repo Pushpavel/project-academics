@@ -3,6 +3,7 @@ import {Observable, of} from 'rxjs';
 import {CourseOverviewUI} from '../app/app-course/student-course-overview/student-course-overview.component';
 import {STUDENT_MARK_NAMES} from 'lib/constants/student.constants';
 import {StudentCourseResult, StudentSemResult} from 'lib/models/student.model';
+import {StudentsSources} from '../lib/data/source/students.sources';
 
 @Injectable({
   providedIn: 'root'
@@ -31,10 +32,11 @@ export class StudentService {
     });
   }
 
-  getStudentEntries(query: { rollNo?: string, semId?: string, courseCode?: string }) {
+  getStudentEntries = this.sources.publicStudentEntries.bind(this.sources);
 
-  }
-
+  /**
+   * @deprecated
+   */
   getResult(rollNo: string): Observable<StudentSemResult> {
     // TODO: Implement this
     return of({
@@ -43,6 +45,9 @@ export class StudentService {
     });
   }
 
+  /**
+   * @deprecated
+   */
   getCourseResults(rollNo: string): Observable<StudentCourseResult[]> {
     // TODO: Implement this
     return of(new Array(8).fill({
@@ -51,5 +56,8 @@ export class StudentService {
       grade: 'S',
       credits: 3,
     }));
+  }
+
+  constructor(private sources: StudentsSources) {
   }
 }

@@ -2,20 +2,17 @@
   <div>
     <data-card *ngIf="result|async as result">
       <h6>RESULT</h6>
-      <ng-container *ngFor="let entry of result|keyvalue">
-        <entry [title]="entry.key" [value]="entry.value"></entry>
-      </ng-container>
+      <entry title="Total Credits" [value]="result.totalCredits"></entry>
+      <entry title="GPA" [value]="result.gpa"></entry>
     </data-card>
 
     <data-card *ngFor="let data of courseResults|async">
       <h6>{{data.courseName}}</h6>
-      <ng-container *ngFor="let entry of data|keyvalue">
-        <entry *ngIf="entry.key !== 'courseName'" [title]="entry.key" [value]="entry.value"></entry>
-      </ng-container>
-      <button mdc-button>
-        <mdc-icon>
-          open_in_new
-        </mdc-icon>
+      <entry title="CODE" [value]="data.courseCode"></entry>
+      <entry title="GRADE" [value]="data.entries.GRADES.grade"></entry>
+      <entry title="CREDITS" [value]="data.credits"></entry>
+      <button mdc-button (click)="openCourse(data.courseCode)">
+        <mdc-icon> open_in_new</mdc-icon>
         OPEN
       </button>
     </data-card>

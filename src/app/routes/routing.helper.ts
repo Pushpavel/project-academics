@@ -6,7 +6,7 @@ import {DocumentId} from '@models/document/document-base.model';
 import {BatchPath, CoursePath, DocumentPath} from '@models/path.model';
 
 export type RoutingParamsObject = Record<RoutingParam, string> & { documentId: DocumentId };
-export type RoutingPathParams = CoursePath | DocumentPath | BatchPath
+export type RoutingPathParams = CoursePath | DocumentPath | BatchPath | { semId: string }
 
 /**
  * Utility Function that gets paramMap as Object from ActivatedRoute (route)

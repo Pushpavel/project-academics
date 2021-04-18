@@ -29,7 +29,9 @@ export interface StudentSemResult {
   gpa: number
 }
 
-
+/**
+ * @deprecated
+ */
 export interface StudentCourseResult {
   courseName: string,
   code: string,
@@ -37,6 +39,9 @@ export interface StudentCourseResult {
   credits: number,
 }
 
+/**
+ * @deprecated
+ */
 export interface StudentsDocumentRaw {
   entries: Record<string, string>
 }
@@ -52,6 +57,16 @@ interface ZZZ {
   }
 }
 
+interface Raw extends ZZZ {
+  courseCode: string,
+}
+
+interface Result extends Raw {
+  entries: Required<Raw['entries']>
+}
+
 type EntryZZZ<ID extends PublicDocumentId> = BaseMetaZZZMap[ID] & EntryZZZMap[ID] & { publicTimestamp: number };
 
 export type StudentZZZ = ZZZ;
+export type StudentRaw = Raw;
+export type StudentResult = Result;

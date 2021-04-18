@@ -10,6 +10,27 @@ export function computeGrade(total: number, criteria: ProtectedGradingCriteriaMe
   return 'below F'; // TODO: whats below F?
 }
 
+export function pointFromGrade(grade: string) {
+  switch (grade) {
+    case 'S':
+      return 10;
+    case 'A':
+      return 9;
+    case 'B':
+      return 8;
+    case 'C':
+      return 7;
+    case 'D':
+      return 6;
+    case 'E':
+      return 5;
+    case 'F':
+      return 0;
+    default:
+      return 0;
+  }
+}
+
 export function computePartialTotal(metas: ProtectedMarklistMetaRaw[]) {
   const totalMap = new Map<string, number>();
 
