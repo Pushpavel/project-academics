@@ -19,6 +19,8 @@
     </div>
   </div>
 
-  <faculty-actions *ngIf="true"></faculty-actions>
-  <student-course-overview *ngIf="false"></student-course-overview>
+  <ng-container *ngIf="courseCR|async as cr">
+    <faculty-actions *ngIf="cr.isFaculty"></faculty-actions>
+    <student-course-overview *ngIf="cr.isStudent"></student-course-overview>
+  </ng-container>
 </top-bar-layout>
