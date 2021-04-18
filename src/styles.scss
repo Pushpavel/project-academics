@@ -3,6 +3,7 @@
 
 //imports
 @use "app/app-document-pages/document-pages.import";
+@use "src/styles/layout";
 
 @include theme.styles();
 @include mdc.all-styles();

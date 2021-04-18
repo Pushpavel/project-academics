@@ -1,0 +1,57 @@
+/**
+  Responsive Grid Layout
+  refer https://material.io/design/layout/responsive-layout-grid.html#columns-gutters-and-margins
+  This layout only styles horizontal properties
+ */
+
+@use "sass:map";
+@use "sass:math";
+@use "utils/layout";
+@use "utils/media";
+
+$columns-counts: map.values(layout.$columns);
+$max-column-count: math.max($columns-counts...); // $max-column-count: 12
+
+// Default Grid Properties
+.grid-layout {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat($max-column-count, minmax(0, 1fr));
+
+  > * {
+    grid-column-end: span layout.$default-column-span;
+  }
+}
+
+
+// For Each Breakpoint
+@each $key in map.keys(layout.$breakpoints) {
+
+  $column-count: map.get(layout.$columns, $key);
+  $margin: map.get(layout.$default-margins, $key);
+  $gutter: map.get(layout.$default-gutters, $key);
+  $fixed-column-width: map.get(layout.$fixed-column-widths, $key);
+
+  .grid-layout {
+    @include media.breakpoint($key) {
+      padding-right: $margin;
+      padding-left: $margin;
+      grid-column-gap: $gutter;
+      grid-template-columns: repeat($column-count, minmax(0, 1fr));
+      &.fixed {
+        grid-template-columns: repeat($column-count, minmax(0, $fixed-column-width));
+      }
+    }
+
+    @include media.breakpoint($key) {
+      @for $span from 1 through $max-column-count {
+        > *.grid-cell__#{$key}__#{$span} {
+          grid-column-end: span math.min($span, $column-count);
+        }
+      }
+    }
+
+  }
+
+
+}

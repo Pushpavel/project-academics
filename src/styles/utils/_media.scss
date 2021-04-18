@@ -2,22 +2,6 @@
 @use "sass:map";
 @use "utils/layout";
 
-// returns the lower boundary or null if the smallest grid is selected
-@function breakpoint-min($key) {
-  $min: map.get(layout.$breakpoints, $key);
-
-  @return if($min > 0, $min, null);
-}
-
-// returns the upper boundary or null if the largest grid is selected
-@function breakpoint-max($key) {
-  $keys: map.keys(layout.$columns);
-  $n: list.index($keys, $key);
-  $prev: if($n > 1, list.nth($keys, $n - 1), null);
-
-  @return if($prev, (breakpoint-min($prev) - 1px), null);
-}
-
 @mixin breakpoint($key) {
   $min: breakpoint-min($key);
   $max: breakpoint-max($key);
@@ -38,4 +22,20 @@
     // Fallback - no breakpoints defined
     @content;
   }
+}
+
+// returns the lower boundary or null if the smallest breakpoint is selected
+@function breakpoint-min($key) {
+  $min: map.get(layout.$breakpoints, $key);
+
+  @return if($min > 0, $min, null);
+}
+
+// returns the upper boundary or null if the largest grid is selected
+@function breakpoint-max($key) {
+  $keys: map.keys(layout.$columns);
+  $n: list.index($keys, $key);
+  $prev: if($n > 1, list.nth($keys, $n - 1), null);
+
+  @return if($prev, (breakpoint-min($prev) - 1px), null);
 }
