@@ -1,6 +1,5 @@
 import {Directive, Input} from '@angular/core';
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
-import {CellContext} from './mdc-table/mdc-table.component';
 
 @Directive({
   selector: 'column'
@@ -8,7 +7,6 @@ import {CellContext} from './mdc-table/mdc-table.component';
 export class ColumnDirective<T extends Readonly<T>> {
   @Input() key!: keyof T;
   @Input() label!: string;
-  @Input() compute?: ComputeColumn<T>;
 
   _numeric?: boolean;
   _editable?: boolean;
@@ -21,5 +19,3 @@ export class ColumnDirective<T extends Readonly<T>> {
     this._editable = coerceBooleanProperty(value);
   }
 }
-
-export type ComputeColumn<T extends Readonly<T>> = (context: CellContext<T>) => string | number | undefined;

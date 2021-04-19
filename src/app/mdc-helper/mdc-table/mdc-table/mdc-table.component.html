@@ -14,7 +14,7 @@
     </thead>
     <tbody class="mdc-data-table__content">
 
-    <ng-container *ngIf="source|async as rows">
+    <ng-container *ngIf="rows">
       <tr *ngFor="let row of rows;index as index;trackBy:trackByIndex" class="mdc-data-table__row">
 
         <td *ngFor="let col of columns" class="mdc-data-table__cell"
@@ -29,7 +29,7 @@
 
           <!--  DEFAULT CELL -->
           <ng-template #DefaultCell>
-            {{col.compute ? col.compute({row: row, col: col, rows: rows, index: index}) : row[col.key]}}
+            {{row[col.key]}}
           </ng-template>
 
         </td>

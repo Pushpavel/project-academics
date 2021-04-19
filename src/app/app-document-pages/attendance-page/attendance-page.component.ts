@@ -8,7 +8,6 @@ import {map, switchMap} from 'rxjs/operators';
 import {
   AttendanceEntryRaw,
   AttendanceEntryUI,
-  AttendanceMetaRaw,
   PrivateAttendanceMetaRaw,
   ProtectedAttendanceMetaRaw
 } from '@models/document/attendance.model';
@@ -28,7 +27,7 @@ export class AttendancePageComponent extends DocumentPage<'ATTENDANCE', PrivateA
       if (isPrivateMeta(meta))
         return this.documentService.getPrivateDocumentEntries<AttendanceEntryRaw>(p);
 
-      return of(attendanceEntriesFromProtectedMeta(meta as ProtectedAttendanceMetaRaw));
+      return of(attendanceEntriesFromProtectedMeta(meta));
     }),
     switchMap(entries => {
       const studentNames = this.params.pipe(
@@ -40,7 +39,7 @@ export class AttendancePageComponent extends DocumentPage<'ATTENDANCE', PrivateA
         })
       );
 
-      return combineLatest([of(entries), studentNames, this.meta as Observable<AttendanceMetaRaw>]);
+      return combineLatest([of(entries), studentNames, this.meta]);
     }),
     map(attendanceEntriesUIModel),
     sortByKey('rollNo'),
@@ -64,11 +63,12 @@ export class AttendancePageComponent extends DocumentPage<'ATTENDANCE', PrivateA
   ).subscribe();
 
 
-  onTotalChange(event: Event) {
-    const target = event.target as HTMLInputElement;
-    this.metaSink.next({
-      total: target.valueAsNumber
-    });
+  total = 0;
+
+  totalChange(event: Event) {
+    this.total = (event.target as HTMLInputElement).valueAsNumber;
+    console.log(this.total);
+    this.metaSink.next({total: this.total});
   }
 
   onEdit({row, target}: EditEvent<AttendanceEntryUI>) {
@@ -79,7 +79,11 @@ export class AttendancePageComponent extends DocumentPage<'ATTENDANCE', PrivateA
     });
   }
 
-  computePercentage({row}: CellContext<AttendanceEntryUI>) {
-    return row.attended / 100;
-  }
+  computePercentage = ({row}: CellContext<AttendanceEntryUI>) => {
+    if (this.total == 0) return '100%';
+    const percent = row.attended / this.total;
+    console.log(percent, this.total);
+
+    return (Math.round(percent * 10) / 10).toString() + '%';
+  };
 }

@@ -1,5 +1,4 @@
 import {Component, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
 import {ColumnDirective} from '../column.directive';
 
 @Component({
@@ -15,25 +14,14 @@ export class MdcTableComponent<T extends Readonly<T>> {
   @ContentChildren(ColumnDirective) columns!: QueryList<ColumnDirective<T>>;
   @Input() editableTemplate?: TemplateRef<T>;
 
-  @Input() set rows(rows: Readonly<T[]> | null) {
-    if (rows) this.source.next(rows);
-  }
-
+  @Input() rows: Readonly<T[]> | null = null;
   @Output() edit = new EventEmitter<EditEvent<T>>();
 
 
-  source = new BehaviorSubject<Readonly<T[]>>([]);
-
   onChange(event: Event, row: T, col: ColumnDirective<T>, rows: Readonly<T[]>, index: number) {
     const target = event.target as HTMLInputElement;
-
-    if (target.validity.valid) {
-      const clonedRows = [...rows];
-      clonedRows[index] = {...row, [col.key]: col._numeric ? target.valueAsNumber : target.value};
-
-      this.source.next(clonedRows);
-      this.edit.next({row: clonedRows[index], col, rows: clonedRows, target, index});
-    }
+    if (target.validity.valid)
+      this.edit.next({row, col, rows, target, index});
   }
 
   trackByIndex = (i: number) => i;
