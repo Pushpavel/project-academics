@@ -10,7 +10,7 @@
     </div>
 
 
-    <mdc-table [span]="4" [rows]="entries|async" [editableCell]="editableCell">
+    <mdc-table [span]="4" [rows]="entries|async" [editableTemplate]="editableCell" (edit)="onEdit($event)">
       <column key="grade" label="Grade"></column>
       <column key="minMark" label="Minimum Mark" numeric [editable]="editable|async"></column>
       <column key="maxMark" label="Maximum Mark" numeric></column>
@@ -20,7 +20,6 @@
 
 <ng-template #editableCell let-row='row' let-col='col'>
   <label mdc-text-field>
-    <input mdc-input type="number" [disabled]="disableEdit" [value]="row[col.key]"
-           (change)="onEdit(col.key,row,$event)">
+    <input mdc-input type="number" [disabled]="disableEdit" [value]="row[col.key]">
   </label>
 </ng-template>

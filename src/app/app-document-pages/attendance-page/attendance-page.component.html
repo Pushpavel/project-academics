@@ -22,7 +22,7 @@
       </label>
     </div>
 
-    <mdc-table [span]="8" [rows]="entries|async" [editableCell]="editableCell">
+    <mdc-table [span]="8" [rows]="entries|async" [editableTemplate]="editableCell" (edit)="onEdit($event)">
       <column key="rollNo" label="Roll No"></column>
       <column key="name" label="Name"></column>
       <column key="attended" label="No of Classes Attended" numeric [editable]="editable|async"></column>
@@ -34,7 +34,6 @@
 
 <ng-template #editableCell let-row='row' let-col='col'>
   <label mdc-text-field>
-    <input mdc-input type="number" [disabled]="disableEdit" [value]="row[col.key]"
-      (change)="onEdit(col.key,row,$event)">
+    <input mdc-input type="number" [disabled]="disableEdit" [value]="row[col.key]">
   </label>
 </ng-template>

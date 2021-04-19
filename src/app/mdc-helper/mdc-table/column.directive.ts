@@ -4,7 +4,7 @@ import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 @Directive({
   selector: 'column'
 })
-export class ColumnDirective {
+export class ColumnDirective<T> {
   @Input() key!: string;
   @Input() label!: string;
 

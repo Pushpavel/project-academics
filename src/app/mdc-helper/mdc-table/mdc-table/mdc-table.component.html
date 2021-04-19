@@ -14,28 +14,26 @@
     </thead>
     <tbody class="mdc-data-table__content">
 
-    <tr
-      *ngFor="let row of rows"
-      class="mdc-data-table__row">
+    <ng-container *ngIf="rows">
+      <tr *ngFor="let row of rows" class="mdc-data-table__row">
 
-      <td
-        *ngFor="let col of columns"
-        [class.mdc-data-table__cell--numeric]="col._numeric"
-        class="mdc-data-table__cell">
+        <td *ngFor="let col of columns" class="mdc-data-table__cell"
+            [class.mdc-data-table__cell--numeric]="col._numeric"
+            (change)="onChange($event,row,col,rows)">
 
-        <!--  EDITABLE CELL  -->
-        <ng-container *ngIf="col._editable && editableCell else DefaultCell">
-          <ng-container *ngTemplateOutlet="editableCell;context:{row:row,col:col}"></ng-container>
-        </ng-container>
+          <!--  EDITABLE CELL  -->
+          <ng-container *ngIf="col._editable && editableTemplate else DefaultCell">
+            <ng-container *ngTemplateOutlet="editableTemplate;context:{row:row,col:col,rows:rows}"></ng-container>
+          </ng-container>
 
-        <!--  DEFAULT CELL -->
-        <ng-template #DefaultCell>
-          {{row[col.key]}}
-        </ng-template>
+          <!--  DEFAULT CELL -->
+          <ng-template #DefaultCell>
+            {{row[col.key]}}
+          </ng-template>
 
-      </td>
-
-    </tr>
+        </td>
+      </tr>
+    </ng-container>
 
     </tbody>
   </table>

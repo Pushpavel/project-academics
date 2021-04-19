@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {gradingCriteriaUIEntriesFromMeta} from '../../../lib/data/combine/grading-criteria.combine';
+import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table/mdc-table.component';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {Sink} from 'lib/data/base/sink.interfaces';
@@ -32,11 +33,10 @@ export class GradingCriteriaPageComponent extends DocumentPage<'GRADING_CRITERIA
     })
   ).subscribe();
 
-  onEdit(key: string, row: GradingCriteriaEntryUI, event: Event) {
-    if (key != 'minMark') return;
+  onEdit({row, target}: EditEvent<GradingCriteriaEntryUI>) {
     this.entrySink.next({
       grade: row.grade,
-      minMark: (event.target as HTMLInputElement).valueAsNumber
+      minMark: target.valueAsNumber
     });
   }
 }

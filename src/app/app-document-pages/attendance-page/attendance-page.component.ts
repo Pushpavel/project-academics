@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {Sink} from '../../../lib/data/base/sink.interfaces';
 import {attendanceEntriesFromProtectedMeta, attendanceEntriesUIModel} from '../../../lib/data/combine/attendance.combine';
 import {sortByKey} from '../../../lib/utils/rxjs.utils';
+import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table/mdc-table.component';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {
@@ -22,7 +23,7 @@ import {isPrivateMeta, PrivateMetaRaw} from '@models/document/document-base.mode
 })
 export class AttendancePageComponent extends DocumentPage<'ATTENDANCE', PrivateAttendanceMetaRaw, ProtectedAttendanceMetaRaw> {
 
-  entries = combineLatest([this.params, this.meta]).pipe(
+  entries: Observable<AttendanceEntryUI[]> = combineLatest([this.params, this.meta]).pipe(
     switchMap(([p, meta]) => {
       if (isPrivateMeta(meta))
         return this.documentService.getPrivateDocumentEntries<AttendanceEntryRaw>(p);
@@ -70,10 +71,11 @@ export class AttendancePageComponent extends DocumentPage<'ATTENDANCE', PrivateA
     });
   }
 
-  onEdit(key: string, row: AttendanceEntryUI, event: Event) {
+  onEdit({row, target}: EditEvent<AttendanceEntryUI>) {
+
     this.entrySink.next({
       rollNo: row.rollNo,
-      [key]: (event.target as HTMLInputElement).valueAsNumber
+      attended: target.valueAsNumber
     });
   }
 

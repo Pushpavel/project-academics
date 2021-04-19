@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table/mdc-table.component';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {Sink} from 'lib/data/base/sink.interfaces';
@@ -49,10 +50,10 @@ export class MarklistPageComponent extends DocumentPage<MarklistDocumentId, Priv
     })
   ).subscribe();
 
-  onEdit(key: string, row: MarklistEntryUI, event: Event) {
+  onEdit({row, target}: EditEvent<MarklistEntryUI>) {
     this.entrySink.next({
       rollNo: row.rollNo,
-      [key]: (event.target as HTMLInputElement).valueAsNumber
+      mark: target.valueAsNumber
     });
   }
 
