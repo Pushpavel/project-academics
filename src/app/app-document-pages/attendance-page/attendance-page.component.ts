@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Sink} from '../../../lib/data/base/sink.interfaces';
 import {attendanceEntriesFromProtectedMeta, attendanceEntriesUIModel} from '../../../lib/data/combine/attendance.combine';
 import {sortByKey} from '../../../lib/utils/rxjs.utils';
-import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table/mdc-table.component';
+import {CellContext, EditEvent} from '../../mdc-helper/mdc-table/mdc-table/mdc-table.component';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {
@@ -79,4 +79,7 @@ export class AttendancePageComponent extends DocumentPage<'ATTENDANCE', PrivateA
     });
   }
 
+  computePercentage({row}: CellContext<AttendanceEntryUI>) {
+    return row.attended / 100;
+  }
 }

@@ -26,7 +26,7 @@
       <column key="rollNo" label="Roll No"></column>
       <column key="name" label="Name"></column>
       <column key="attended" label="No of Classes Attended" numeric [editable]="editable|async"></column>
-      <column key="percentage" label="Percentage" numeric></column>
+      <column label="Percentage" numeric [compute]="computePercentage"></column>
     </mdc-table>
   </mdc-layout>
 </top-bar-layout>
