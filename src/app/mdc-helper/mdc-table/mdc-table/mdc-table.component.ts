@@ -10,40 +10,43 @@ import {ColumnDirective} from '../column.directive';
     class: 'mdc-data-table'
   }
 })
-export class MdcTableComponent<T extends Record<string, any>> {
+export class MdcTableComponent<T extends Readonly<T>> {
 
   @ContentChildren(ColumnDirective) columns!: QueryList<ColumnDirective<T>>;
   @Input() editableTemplate?: TemplateRef<T>;
 
-  @Input() set rows(rows: T[] | null) {
-    // TODO: clone rows
+  @Input() set rows(rows: Readonly<T[]> | null) {
     if (rows) this.source.next(rows);
   }
 
   @Output() edit = new EventEmitter<EditEvent<T>>();
 
 
-  source = new BehaviorSubject<T[]>([]);
+  source = new BehaviorSubject<Readonly<T[]>>([]);
 
-  onChange(event: Event, row: T, col: ColumnDirective<T>, rows: T[], index: number) {
+  onChange(event: Event, row: T, col: ColumnDirective<T>, rows: Readonly<T[]>, index: number) {
     const target = event.target as HTMLInputElement;
 
     if (target.validity.valid) {
-      row[col.key as keyof T] = col._numeric ? target.valueAsNumber : target.value as any;
+      const clonedRows = [...rows];
+      clonedRows[index] = {...row, [col.key]: col._numeric ? target.valueAsNumber : target.value};
 
-      this.edit.next({row, col, rows, target, index});
+      this.source.next(clonedRows);
+      this.edit.next({row: clonedRows[index], col, rows: clonedRows, target, index});
     }
   }
 
+  trackByIndex = (i: number) => i;
+
 }
 
-export interface EditEvent<T> extends CellContext<T> {
+export interface EditEvent<T extends Readonly<T>> extends CellContext<T> {
   target: HTMLInputElement,
 }
 
-export interface CellContext<T> {
+export interface CellContext<T extends Readonly<T>> {
   row: T,
   col: ColumnDirective<T>,
-  rows: T[],
+  rows: Readonly<T[]>,
   index: number
 }

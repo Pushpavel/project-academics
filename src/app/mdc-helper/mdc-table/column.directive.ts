@@ -5,8 +5,8 @@ import {CellContext} from './mdc-table/mdc-table.component';
 @Directive({
   selector: 'column'
 })
-export class ColumnDirective<T = any> {
-  @Input() key!: string;
+export class ColumnDirective<T extends Readonly<T>> {
+  @Input() key!: keyof T;
   @Input() label!: string;
   @Input() compute?: ComputeColumn<T>;
 
@@ -22,4 +22,4 @@ export class ColumnDirective<T = any> {
   }
 }
 
-export type ComputeColumn<T> = (context: CellContext<T>) => string | number | undefined;
+export type ComputeColumn<T extends Readonly<T>> = (context: CellContext<T>) => string | number | undefined;

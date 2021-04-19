@@ -15,7 +15,7 @@
     <tbody class="mdc-data-table__content">
 
     <ng-container *ngIf="source|async as rows">
-      <tr *ngFor="let row of rows;index as index" class="mdc-data-table__row">
+      <tr *ngFor="let row of rows;index as index;trackBy:trackByIndex" class="mdc-data-table__row">
 
         <td *ngFor="let col of columns" class="mdc-data-table__cell"
             [class.mdc-data-table__cell--numeric]="col._numeric"
