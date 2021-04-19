@@ -1,10 +1,10 @@
 import * as faker from 'faker';
 import {DeptId} from '../../../../src/lib/models/document/document-base.model';
 import {_importUsers} from '../../src/importUsers';
-import {TEST_FACULTY, UserRecord} from './defaults';
+import {UserRecord} from './defaults';
 
 
-export async function createFaculty(faculty: UserRecord = TEST_FACULTY, skipImport?: boolean, isHod?: boolean, dept?: DeptId) {
+export async function createFaculty(faculty: UserRecord, skipImport?: boolean, isHod?: boolean, dept?: DeptId) {
 
   const _faculty: UserRecord = {
     displayName: faker.name.findName(),

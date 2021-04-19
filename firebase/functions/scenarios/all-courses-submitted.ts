@@ -14,11 +14,11 @@ import {createFaculty} from './common/test-faculty';
  * Useful for testing exam cell and hod features and student features
  *
  * auth:
- * one exam cell: ec@nitpy.ac.in
- * HODs: hodCS@nitpy.ac.in
- * faculties: f0@nitpy.ac.in
- * students: CS19B1001@nitpy.ac.in
- * hod is also faculty
+ *      one exam cell: ec@nitpy.ac.in
+ *      HODs: hodCS@nitpy.ac.in
+ *      faculties: f0@nitpy.ac.in
+ *      students: CS19B1001@nitpy.ac.in
+ *      hod is also faculty
  *
  * firestore:
  * one sem: 2020_2
@@ -35,7 +35,7 @@ export async function _generateScenario() {
   const NO_OF_COURSE_PER_FACULTY = 5;// must be a factor of (no of depts)*(no of batches)*(no of courses per batch)
   const SUBMITTED_DOCUMENT_IDS = PRIVATE_DOCUMENT_IDS;
 
-  const semId = await createSemester();
+  const semId = await createSemester('2020_2');
 
   const faculties = [];
 

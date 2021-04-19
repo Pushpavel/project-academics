@@ -13,7 +13,7 @@ import {_submitDocument} from './submitDocument';
 import {_submitGrades} from './submitGrades';
 
 // uncomment to use for generating fake data
-import {_generateScenario} from '../scenarios/all-courses-submitted';
+import {_generateScenario} from '../scenarios/private-course';
 
 export const importUsers = callable(_importUsers);
 export const submitDocument = callable(_submitDocument);
