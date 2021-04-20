@@ -18,4 +18,4 @@ export function sortByKey<T>(keyField: keyof T, descending?: boolean) {
   );
 }
 
-export const notNull = filter(<T>(value: T | null): value is T => value !== null);
+export const notNull = filter(<T>(value: T | null | undefined): value is T => value != null);

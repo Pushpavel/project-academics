@@ -1,27 +1,9 @@
-import {fromFirestore} from 'lib/data/base/convert.default';
 import {
   GradingCriteriaEntryUI,
-  PrivateGradingCriteriaMeta,
   PrivateGradingCriteriaMetaRaw
 } from '@models/document/grading-criteria.model';
-import {GRADES} from 'lib/constants/grading.constants';
 import {SinkUpdate} from 'lib/data/base/sink.interfaces';
 
-/**
- * @deprecated
- */
-export const gradingCriteriaFromSnapshot: fromFirestore<PrivateGradingCriteriaMeta> =
-  (snap) => {
-    const data = snap.data() as any as PrivateGradingCriteriaMetaRaw;
-    return {
-      ...data,
-      entries: GRADES.map(grade => {
-        const minMark = data.entries[grade];
-        const maxMark = data.entries[GRADES[GRADES.indexOf(grade) - 1]] ?? data.total;
-        return {grade, minMark, maxMark};
-      })
-    };
-  };
 
 export function gradingCriteriaMetaUpdateFromEntries(
   entries: SinkUpdate<GradingCriteriaEntryUI, 'grade' | 'minMark'>[]

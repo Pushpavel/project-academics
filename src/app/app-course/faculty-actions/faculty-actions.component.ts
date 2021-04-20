@@ -1,10 +1,13 @@
 import {Component} from '@angular/core';
-import {FACULTY_DOCUMENT_GROUPS} from 'lib/constants/document.constants';
+import {DOCUMENT_NAMES} from 'lib/constants/document.constants';
 import {map, switchMap} from 'rxjs/operators';
 import {DocumentService} from 'core/document.service';
+import {statsDocumentUIModel} from '../../../lib/data/combine/document-stat.combine';
+import {DocumentId} from '../../../lib/models/document/document-base.model';
+import {notNull} from '../../../lib/utils/rxjs.utils';
 import {getParams} from '../../routes/routing.helper';
 import {ActivatedRoute, Router} from '@angular/router';
-import {_StatEntryRaw} from '@models/document/document-stat.model';
+import {StatsDocumentUI} from '@models/document/document-stat.model';
 import {Observable, of} from 'rxjs';
 import {UserCourseRelation} from '@models/course.model';
 
@@ -15,27 +18,14 @@ import {UserCourseRelation} from '@models/course.model';
 })
 export class FacultyActionsComponent {
 
+  DOCUMENT_NAMES = DOCUMENT_NAMES;
+
   params = getParams(['semId', 'courseCode'], this.route);
 
-  documentGroups = this.params.pipe(
-    switchMap(params => this.documentService.getStatsDocument({
-      semId: params.semId,
-      courseCode: params.courseCode
-    })),
-    map(courseDocStat => {
-      if (!courseDocStat)
-        throw new Error('courseDocStat does not exists'); // TODO: handle gracefully
-      const docs = courseDocStat.entries;
-
-      // maps ids of documents in each document group to CourseDocumentStat
-      return FACULTY_DOCUMENT_GROUPS.map(group => {
-        const actions = group.actions
-          .map(id => docs[id])
-          .filter(val => val != undefined);
-
-        return {...group, actions} as DocumentGroupUI;
-      });
-    }),
+  statsDocument = this.params.pipe(
+    switchMap(params => this.documentService.getStatsDocument(params)),
+    notNull,
+    map(statsDocumentUIModel)
   );
 
   userCR: Observable<UserCourseRelation> = of({
@@ -46,6 +36,10 @@ export class FacultyActionsComponent {
     this.router.navigate([docId], {relativeTo: this.route});
   }
 
+  asStatsUIEntry(entry: any) {
+    return entry as StatsDocumentUI['entries'][DocumentId];
+  }
+
   constructor(
     private documentService: DocumentService,
     private route: ActivatedRoute,
@@ -54,10 +48,3 @@ export class FacultyActionsComponent {
   }
 
 }
-
-
-export interface DocumentGroupUI {
-  title: string,
-  actions: _StatEntryRaw[]
-}
-

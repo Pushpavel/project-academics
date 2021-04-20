@@ -15,16 +15,3 @@ export const DOCUMENT_NAMES: Record<DocumentId, string> = {
   GRADING_CRITERIA: 'GRADING CRITERIA',
   GRADES: 'GRADES',
 } as const;
-
-
-export const FACULTY_DOCUMENT_GROUPS = [{
-  title: 'Attendance',
-  actions: ['ATTENDANCE'] as DocumentId[]
-}, {
-  title: 'Marklist',
-  actions: ['CT1', 'CT2', 'ASSIGNMENT', 'END_SEM'] as DocumentId[]
-}, {
-  title: 'Grading',
-  actions: ['GRADES', 'GRADING_CRITERIA'] as DocumentId[]
-}
-];
