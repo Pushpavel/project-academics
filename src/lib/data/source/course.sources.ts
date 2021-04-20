@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import firebase from 'firebase/app';
 import {SourceService} from 'lib/data/base/service.abstract';
 import {courseCodeExtract} from 'lib/data/convert/common';
+import {DeptId} from '../../models/document/document-base.model';
 import Query = firebase.firestore.Query;
 
 @Injectable({
@@ -30,7 +31,7 @@ export class CourseSources extends SourceService {
 
   }
 
-  courses(query: { semId: string, facultyId?: string, courseCodes?: string[] }) {
+  courses(query: { semId: string, facultyId?: string, courseCodes?: string[], batch?: string, deptId?: DeptId }) {
 
     return this.service.fetchList<CourseRaw>({
       path: `semesters/${query.semId}/courses`,
@@ -42,6 +43,12 @@ export class CourseSources extends SourceService {
 
         if (query.courseCodes)
           q = q.where('course', 'in', query.courseCodes);
+
+        if (query.batch)
+          q = q.where('batch', '==', query.batch);
+
+        if (query.deptId)
+          q = q.where(`dept.${query.deptId}`, '!=', null);
 
         return q;
       }

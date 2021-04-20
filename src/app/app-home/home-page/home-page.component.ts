@@ -3,9 +3,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AcademicUser} from '@models/user.model';
 import {CourseService} from 'core/course.service';
 import {UserService} from 'core/user.service';
-import {combineLatest, Subscription} from 'rxjs';
+import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
 import {filter, map, switchMap} from 'rxjs/operators';
 import {StudentService} from '../../../core/student.service';
+import {DeptId} from '../../../lib/models/document/document-base.model';
+import {groupBy} from '../../../lib/utils/native/map.utils';
 import {getParams} from '../../routes/routing.helper';
 
 @Component({
@@ -28,6 +30,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   semId = getParams<{ semId: string }>(['semId'], this.route).pipe(map(p => p.semId));
 
+  // FACULTY AND STUDENT
   userCourses = combineLatest([this.semId, this.user.loggedInUser]).pipe(
     filter(([, user]) => !!(user.isStudent || user.isFaculty)),
     switchMap(([semId, user]) => {
@@ -40,6 +43,24 @@ export class HomePageComponent implements OnInit, OnDestroy {
       );
     })
   );
+
+  // HOD
+  coursesOfDept = combineLatest([this.semId, this.user.loggedInUser]).pipe(
+    filter(([, user]) => !!user.isHod),
+    switchMap(([semId, user]) => this.courseService.getCourses({semId, deptId: user.isHod})),
+    map(courses => groupBy(courses, course => Object.keys(course.dept)[0])), //  TODO: handle multi-dept courses
+  );
+
+
+  // EXAM CELL
+  selectedDept = new BehaviorSubject<DeptId>('CS');
+
+  coursesOfBatch = combineLatest([this.semId, this.selectedDept, this.user.loggedInUser]).pipe(
+    filter(([, , user]) => !!user.isExamCell),
+    switchMap(([semId, deptId]) => this.courseService.getCourses({semId, deptId})),
+    map(courses => groupBy(courses, course => course.batch)),
+  );
+
 
   courseCollections?: any = null;
   title = '';
