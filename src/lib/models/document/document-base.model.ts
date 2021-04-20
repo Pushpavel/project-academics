@@ -1,5 +1,5 @@
 import {DEPT_ABBR} from '../../constants/dept.constants';
-import {DOCUMENT_IDS, MARK_DOCUMENT_IDS} from '../../constants/document.constants';
+import {DOCUMENT_IDS, MARK_DOCUMENT_IDS, PRIVATE_DOCUMENT_IDS, PUBLIC_DOCUMENT_IDS} from '../../constants/document.constants';
 import {BaseMarklistMetaZZZ, MarklistEntryZZZ, PrivateMarklistMetaRaw, ProtectedMarklistMetaRaw} from './marklist.model';
 import {
   AttendanceEntryZZZ,
@@ -23,9 +23,9 @@ export interface BaseProtectedMetaRaw {
 // Document Ids
 export type DocumentId = typeof DOCUMENT_IDS[number];
 export type MarklistDocumentId = typeof MARK_DOCUMENT_IDS[number];
+export type PrivateDocumentId = typeof PRIVATE_DOCUMENT_IDS[number];
+export type PublicDocumentId = typeof PUBLIC_DOCUMENT_IDS[number];
 export type NonGradeDocumentId = MarklistDocumentId | 'ATTENDANCE'
-export type PrivateDocumentId = Exclude<DocumentId, 'GRADES'>
-export type PublicDocumentId = Exclude<DocumentId, 'GRADING_CRITERIA'>
 
 
 export type DeptId = keyof typeof DEPT_ABBR;

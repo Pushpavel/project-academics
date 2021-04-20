@@ -1,12 +1,10 @@
 import {Component} from '@angular/core';
-import {StudentAttendanceEntry, StudentEntryZZZ, StudentMarkEntry, StudentUI} from '@models/student.model';
+import {StudentUI} from '@models/student.model';
 import {StudentService} from 'core/student.service';
 import {ActivatedRoute} from '@angular/router';
-import {combineLatest, Observable} from 'rxjs';
+import {combineLatest} from 'rxjs';
 import {UserService} from '../../../core/user.service';
-import {DOCUMENT_NAMES, MARK_DOCUMENT_IDS} from '../../../lib/constants/document.constants';
-import {AttendanceEntryZZZ} from '../../../lib/models/document/attendance.model';
-import {PublicDocumentId} from '../../../lib/models/document/document-base.model';
+import {DOCUMENT_NAMES, MARK_DOCUMENT_IDS, PUBLIC_DOCUMENT_IDS} from '../../../lib/constants/document.constants';
 import {getParams} from '../../routes/routing.helper';
 import {map, switchMap} from 'rxjs/operators';
 
@@ -17,8 +15,8 @@ import {map, switchMap} from 'rxjs/operators';
 })
 export class StudentCourseOverviewComponent {
 
-  params = getParams(['semId', 'courseCode'], this.route);
   DOCUMENT_NAMES = DOCUMENT_NAMES;
+  params = getParams(['semId', 'courseCode'], this.route);
 
   rollNo = this.user.loggedInUser.pipe(map(u => u?.uid ?? 'ERROR')); // TODO: handle this
 
@@ -28,9 +26,9 @@ export class StudentCourseOverviewComponent {
     map(entry => {
       const ui = {...entry} as any;
 
-      for (const e of Object.keys(entry.entries) as PublicDocumentId[]) {
-        ui.entries[e] = entry.entries[e] ?? {};
-        ui.entries[e].documentId = e;
+      for (const id of PUBLIC_DOCUMENT_IDS) {
+        ui.entries[id] = entry.entries[id] ?? {};
+        ui.entries[id].documentId = id;
       }
       return ui as StudentUI;
     })
@@ -39,8 +37,6 @@ export class StudentCourseOverviewComponent {
   attendanceEntry = this.student.pipe(map(student => student.entries.ATTENDANCE));
 
   markEntries = this.student.pipe(map(student => MARK_DOCUMENT_IDS.map(id => student.entries[id])));
-
-  attendanceCardTitle = 'ATTENDANCE';
 
   percent(val?: number, total?: number) {
     if (val != undefined && total != undefined)
@@ -55,9 +51,4 @@ export class StudentCourseOverviewComponent {
   ) {
   }
 
-}
-
-export interface CourseOverviewUI {
-  attendanceEntry: StudentAttendanceEntry,
-  markEntries: StudentMarkEntry[],
 }

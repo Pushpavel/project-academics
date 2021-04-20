@@ -1,15 +1,15 @@
-<ng-container *ngIf="attendanceEntry|async as data">
-  <data-card [title]="attendanceCardTitle">
-    <entry title="Percentage" [value]="percent(data.attended,data.total) || '-'"></entry>
-    <entry title="No. of Classes Attended" [value]="data.attended || '-'"></entry>
-    <entry title="No. of Classes Conducted" [value]="data.total || '-'"></entry>
-    <entry title="Last Updated On" [value]="$any(data.publicTimestamp).seconds || '-'"></entry>
+<data-card *ngIf="attendanceEntry|async as data" title="ATTENDANCE">
+  <entry title="Percentage" [value]="percent(data.attended,data.total) || '-'"></entry>
+  <entry title="No. of Classes Attended" [value]="data.attended || '-'"></entry>
+  <entry title="No. of Classes Conducted" [value]="data.total || '-'"></entry>
+  <entry title="Last Updated On" [value]="$any(data.publicTimestamp)?.seconds || '-'"></entry>
+</data-card>
+
+<h6>MARK UPDATES</h6>
+
+<div class="mark-cards">
+  <data-card *ngFor="let entry of markEntries|async" [title]="DOCUMENT_NAMES[entry.documentId]">
+    <entry title="Marks" [value]="entry.mark || '-'"></entry>
+    <entry title="Last Updated On" [value]="$any(entry.publicTimestamp)?.seconds || '-'"></entry>
   </data-card>
-  <h6>MARK UPDATES</h6>
-  <div class="mark-cards">
-    <data-card *ngFor="let entry of markEntries|async" [title]="DOCUMENT_NAMES[entry.documentId]">
-      <entry title="Marks" [value]="entry.mark"></entry>
-      <entry title="Last Updated On" [value]="$any(entry.publicTimestamp).seconds"></entry>
-    </data-card>
-  </div>
-</ng-container>
+</div>

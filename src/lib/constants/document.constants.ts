@@ -4,6 +4,8 @@ export const MARK_DOCUMENT_IDS = ['CT1', 'CT2', 'ASSIGNMENT', 'END_SEM'] as cons
 
 export const PRIVATE_DOCUMENT_IDS = ['ATTENDANCE', ...MARK_DOCUMENT_IDS, 'GRADING_CRITERIA'] as const;
 
+export const PUBLIC_DOCUMENT_IDS = ['ATTENDANCE', ...MARK_DOCUMENT_IDS, 'GRADES'] as const;
+
 export const DOCUMENT_IDS = [...PRIVATE_DOCUMENT_IDS, 'GRADES'] as const;
 
 export const DOCUMENT_NAMES: Record<DocumentId, string> = {

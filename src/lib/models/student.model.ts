@@ -1,47 +1,5 @@
 import {BaseMetaZZZMap, EntryZZZMap, PublicDocumentId} from './document/document-base.model';
 
-/**
- * @deprecated
- */
-export interface StudentMarkEntry {
-  documentId: string,
-  documentName: string,
-  mark: number,
-  totalMark: number,
-  timestamp: number
-}
-
-/**
- * @deprecated
- */
-export interface StudentAttendanceEntry {
-  percentage: number,
-  attendedClasses: number,
-  totalClasses: number,
-  timestamp: number
-}
-
-/**
- * @deprecated
- */
-export interface StudentSemResult {
-  credits: number,
-  gpa: number
-}
-
-/**
- * @deprecated
- */
-export interface StudentCourseResult {
-  courseName: string,
-  code: string,
-  grade: string,
-  credits: number,
-}
-
-/**
- * @deprecated
- */
 export interface StudentsDocumentRaw {
   entries: Record<string, string>
 }
