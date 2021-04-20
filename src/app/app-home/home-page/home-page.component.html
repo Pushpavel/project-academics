@@ -3,8 +3,7 @@
     <ng-container *ngIf="courseCollections !== null else loader">
 
       <!-- Exam cell -->
-      <mdc-tabs-bar *ngIf="this._user && this._user.isExamCell" (handletabChange)='handletabChange($event)'
-                    [tabs]="homeTabs">
+      <mdc-tabs-bar *ngIf="this._user && this._user.isExamCell" >
       </mdc-tabs-bar>
       <!-- End of Exam cell -->
 

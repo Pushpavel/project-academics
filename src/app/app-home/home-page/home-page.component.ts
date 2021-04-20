@@ -15,17 +15,6 @@ import {getParams} from '../../routes/routing.helper';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss']
 })
-
-/**
- * [\] Faculty
- * [\] Student - Redirect is remaining
- * [] Exam cell
- * [] Hod
- *
- * TODO : make tabs feasible
- *
- */
-
 export class HomePageComponent implements OnInit, OnDestroy {
 
   semId = getParams<{ semId: string }>(['semId'], this.route).pipe(map(p => p.semId));
@@ -65,9 +54,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
   courseCollections?: any = null;
   title = '';
   //dummy
-  homeTabs: String[] = ['Tab1', 'Tab2', 'Tab3', 'Tab4', 'Tab5'];
+  homeTabs: string[] = ['Tab1', 'Tab2', 'Tab3', 'Tab4', 'Tab5'];
 
-  tabIndex: number = 0;
+  tabIndex = 0;
 
   private courseSubscription!: Subscription;
   private userSubscription!: Subscription;

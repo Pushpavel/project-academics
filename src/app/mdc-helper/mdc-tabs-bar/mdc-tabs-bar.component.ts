@@ -1,41 +1,38 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output,} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input,} from '@angular/core';
 import {MDCTabBar} from '@material/tab-bar';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'mdc-tabs-bar',
   templateUrl: './mdc-tabs-bar.component.html',
   host: {
-    class: 'mdc-tabs-bar mdc-card mdc-card--outlined',
+    class: 'mdc-tabs-bar primary mdc-card mdc-card--outlined',
     role: 'tablist'
   }
 })
-export class MdcTabsBarComponent implements OnDestroy, AfterViewInit {
+export class MdcTabsBarComponent<ID extends string> implements AfterViewInit {
 
-  @Input() tabs: String[] = [];
+  @Input() map?: ReadonlyMap<ID, string>;
 
-  @Output('handletabChange') handletabChange: EventEmitter<any> = new EventEmitter();
+  @Input() selection!: BehaviorSubject<ID>;
 
-  updateIndex = (e: any) => {
-    this.index = e.detail.index;
-    this.handletabChange.emit(this.index);
-  };
-
-  index: number = 0;
-
-  private _tabbar?: MDCTabBar;
-
-  constructor(private elementRef: ElementRef) {
+  onSelect(event: any) {
+    if (this.map)
+      this.selection.next([...this.map.keys()][event.detail.index]);
   }
 
   ngAfterViewInit() {
-    this._tabbar = MDCTabBar.attachTo(this.elementRef.nativeElement);
-    this._tabbar.activateTab(this.index);
-    this._tabbar.listen('MDCTabBar:activated', this.updateIndex);
+    const tabBar = MDCTabBar.attachTo(this.elementRef.nativeElement);
+    tabBar.useAutomaticActivation = false;
+    tabBar.listen('MDCTabBar:activated', this.onSelect.bind(this));
+
+    this.selection.subscribe(id => {
+      if (this.map)
+        tabBar.activateTab([...this.map.keys()].indexOf(id));
+    });
   }
 
-  ngOnDestroy() {
-    this._tabbar?.unlisten('MDCTabBar:activated', this.updateIndex);
+
+  constructor(private elementRef: ElementRef) {
   }
-
-
 }
