@@ -1,9 +1,10 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {combineLatest, from, Observable, of, ReplaySubject} from 'rxjs';
-import {filter, map, switchMap} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {AcademicUser} from 'lib/models/user.model';
 import firebase from 'firebase/app';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {notNull} from '../lib/utils/rxjs.utils';
 
 /**
  * Manages User Authentication and State
@@ -33,9 +34,7 @@ export class UserService extends Observable<AcademicUser | null> implements OnDe
    * observable that emits only if there is a logged in user
    */
   get loggedInUser() {
-    return this.userData.pipe(
-      filter(user => !!user)
-    );
+    return this.userData.pipe(notNull);
   }
 
   /**
@@ -152,7 +151,7 @@ export class UserService extends Observable<AcademicUser | null> implements OnDe
    * Sign Out User :D
    * @returns promise
    */
- async signOut() {
+  async signOut() {
     return this.auth.signOut();
   }
 

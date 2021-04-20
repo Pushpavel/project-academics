@@ -3,20 +3,20 @@
     <ng-container *ngIf="courseCollections !== null else loader">
 
       <!-- Exam cell -->
-      <mdc-tabs-bar *ngIf="this.user && this.user.isExamCell" (handletabChange)='handletabChange($event)'
-        [tabs]="homeTabs">
+      <mdc-tabs-bar *ngIf="this._user && this._user.isExamCell" (handletabChange)='handletabChange($event)'
+                    [tabs]="homeTabs">
       </mdc-tabs-bar>
       <!-- End of Exam cell -->
 
       <!-- Faculty -->
-      <div *ngIf="this.user && this.user.isFaculty">
+      <div *ngIf="this._user && this._user.isFaculty">
         <course-grid [title]="this.title | titlecase" [courses]="this.courseCollections[this.title]"
           [showDownload]="false"></course-grid>
       </div>
       <!-- End of Faculty -->
 
       <!-- Student -->
-      <div *ngIf="this.user && this.user.isStudent">
+      <div *ngIf="this._user && this._user.isStudent">
         <course-grid [title]="this.title | titlecase" [courses]="this.courseCollections[this.title]"
           [showDownload]="false"></course-grid>
       </div>
@@ -28,12 +28,12 @@
           archive
         </button>
 
-        <button *ngIf="this.user && this.user.isExamCell" mdc-button="outlined" flex (click)="handleArchive()">
+        <button *ngIf="this._user && this._user.isExamCell" mdc-button="outlined" flex (click)="handleArchive()">
           <mdc-icon [size]="24">visibility</mdc-icon>
           Result Summary
         </button>
 
-        <button mdc-button="raised" *ngIf="this.user && this.user.isStudent" flex (click)="handleArchive()">
+        <button mdc-button="raised" *ngIf="this._user && this._user.isStudent" flex (click)="handleArchive()">
           Result
         </button>
       </div>

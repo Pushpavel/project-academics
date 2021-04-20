@@ -1,9 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AcademicUser } from '@models/user.model';
-import { CourseService } from 'core/course.service';
-import { UserService } from 'core/user.service';
-import { Observable, Subscription } from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AcademicUser} from '@models/user.model';
+import {CourseService} from 'core/course.service';
+import {UserService} from 'core/user.service';
+import {combineLatest, Subscription} from 'rxjs';
+import {filter, map, switchMap} from 'rxjs/operators';
+import {StudentService} from '../../../core/student.service';
+import {getParams} from '../../routes/routing.helper';
+
 @Component({
   selector: 'home-page',
   templateUrl: './home-page.component.html',
@@ -22,37 +26,51 @@ import { Observable, Subscription } from 'rxjs';
 
 export class HomePageComponent implements OnInit, OnDestroy {
 
-  constructor(private router: Router, private courseService: CourseService, private userService: UserService) { }
+  semId = getParams<{ semId: string }>(['semId'], this.route).pipe(map(p => p.semId));
 
-  courseCollections?: any = null
-  title = ""
+  userCourses = combineLatest([this.semId, this.user.loggedInUser]).pipe(
+    filter(([, user]) => !!(user.isStudent || user.isFaculty)),
+    switchMap(([semId, user]) => {
+      if (user.isFaculty)
+        return this.courseService.getCourses({semId, facultyId: user.uid});
+
+      // get public student entries of student and get courses from that
+      return this.studentService.getStudentEntries({semId, rollNo: user.uid}).pipe(
+        switchMap(entries => this.courseService.getCourses({semId, courseCodes: entries.map(entry => entry.courseCode)}))
+      );
+    })
+  );
+
+  courseCollections?: any = null;
+  title = '';
   //dummy
-  homeTabs: String[] = ["Tab1", "Tab2", "Tab3", "Tab4", "Tab5"]
+  homeTabs: String[] = ['Tab1', 'Tab2', 'Tab3', 'Tab4', 'Tab5'];
 
-  tabIndex: number = 0
+  tabIndex: number = 0;
 
-  private courseSubscription!: Subscription
-  private userSubscription!: Subscription
-  user?: AcademicUser | null
+  private courseSubscription!: Subscription;
+  private userSubscription!: Subscription;
+
+  _user?: AcademicUser | null;
 
   getCourseCollections() {
   }
 
   authValidate(user: AcademicUser | null) {
 
-    this.user = user
+    this._user = user;
     if (user?.isFaculty && user?.isHod == undefined) {
-      this.courseService.fetchCoursesForFaculty(user.uid, '2020_2')
+      this.courseService.fetchCoursesForFaculty(user.uid, '2020_2');
     }
 
     if (user?.isHod) {
-      this.courseService.fetchCoursesForFaculty(user.uid, '2020_2')
+      this.courseService.fetchCoursesForFaculty(user.uid, '2020_2');
       //fetch hod courses
     }
 
     if (user?.isStudent) {
       //TODO: student filter params
-      this.courseService.fetchCoursesForStudent('19B1', '2020_2')
+      this.courseService.fetchCoursesForStudent('19B1', '2020_2');
     }
 
     if (user?.isExamCell) {
@@ -62,17 +80,20 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.courseSubscription = this.courseService.courseCollection.subscribe((result) => { console.log(result); if (result) this.initData(result) })
-    this.userSubscription = this.userService.subscribe(u => {
-      this.authValidate(u)
-    })
+    this.courseSubscription = this.courseService.courseCollection.subscribe((result) => {
+      console.log(result);
+      if (result) this.initData(result);
+    });
+    this.userSubscription = this.user.subscribe(u => {
+      this.authValidate(u);
+    });
   }
 
   ngOnDestroy(): void {
     if (this.userSubscription)
-      this.courseSubscription.unsubscribe()
+      this.courseSubscription.unsubscribe();
     if (this.userSubscription)
-      this.userSubscription.unsubscribe()
+      this.userSubscription.unsubscribe();
   }
 
   initData(result: any) {
@@ -81,22 +102,30 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   handletabChange(i: any) {
-    this.tabIndex = i
+    this.tabIndex = i;
   }
 
 
   handleResultSummary() {
-    console.log("result summary", this.tabIndex);
+    console.log('result summary', this.tabIndex);
   }
 
   handleResult() {
-    console.log("Result", this.tabIndex);
+    console.log('Result', this.tabIndex);
   }
 
   handleArchive() {
     //this.userService.signOut(); // Dummy signout
-    console.log("archive", this.tabIndex);
+    console.log('archive', this.tabIndex);
   }
 
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private courseService: CourseService,
+    private studentService: StudentService,
+    private user: UserService,
+  ) {
+  }
 
 }

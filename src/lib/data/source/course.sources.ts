@@ -1,7 +1,9 @@
 import {CourseRaw, CourseDetailRaw} from '@models/course.model';
 import {Injectable} from '@angular/core';
+import firebase from 'firebase/app';
 import {SourceService} from 'lib/data/base/service.abstract';
 import {courseCodeExtract} from 'lib/data/convert/common';
+import Query = firebase.firestore.Query;
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +28,24 @@ export class CourseSources extends SourceService {
       once: true
     });
 
+  }
+
+  courses(query: { semId: string, facultyId?: string, courseCodes?: string[] }) {
+
+    return this.service.fetchList<CourseRaw>({
+      path: `semesters/${query.semId}/courses`,
+      idField: 'courseCode',
+      query: (q: Query) => {
+
+        if (query.facultyId)
+          q = q.where('facultyId', '==', query.facultyId);
+
+        if (query.courseCodes)
+          q = q.where('course', 'in', query.courseCodes);
+
+        return q;
+      }
+    });
   }
 
 }
