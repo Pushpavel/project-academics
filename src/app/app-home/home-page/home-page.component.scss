@@ -1,24 +1,8 @@
-[container] {
-  display: block;
-  box-sizing: border-box;
-  padding: 125px 250px 25px 150px;
-  //max-width: 1080px;
-
-  > div {
-    margin-top: 100px;
-    display: flex;
-    > button{
-      padding: 16px 24px;
-      margin-right : 62px
-    }
-  }
-
-  > mdc-spinner {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    margin: auto;
-  }
+.course-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: start;
+  padding: 32px;
 }

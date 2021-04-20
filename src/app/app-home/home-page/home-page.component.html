@@ -1,46 +1,37 @@
 <top-bar-layout>
-  <div container>
-    <ng-container *ngIf="courseCollections !== null else loader">
-
-      <!-- Exam cell -->
-      <mdc-tabs-bar *ngIf="this._user && this._user.isExamCell" >
-      </mdc-tabs-bar>
-      <!-- End of Exam cell -->
-
-      <!-- Faculty -->
-      <div *ngIf="this._user && this._user.isFaculty">
-        <course-grid [title]="this.title | titlecase" [courses]="this.courseCollections[this.title]"
-          [showDownload]="false"></course-grid>
-      </div>
-      <!-- End of Faculty -->
-
-      <!-- Student -->
-      <div *ngIf="this._user && this._user.isStudent">
-        <course-grid [title]="this.title | titlecase" [courses]="this.courseCollections[this.title]"
-          [showDownload]="false"></course-grid>
-      </div>
-      <!-- End of Student -->
-
-      <div>
-        <button mdc-button="outlined" flex (click)="handleArchive()">
-          <mdc-icon [size]="24">archive</mdc-icon>
-          archive
-        </button>
-
-        <button *ngIf="this._user && this._user.isExamCell" mdc-button="outlined" flex (click)="handleArchive()">
-          <mdc-icon [size]="24">visibility</mdc-icon>
-          Result Summary
-        </button>
-
-        <button mdc-button="raised" *ngIf="this._user && this._user.isStudent" flex (click)="handleArchive()">
-          Result
-        </button>
-      </div>
-
+  <mdc-layout container>
+    <!--  FACULTY & STUDENT  -->
+    <ng-container *ngIf="userCourses|async as courses">
+      <ng-container *ngTemplateOutlet="coursesTemplate;context:{$implicit:courses}"></ng-container>
     </ng-container>
-  </div>
+
+    <!--  HOD  -->
+    <ng-container *ngIf="coursesOfDept|async as courseGroups">
+      <ng-container *ngFor="let group of courseGroups|keyvalue">
+        <div [span]="12">{{group.key}}</div>
+        <ng-container *ngTemplateOutlet="coursesTemplate;context:{$implicit:group.value}"></ng-container>
+      </ng-container>
+    </ng-container>
+
+    <!--  EXAM CELL  -->
+    <mdc-tabs-bar [selection]="selectedDept"></mdc-tabs-bar>
+    <ng-container *ngIf="coursesOfBatch|async as courseGroups">
+      <ng-container *ngFor="let group of courseGroups|keyvalue">
+        <div [span]="12">{{group.key}}</div>
+        <ng-container *ngTemplateOutlet="coursesTemplate;context:{$implicit:group.value}"></ng-container>
+      </ng-container>
+    </ng-container>
+
+  </mdc-layout>
 </top-bar-layout>
 
 <ng-template #loader>
   <mdc-spinner></mdc-spinner>
+</ng-template>
+
+<ng-template #coursesTemplate let-courses>
+  <button [span]="2" *ngFor="let course of courses" class="course-btn surface" mdc-button="outlined" flex>
+    <span class="sub1 dark-text-primary">{{course.name}}</span>
+    <span class="sub1 dark-text-secondary">{{course.courseCode}}</span>
+  </button>
 </ng-template>
