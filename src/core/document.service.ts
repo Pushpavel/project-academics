@@ -1,14 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 import {randFromRange} from 'lib/utils/native/number.utils';
 import {DEPT_ABBR} from 'lib/constants/dept.constants';
 import {DocumentStatSources} from 'lib/data/source/document-stat.source';
-import {map} from 'rxjs/operators';
 import {
   DocumentSources
 } from 'lib/data/source/document.source';
-import {DocumentPath} from 'lib/models/path.model';
-import {StatsEntryRaw} from 'lib/models/document/document-stat.model';
 import {DocumentSinks} from 'lib/data/document-sink.adapter';
 
 @Injectable({
@@ -17,7 +14,6 @@ import {DocumentSinks} from 'lib/data/document-sink.adapter';
 export class DocumentService {
 
   // TODO: caching
-  // TODO: connect sink to source
 
   statsDocumentQuery = this.statSources.statsDocumentQuery.bind(this.statSources);
 
@@ -31,16 +27,6 @@ export class DocumentService {
   sinkPrivateDocumentEntry = this.docSinks.privateDocumentEntriesSink.bind(this.docSinks);
   sinkPrivateDocumentMeta = this.docSinks.privateDocumentMetaSink.bind(this.docSinks);
   sinkPrivateGradingCriteriaEntry = this.docSinks.privateGradingCriteriaEntriesSink.bind(this.docSinks);
-
-
-  getStat(p: DocumentPath): Observable<StatsEntryRaw> {
-    return this.getStatsDocument(p).pipe(map(stats => {
-      const stat = stats?.entries?.[p.documentId];
-      if (!stat)
-        throw new Error('Document Stat Entry does not exits'); //  TODO : handle gracefully
-      return stat;
-    }));
-  }
 
 
   getDeptwiseDocSubmissionOverview(semId: string, batchId: string) {

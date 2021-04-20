@@ -1,5 +1,4 @@
-import {_StatEntryRaw} from './document/document-stat.model';
-import {DeptFields, DocumentId} from './document/document-base.model';
+import {DeptFields} from './document/document-base.model';
 
 export interface CourseRaw {
   sem: string,
@@ -19,11 +18,6 @@ export interface CourseDetailRaw {
   facultyId: string
 }
 
-export interface CourseDocumentStats {
-  courseCode: string,
-  courseName: string,
-  stats: Record<DocumentId, _StatEntryRaw>
-}
 
 export interface UserCourseRelation {
   isFaculty?: boolean,

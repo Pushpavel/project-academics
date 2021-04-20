@@ -8,23 +8,18 @@ import {combineLatest, Observable, of} from 'rxjs';
 import {CourseService} from '../../core/course.service';
 import {DocumentService} from '../../core/document.service';
 import {UserService} from '../../core/user.service';
+import {notNull} from '../../lib/utils/rxjs.utils';
 import {paramMapToObj} from './routing.helper';
-import {filter, map, switchMap, take, tap} from 'rxjs/operators';
+import {map, switchMap, take} from 'rxjs/operators';
 import {CourseRaw, UserCourseRelation} from '@models/course.model';
-import {_StatEntryRaw, StatsEntryRaw} from '@models/document/document-stat.model';
 import {AcademicUser} from '@models/user.model';
 import {elseRedirectTo, thenMap, elseSwitchMap} from './routing.pipes';
 
-export interface UserCrData {
-  userCR: UserCourseRelation,
-  course: CourseRaw,
-  stat?: _StatEntryRaw
-}
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserCrResolver implements Resolve<UserCrData> {
+export class UserCrResolver implements Resolve<UserCourseRelation> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     const params = paramMapToObj(route.paramMap);
@@ -42,30 +37,27 @@ export class UserCrResolver implements Resolve<UserCrData> {
             throw new Error('UserCrResolver called with invalid course');
 
           const userCR = buildUserCR(user, course);
-          let stat: StatsEntryRaw;
-
           // authGuard like pattern
           return of(!!(userCR.isFaculty || userCR.isHod || userCR.isStudent || userCR.isExamCell)) // is user related to course
             .pipe(
               elseRedirectTo('404'),
               thenMap(() => !params.documentId || userCR.isFaculty || !userCR.isHod && !userCR.isExamCell), // is private check not needed
               elseSwitchMap(() =>
-                this.documentService.getStat(params).pipe(
-                  tap(_stat => stat = _stat),
-                  map(stat => stat?.status != 'private') // is not private document
+                this.documentService.getStatsDocument(params).pipe(
+                  map(stats => stats?.entries?.[params.documentId]?.status != 'private') // is not private document
                 )
               ),
               elseRedirectTo('404'),
               // thenMap(() => userCR.isStudent), // is StudentEntry Check required
               // TODO: verify whether student is enrolled in course
               map(activate => {
-                if (activate == true) return {userCR, course, stat};
+                if (activate == true) return userCR;
                 this.router.navigate([activate as string]);
                 return null;
               })
             );
         }),
-        filter(data => data != null),
+        notNull,
         take(1),
       );
   }
