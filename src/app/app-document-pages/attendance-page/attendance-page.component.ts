@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Sink} from '../../../lib/data/base/sink.interfaces';
 import {attendanceEntriesFromProtectedMeta, attendanceEntriesUIModel} from '../../../lib/data/combine/attendance.combine';
-import {sortByKey} from '../../../lib/utils/rxjs.utils';
+import {getValue, sortByKey} from '../../../lib/utils/rxjs.utils';
 import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table/mdc-table.component';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
@@ -84,5 +84,12 @@ export class AttendancePageComponent extends DocumentPage<'ATTENDANCE', PrivateA
       rollNo: row.rollNo,
       attended: target.valueAsNumber
     });
+  }
+
+  async downloadBtn() {
+    const p = await getValue(this.params);
+    const entries = await getValue(this._entriesUI);
+
+    this.csvService.downloadDocumentCSV(p, entries);
   }
 }

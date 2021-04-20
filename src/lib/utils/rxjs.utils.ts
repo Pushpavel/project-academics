@@ -1,9 +1,10 @@
-import {combineLatest, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {filter, map, take} from 'rxjs/operators';
 
-export function getValue<T>(...obsArray: Observable<T>[]) {
-  return combineLatest(obsArray).pipe(take(1)).toPromise();
+export function getValue<T>(obs: Observable<T>) {
+  return obs.pipe(take(1)).toPromise();
 }
+
 
 export function sortByKey<T>(keyField: keyof T, descending?: boolean) {
   return map((arr: T[]) =>

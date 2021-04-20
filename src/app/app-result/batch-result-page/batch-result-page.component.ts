@@ -63,7 +63,7 @@ export class BatchResultPageComponent {
     if (!confirm) return;
 
     this.isPublishable = false;
-    const [params] = await getValue(this.params);
+    const params = await getValue(this.params);
     const result = await this.publishService.publishResult(params);
     console.log(result);
   }

@@ -1,6 +1,7 @@
 import {Directive} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DocumentService} from 'core/document.service';
+import {CsvService} from '../../../core/csv.service';
 import {statsDocumentUIModel} from '../../../lib/data/combine/document-stat.combine';
 import {getParams} from '../../routes/routing.helper';
 import {map, shareReplay, switchMap} from 'rxjs/operators';
@@ -73,7 +74,7 @@ export abstract class DocumentPage<ID extends DocumentId,
 
   async publishBtn() {
     this.disableEdit = true;
-    const [params] = await getValue(this.params);
+    const params = await getValue(this.params);
     const confirm = await this.dialog.alert({message: `Confirm ?`, action: 'Publish', cancel: 'Cancel'});
 
     if (!confirm) {
@@ -89,6 +90,7 @@ export abstract class DocumentPage<ID extends DocumentId,
     protected documentService: DocumentService,
     protected route: ActivatedRoute,
     protected dialog: MdcDialog,
+    protected csvService: CsvService,
   ) {
   }
 

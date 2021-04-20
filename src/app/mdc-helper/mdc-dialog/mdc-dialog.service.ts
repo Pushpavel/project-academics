@@ -12,7 +12,7 @@ export class MdcDialog {
 
 
   async alert(config: AlertDialogConfig) {
-    const [confirm] = await getValue(this.dialog.open(AlertDialog, {
+    const confirm = await getValue(this.dialog.open(AlertDialog, {
       data: config,
       scrollStrategy: new NoopScrollStrategy(),
     }).afterClosed());
