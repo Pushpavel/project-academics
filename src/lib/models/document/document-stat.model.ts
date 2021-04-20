@@ -1,4 +1,6 @@
+import firebase from 'firebase/app';
 import {DeptFields, DocumentId} from './document-base.model';
+import Timestamp = firebase.firestore.Timestamp;
 
 
 interface StatsRaw {
@@ -13,7 +15,7 @@ interface StatsRaw {
   },
 }
 
-type EntryRaw = { status?: DocumentStatus } & Partial<Record<DocumentStatusTimestamp, number>>;
+type EntryRaw = { status?: DocumentStatus } & Partial<Record<DocumentStatusTimestamp, Timestamp>>;
 
 
 interface StatsUI extends StatsRaw {

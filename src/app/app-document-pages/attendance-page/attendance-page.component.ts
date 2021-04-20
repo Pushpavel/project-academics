@@ -58,7 +58,6 @@ export class AttendancePageComponent extends DocumentPage<'ATTENDANCE', PrivateA
 
 
   ngOnInit() {
-
     combineLatest([this.params, this.meta]).pipe(
       switchMap(([p, meta]) => {
         if (isPrivateMeta(meta)) return this.documentService.getPrivateDocumentEntries<AttendanceEntryRaw>(p);

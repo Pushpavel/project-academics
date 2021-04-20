@@ -8,6 +8,7 @@ import {GradesPageComponent} from './grades-page/grades-page.component';
 import {GradingCriteriaPageComponent} from './grading-criteria-page/grading-criteria-page.component';
 import {MarklistPageComponent} from './marklist-page/marklist-page.component';
 import {TopBarModule} from '../shared/top-bar/top-bar.module';
+import { DocumentHeaderComponent } from './document-header/document-header.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import {TopBarModule} from '../shared/top-bar/top-bar.module';
     GradesPageComponent,
     GradingCriteriaPageComponent,
     MarklistPageComponent,
+    DocumentHeaderComponent,
   ],
   imports: [
     CommonModule,

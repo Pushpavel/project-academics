@@ -1,14 +1,8 @@
 <top-bar-layout>
   <mdc-layout container>
-    <div [span]="12" class="header-tile">
-      <h4>Grading Criteria</h4>
-      <button mdc-button class="surface">
-        <mdc-icon>refresh</mdc-icon>
-        RESET
-      </button>
-      <button mdc-button="raised" (click)="publishBtn()">APPLY</button>
-    </div>
-
+    <document-header title="Grading Criteria" [span]="12" [stat]="stat|async" [cr]="userCR|async"
+                     [showAction]="editable|async"
+                     (action)="publishBtn()"></document-header>
 
     <mdc-table [span]="4" [rows]="_entriesUI|async" [editableTemplate]="editableCell" (edit)="onEdit($event)">
       <column key="grade" label="Grade"></column>
