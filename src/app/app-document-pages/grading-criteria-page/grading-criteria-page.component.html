@@ -10,7 +10,7 @@
     </div>
 
 
-    <mdc-table [span]="4" [rows]="entries|async" [editableTemplate]="editableCell" (edit)="onEdit($event)">
+    <mdc-table [span]="4" [rows]="_entriesUI|async" [editableTemplate]="editableCell" (edit)="onEdit($event)">
       <column key="grade" label="Grade"></column>
       <column key="minMark" label="Minimum Mark" numeric [editable]="editable|async"></column>
       <column key="maxMark" label="Maximum Mark" numeric></column>

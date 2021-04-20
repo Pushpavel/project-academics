@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table/mdc-table.component';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {Sink} from 'lib/data/base/sink.interfaces';
-import {combineLatest, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, of} from 'rxjs';
 import {isPrivateMeta, MarklistDocumentId} from '@models/document/document-base.model';
 import {MarklistEntryRaw, MarklistEntryUI, PrivateMarklistMetaRaw, ProtectedMarklistMetaRaw} from '@models/document/marklist.model';
 import {marklistEntriesFromProtectedMeta, marklistEntriesUIModel} from 'lib/data/combine/marklist.combine';
@@ -15,26 +15,22 @@ import {sortByKey} from 'lib/utils/rxjs.utils';
   styleUrls: ['./marklist-page.component.scss'],
   host: {class: 'document-page'}
 })
-export class MarklistPageComponent extends DocumentPage<MarklistDocumentId, PrivateMarklistMetaRaw, ProtectedMarklistMetaRaw> {
+export class MarklistPageComponent extends DocumentPage<MarklistDocumentId, PrivateMarklistMetaRaw, ProtectedMarklistMetaRaw>
+  implements OnInit {
 
-  entries = combineLatest([this.params, this.meta]).pipe(
-    switchMap(([p, meta]) => {
-      if (isPrivateMeta(meta))
-        return this.documentService.getPrivateDocumentEntries<MarklistEntryRaw>(p);
-      return of(marklistEntriesFromProtectedMeta(meta));
-    }),
-    switchMap(entries => {
-      const studentNames = this.params.pipe(
-        switchMap(p => this.documentService.getStudentNames(p)),
-        map(names => {
-          if (!names)
-            throw new Error('StudentNames does not exists'); // TODO: handle gracefully
-          return names;
-        })
-      );
+  _entries = new BehaviorSubject<MarklistEntryRaw[]>([]);
 
-      return combineLatest([of(entries), studentNames]);
-    }),
+  studentNames = this.params.pipe(
+    switchMap(p => this.documentService.getStudentNames(p)),
+    map(names => {
+      if (!names)
+        throw new Error('StudentNames does not exists'); // TODO: handle gracefully
+      return names;
+    })
+  );
+
+
+  _entriesUI = combineLatest([this._entries, this.studentNames]).pipe(
     map(marklistEntriesUIModel),
     sortByKey('rollNo'),
   );
@@ -50,7 +46,23 @@ export class MarklistPageComponent extends DocumentPage<MarklistDocumentId, Priv
     })
   ).subscribe();
 
-  onEdit({row, target}: EditEvent<MarklistEntryUI>) {
+  ngOnInit() {
+
+    combineLatest([this.params, this.meta]).pipe(
+      switchMap(([p, meta]) => {
+        if (isPrivateMeta(meta))
+          return this.documentService.getPrivateDocumentEntries<MarklistEntryRaw>(p);
+        return of(marklistEntriesFromProtectedMeta(meta));
+      })
+    ).subscribe(this._entries);
+
+  }
+
+
+  onEdit({row, index, target}: EditEvent<MarklistEntryUI>) {
+    const entries = [...this._entries.value];
+    entries[index] = {...entries[index], mark: target.valueAsNumber};
+
     this.entrySink.next({
       rollNo: row.rollNo,
       mark: target.valueAsNumber

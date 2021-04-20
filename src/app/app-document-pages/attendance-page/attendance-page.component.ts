@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Sink} from '../../../lib/data/base/sink.interfaces';
 import {attendanceEntriesFromProtectedMeta, attendanceEntriesUIModel} from '../../../lib/data/combine/attendance.combine';
 import {sortByKey} from '../../../lib/utils/rxjs.utils';
-import {CellContext, EditEvent} from '../../mdc-helper/mdc-table/mdc-table/mdc-table.component';
+import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table/mdc-table.component';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {
@@ -11,7 +11,7 @@ import {
   PrivateAttendanceMetaRaw,
   ProtectedAttendanceMetaRaw
 } from '@models/document/attendance.model';
-import {combineLatest, Observable, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, of} from 'rxjs';
 import {isPrivateMeta, PrivateMetaRaw} from '@models/document/document-base.model';
 
 @Component({
@@ -20,35 +20,29 @@ import {isPrivateMeta, PrivateMetaRaw} from '@models/document/document-base.mode
   styleUrls: ['./attendance-page.component.scss'],
   host: {class: 'document-page'}
 })
-export class AttendancePageComponent extends DocumentPage<'ATTENDANCE', PrivateAttendanceMetaRaw, ProtectedAttendanceMetaRaw> {
+export class AttendancePageComponent extends DocumentPage<'ATTENDANCE', PrivateAttendanceMetaRaw, ProtectedAttendanceMetaRaw>
+  implements OnInit {
 
-  entries: Observable<AttendanceEntryUI[]> = combineLatest([this.params, this.meta]).pipe(
-    switchMap(([p, meta]) => {
-      if (isPrivateMeta(meta))
-        return this.documentService.getPrivateDocumentEntries<AttendanceEntryRaw>(p);
+  _entries = new BehaviorSubject<AttendanceEntryRaw[]>([]);
 
-      return of(attendanceEntriesFromProtectedMeta(meta));
-    }),
-    switchMap(entries => {
-      const studentNames = this.params.pipe(
-        switchMap(p => this.documentService.getStudentNames(p)),
-        map(names => {
-          if (!names)
-            throw new Error('StudentNames does not exists'); // TODO: handle gracefully
-          return names;
-        })
-      );
+  _total = 0;
 
-      return combineLatest([of(entries), studentNames, this.meta]);
-    }),
+  studentNames = this.params.pipe(
+    switchMap(p => this.documentService.getStudentNames(p)),
+    map(names => {
+      if (!names)
+        throw new Error('StudentNames does not exists'); // TODO: handle gracefully
+      return names;
+    })
+  );
+
+  _entriesUI = combineLatest([this._entries, this.studentNames, this.meta]).pipe(
     map(attendanceEntriesUIModel),
     sortByKey('rollNo'),
   );
 
-
   entrySink = new Sink<AttendanceEntryRaw, 'rollNo'>();
   metaSink = new Sink<PrivateMetaRaw>();
-
 
   sinkResponse = combineLatest([this.editable, this.params]).pipe(
     switchMap(([editable, p]) => {
@@ -63,27 +57,32 @@ export class AttendancePageComponent extends DocumentPage<'ATTENDANCE', PrivateA
   ).subscribe();
 
 
-  total = 0;
+  ngOnInit() {
 
-  totalChange(event: Event) {
-    this.total = (event.target as HTMLInputElement).valueAsNumber;
-    console.log(this.total);
-    this.metaSink.next({total: this.total});
+    combineLatest([this.params, this.meta]).pipe(
+      switchMap(([p, meta]) => {
+        if (isPrivateMeta(meta)) return this.documentService.getPrivateDocumentEntries<AttendanceEntryRaw>(p);
+        return of(attendanceEntriesFromProtectedMeta(meta));
+      })
+    ).subscribe(this._entries);
+
+    this.meta.subscribe(meta => this._total = meta.total);
   }
 
-  onEdit({row, target}: EditEvent<AttendanceEntryUI>) {
+  totalChange(event: Event) {
+    this._total = (event.target as HTMLInputElement).valueAsNumber;
+    console.log(this._total);
+    this.metaSink.next({total: this._total});
+  }
 
+  onEdit({index, row, target}: EditEvent<AttendanceEntryUI>) {
+    const entries = [...this._entries.value];
+    entries[index] = {...entries[index], attended: target.valueAsNumber};
+
+    this._entries.next(entries);
     this.entrySink.next({
       rollNo: row.rollNo,
       attended: target.valueAsNumber
     });
   }
-
-  computePercentage = ({row}: CellContext<AttendanceEntryUI>) => {
-    if (this.total == 0) return '100%';
-    const percent = row.attended / this.total;
-    console.log(percent, this.total);
-
-    return (Math.round(percent * 10) / 10).toString() + '%';
-  };
 }

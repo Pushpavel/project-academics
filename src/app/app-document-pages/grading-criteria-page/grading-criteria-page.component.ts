@@ -1,12 +1,13 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {gradingCriteriaUIEntriesFromMeta} from '../../../lib/data/combine/grading-criteria.combine';
+import {notNull} from '../../../lib/utils/rxjs.utils';
 import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table/mdc-table.component';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {map, switchMap} from 'rxjs/operators';
 import {Sink} from 'lib/data/base/sink.interfaces';
-import {combineLatest, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, of} from 'rxjs';
 import {
-  GradingCriteriaEntryUI,
+  GradingCriteriaEntryUI, GradingCriteriaMetaRaw,
   PrivateGradingCriteriaMetaRaw,
   ProtectedGradingCriteriaMetaRaw
 } from '@models/document/grading-criteria.model';
@@ -19,9 +20,11 @@ import {
 })
 export class GradingCriteriaPageComponent extends DocumentPage<'GRADING_CRITERIA',
   PrivateGradingCriteriaMetaRaw,
-  ProtectedGradingCriteriaMetaRaw> {
+  ProtectedGradingCriteriaMetaRaw> implements OnInit {
 
-  entries = this.meta.pipe(map(gradingCriteriaUIEntriesFromMeta));
+  _meta = new BehaviorSubject<GradingCriteriaMetaRaw | null>(null);
+
+  _entriesUI = this._meta.pipe(notNull, map(gradingCriteriaUIEntriesFromMeta));
 
   entrySink = new Sink<GradingCriteriaEntryUI, 'grade' | 'minMark'>();
 
@@ -33,7 +36,16 @@ export class GradingCriteriaPageComponent extends DocumentPage<'GRADING_CRITERIA
     })
   ).subscribe();
 
+  ngOnInit() {
+    this.meta.subscribe(this._meta);
+  }
+
   onEdit({row, target}: EditEvent<GradingCriteriaEntryUI>) {
+    if (!this._meta.value) return;
+
+    const meta = {...this._meta.value, entries: {...this._meta.value?.entries}};
+    meta.entries[row.grade] = target.valueAsNumber;
+    this._meta.next(meta);
     this.entrySink.next({
       grade: row.grade,
       minMark: target.valueAsNumber
