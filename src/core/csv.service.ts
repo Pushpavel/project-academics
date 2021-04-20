@@ -7,6 +7,7 @@ import {MarklistEntryUI} from '../lib/models/document/marklist.model';
 import {DocumentPath} from '../lib/models/path.model';
 import {downloadFile} from '../lib/sheets/download-file';
 import {getCsvString, HeaderLabels} from '../lib/sheets/get-csv-string';
+import {constructObject} from '../lib/utils/native/object.utils';
 
 
 @Injectable({
@@ -16,21 +17,27 @@ export class CsvService {
 
 
   studentEntriesHeaders = [['rollNo', 'Roll No'], ['name', 'Name']] as const;
-  marklistHeaders = [...this.studentEntriesHeaders, ['mark', 'Mark']] as const;
 
-
-  headers: HeaderLabelsDef = {
+  headers: Headers = {
     ATTENDANCE: [...this.studentEntriesHeaders, ['attended', 'Attended']] as const,
-    GRADES: [...this.studentEntriesHeaders],
-    ...MARK_DOCUMENT_IDS.reduce((data, id) => {
-      data[id] = this.marklistHeaders;
-      return data;
-    }, {} as any)
+    GRADES: [
+      ...this.studentEntriesHeaders,
+      ...MARK_DOCUMENT_IDS.map(id => [id, id] as const),// ['CT1','CT1'] ,...
+      ['total', 'Total'], ['grade', 'Grade']
+    ] as const,
+    ...constructObject(MARK_DOCUMENT_IDS, [...this.studentEntriesHeaders, ['mark', 'Mark']] as const),
   };
 
-  downloadDocumentCSV<ID extends PublicDocumentId, T extends DocumentRowMap[ID]>(p: DocumentPath<ID>, rows: T[]) {
-    const csvString = getCsvString(rows, this.headers[p.documentId] as HeaderLabels<T>);
-    downloadFile(csvString, p.documentId + '.csv');
+  async downloadDocumentCSV<ID extends PublicDocumentId, T extends DocumentRowMap[ID]>(p: DocumentPath<ID>, rows: T[], total?: number) {
+    const meta: any = {};
+    if (total != null && p.documentId == 'ATTENDANCE')
+      meta['No of Classes Conducted'] = total;
+    else if (total != null)
+      meta['Total Marks'] = total;
+
+
+    const csvString = getCsvString<T>(rows, this.headers[p.documentId] as HeaderLabels<T>, meta);
+    await downloadFile(csvString, p.documentId + '.csv');
   }
 }
 
@@ -39,6 +46,4 @@ type DocumentRowMap = {
   'GRADES': GradeEntryUI,
 } & { [markId in MarklistDocumentId]: MarklistEntryUI }
 
-type HeaderLabelsDef = {
-  [id in PublicDocumentId]: HeaderLabels<DocumentRowMap[id]>
-}
+type Headers = { [T in PublicDocumentId]: HeaderLabels<DocumentRowMap[T]> }

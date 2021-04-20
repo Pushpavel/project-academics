@@ -1,7 +1,11 @@
 export type HeaderLabels<T> = Readonly<Readonly<[keyof T, string]>[]>
 
-export function getCsvString<T>(rows: T[], headers: HeaderLabels<T>) {
+export function getCsvString<T>(rows: T[], headers: HeaderLabels<T>, meta?: Record<string, any>) {
   let csvString = '';
+
+  if (meta)
+    for (const i of Object.keys(meta))
+      csvString += i + ',' + meta[i] + '\n';
 
   for (const [, label] of headers)
     csvString += label + ',';

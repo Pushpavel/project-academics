@@ -2,10 +2,10 @@ import {Component} from '@angular/core';
 import {DocumentPage} from '../document-page/DocumentPage';
 import {combineLatest, Observable, of} from 'rxjs';
 import {GradeEntryUI, ProtectedGradesMetaRaw} from '@models/document/grading.model';
-import {map, switchMap} from 'rxjs/operators';
+import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {DocumentId} from '@models/document/document-base.model';
 import {gradesUIModel} from 'lib/data/combine/grades.combine';
-import {sortByKey} from 'lib/utils/rxjs.utils';
+import {getValue, sortByKey} from 'lib/utils/rxjs.utils';
 
 @Component({
   selector: 'app-grades-page',
@@ -37,13 +37,21 @@ export class GradesPageComponent extends DocumentPage<'GRADES', never, Protected
         map(gradesUIModel),
         sortByKey('rollNo')
       );
-    })
+    }),
+    shareReplay(),
   );
 
 
   disableEdit = true;
   isDataFromPrivate = of(undefined);
   editable = of(false);
+
+  async downloadBtn() {
+    const p = await getValue(this.params);
+    const entries = await getValue(this.entries);
+
+    this.csvService.downloadDocumentCSV(p, entries);
+  }
 
   async publishBtn(): Promise<void> {
     throw new Error('Not Implemented');

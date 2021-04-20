@@ -90,6 +90,6 @@ export class AttendancePageComponent extends DocumentPage<'ATTENDANCE', PrivateA
     const p = await getValue(this.params);
     const entries = await getValue(this._entriesUI);
 
-    this.csvService.downloadDocumentCSV(p, entries);
+    this.csvService.downloadDocumentCSV(p, entries, this._total);
   }
 }

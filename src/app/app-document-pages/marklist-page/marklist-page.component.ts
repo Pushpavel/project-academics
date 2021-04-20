@@ -7,7 +7,7 @@ import {BehaviorSubject, combineLatest, of} from 'rxjs';
 import {isPrivateMeta, MarklistDocumentId} from '@models/document/document-base.model';
 import {MarklistEntryRaw, MarklistEntryUI, PrivateMarklistMetaRaw, ProtectedMarklistMetaRaw} from '@models/document/marklist.model';
 import {marklistEntriesFromProtectedMeta, marklistEntriesUIModel} from 'lib/data/combine/marklist.combine';
-import {sortByKey} from 'lib/utils/rxjs.utils';
+import {getValue, sortByKey} from 'lib/utils/rxjs.utils';
 
 @Component({
   selector: 'app-marklist-page',
@@ -68,5 +68,15 @@ export class MarklistPageComponent extends DocumentPage<MarklistDocumentId, Priv
       mark: target.valueAsNumber
     });
   }
+
+
+  async downloadBtn() {
+    const p = await getValue(this.params);
+    const entries = await getValue(this._entriesUI);
+    const meta = await getValue(this.meta);
+
+    this.csvService.downloadDocumentCSV(p, entries, meta.total);
+  }
+
 
 }

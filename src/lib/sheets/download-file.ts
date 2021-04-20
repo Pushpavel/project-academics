@@ -1,4 +1,4 @@
-export function downloadFile(data: string, filename: string) {
+export async function downloadFile(data: string, filename: string) {
   const blob = new Blob(['\ufeff' + data], {type: 'text/csv;charset=utf-8;'});
   const url = URL.createObjectURL(blob);
   const downloadTag = document.createElement('a');
