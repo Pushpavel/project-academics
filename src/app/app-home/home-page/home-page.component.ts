@@ -1,12 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AcademicUser} from '@models/user.model';
 import {CourseService} from 'core/course.service';
 import {UserService} from 'core/user.service';
-import {BehaviorSubject, combineLatest, Subscription} from 'rxjs';
+import {BehaviorSubject, combineLatest} from 'rxjs';
 import {filter, map, switchMap} from 'rxjs/operators';
 import {StudentService} from '../../../core/student.service';
-import {DeptId} from '../../../lib/models/document/document-base.model';
+import {getBatchId, getBatchName} from '../../../lib/utils/batch.utils';
 import {groupBy} from '../../../lib/utils/native/map.utils';
 import {getParams} from '../../routes/routing.helper';
 
@@ -15,7 +14,9 @@ import {getParams} from '../../routes/routing.helper';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss']
 })
-export class HomePageComponent implements OnInit, OnDestroy {
+export class HomePageComponent {
+
+  getBatchName = getBatchName;
 
   semId = getParams<{ semId: string }>(['semId'], this.route).pipe(map(p => p.semId));
 
@@ -37,97 +38,20 @@ export class HomePageComponent implements OnInit, OnDestroy {
   coursesOfDept = combineLatest([this.semId, this.user.loggedInUser]).pipe(
     filter(([, user]) => !!user.isHod),
     switchMap(([semId, user]) => this.courseService.getCourses({semId, deptId: user.isHod})),
-    map(courses => groupBy(courses, course => Object.keys(course.dept)[0])), //  TODO: handle multi-dept courses
-  );
-
-
-  // EXAM CELL
-  selectedDept = new BehaviorSubject<DeptId>('CS');
-
-  coursesOfBatch = combineLatest([this.semId, this.selectedDept, this.user.loggedInUser]).pipe(
-    filter(([, , user]) => !!user.isExamCell),
-    switchMap(([semId, deptId]) => this.courseService.getCourses({semId, deptId})),
     map(courses => groupBy(courses, course => course.batch)),
   );
 
 
-  courseCollections?: any = null;
-  title = '';
-  //dummy
-  homeTabs: string[] = ['Tab1', 'Tab2', 'Tab3', 'Tab4', 'Tab5'];
+  // EXAM CELL
+  selectedBatchName = new BehaviorSubject<string>('B TECH I');
 
-  tabIndex = 0;
+  batches = ['B TECH I', 'B TECH II', 'B TECH III', 'B TECH IV'];
 
-  private courseSubscription!: Subscription;
-  private userSubscription!: Subscription;
-
-  _user?: AcademicUser | null;
-
-  getCourseCollections() {
-  }
-
-  authValidate(user: AcademicUser | null) {
-
-    this._user = user;
-    if (user?.isFaculty && user?.isHod == undefined) {
-      this.courseService.fetchCoursesForFaculty(user.uid, '2020_2');
-    }
-
-    if (user?.isHod) {
-      this.courseService.fetchCoursesForFaculty(user.uid, '2020_2');
-      //fetch hod courses
-    }
-
-    if (user?.isStudent) {
-      //TODO: student filter params
-      this.courseService.fetchCoursesForStudent('19B1', '2020_2');
-    }
-
-    if (user?.isExamCell) {
-      //exam cell (all)
-    }
-
-  }
-
-  ngOnInit(): void {
-    this.courseSubscription = this.courseService.courseCollection.subscribe((result) => {
-      console.log(result);
-      if (result) this.initData(result);
-    });
-    this.userSubscription = this.user.subscribe(u => {
-      this.authValidate(u);
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.userSubscription)
-      this.courseSubscription.unsubscribe();
-    if (this.userSubscription)
-      this.userSubscription.unsubscribe();
-  }
-
-  initData(result: any) {
-    this.courseCollections = result;
-    this.title = Object.keys(result)[0];
-  }
-
-  handletabChange(i: any) {
-    this.tabIndex = i;
-  }
-
-
-  handleResultSummary() {
-    console.log('result summary', this.tabIndex);
-  }
-
-  handleResult() {
-    console.log('Result', this.tabIndex);
-  }
-
-  handleArchive() {
-    //this.userService.signOut(); // Dummy signout
-    console.log('archive', this.tabIndex);
-  }
+  coursesOfBatch = combineLatest([this.semId, this.selectedBatchName, this.user.loggedInUser]).pipe(
+    filter(([, , user]) => !!user.isExamCell),
+    switchMap(([semId, batchName]) => this.courseService.getCourses({semId, batch: getBatchId(semId, batchName)})),
+    map(courses => groupBy(courses, course => Object.keys(course.dept)[0])), //  TODO: handle multi-dept courses
+  );
 
   constructor(
     private router: Router,

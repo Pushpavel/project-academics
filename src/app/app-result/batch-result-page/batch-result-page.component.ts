@@ -1,15 +1,15 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DocumentService} from 'core/document.service';
-import {DEPT_ABBR} from 'lib/constants/dept.constants';
-import {mapMapEntries, objectToMap} from 'lib/utils/native/map.utils';
+import {DEPT_ABBR, DEPT_ID_FROM_ABBR} from 'lib/constants/dept.constants';
+import {mapMapEntries} from 'lib/utils/native/map.utils';
 import {map, switchMap} from 'rxjs/operators';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {getParams} from 'app/routes/routing.helper';
 import {PublishService} from '../../../core/publish.service';
 import {DOCUMENT_NAMES, MARK_DOCUMENT_IDS} from '../../../lib/constants/document.constants';
 import {statsDocumentUIModel} from '../../../lib/data/combine/document-stat.combine';
-import {DeptId, MarklistDocumentId} from '../../../lib/models/document/document-base.model';
+import {DeptAbbr, MarklistDocumentId} from '../../../lib/models/document/document-base.model';
 import {StatsDocumentUI} from '../../../lib/models/document/document-stat.model';
 import {BatchPath} from '../../../lib/models/path.model';
 import {getValue} from '../../../lib/utils/rxjs.utils';
@@ -22,10 +22,10 @@ import {MdcDialog} from '../../mdc-helper/mdc-dialog/mdc-dialog.service';
 })
 export class BatchResultPageComponent {
 
-  DEPT_ABBR = objectToMap(DEPT_ABBR);
+  DEPT_ABBR = Object.values<DeptAbbr>(DEPT_ABBR);
   DOCUMENT_NAMES = DOCUMENT_NAMES;
 
-  selectedDeptId = new BehaviorSubject<DeptId>('CS');
+  selectedDeptAbbr = new BehaviorSubject<DeptAbbr>('CSE');
 
   isPublishable = true; // TODO: calculate from submissions and publish btn
 
@@ -37,9 +37,9 @@ export class BatchResultPageComponent {
     map(deptStats => mapMapEntries(deptStats, (key, val) => [key, val + '%']))
   );
 
-  statDocs: Observable<StatsDocumentUI[]> = combineLatest([this.selectedDeptId, this.params]).pipe(
-    switchMap(([deptId, params]) =>
-      this.documentService.statsDocumentQuery({...params, deptId})
+  statDocs: Observable<StatsDocumentUI[]> = combineLatest([this.selectedDeptAbbr, this.params]).pipe(
+    switchMap(([deptAbbr, params]) =>
+      this.documentService.statsDocumentQuery({...params, deptId: DEPT_ID_FROM_ABBR[deptAbbr]})
     ),
     map(statDocs => statDocs.map(statsDocumentUIModel)),
   );

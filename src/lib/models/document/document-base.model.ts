@@ -29,6 +29,7 @@ export type NonGradeDocumentId = MarklistDocumentId | 'ATTENDANCE'
 
 
 export type DeptId = keyof typeof DEPT_ABBR;
+export type DeptAbbr = typeof DEPT_ABBR[DeptId]
 export type DeptFields = { [dept in DeptId]?: 'core' | 'elective1' | 'elective2'; };
 
 

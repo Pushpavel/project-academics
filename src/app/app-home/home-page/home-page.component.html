@@ -1,5 +1,5 @@
 <top-bar-layout>
-  <mdc-layout container>
+  <mdc-layout *ngIf="semId|async as semId" container>
     <!--  FACULTY & STUDENT  -->
     <ng-container *ngIf="userCourses|async as courses">
       <ng-container *ngTemplateOutlet="coursesTemplate;context:{$implicit:courses}"></ng-container>
@@ -8,13 +8,13 @@
     <!--  HOD  -->
     <ng-container *ngIf="coursesOfDept|async as courseGroups">
       <ng-container *ngFor="let group of courseGroups|keyvalue">
-        <div [span]="12">{{group.key}}</div>
+        <div [span]="12">{{getBatchName(semId, group.key)}}</div>
         <ng-container *ngTemplateOutlet="coursesTemplate;context:{$implicit:group.value}"></ng-container>
       </ng-container>
     </ng-container>
 
     <!--  EXAM CELL  -->
-    <mdc-tabs-bar [selection]="selectedDept"></mdc-tabs-bar>
+    <mdc-tabs-bar [span]="12" [tabs]="batches" [selection]="selectedBatchName"></mdc-tabs-bar>
     <ng-container *ngIf="coursesOfBatch|async as courseGroups">
       <ng-container *ngFor="let group of courseGroups|keyvalue">
         <div [span]="12">{{group.key}}</div>

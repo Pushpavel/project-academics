@@ -14,7 +14,7 @@
 
     </data-card>
 
-    <mdc-tabs-bar [span]="12" [map]="DEPT_ABBR" [selection]="selectedDeptId"></mdc-tabs-bar>
+    <mdc-tabs-bar [span]="12" [tabs]="DEPT_ABBR" [selection]="selectedDeptAbbr"></mdc-tabs-bar>
 
     <ng-container *ngIf="statDocs|async as docs">
       <data-card *ngFor="let doc of docs" [span]="12" [title]="doc.courseName">
