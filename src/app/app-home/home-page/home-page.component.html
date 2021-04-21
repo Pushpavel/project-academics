@@ -1,34 +1,40 @@
 <top-bar-layout>
   <mdc-layout *ngIf="semId|async as semId" container>
-    <!--  FACULTY & STUDENT  -->
-    <ng-container *ngIf="userCourses|async as courses">
-      <ng-container *ngTemplateOutlet="coursesTemplate;context:{$implicit:courses}"></ng-container>
-    </ng-container>
+    <ng-container *ngIf="user|async as user">
 
-    <!--  HOD  -->
-    <ng-container *ngIf="coursesOfDept|async as courseGroups">
-      <ng-container *ngFor="let group of courseGroups|keyvalue">
-        <div [span]="12">{{getBatchName(semId, group.key)}}</div>
-        <ng-container *ngTemplateOutlet="coursesTemplate;context:{$implicit:group.value}"></ng-container>
-      </ng-container>
-    </ng-container>
-
-    <!--  EXAM CELL  -->
-    <mdc-tabs-bar [span]="12" [tabs]="batches" [selection]="selectedBatchName"></mdc-tabs-bar>
-    <ng-container *ngIf="coursesOfBatch|async as courseGroups">
-      <ng-container *ngFor="let group of courseGroups|keyvalue">
-        <div [span]="12">{{group.key}}</div>
-        <ng-container *ngTemplateOutlet="coursesTemplate;context:{$implicit:group.value}"></ng-container>
+      <!--  FACULTY & STUDENT  -->
+      <ng-container *ngIf="userCourses|async as courses">
+        <div [span]="12">Your Courses</div>
+        <ng-container *ngTemplateOutlet="coursesTemplate;context:{$implicit:courses}"></ng-container>
       </ng-container>
 
-      <div [span]="12">
-        <button mdc-button="outlined" class="surface" (click)="openResultSummary()">
-          <mdc-icon>visibility</mdc-icon>
-          RESULT SUMMARY
-        </button>
-      </div>
-    </ng-container>
+      <!--  HOD  -->
+      <ng-container *ngIf="coursesOfDept|async as courseGroups">
+        <ng-container *ngFor="let group of courseGroups|keyvalue">
+          <div [span]="12">{{getBatchName(semId, group.key)}}</div>
+          <ng-container *ngTemplateOutlet="coursesTemplate;context:{$implicit:group.value}"></ng-container>
+        </ng-container>
+      </ng-container>
 
+      <!--  EXAM CELL  -->
+      <ng-container *ngIf="user.isExamCell">
+        <mdc-tabs-bar [span]="12" [tabs]="batches" [selection]="selectedBatchName"></mdc-tabs-bar>
+        <ng-container *ngIf="coursesOfBatch|async as courseGroups">
+          <ng-container *ngFor="let group of courseGroups|keyvalue">
+            <div [span]="12">{{group.key}}</div>
+            <ng-container *ngTemplateOutlet="coursesTemplate;context:{$implicit:group.value}"></ng-container>
+          </ng-container>
+
+          <div [span]="12">
+            <button mdc-button="outlined" class="surface" (click)="openResultSummary()">
+              <mdc-icon>visibility</mdc-icon>
+              RESULT SUMMARY
+            </button>
+          </div>
+        </ng-container>
+      </ng-container>
+
+    </ng-container>
   </mdc-layout>
 </top-bar-layout>
 

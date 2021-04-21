@@ -30,7 +30,7 @@ export class HomePageComponent {
 
       // get public student entries of student and get courses from that
       return this.studentService.getStudentEntries({semId, rollNo: user.uid}).pipe(
-        switchMap(entries => this.courseService.getCourses({semId, courseCodes: entries.map(entry => entry.courseCode)}))
+        switchMap(entries => this.courseService.getCourses({semId, courseCodes: entries.map(entry => entry.courseCode)})),
       );
     })
   );

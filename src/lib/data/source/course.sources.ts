@@ -5,6 +5,7 @@ import {SourceService} from 'lib/data/base/service.abstract';
 import {courseCodeExtract} from 'lib/data/convert/common';
 import {DeptId} from '../../models/document/document-base.model';
 import Query = firebase.firestore.Query;
+import FieldPath = firebase.firestore.FieldPath;
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,7 @@ export class CourseSources extends SourceService {
           q = q.where('facultyId', '==', query.facultyId);
 
         if (query.courseCodes)
-          q = q.where('course', 'in', query.courseCodes);
+          q = q.where(FieldPath.documentId(), 'in', query.courseCodes);
 
         if (query.batch)
           q = q.where('batch', '==', query.batch);
