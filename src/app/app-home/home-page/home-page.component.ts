@@ -7,6 +7,7 @@ import {filter, map, switchMap} from 'rxjs/operators';
 import {StudentService} from '../../../core/student.service';
 import {getBatchId, getBatchName} from '../../../lib/utils/batch.utils';
 import {groupBy} from '../../../lib/utils/native/map.utils';
+import {getValue} from '../../../lib/utils/rxjs.utils';
 import {getParams} from '../../routes/routing.helper';
 
 @Component({
@@ -53,12 +54,24 @@ export class HomePageComponent {
     map(courses => groupBy(courses, course => Object.keys(course.dept)[0])), //  TODO: handle multi-dept courses
   );
 
+  openCourse(courseCode: string) {
+    this.router.navigate(['../course', courseCode], {relativeTo: this.route});
+  }
+
+  async openResultSummary() {
+    if (!this.selectedBatchName.value) return;
+    const semId = await getValue(this.semId);
+    const batchId = getBatchId(semId, this.selectedBatchName.value);
+
+    this.router.navigate(['../result', batchId], {relativeTo: this.route});
+  }
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private courseService: CourseService,
     private studentService: StudentService,
-    private user: UserService,
+    public user: UserService,
   ) {
   }
 

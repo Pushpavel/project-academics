@@ -20,6 +20,13 @@
         <div [span]="12">{{group.key}}</div>
         <ng-container *ngTemplateOutlet="coursesTemplate;context:{$implicit:group.value}"></ng-container>
       </ng-container>
+
+      <div [span]="12">
+        <button mdc-button="outlined" class="surface" (click)="openResultSummary()">
+          <mdc-icon>visibility</mdc-icon>
+          RESULT SUMMARY
+        </button>
+      </div>
     </ng-container>
 
   </mdc-layout>
@@ -30,7 +37,8 @@
 </ng-template>
 
 <ng-template #coursesTemplate let-courses>
-  <button [span]="2" *ngFor="let course of courses" class="course-btn surface" mdc-button="outlined" flex>
+  <button [span]="2" *ngFor="let course of courses" class="course-btn surface" mdc-button="outlined" flex
+          (click)="openCourse(course.courseCode)">
     <span class="sub1 dark-text-primary">{{course.name}}</span>
     <span class="sub1 dark-text-secondary">{{course.courseCode}}</span>
   </button>
