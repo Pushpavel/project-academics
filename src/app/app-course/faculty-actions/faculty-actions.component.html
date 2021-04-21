@@ -1,25 +1,32 @@
-<mdc-layout *ngIf="statsDocument|async as stats">
-  <h6 [span]="12">Attendance</h6>
-  <ng-container *ngTemplateOutlet="actionButton;context:{$implicit:stats.entries.ATTENDANCE}"></ng-container>
+<ng-container *ngIf="userCR|async as cr">
 
-  <h6 [span]="12">Marklist</h6>
-  <ng-container *ngTemplateOutlet="actionButton;context:{$implicit:stats.entries.CT1}"></ng-container>
-  <ng-container *ngTemplateOutlet="actionButton;context:{$implicit:stats.entries.CT2}"></ng-container>
-  <ng-container *ngTemplateOutlet="actionButton;context:{$implicit:stats.entries.ASSIGNMENT}"></ng-container>
-  <ng-container *ngTemplateOutlet="actionButton;context:{$implicit:stats.entries.END_SEM}"></ng-container>
+  <mdc-layout *ngIf="statsDocument|async as stats">
+    <h6 [span]="12">Attendance</h6>
+    <ng-container *ngTemplateOutlet="actionButton;context:{$implicit:stats.entries.ATTENDANCE}"></ng-container>
 
-  <h6 [span]="12">Grading</h6>
-  <ng-container *ngTemplateOutlet="actionButton;context:{$implicit:stats.entries.GRADING_CRITERIA}"></ng-container>
-  <ng-container *ngTemplateOutlet="actionButton;context:{$implicit:stats.entries.GRADES}"></ng-container>
+    <h6 [span]="12">Marklist</h6>
+    <ng-container *ngTemplateOutlet="actionButton;context:{$implicit:stats.entries.CT1}"></ng-container>
+    <ng-container *ngTemplateOutlet="actionButton;context:{$implicit:stats.entries.CT2}"></ng-container>
+    <ng-container *ngTemplateOutlet="actionButton;context:{$implicit:stats.entries.ASSIGNMENT}"></ng-container>
+    <ng-container *ngTemplateOutlet="actionButton;context:{$implicit:stats.entries.END_SEM}"></ng-container>
 
-</mdc-layout>
+    <h6 [span]="12">Grading</h6>
+    <ng-container *ngIf="cr.isFaculty">
+      <ng-container *ngTemplateOutlet="actionButton;context:{$implicit:stats.entries.GRADING_CRITERIA}"></ng-container>
+    </ng-container>
+    <ng-container *ngTemplateOutlet="actionButton;context:{$implicit:stats.entries.GRADES}"></ng-container>
 
-<ng-template #actionButton let-doc>
-  <ng-container *ngIf="asStatsUIEntry(doc) as doc">
+  </mdc-layout>
 
-    <button [span]="3" mdc-button class="surface mdc-button--outlined" (click)="openDocument(doc.documentId)">
-      <span>{{DOCUMENT_NAMES[doc.documentId]}}</span>
-      <span class="body2">Last Updated 25 Aug 2021</span>
-    </button>
-  </ng-container>
-</ng-template>
+  <ng-template #actionButton let-doc>
+    <ng-container *ngIf="asStatsUIEntry(doc) as doc">
+
+      <button [span]="3" mdc-button class="surface mdc-button--outlined" (click)="openDocument(doc.documentId)"
+              [disabled]="!cr.isFaculty && doc.status == 'private'">
+        <span>{{DOCUMENT_NAMES[doc.documentId]}}</span>
+        <span class="body2">Last Updated 25 Aug 2021</span>
+      </button>
+    </ng-container>
+  </ng-template>
+
+</ng-container>

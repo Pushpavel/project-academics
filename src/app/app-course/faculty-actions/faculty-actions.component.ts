@@ -8,7 +8,6 @@ import {notNull} from '../../../lib/utils/rxjs.utils';
 import {getParams} from '../../routes/routing.helper';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StatsDocumentUI} from '@models/document/document-stat.model';
-import {Observable, of} from 'rxjs';
 import {UserCourseRelation} from '@models/course.model';
 
 @Component({
@@ -28,9 +27,8 @@ export class FacultyActionsComponent {
     map(statsDocumentUIModel)
   );
 
-  userCR: Observable<UserCourseRelation> = of({
-    isFaculty: true
-  });
+  userCR = this.route.data.pipe(map(data => data.userCrResolve as UserCourseRelation));
+
 
   openDocument(docId: string) {
     this.router.navigate([docId], {relativeTo: this.route});

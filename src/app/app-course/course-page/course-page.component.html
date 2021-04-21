@@ -20,7 +20,7 @@
   </div>
 
   <ng-container *ngIf="courseCR|async as cr">
-    <faculty-actions *ngIf="cr.isFaculty"></faculty-actions>
+    <faculty-actions *ngIf="cr.isFaculty || cr.isExamCell || cr.isHod"></faculty-actions>
     <student-course-overview *ngIf="cr.isStudent"></student-course-overview>
   </ng-container>
 </top-bar-layout>
