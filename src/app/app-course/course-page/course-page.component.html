@@ -1,21 +1,17 @@
 <top-bar-layout title="Course">
-  <!--  TODO: Course model is available here, use it  -->
   <div *ngIf="course|async as course">
     <div class="course-name">
       {{course.name}}
-      <!--      Computer Networks-->
     </div>
     <div class="course-details">
       <p class="details-title"> CODE </p>
       <p class="details-title"> ENROLLED </p>
       <p class="details-title"> FACULTY </p>
       <p class="details-title"> SEMESTER </p>
-      <!--      TODO: Problem with course code-->
-      <!--      <p> {{course.courseCode}} </p>-->
-      <p>CS208</p>
-      <p> {{course.studentCount}} </p>
-      <p> {{course.facultyName}} </p>
-      <p> EVEN 2020 </p>
+      <p>{{course.courseCode}}</p>
+      <p>{{course.studentCount}}</p>
+      <p>{{course.facultyName}}</p>
+      <p>{{semesterName|async}}</p>
     </div>
   </div>
 

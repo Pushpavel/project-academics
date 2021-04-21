@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {map, switchMap} from 'rxjs/operators';
 import {CourseService} from 'core/course.service';
 import {UserCourseRelation} from '../../../lib/models/course.model';
+import {CoursePath} from '../../../lib/models/path.model';
 import {getParams} from '../../routes/routing.helper';
 
 @Component({
@@ -12,7 +13,14 @@ import {getParams} from '../../routes/routing.helper';
 })
 export class CoursePageComponent {
 
-  params = getParams(['semId', 'courseCode'], this.route);
+  params = getParams<CoursePath>(['semId', 'courseCode'], this.route);
+
+  semesterName = this.params.pipe(
+    map(p => {
+      const [year, even] = p.semId.split('_');
+      return (even == '1' ? 'ODD ' : 'EVEN ') + year;
+    })
+  );
 
   course = this.params.pipe(
     switchMap(params => this.courseService.getCourseDetail(params.semId, params.courseCode)),
