@@ -59,11 +59,16 @@ export class HomePageComponent {
   }
 
   async openResultSummary() {
-    if (!this.selectedBatchName.value) return;
-    const semId = await getValue(this.semId);
-    const batchId = getBatchId(semId, this.selectedBatchName.value);
+    const user = await getValue(this.user);
+    if (user?.isExamCell) {
+      if (!this.selectedBatchName.value) return;
+      const semId = await getValue(this.semId);
+      const batchId = getBatchId(semId, this.selectedBatchName.value);
 
-    this.router.navigate(['../result', batchId], {relativeTo: this.route});
+      this.router.navigate(['../result', batchId], {relativeTo: this.route});
+    } else if (user?.isStudent)
+      this.router.navigate(['../result'], {relativeTo: this.route});
+
   }
 
   constructor(

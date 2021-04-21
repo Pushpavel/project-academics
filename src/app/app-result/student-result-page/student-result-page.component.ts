@@ -19,7 +19,7 @@ export class StudentResultPageComponent {
     map(p => p.semId)
   );
 
-  rollNo = this.user.loggedInUser.pipe(map(u => u?.uid ?? 'ERROR')); // TODO: handle this
+  rollNo = this.user.loggedInUser.pipe(map(u => u.uid));
 
   courseResults = combineLatest([this.semId, this.rollNo]).pipe(
     switchMap(([semId, rollNo]) =>

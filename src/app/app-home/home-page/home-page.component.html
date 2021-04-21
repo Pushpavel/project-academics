@@ -24,15 +24,15 @@
             <div [span]="12">{{group.key}}</div>
             <ng-container *ngTemplateOutlet="coursesTemplate;context:{$implicit:group.value}"></ng-container>
           </ng-container>
-
-          <div [span]="12">
-            <button mdc-button="outlined" class="surface" (click)="openResultSummary()">
-              <mdc-icon>visibility</mdc-icon>
-              RESULT SUMMARY
-            </button>
-          </div>
         </ng-container>
       </ng-container>
+
+      <div *ngIf="user.isExamCell || user.isStudent" [span]="12">
+        <button mdc-button="outlined" class="surface" (click)="openResultSummary()">
+          <mdc-icon>visibility</mdc-icon>
+          RESULT SUMMARY
+        </button>
+      </div>
 
     </ng-container>
   </mdc-layout>

@@ -1,4 +1,6 @@
+import firebase from 'firebase/app';
 import {BaseMetaZZZMap, EntryZZZMap, PublicDocumentId} from './document/document-base.model';
+import Timestamp = firebase.firestore.Timestamp;
 
 export interface StudentsDocumentRaw {
   entries: Record<string, string>
@@ -30,7 +32,7 @@ interface Result extends Raw {
 }
 
 
-type EntryZZZ<ID extends PublicDocumentId> = BaseMetaZZZMap[ID] & EntryZZZMap[ID] & { publicTimestamp: number };
+type EntryZZZ<ID extends PublicDocumentId> = BaseMetaZZZMap[ID] & EntryZZZMap[ID] & { publicTimestamp: Timestamp };
 
 export type StudentEntryZZZ<ID extends PublicDocumentId> = EntryZZZ<ID>
 

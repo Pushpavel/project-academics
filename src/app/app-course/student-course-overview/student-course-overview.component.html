@@ -2,7 +2,7 @@
   <entry title="Percentage" [value]="percent(data.attended,data.total) || '-'"></entry>
   <entry title="No. of Classes Attended" [value]="data.attended || '-'"></entry>
   <entry title="No. of Classes Conducted" [value]="data.total || '-'"></entry>
-  <entry title="Last Updated On" [value]="$any(data.publicTimestamp)?.seconds || '-'"></entry>
+  <entry title="Updated On" [value]="data.publicTimestamp?.toDate()|date:'mediumDate'|| '-'"></entry>
 </data-card>
 
 <h6>MARK UPDATES</h6>
@@ -10,6 +10,6 @@
 <div class="mark-cards">
   <data-card *ngFor="let entry of markEntries|async" [title]="DOCUMENT_NAMES[entry.documentId]">
     <entry title="Marks" [value]="entry.mark || '-'"></entry>
-    <entry title="Last Updated On" [value]="$any(entry.publicTimestamp)?.seconds || '-'"></entry>
+    <entry title="Updated On" [value]="entry.publicTimestamp?.toDate()|date:'mediumDate' || '-'"></entry>
   </data-card>
 </div>
