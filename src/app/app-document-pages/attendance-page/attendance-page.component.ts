@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Sink} from '../../../lib/data/base/sink.interfaces';
 import {attendanceEntriesFromProtectedMeta, attendanceEntriesUIModel} from '../../../lib/data/combine/attendance.combine';
-import {getValue, sortByKey} from '../../../lib/utils/rxjs.utils';
+import {getValue, notNull, sortByKey} from '../../../lib/utils/rxjs.utils';
 import {EditEvent} from '../../mdc-helper/mdc-table/mdc-table/mdc-table.component';
 import {DocumentPage} from '../document-page/DocumentPage';
-import {map, switchMap} from 'rxjs/operators';
+import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {
   AttendanceEntryRaw,
   AttendanceEntryUI,
@@ -29,11 +29,8 @@ export class AttendancePageComponent extends DocumentPage<'ATTENDANCE', PrivateA
 
   studentNames = this.params.pipe(
     switchMap(p => this.documentService.getStudentNames(p)),
-    map(names => {
-      if (!names)
-        throw new Error('StudentNames does not exists'); // TODO: handle gracefully
-      return names;
-    })
+    notNull,
+    shareReplay(),
   );
 
   _entriesUI = combineLatest([this._entries, this.studentNames, this.meta]).pipe(

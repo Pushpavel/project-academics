@@ -7,9 +7,11 @@
 
     <div [span]="12" *ngIf="meta|async as meta">
       <span class="sub2 dark-text-primary">No of Classes Conducted</span>
-      <label mdc-text-field class="surface hm16">
-        <input mdc-input type="number" min="0" max="500" [value]="meta.total" (change)="totalChange($event)">
+      <label *ngIf="editable|async else totalTemplate" mdc-text-field class="surface hm16">
+        <input mdc-input type="number" min="0" max="500" [value]="meta.total" [disabled]="disableEdit"
+               (change)="totalChange($event)">
       </label>
+      <ng-template #totalTemplate><span [style.margin-left]="'16px'">{{meta.total}}</span></ng-template>
     </div>
 
 
@@ -29,5 +31,3 @@
     <input mdc-input type="number" [disabled]="disableEdit" min="0" [max]="_total" [value]="row[col.key]">
   </label>
 </ng-template>
-
-

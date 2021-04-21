@@ -35,7 +35,7 @@ export abstract class DocumentPage<ID extends DocumentId,
     switchMap(p => this.documentService.getStatsDocument(p)),
     notNull,
     map(statsDocumentUIModel),
-    shareReplay(1)
+    shareReplay()
   );
 
   stat: Observable<StatsDocumentUI['entries'][ID]> = combineLatest([this.params, this.stats]).pipe(
@@ -61,6 +61,7 @@ export abstract class DocumentPage<ID extends DocumentId,
       return this.documentService.getProtectedMetas<RM>(p, [p.documentId]).pipe(map(metas => metas[0]));
     }),
     notNull,
+    shareReplay(),
   );
 
   editable = this.meta.pipe(map(meta => !!meta && isPrivateMeta<PM>(meta) && meta.editable));
