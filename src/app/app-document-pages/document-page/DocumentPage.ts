@@ -17,7 +17,7 @@ import {
   PrivateMetaRaw,
   ProtectedMetaRaw
 } from '@models/document/document-base.model';
-import {getValue} from 'lib/utils/rxjs.utils';
+import {getValue, notNull} from 'lib/utils/rxjs.utils';
 import {PublishService} from 'core/publish.service';
 import {MdcDialog} from '../../mdc-helper/mdc-dialog/mdc-dialog.service';
 
@@ -33,11 +33,7 @@ export abstract class DocumentPage<ID extends DocumentId,
 
   stats = this.params.pipe(
     switchMap(p => this.documentService.getStatsDocument(p)),
-    map(stats => {
-      if (!stats)
-        throw new Error('stats does not exists'); // TODO: handle gracefully
-      return stats;
-    }),
+    notNull,
     map(statsDocumentUIModel),
     shareReplay(1)
   );
@@ -64,11 +60,7 @@ export abstract class DocumentPage<ID extends DocumentId,
         return this.documentService.getPrivateMeta<PM>(p, p.documentId as PrivateDocumentId & ID);
       return this.documentService.getProtectedMetas<RM>(p, [p.documentId]).pipe(map(metas => metas[0]));
     }),
-    map(meta => {
-      if (!meta)
-        throw new Error('Meta is null'); // TODO: handle this
-      return meta;
-    })
+    notNull,
   );
 
   editable = this.meta.pipe(map(meta => !!meta && isPrivateMeta<PM>(meta) && meta.editable));

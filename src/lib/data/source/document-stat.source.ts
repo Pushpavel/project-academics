@@ -14,6 +14,7 @@ export class DocumentStatSources extends SourceService {
     return this.service.fetchObj<StatsDocumentRaw>({
       path: PROTECTED_DOCUMENT_PATH(p, 'DOCUMENT_STATS'),
       convert: courseCodeExtract<StatsDocumentRaw>(),
+      sync: true,
     });
   }
 
@@ -21,6 +22,7 @@ export class DocumentStatSources extends SourceService {
     return this.service.fetchList<StatsDocumentRaw, true>({
       path: 'protected_course_documents',
       colGroupQuery: true,
+      sync: true,
       convert: courseCodeExtract<StatsDocumentRaw>(),
       query(q) {
         q = q.where('document', '==', 'DOCUMENT_STATS')

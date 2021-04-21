@@ -23,7 +23,6 @@ export class DocumentSources extends SourceService {
   privateDocumentMeta<T extends PrivateMetaRaw>(p: CoursePath, documentId: PrivateDocumentId) {
     return this.service.fetchObj<T>({
       path: PRIVATE_DOCUMENT_PATH({...p, documentId}),
-      once: true,
     });
   }
 
@@ -37,7 +36,6 @@ export class DocumentSources extends SourceService {
     return this.service.fetchList<T>({
       path: PRIVATE_DOCUMENT_PATH(p) + `/entries`,
       idField: 'rollNo',
-      once: true,
     });
   }
 
@@ -45,7 +43,6 @@ export class DocumentSources extends SourceService {
   protectedDocumentMetas<T extends ProtectedMetaRaw>(p: CoursePath, documentIds: DocumentId[]) {
     return this.service.fetchList<T>({
       path: COURSE_PATH(p) + '/protected_course_documents',
-      once: true,
       query: q => q.where('document', 'in', documentIds)
     });
   }

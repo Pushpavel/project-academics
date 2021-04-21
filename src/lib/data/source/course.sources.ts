@@ -17,7 +17,6 @@ export class CourseSources extends SourceService {
     return this.service.fetchObj<CourseDetailRaw>({
       path: `semesters/${semId}/courses/${courseCode}/public_course_documents/COURSE_DETAIL`,
       convert: courseCodeExtract<CourseDetailRaw>(),
-      once: true
     });
 
   }
@@ -27,7 +26,6 @@ export class CourseSources extends SourceService {
     return this.service.fetchObj<CourseRaw>({
       path: `semesters/${semId}/courses/${courseCode}`,
       idField: 'courseCode',
-      once: true
     });
 
   }

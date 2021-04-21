@@ -89,7 +89,6 @@ interface SourceDef<T> {
   path: string,
   convert?: fromFirestore<T>,
   idField?: keyof T,
-  once?: boolean,// TODO: remove this
   sync?: boolean,
 }
 
