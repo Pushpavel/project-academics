@@ -18,7 +18,7 @@ export class StudentCourseOverviewComponent {
   DOCUMENT_NAMES = DOCUMENT_NAMES;
   params = getParams(['semId', 'courseCode'], this.route);
 
-  rollNo = this.user.loggedInUser.pipe(map(u => u?.uid ?? 'ERROR')); // TODO: handle this
+  rollNo = this.user.loggedInUser.pipe(map(u => u.uid));
 
   student = combineLatest([this.rollNo, this.params]).pipe(
     switchMap(([rollNo, params]) => this.studentService.getStudentEntries({...params, rollNo})),
@@ -40,7 +40,7 @@ export class StudentCourseOverviewComponent {
 
   percent(val?: number, total?: number) {
     if (val != undefined && total != undefined)
-      return Math.round((!total ? 0 : val / total) * 100) / 100;
+      return (Math.round((!total ? 0 : val / total) * 10000) / 100) + '%';
     return undefined;
   }
 
