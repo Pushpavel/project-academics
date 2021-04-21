@@ -24,7 +24,7 @@
       <button [span]="3" mdc-button class="surface mdc-button--outlined" (click)="openDocument(doc.documentId)"
               [disabled]="!cr.isFaculty && doc.status == 'private'">
         <span>{{DOCUMENT_NAMES[doc.documentId]}}</span>
-        <span class="body2">Last Updated 25 Aug 2021</span>
+        <span class="body2">{{doc.submittedTimestamp?(doc.submittedTimestamp.toDate()|date:'mediumDate'):'...'}}</span>
       </button>
     </ng-container>
   </ng-template>
